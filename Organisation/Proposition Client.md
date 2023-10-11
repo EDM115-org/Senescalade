@@ -52,13 +52,13 @@ Mettre en place une application web sur mesure pour automatiser et optimiser le 
 - GitHub (hébergement de code + suivi de versions)
 - Dépendances (probables) : Django, SQLite, Vue.JS/React, Docker ?
 
-**Pourquoi Python ?**
+**Pourquoi Python ?**  
 Pour sa simplicité et sa modularité.
 
-**Pourquoi GitHub et pas GitLab ?**
+**Pourquoi GitHub et pas GitLab ?**  
 Pour pouvoir l’intégrer dans Jira, et utiliser le CI/CD sans avoir à entrer ses coordonnées bancaires.
 
-**Fonctionnalités proposées :**
+**Fonctionnalités proposées :**  
 L’application Python sera composée de 3 portails :
 
 _Portail Public :_
