@@ -52,13 +52,13 @@ Mettre en place une application web sur mesure pour automatiser et optimiser le 
 - GitHub (hébergement de code + suivi de versions)
 - Dépendances (probables) : Django, SQLite, Vue.JS/React, Docker ?
 
-**Pourquoi Python ?**  
+**Pourquoi Python ?**
 Pour sa simplicité et sa modularité.
 
-**Pourquoi GitHub et pas GitLab ?**  
+**Pourquoi GitHub et pas GitLab ?**
 Pour pouvoir l’intégrer dans Jira, et utiliser le CI/CD sans avoir à entrer ses coordonnées bancaires.
 
-**Fonctionnalités proposées :**  
+**Fonctionnalités proposées :**
 L’application Python sera composée de 3 portails :
 
 _Portail Public :_
@@ -80,13 +80,13 @@ _Portail Utilisateur :_
 _Portail Administrateur :_
 - Intégration Excel ?
 - Intégration API FFME ?
-- Désinscription des utilisateurs à suppression de la BDD + remboursement
+- Désinscription des utilisateurs + suppression de la BDD + remboursement
 - Possible sauvegarde de la liste des non-inscrits de l’année passée
 - Export des adhérents en CSV
 - Transfert de statut Admin
 - Gestion de plusieurs rôles/comptes admins
-- Gestion des adhérent
-- Accès à une liste des adhérents par créneau (pour impression
+- Gestion des adhérents
+- Accès à une liste des adhérents par créneau (pour impression)
 - Changement de créneau
 - Gestion manuelle de la liste d’attente possible
 
