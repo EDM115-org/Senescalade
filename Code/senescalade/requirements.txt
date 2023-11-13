@@ -2,7 +2,7 @@ amqp==5.2.0
 asgiref==3.7.2
 billiard==4.2.0
 black==23.10.0
-celery==5.3.4
+celery==5.3.5
 certifi==2023.7.22
 cffi==1.16.0
 charset-normalizer==3.3.2
