@@ -30,7 +30,7 @@ elasticsearch-dsl==8.11.0
 idna==3.4
 iniconfig==2.0.0
 kombu==5.3.3
-Markdown==3.5
+Markdown==3.5.1
 mypy-extensions==1.0.0
 oauthlib==3.2.2
 packaging==23.2
