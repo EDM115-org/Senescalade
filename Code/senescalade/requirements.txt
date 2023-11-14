@@ -57,5 +57,5 @@ sqlparse==0.4.4
 tzdata==2023.3
 urllib3==2.1.0
 vine==5.1.0
-wcwidth==0.2.9
+wcwidth==0.2.10
 wheel==0.41.3
