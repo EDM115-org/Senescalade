@@ -54,7 +54,6 @@ CREATE TABLE Inscription (
     OptionVTT BOOLEAN NOT NULL,
     OptionAssurance BOOLEAN NOT NULL,
     Seance INT,
-    
     CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
     CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
     CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
