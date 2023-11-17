@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def inscription_index(request):
+    return render(request, 'inscription/index.html')

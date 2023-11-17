@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1>Home</h1>
 	<h3>Bienvenue sur la page d'inscription de Senescalade</h3>
-	<a href="{{ path('fos_user_registration_register') }}">Inscription</a>
-	<a href="{{ path('fos_user_security_login') }}">Connexion</a>
+	<a href="{% url 'inscription-index' %}">Inscription</a>
+	<a href="{% url 'users-connexion' %}">Connexion</a>
 {% endblock %}

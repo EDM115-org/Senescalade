@@ -23,6 +23,6 @@ urlpatterns = [
     path("admins/", include("admins.urls")),
 	path("inscription/", include("inscription.urls")),
 	path("mail/", include("mail.urls")),
-	path("users/", include("users.urls")),
+	path("connexion/", include("users.urls")),
 	path('', home_view, name='home'),
 ]
