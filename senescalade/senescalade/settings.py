@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "admins",
+    "inscription",
+    "mail",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -48,10 +52,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "users",
-    "admin",
-    "mail",
-    "insctiption",
 ]
 
 ROOT_URLCONF = "senescalade.urls"
