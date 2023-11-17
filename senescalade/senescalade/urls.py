@@ -21,8 +21,8 @@ from senescalade.views import home_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("admins/", include("admins.urls")),
-	path("inscription/", include("inscription.urls")),
-	path("mail/", include("mail.urls")),
-	path("connexion/", include("users.urls")),
-	path('', home_view, name='home'),
+    path("inscription/", include("inscription.urls")),
+    path("mail/", include("mail.urls")),
+    path("connexion/", include("users.urls")),
+    path('', home_view, name='home'),
 ]

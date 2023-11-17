@@ -10,5 +10,5 @@ RUN python -m venv /venv && \
 ENV PATH="/venv/bin:$PATH"
 WORKDIR /app
 RUN git clone https://$TOKEN@github.com/EDM115-org/Tab-Magiques.git . && \
-    pip install -U -r /app/senescalade/requirements.txt
+    pip install -U -r /app/requirements.txt
 CMD ["bash", "start.sh"]
