@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/Code/senescalade"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "sunday"
