@@ -2,9 +2,7 @@ from django.apps import AppConfig
 
 
 class InscriptionConfig(AppConfig):
-    """
-    AppConfig for the 'inscription' app.
-    """
+    """AppConfig for the 'inscription' app."""
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "inscription"
