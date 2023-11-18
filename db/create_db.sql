@@ -79,7 +79,7 @@ BEGIN
     IF NEW.DateNaissance > NOW() THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La date de naissance ne peut pas être ultérieure à la date actuelle.';
-    END IF;
-END;
+    END IF;  -- skipcq: SQL-L003
+END;  -- skipcq: SQL-L003
 //
-DELIMITER ;
+DELIMITER ;  -- skipcq: SQL-L052, SQL-L039
