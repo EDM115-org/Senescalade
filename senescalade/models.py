@@ -9,34 +9,34 @@ from django.db import models
 
 
 class Inscription(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    action = models.CharField(db_column='Action', max_length=1)  # Field name made lowercase.
-    nom = models.CharField(db_column='Nom', max_length=100)  # Field name made lowercase.
-    prenom = models.CharField(db_column='Prenom', max_length=100)  # Field name made lowercase.
-    datenaissance = models.DateField(db_column='DateNaissance')  # Field name made lowercase.
-    sexe = models.CharField(db_column='Sexe', max_length=1)  # Field name made lowercase.
-    nationalite = models.CharField(db_column='Nationalite', max_length=2)  # Field name made lowercase.
-    adresse = models.CharField(db_column='Adresse', max_length=255)  # Field name made lowercase.
-    complementadresse = models.CharField(db_column='ComplementAdresse', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    codepostal = models.CharField(db_column='CodePostal', max_length=5)  # Field name made lowercase.
-    ville = models.CharField(db_column='Ville', max_length=100)  # Field name made lowercase.
-    pays = models.CharField(db_column='Pays', max_length=2)  # Field name made lowercase.
-    telephone = models.CharField(db_column='Telephone', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    mobile = models.CharField(db_column='Mobile', max_length=10, blank=True, null=True)  # Field name made lowercase.
-    courriel = models.CharField(db_column='Courriel', max_length=100)  # Field name made lowercase.
-    courriel2 = models.CharField(db_column='Courriel2', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    personnenom = models.CharField(db_column='PersonneNom', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    personneprenom = models.CharField(db_column='PersonnePrenom', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    personnetelephone = models.CharField(db_column='PersonneTelephone', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    personnecourriel = models.CharField(db_column='PersonneCourriel', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    numlicence = models.CharField(db_column='NumLicence', max_length=6)  # Field name made lowercase.
-    typelicence = models.CharField(db_column='TypeLicence', max_length=1)  # Field name made lowercase.
-    assurance = models.CharField(db_column='Assurance', max_length=2)  # Field name made lowercase.
-    optionski = models.IntegerField(db_column='OptionSki')  # Field name made lowercase.
-    optionslackline = models.IntegerField(db_column='OptionSlackline')  # Field name made lowercase.
-    optiontrail = models.IntegerField(db_column='OptionTrail')  # Field name made lowercase.
-    optionvtt = models.IntegerField(db_column='OptionVTT')  # Field name made lowercase.
-    optionassurance = models.IntegerField(db_column='OptionAssurance')  # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    action = models.CharField(db_column='Action', max_length=1)
+    nom = models.CharField(db_column='Nom', max_length=100)
+    prenom = models.CharField(db_column='Prenom', max_length=100)
+    datenaissance = models.DateField(db_column='DateNaissance')
+    sexe = models.CharField(db_column='Sexe', max_length=1)
+    nationalite = models.CharField(db_column='Nationalite', max_length=2)
+    adresse = models.CharField(db_column='Adresse', max_length=255)
+    complementadresse = models.CharField(db_column='ComplementAdresse', max_length=255, blank=True, null=True)
+    codepostal = models.CharField(db_column='CodePostal', max_length=5)
+    ville = models.CharField(db_column='Ville', max_length=100)
+    pays = models.CharField(db_column='Pays', max_length=2)
+    telephone = models.CharField(db_column='Telephone', max_length=10, blank=True, null=True)
+    mobile = models.CharField(db_column='Mobile', max_length=10, blank=True, null=True)
+    courriel = models.CharField(db_column='Courriel', max_length=100)
+    courriel2 = models.CharField(db_column='Courriel2', max_length=100, blank=True, null=True)
+    personnenom = models.CharField(db_column='PersonneNom', max_length=100, blank=True, null=True)
+    personneprenom = models.CharField(db_column='PersonnePrenom', max_length=100, blank=True, null=True)
+    personnetelephone = models.CharField(db_column='PersonneTelephone', max_length=15, blank=True, null=True)
+    personnecourriel = models.CharField(db_column='PersonneCourriel', max_length=100, blank=True, null=True)
+    numlicence = models.CharField(db_column='NumLicence', max_length=6)
+    typelicence = models.CharField(db_column='TypeLicence', max_length=1)
+    assurance = models.CharField(db_column='Assurance', max_length=2)
+    optionski = models.IntegerField(db_column='OptionSki')
+    optionslackline = models.IntegerField(db_column='OptionSlackline')
+    optiontrail = models.IntegerField(db_column='OptionTrail')
+    optionvtt = models.IntegerField(db_column='OptionVTT')
+    optionassurance = models.IntegerField(db_column='OptionAssurance')
 
     class Meta:
         managed = False
