@@ -24,6 +24,16 @@ CREATE DATABASE sae;
 
 USE sae;
 
+CREATE TABLE Seance (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    DateSeance DATE NOT NULL,
+    HeureSeance TIME NOT NULL,
+    TypeSeance CHAR(50) NOT NULL,
+    Niveau CHAR(10) NOT NULL,
+    NbPlaces INT NOT NULL,
+    NbPlacesRestantes INT NOT NULL
+);
+
 CREATE TABLE Inscription (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Action CHAR(1) NOT NULL,
@@ -54,6 +64,7 @@ CREATE TABLE Inscription (
     OptionVTT BOOLEAN NOT NULL,
     OptionAssurance BOOLEAN NOT NULL,
     Seance INT,
+    FOREIGN KEY (Seance) REFERENCES Seance(ID),
     CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
     CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
     CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
@@ -74,12 +85,3 @@ END;
 //
 DELIMITER;
 
-CREATE TABLE Seance (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    DateSeance DATE NOT NULL,
-    HeureSeance TIME NOT NULL,
-    TypeSeance CHAR(1) NOT NULL,
-    Niveau CHAR(1) NOT NULL,
-    NbPlaces INT NOT NULL,
-    NbPlacesRestantes INT NOT NULL
-)
