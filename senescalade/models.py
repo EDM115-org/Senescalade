@@ -93,7 +93,7 @@ class AuthUser(models.Model):
         is_staff (int): Whether the user is a staff member.
         is_active (int): Whether the user is active.
         date_joined (datetime): The date the user joined.
-    
+
     Meta:
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
@@ -203,7 +203,7 @@ class DjangoContentType(models.Model):
     Attributes:
         app_label (str): The app label of the content type.
         model (str): The model of the content type.
-    
+
     Meta:
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
@@ -354,7 +354,7 @@ class Seance(models.Model):
         niveau (str): The level of the session.
         nbplaces (int): The number of places in the session.
         nbplacesrestantes (int): The number of remaining places in the session.
-    
+
     Meta:
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
