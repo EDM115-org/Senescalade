@@ -19,7 +19,6 @@ Version MySQL
 --                SCRIPT DE CREATION DE TABLE             --
 -- ---------------------------------------------------------
 
-DROP DATABASE IF EXISTS sae;
 CREATE DATABASE sae;
 
 USE sae;
@@ -83,5 +82,5 @@ BEGIN
     END IF;
 END;
 //
-DELIMITER;
+DELIMITER ;
 
