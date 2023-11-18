@@ -9,5 +9,6 @@ class MailConfig(AppConfig):
     It sets the default auto field to 'django.db.models.BigAutoField' and
     specifies the name of the app as 'mail'.
     """
+
     default_auto_field = "django.db.models.BigAutoField"
     name = "mail"

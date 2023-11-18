@@ -11,4 +11,5 @@ def home_view(request):
     Returns:
     - The rendered index.html template.
     """
+
     return render(request, 'index.html')

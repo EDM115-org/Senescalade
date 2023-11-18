@@ -67,6 +67,7 @@ class AuthPermission(models.Model):
         db_table (str): The name of the database table for this model.
         unique_together (tuple): Specifies the unique constraint for the combination of content_type and codename.
     """
+
     name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
@@ -97,6 +98,7 @@ class AuthUser(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.IntegerField()
@@ -127,6 +129,7 @@ class AuthUserGroups(models.Model):
         db_table (str): The name of the database table for this model.
         unique_together (tuple): Specifies the unique constraint for the combination of content_type and codename.
     """
+
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
@@ -151,6 +154,7 @@ class AuthUserUserPermissions(models.Model):
         db_table (str): The name of the database table for this model.
         unique_together (tuple): Specifies the unique constraint for the combination of content_type and codename.
     """
+
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
@@ -178,6 +182,7 @@ class DjangoAdminLog(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, default='')
     object_repr = models.CharField(max_length=200)
@@ -204,6 +209,7 @@ class DjangoContentType(models.Model):
         db_table (str): The name of the database table for this model.
         unique_together (tuple): Specifies the unique constraint for the combination of content_type and codename.
     """
+
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
 
@@ -227,6 +233,7 @@ class DjangoMigrations(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     id = models.BigAutoField(primary_key=True)
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -250,6 +257,7 @@ class DjangoSession(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     session_key = models.CharField(primary_key=True, max_length=40)
     session_data = models.TextField()
     expire_date = models.DateTimeField()
@@ -298,6 +306,7 @@ class Inscription(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     id = models.AutoField(db_column='ID', primary_key=True)
     action = models.CharField(db_column='Action', max_length=1)
     nom = models.CharField(db_column='Nom', max_length=100)
@@ -350,6 +359,7 @@ class Seance(models.Model):
         managed (bool): Specifies whether the table for this model is managed by Django.
         db_table (str): The name of the database table for this model.
     """
+
     id = models.AutoField(db_column='ID', primary_key=True)
     dateseance = models.DateField(db_column='DateSeance')
     heureseance = models.TimeField(db_column='HeureSeance')

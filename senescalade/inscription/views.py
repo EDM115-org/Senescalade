@@ -11,4 +11,5 @@ def inscription_index(request):
     Returns:
     - The rendered HTML template.
     """
+
     return render(request, 'inscription/index.html')
