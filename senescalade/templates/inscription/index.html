@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h3>Inscrivez-vous</h3>
+	<h3>Informations sur le grimpeur</h3>
 	<form action="" method="post">
 		{{ form.as_p }}
 		{% csrf_token %}
@@ -11,5 +11,7 @@
 		<input type="text" name="prenom" id="prenom" value="{{ prenom }}" />
 		<label for="email">Email</label>
 		<input type="text" name="email" id="email" value="{{ email }}" />
-		<input type="submit" value="S'inscrire" />
+		<label for="date_naissance">Date de naissance</label>
+		<input type="date" name="date_naissance" id="date_naissance" value="{{ date_naissance }}" />
+		<input type="submit" value="Suivant >" />
 {% endblock %}

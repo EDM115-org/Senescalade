@@ -2,7 +2,7 @@ FROM archlinux:latest
 
 ARG TOKEN
 RUN pacman -Syyu --noconfirm && \
-    pacman -S --noconfirm python-pip git && \
+    pacman -S --noconfirm python-pip git mysql && \
     pacman -Scc --noconfirm
 RUN python -m venv /venv && \
     . /venv/bin/activate && \
