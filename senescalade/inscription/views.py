@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import loader
 
 
 def inscription_index(request):
@@ -11,7 +13,14 @@ def inscription_index(request):
     Returns:
     - The rendered HTML template.
     """
-    return render(request, 'inscription/index.html')
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        return render(request, "inscription/succes.html")
+
+    else:
+        return render(request, "inscription/index.html")
+
 
 def inscription_success(request):
     """
@@ -23,4 +32,4 @@ def inscription_success(request):
     Returns:
     - The rendered HTML template.
     """
-    return render(request, 'inscription/success.html')
+    return render(request, "inscription/success.html")
