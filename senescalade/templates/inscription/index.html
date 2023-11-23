@@ -5,9 +5,5 @@
 	<form action="" method="post">
 		{{ form.as_p }}
 		{% csrf_token %}
-		<label for="email">Email</label>
-		<input type="text" name="email" id="email" value="{{ email }}" />
-		<label for="password">Mot de passe</label>
-		<input type="password" name="password" id="password" value="{{ password }}" />
-		<input type="submit" value="Suivant >" />
+		<input type="submit" value="Enregistrer" />
 {% endblock %}

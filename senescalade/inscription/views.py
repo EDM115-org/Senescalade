@@ -1,35 +1,25 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
-
+# views.py (mise à jour)
+from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
+from .forms import CustomUserCreationForm
 
 def inscription_index(request):
-    """
-    Renders the index.html template for the inscription app.
-
-    Parameters:
-    - request: The HTTP request object.
-
-    Returns:
-    - The rendered HTML template.
-    """
     if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        return render(request, "inscription/succes.html")
-
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            
+            # Vérifier si l'e-mail est déjà utilisé
+            if get_user_model().objects.filter(email=email).exists():
+                return render(request, 'inscription/index.html', {'form': form, 'error_message': 'This email is already in use.'})
+            
+            form.save()
+            return redirect('inscription_success')
     else:
-        return render(request, "inscription/index.html")
+        form = CustomUserCreationForm()
 
+    return render(request, "inscription/index.html", {'form': form})
 
 def inscription_success(request):
-    """
-    Renders the success.html template for the inscription app.
-
-    Parameters:
-    - request: The HTTP request object.
-
-    Returns:
-    - The rendered HTML template.
-    """
+    
     return render(request, "inscription/success.html")
