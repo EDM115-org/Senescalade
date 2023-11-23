@@ -25,7 +25,7 @@ class AuthGroup(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_group'
+        db_table = "auth_group"
 
 
 class AuthGroupPermissions(models.Model):
@@ -45,12 +45,12 @@ class AuthGroupPermissions(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+    permission = models.ForeignKey("AuthPermission", models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
+        db_table = "auth_group_permissions"
+        unique_together = (("group", "permission"),)
 
 
 class AuthPermission(models.Model):
@@ -69,13 +69,13 @@ class AuthPermission(models.Model):
     """
 
     name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    content_type = models.ForeignKey("DjangoContentType", models.DO_NOTHING)
     codename = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
+        db_table = "auth_permission"
+        unique_together = (("content_type", "codename"),)
 
 
 class AuthUser(models.Model):
@@ -112,7 +112,7 @@ class AuthUser(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user'
+        db_table = "auth_user"
 
 
 class AuthUserGroups(models.Model):
@@ -136,8 +136,8 @@ class AuthUserGroups(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
+        db_table = "auth_user_groups"
+        unique_together = (("user", "group"),)
 
 
 class AuthUserUserPermissions(models.Model):
@@ -161,8 +161,8 @@ class AuthUserUserPermissions(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        db_table = "auth_user_user_permissions"
+        unique_together = (("user", "permission"),)
 
 
 class DjangoAdminLog(models.Model):
@@ -184,16 +184,18 @@ class DjangoAdminLog(models.Model):
     """
 
     action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, default='')
+    object_id = models.TextField(blank=True, default="")
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        "DjangoContentType", models.DO_NOTHING, blank=True, null=True
+    )
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'django_admin_log'
+        db_table = "django_admin_log"
 
 
 class DjangoContentType(models.Model):
@@ -215,8 +217,8 @@ class DjangoContentType(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
+        db_table = "django_content_type"
+        unique_together = (("app_label", "model"),)
 
 
 class DjangoMigrations(models.Model):
@@ -241,7 +243,7 @@ class DjangoMigrations(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_migrations'
+        db_table = "django_migrations"
 
 
 class DjangoSession(models.Model):
@@ -264,7 +266,7 @@ class DjangoSession(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_session'
+        db_table = "django_session"
 
 
 class Inscription(models.Model):
@@ -307,39 +309,55 @@ class Inscription(models.Model):
         db_table (str): The name of the database table for this model.
     """
 
-    id = models.AutoField(db_column='ID', primary_key=True)
-    action = models.CharField(db_column='Action', max_length=1)
-    nom = models.CharField(db_column='Nom', max_length=100)
-    prenom = models.CharField(db_column='Prenom', max_length=100)
-    datenaissance = models.DateField(db_column='DateNaissance')
-    sexe = models.CharField(db_column='Sexe', max_length=1)
-    nationalite = models.CharField(db_column='Nationalite', max_length=2)
-    adresse = models.CharField(db_column='Adresse', max_length=255)
-    complementadresse = models.CharField(db_column='ComplementAdresse', max_length=255, blank=True, default='')
-    codepostal = models.CharField(db_column='CodePostal', max_length=5)
-    ville = models.CharField(db_column='Ville', max_length=100)
-    pays = models.CharField(db_column='Pays', max_length=2)
-    telephone = models.CharField(db_column='Telephone', max_length=10, blank=True, default='')
-    mobile = models.CharField(db_column='Mobile', max_length=10, blank=True, default='')
-    courriel = models.CharField(db_column='Courriel', max_length=100)
-    courriel2 = models.CharField(db_column='Courriel2', max_length=100, blank=True, default='')
-    personnenom = models.CharField(db_column='PersonneNom', max_length=100, blank=True, default='')
-    personneprenom = models.CharField(db_column='PersonnePrenom', max_length=100, blank=True, default='')
-    personnetelephone = models.CharField(db_column='PersonneTelephone', max_length=15, blank=True, default='')
-    personnecourriel = models.CharField(db_column='PersonneCourriel', max_length=100, blank=True, default='')
-    numlicence = models.CharField(db_column='NumLicence', max_length=6)
-    typelicence = models.CharField(db_column='TypeLicence', max_length=1)
-    assurance = models.CharField(db_column='Assurance', max_length=2)
-    optionski = models.IntegerField(db_column='OptionSki')
-    optionslackline = models.IntegerField(db_column='OptionSlackline')
-    optiontrail = models.IntegerField(db_column='OptionTrail')
-    optionvtt = models.IntegerField(db_column='OptionVTT')
-    optionassurance = models.IntegerField(db_column='OptionAssurance')
-    seance = models.ForeignKey('Seance', models.DO_NOTHING, db_column='Seance', blank=True, null=True)
+    id = models.AutoField(db_column="ID", primary_key=True)
+    action = models.CharField(db_column="Action", max_length=1)
+    nom = models.CharField(db_column="Nom", max_length=100)
+    prenom = models.CharField(db_column="Prenom", max_length=100)
+    datenaissance = models.DateField(db_column="DateNaissance")
+    sexe = models.CharField(db_column="Sexe", max_length=1)
+    nationalite = models.CharField(db_column="Nationalite", max_length=2)
+    adresse = models.CharField(db_column="Adresse", max_length=255)
+    complementadresse = models.CharField(
+        db_column="ComplementAdresse", max_length=255, blank=True, default=""
+    )
+    codepostal = models.CharField(db_column="CodePostal", max_length=5)
+    ville = models.CharField(db_column="Ville", max_length=100)
+    pays = models.CharField(db_column="Pays", max_length=2)
+    telephone = models.CharField(
+        db_column="Telephone", max_length=10, blank=True, default=""
+    )
+    mobile = models.CharField(db_column="Mobile", max_length=10, blank=True, default="")
+    courriel = models.CharField(db_column="Courriel", max_length=100)
+    courriel2 = models.CharField(
+        db_column="Courriel2", max_length=100, blank=True, default=""
+    )
+    personnenom = models.CharField(
+        db_column="PersonneNom", max_length=100, blank=True, default=""
+    )
+    personneprenom = models.CharField(
+        db_column="PersonnePrenom", max_length=100, blank=True, default=""
+    )
+    personnetelephone = models.CharField(
+        db_column="PersonneTelephone", max_length=15, blank=True, default=""
+    )
+    personnecourriel = models.CharField(
+        db_column="PersonneCourriel", max_length=100, blank=True, default=""
+    )
+    numlicence = models.CharField(db_column="NumLicence", max_length=6)
+    typelicence = models.CharField(db_column="TypeLicence", max_length=1)
+    assurance = models.CharField(db_column="Assurance", max_length=2)
+    optionski = models.IntegerField(db_column="OptionSki")
+    optionslackline = models.IntegerField(db_column="OptionSlackline")
+    optiontrail = models.IntegerField(db_column="OptionTrail")
+    optionvtt = models.IntegerField(db_column="OptionVTT")
+    optionassurance = models.IntegerField(db_column="OptionAssurance")
+    seance = models.ForeignKey(
+        "Seance", models.DO_NOTHING, db_column="Seance", blank=True, null=True
+    )
 
     class Meta:
         managed = False
-        db_table = 'inscription'
+        db_table = "inscription"
 
 
 class Seance(models.Model):
@@ -360,14 +378,14 @@ class Seance(models.Model):
         db_table (str): The name of the database table for this model.
     """
 
-    id = models.AutoField(db_column='ID', primary_key=True)
-    dateseance = models.DateField(db_column='DateSeance')
-    heureseance = models.TimeField(db_column='HeureSeance')
-    typeseance = models.CharField(db_column='TypeSeance', max_length=50)
-    niveau = models.CharField(db_column='Niveau', max_length=10)
-    nbplaces = models.IntegerField(db_column='NbPlaces')
-    nbplacesrestantes = models.IntegerField(db_column='NbPlacesRestantes')
+    id = models.AutoField(db_column="ID", primary_key=True)
+    dateseance = models.DateField(db_column="DateSeance")
+    heureseance = models.TimeField(db_column="HeureSeance")
+    typeseance = models.CharField(db_column="TypeSeance", max_length=50)
+    niveau = models.CharField(db_column="Niveau", max_length=10)
+    nbplaces = models.IntegerField(db_column="NbPlaces")
+    nbplacesrestantes = models.IntegerField(db_column="NbPlacesRestantes")
 
     class Meta:
         managed = False
-        db_table = 'seance'
+        db_table = "seance"
