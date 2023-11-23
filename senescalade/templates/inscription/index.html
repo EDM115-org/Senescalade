@@ -5,13 +5,9 @@
 	<form action="" method="post">
 		{{ form.as_p }}
 		{% csrf_token %}
-		<label for="nom">Nom</label>
-		<input type="text" name="nom" id="nom" value="{{ nom }}" />
-		<label for="prenom">Prénom</label>
-		<input type="text" name="prenom" id="prenom" value="{{ prenom }}" />
 		<label for="email">Email</label>
 		<input type="text" name="email" id="email" value="{{ email }}" />
-		<label for="date_naissance">Date de naissance</label>
-		<input type="date" name="date_naissance" id="date_naissance" value="{{ date_naissance }}" />
+		<label for="password">Mot de passe</label>
+		<input type="password" name="password" id="password" value="{{ password }}" />
 		<input type="submit" value="Suivant >" />
 {% endblock %}
