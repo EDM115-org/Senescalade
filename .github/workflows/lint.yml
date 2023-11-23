@@ -17,7 +17,7 @@ jobs:
       - name: Black-ify
         uses: psf/black@stable
         with:
-          options: "-v -t py312 --safe --exclude .git .github .venv __pycache__"
+          options: "-v -t py312 --safe --exclude .git .github"
       - name: Commit changes
         run: |
           d=`date '+%Y/%m/%dT%H:%M:%SZ'`
