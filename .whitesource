@@ -23,7 +23,7 @@
     "baseBranches": [
       "master"
     ],
-    "configMode": "LOCAL",
+    "configMode": "AUTO",
     "cloneSubmodules": true
   },
   "remediateSettings": {
