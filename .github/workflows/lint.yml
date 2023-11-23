@@ -31,4 +31,4 @@ jobs:
           force: false
           directory: "."
           branch: ${{ github.ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
