@@ -3,9 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Inscription(models.Model):
-    """
-    The Inscription model represents an inscription to the SAE.
-    """
+    """The Inscription model represents an inscription to the SAE."""
 
     # the mail of the user.
     email = models.EmailField(max_length=200)
