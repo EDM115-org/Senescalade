@@ -22,21 +22,41 @@ Version MySQL
 USE sae;
 
 CREATE TABLE Seance (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
+    idSeance INT AUTO_INCREMENT PRIMARY KEY,
+    Jour CHAR(10) NOT NULL,
     DateSeance DATE NOT NULL,
     HeureSeance TIME NOT NULL,
+    DureeSeance TIME NOT NULL,
     TypeSeance CHAR(50) NOT NULL,
     Niveau CHAR(10) NOT NULL,
     NbPlaces INT NOT NULL,
     NbPlacesRestantes INT NOT NULL
+    Professeur CHAR(100) NOT NULL,
+    laPersonne INT NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
 );
 
 CREATE TABLE Inscription (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
+    idInscription INT AUTO_INCREMENT PRIMARY KEY,
+    Mail VARCHAR(100) NOT NULL,
+    Password VARCHAR(100) NOT NULL,
+    DateNaissance DATE NOT NULL,
+    laPersonne INT NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+)
+
+CREATE TABLE Admin (
+    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+    Droit CHAR(5) NOT NULL,
+    laPersonne INT NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+)
+
+CREATE TABLE Personne (
+    idPersonne INT AUTO_INCREMENT PRIMARY KEY,
     Action CHAR(1) NOT NULL,
     Nom VARCHAR(100) NOT NULL,
     Prenom VARCHAR(100) NOT NULL,
-    DateNaissance DATE NOT NULL,
     Sexe CHAR(1) NOT NULL,
     Nationalite CHAR(2) NOT NULL,
     Adresse VARCHAR(255) NOT NULL,
@@ -46,7 +66,6 @@ CREATE TABLE Inscription (
     Pays CHAR(2) NOT NULL,
     Telephone VARCHAR(10),
     Mobile VARCHAR(10),
-    Courriel VARCHAR(100) NOT NULL,
     Courriel2 VARCHAR(100),
     PersonneNom VARCHAR(100),
     PersonnePrenom VARCHAR(100),
@@ -61,7 +80,7 @@ CREATE TABLE Inscription (
     OptionVTT BOOLEAN NOT NULL,
     OptionAssurance BOOLEAN NOT NULL,
     Seance INT,
-    FOREIGN KEY (Seance) REFERENCES Seance(ID),
+    FOREIGN KEY (Seance) REFERENCES Seance(idSeance),
     CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
     CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
     CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
