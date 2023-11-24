@@ -30,27 +30,9 @@ CREATE TABLE Seance (
     TypeSeance CHAR(50) NOT NULL,
     Niveau CHAR(10) NOT NULL,
     NbPlaces INT NOT NULL,
-    NbPlacesRestantes INT NOT NULL
-    Professeur CHAR(100) NOT NULL,
-    laPersonne INT NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+    NbPlacesRestantes INT NOT NULL,
+    Professeur CHAR(100) NOT NULL
 );
-
-CREATE TABLE Inscription (
-    idInscription INT AUTO_INCREMENT PRIMARY KEY,
-    Mail VARCHAR(100) NOT NULL,
-    Password VARCHAR(100) NOT NULL,
-    DateNaissance DATE NOT NULL,
-    laPersonne INT NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
-)
-
-CREATE TABLE Admin (
-    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
-    Droit CHAR(5) NOT NULL,
-    laPersonne INT NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
-)
 
 CREATE TABLE Personne (
     idPersonne INT AUTO_INCREMENT PRIMARY KEY,
@@ -86,6 +68,22 @@ CREATE TABLE Personne (
     CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
     CONSTRAINT check_type_licence CHECK (TypeLicence IN ('J', 'A', 'F')),
     CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
+);
+
+CREATE TABLE Inscription (
+    idInscription INT AUTO_INCREMENT PRIMARY KEY,
+    Mail VARCHAR(100) NOT NULL,
+    Password VARCHAR(100) NOT NULL,
+    DateNaissance DATE NOT NULL,
+    laPersonne INT NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+);
+
+CREATE TABLE Admin (
+    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+    Droit CHAR(5) NOT NULL,
+    laPersonne INT NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
 );
 
 DELIMITER //
