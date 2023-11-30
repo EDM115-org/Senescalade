@@ -8,7 +8,9 @@ def register_user(request):
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.save()
-            return redirect('home')
+            print(new_user)
+
+            return render(request, 'inscription/creneau.html', {'new_user': new_user})
     else:
         form = CustomUserCreationForm()
     return render(request, 'inscription/register.html', {'form': form})

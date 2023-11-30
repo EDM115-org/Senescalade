@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Bienvenue sur votre profil</h1>
+
+    <p>mail : {{ new_user.email }}</p>
+    <p>mot de passe : {{ new_user.password }}</p>
+    <p>mot de passe confirmé : {{ new_user.confirm_password }}</p>
+    <p>Date de naissance : {{ new_user.birth_date }}</p>
+</html>
+
+{% endblock %}
