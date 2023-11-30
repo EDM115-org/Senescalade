@@ -21,34 +21,12 @@ Version MySQL
 
 USE sae;
 
-DELETE FROM Inscription;
+/*
+Seance(idSeance (INT, PK), jour (CHAR(50)), heureSeance (TIME), dureeSeance (TIME), typeSeance (CHAR(100)), niveau (CHAR(100)), nbPlaces (INT), nbPlacesRestantes (INT), professeur (CHAR(100)))
+Inscription(idInscription (INT, PK), mail (VARCHAR(100)), password (VARCHAR(100)), dateNaissance (DATE))
+Personne(idPersonne (INT, PK), action (CHAR(1)), nom (VARCHAR(100)), prenom (VARCHAR(100)), sexe (CHAR(1)), nationalite (CHAR(2)), adresse (VARCHAR(255)), complementAdresse (VARCHAR(255)), codePostal (VARCHAR(5)), ville (VARCHAR(100)), pays (CHAR(2)), telephone (VARCHAR(10)), mobile (VARCHAR(10)), courriel2 (VARCHAR(100)), personneNom (VARCHAR(100)), personnePrenom (VARCHAR(100)), personneTelephone (VARCHAR(15)), personneCourriel (VARCHAR(100)), numLicence (VARCHAR(6)), typeLicence (CHAR(1)), assurance (CHAR(2)), optionSki (BOOLEAN), optionSlackline (BOOLEAN), optionTrail (BOOLEAN), optionVTT (BOOLEAN), optionAssurance (BOOLEAN), seance = @Seance.idSeance (NN), lInscription = @Inscription.idInscription (NN))
+Admin(idAdmin (INT, PK), droit (CHAR(5)), laPersonne = @Personne.idPersonne (NN))
+*/
 
--- Cas d'erreur pour la contrainte check_date_naissance (date de naissance postérieure à la date actuelle)
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('C', 'Batard', 'Corentin', STR_TO_DATE('12/09/2024', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'FR', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'A', 'RC', 1, 0, 1, 0, 1);
-
--- Cas d'erreur pour la contrainte check_action (valeur incorrecte pour Action)					
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('A', 'Batard', 'Corentin', STR_TO_DATE('12/09/2003', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'FR', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'A', 'RC', 1, 0, 1, 0, 1);
-
--- Cas d'erreur pour la contrainte check_pays (valeur incorrecte pour Pays)
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('C', 'Batard', 'Corentin', STR_TO_DATE('12/09/2003', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'GG', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'A', 'RC', 1, 0, 1, 0, 1);
-
--- Cas d'erreur pour la contrainte check_type_licence (valeur incorrecte pour TypeLicence)
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('C', 'Batard', 'Corentin', STR_TO_DATE('12/09/2003', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'FR', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'B', 'RC', 1, 0, 1, 0, 1);
-
--- Cas d'erreur pour la contrainte check_assurance (valeur incorrecte pour Assurance)
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('C', 'Batard', 'Corentin', STR_TO_DATE('12/09/2003', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'FR', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'A', 'R', 1, 0, 1, 0, 1);
-
--- Cas de succès (données correctes)
-INSERT INTO Inscription (Action, Nom, Prenom, DateNaissance, Sexe, Nationalite, Adresse, ComplementAdresse, CodePostal, Ville, Pays, Telephone, Mobile, Courriel, Courriel2, PersonneNom, PersonnePrenom, PersonneTelephone, PersonneCourriel, NumLicence, TypeLicence, Assurance, OptionSki, OptionSlackline, OptionTrail, OptionVTT, OptionAssurance)
-VALUES
-('C', 'Batard', 'Corentin', STR_TO_DATE('12/09/2003', '%d/%m/%Y'), 'H', 'FR', '3 allée de l\île meaben', NULL, '56000', 'Vannes', 'FR', '0769366966', NULL, 'corentin.batard2003@gmail.com', NULL, 'Dupont', 'Marie', '9876543210', 'marie.dupont@email.com', '123456', 'A', 'RC', 1, 0, 1, 0, 1);
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Lundi', '17:30:00', '19:00:00', 'Enfants', 'U14', 10, 10, 'Pierre');
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Lundi', '19:00:00', '21:00:00', 'Adultes', '', 20, 1, 'Pierre');

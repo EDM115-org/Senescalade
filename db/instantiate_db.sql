@@ -23,15 +23,14 @@ USE sae;
 
 CREATE TABLE Seance (
     idSeance INT AUTO_INCREMENT PRIMARY KEY,
-    jour CHAR(10) NOT NULL,
-    dateSeance DATE NOT NULL,
+    jour CHAR(50) NOT NULL,
     heureSeance TIME NOT NULL,
     dureeSeance TIME NOT NULL,
-    typeSeance CHAR(50) NOT NULL,
-    niveau CHAR(10) NOT NULL,
+    typeSeance CHAR(100) NOT NULL,
+    niveau CHAR(100),
     nbPlaces INT NOT NULL,
     nbPlacesRestantes INT NOT NULL,
-    professeur CHAR(100) NOT NULL
+    professeur CHAR(100)
 );
 
 CREATE TABLE Inscription (
