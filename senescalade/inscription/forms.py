@@ -1,17 +1,10 @@
-# inscription/forms.py
 from django import forms
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
 
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField(label='Adresse e-mail')
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        max_length=254, help_text="Required. Enter a valid email address."
-    )
-    birthdate = forms.DateField(
-        widget=forms.SelectDateWidget, help_text="Required. Enter your date of birth."
-    )
-
-    class Meta:
-        model = get_user_model()
-        fields = ("email", "password1", "password2", "birthdate")
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
