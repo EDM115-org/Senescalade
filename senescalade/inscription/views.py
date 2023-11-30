@@ -1,25 +1,20 @@
-# views.py (mise à jour)
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
-from .forms import CustomUserCreationForm
+#from django.contrib.auth.forms import UserCreationForm
+from .forms import UserRegistrationForm
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
 
-def inscription_index(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            
-            # Vérifier si l'e-mail est déjà utilisé
-            if get_user_model().objects.filter(email=email).exists():
-                return render(request, 'inscription/index.html', {'form': form, 'error_message': 'This email is already in use.'})
-            
-            form.save()
-            return redirect('inscription_success')
-    else:
-        form = CustomUserCreationForm()
-
-    return render(request, "inscription/index.html", {'form': form})
-
-def inscription_success(request):
-    
-    return render(request, "inscription/success.html")
+def register(request):
+	if request.method == 'POST' :
+		form = UserRegistrationForm(request.POST)
+		if form.is_valid():
+			form.save()		
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=password)
+			login(request,user)	
+			messages.success(request, f'Coucou {username}, Votre compte a été créé avec succès !')					
+			return redirect('home')
+	else :
+		form = UserRegistrationForm()
+	return render(request,'inscription/register.html',{'form' : form})
