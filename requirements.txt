@@ -14,4 +14,4 @@ Markdown==3.5.1
 PyMySQL==1.1.0
 pytest==7.4.3
 setuptools==69.0.2
-wheel==0.42.0
+wheel==0.41.3
