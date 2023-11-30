@@ -192,15 +192,14 @@ class Personne(models.Model):
 
 class Seance(models.Model):
     idseance = models.AutoField(db_column='idSeance', primary_key=True)
-    jour = models.CharField(max_length=10)
-    dateseance = models.DateField(db_column='dateSeance')
+    jour = models.CharField(max_length=50)
     heureseance = models.TimeField(db_column='heureSeance')
     dureeseance = models.TimeField(db_column='dureeSeance')
-    typeseance = models.CharField(db_column='typeSeance', max_length=50)
-    niveau = models.CharField(max_length=10)
+    typeseance = models.CharField(db_column='typeSeance', max_length=100)
+    niveau = models.CharField(max_length=100, blank=True, null=True)
     nbplaces = models.IntegerField(db_column='nbPlaces')
     nbplacesrestantes = models.IntegerField(db_column='nbPlacesRestantes')
-    professeur = models.CharField(max_length=100)
+    professeur = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
