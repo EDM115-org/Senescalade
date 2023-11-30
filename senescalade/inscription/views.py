@@ -8,7 +8,6 @@ def register_user(request):
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.save()
-            print(new_user)
 
             return render(request, 'inscription/creneau.html', {'new_user': new_user})
     else:
