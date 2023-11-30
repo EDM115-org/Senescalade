@@ -10,7 +10,7 @@ from django.db import models
 
 class Admin(models.Model):
     idadmin = models.AutoField(db_column='idAdmin', primary_key=True)
-    droit = models.CharField(db_column='Droit', max_length=5)
+    droit = models.CharField(max_length=5)
     lapersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='laPersonne')
 
     class Meta:
@@ -134,44 +134,56 @@ class DjangoSession(models.Model):
 
 class Inscription(models.Model):
     idinscription = models.AutoField(db_column='idInscription', primary_key=True)
-    mail = models.CharField(db_column='Mail', max_length=100)
-    password = models.CharField(db_column='Password', max_length=100)
-    datenaissance = models.DateField(db_column='DateNaissance')
-    lapersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='laPersonne')
+    mail = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    datenaissance = models.DateField(db_column='dateNaissance')
 
     class Meta:
         managed = False
         db_table = 'inscription'
 
 
+class InscriptionCustomuser(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    birth_date = models.DateField()
+    email = models.CharField(unique=True, max_length=254)
+    password = models.CharField(max_length=100)
+    confirm_password = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'inscription_customuser'
+
+
 class Personne(models.Model):
     idpersonne = models.AutoField(db_column='idPersonne', primary_key=True)
-    action = models.CharField(db_column='Action', max_length=1)
-    nom = models.CharField(db_column='Nom', max_length=100)
-    prenom = models.CharField(db_column='Prenom', max_length=100)
-    sexe = models.CharField(db_column='Sexe', max_length=1)
-    nationalite = models.CharField(db_column='Nationalite', max_length=2)
-    adresse = models.CharField(db_column='Adresse', max_length=255)
-    complementadresse = models.CharField(db_column='ComplementAdresse', max_length=255, blank=True, null=True)
-    codepostal = models.CharField(db_column='CodePostal', max_length=5)
-    ville = models.CharField(db_column='Ville', max_length=100)
-    pays = models.CharField(db_column='Pays', max_length=2)
-    telephone = models.CharField(db_column='Telephone', max_length=10, blank=True, null=True)
-    mobile = models.CharField(db_column='Mobile', max_length=10, blank=True, null=True)
-    courriel2 = models.CharField(db_column='Courriel2', max_length=100, blank=True, null=True)
-    personnenom = models.CharField(db_column='PersonneNom', max_length=100, blank=True, null=True)
-    personneprenom = models.CharField(db_column='PersonnePrenom', max_length=100, blank=True, null=True)
-    personnetelephone = models.CharField(db_column='PersonneTelephone', max_length=15, blank=True, null=True)
-    personnecourriel = models.CharField(db_column='PersonneCourriel', max_length=100, blank=True, null=True)
-    numlicence = models.CharField(db_column='NumLicence', max_length=6)
-    typelicence = models.CharField(db_column='TypeLicence', max_length=1)
-    assurance = models.CharField(db_column='Assurance', max_length=2)
-    optionski = models.IntegerField(db_column='OptionSki')
-    optionslackline = models.IntegerField(db_column='OptionSlackline')
-    optiontrail = models.IntegerField(db_column='OptionTrail')
-    optionvtt = models.IntegerField(db_column='OptionVTT')
-    optionassurance = models.IntegerField(db_column='OptionAssurance')
-    seance = models.ForeignKey('Seance', models.DO_NOTHING, db_column='Seance', blank=True, null=True)
+    action = models.CharField(max_length=1)
+    nom = models.CharField(max_length=100)
+    prenom = models.CharField(max_length=100)
+    sexe = models.CharField(max_length=1)
+    nationalite = models.CharField(max_length=2)
+    adresse = models.CharField(max_length=255)
+    complementadresse = models.CharField(db_column='complementAdresse', max_length=255, blank=True, null=True)
+    codepostal = models.CharField(db_column='codePostal', max_length=5)
+    ville = models.CharField(max_length=100)
+    pays = models.CharField(max_length=2)
+    telephone = models.CharField(max_length=10, blank=True, null=True)
+    mobile = models.CharField(max_length=10, blank=True, null=True)
+    courriel2 = models.CharField(max_length=100, blank=True, null=True)
+    personnenom = models.CharField(db_column='personneNom', max_length=100, blank=True, null=True)
+    personneprenom = models.CharField(db_column='personnePrenom', max_length=100, blank=True, null=True)
+    personnetelephone = models.CharField(db_column='personneTelephone', max_length=15, blank=True, null=True)
+    personnecourriel = models.CharField(db_column='personneCourriel', max_length=100, blank=True, null=True)
+    numlicence = models.CharField(db_column='numLicence', max_length=6)
+    typelicence = models.CharField(db_column='typeLicence', max_length=1)
+    assurance = models.CharField(max_length=2)
+    optionski = models.IntegerField(db_column='optionSki')
+    optionslackline = models.IntegerField(db_column='optionSlackline')
+    optiontrail = models.IntegerField(db_column='optionTrail')
+    optionvtt = models.IntegerField(db_column='optionVTT')
+    optionassurance = models.IntegerField(db_column='optionAssurance')
+    seance = models.ForeignKey('Seance', models.DO_NOTHING, db_column='seance', blank=True, null=True)
+    linscription = models.ForeignKey(Inscription, models.DO_NOTHING, db_column='lInscription')
 
     class Meta:
         managed = False
@@ -180,15 +192,15 @@ class Personne(models.Model):
 
 class Seance(models.Model):
     idseance = models.AutoField(db_column='idSeance', primary_key=True)
-    jour = models.CharField(db_column='Jour', max_length=10)
-    dateseance = models.DateField(db_column='DateSeance')
-    heureseance = models.TimeField(db_column='HeureSeance')
-    dureeseance = models.TimeField(db_column='DureeSeance')
-    typeseance = models.CharField(db_column='TypeSeance', max_length=50)
-    niveau = models.CharField(db_column='Niveau', max_length=10)
-    nbplaces = models.IntegerField(db_column='NbPlaces')
-    nbplacesrestantes = models.IntegerField(db_column='NbPlacesRestantes')
-    professeur = models.CharField(db_column='Professeur', max_length=100)
+    jour = models.CharField(max_length=10)
+    dateseance = models.DateField(db_column='dateSeance')
+    heureseance = models.TimeField(db_column='heureSeance')
+    dureeseance = models.TimeField(db_column='dureeSeance')
+    typeseance = models.CharField(db_column='typeSeance', max_length=50)
+    niveau = models.CharField(max_length=10)
+    nbplaces = models.IntegerField(db_column='nbPlaces')
+    nbplacesrestantes = models.IntegerField(db_column='nbPlacesRestantes')
+    professeur = models.CharField(max_length=100)
 
     class Meta:
         managed = False

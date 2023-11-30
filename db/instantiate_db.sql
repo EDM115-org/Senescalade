@@ -23,46 +23,55 @@ USE sae;
 
 CREATE TABLE Seance (
     idSeance INT AUTO_INCREMENT PRIMARY KEY,
-    Jour CHAR(10) NOT NULL,
-    DateSeance DATE NOT NULL,
-    HeureSeance TIME NOT NULL,
-    DureeSeance TIME NOT NULL,
-    TypeSeance CHAR(50) NOT NULL,
-    Niveau CHAR(10) NOT NULL,
-    NbPlaces INT NOT NULL,
-    NbPlacesRestantes INT NOT NULL,
-    Professeur CHAR(100) NOT NULL
+    jour CHAR(10) NOT NULL,
+    dateSeance DATE NOT NULL,
+    heureSeance TIME NOT NULL,
+    dureeSeance TIME NOT NULL,
+    typeSeance CHAR(50) NOT NULL,
+    niveau CHAR(10) NOT NULL,
+    nbPlaces INT NOT NULL,
+    nbPlacesRestantes INT NOT NULL,
+    professeur CHAR(100) NOT NULL
+);
+
+CREATE TABLE Inscription (
+    idInscription INT AUTO_INCREMENT PRIMARY KEY,
+    mail VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    dateNaissance DATE NOT NULL
 );
 
 CREATE TABLE Personne (
     idPersonne INT AUTO_INCREMENT PRIMARY KEY,
-    Action CHAR(1) NOT NULL,
-    Nom VARCHAR(100) NOT NULL,
-    Prenom VARCHAR(100) NOT NULL,
-    Sexe CHAR(1) NOT NULL,
-    Nationalite CHAR(2) NOT NULL,
-    Adresse VARCHAR(255) NOT NULL,
-    ComplementAdresse VARCHAR(255),
-    CodePostal VARCHAR(5) NOT NULL,
-    Ville VARCHAR(100) NOT NULL,
-    Pays CHAR(2) NOT NULL,
-    Telephone VARCHAR(10),
-    Mobile VARCHAR(10),
-    Courriel2 VARCHAR(100),
-    PersonneNom VARCHAR(100),
-    PersonnePrenom VARCHAR(100),
-    PersonneTelephone VARCHAR(15),
-    PersonneCourriel VARCHAR(100),
-    NumLicence VARCHAR(6) NOT NULL,
-    TypeLicence CHAR(1) NOT NULL,
-    Assurance CHAR(2) NOT NULL,
-    OptionSki BOOLEAN NOT NULL,
-    OptionSlackline BOOLEAN NOT NULL,
-    OptionTrail BOOLEAN NOT NULL,
-    OptionVTT BOOLEAN NOT NULL,
-    OptionAssurance BOOLEAN NOT NULL,
-    Seance INT,
+    action CHAR(1) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    sexe CHAR(1) NOT NULL,
+    nationalite CHAR(2) NOT NULL,
+    adresse VARCHAR(255) NOT NULL,
+    complementAdresse VARCHAR(255),
+    codePostal VARCHAR(5) NOT NULL,
+    ville VARCHAR(100) NOT NULL,
+    pays CHAR(2) NOT NULL,
+    telephone VARCHAR(10),
+    mobile VARCHAR(10),
+    courriel2 VARCHAR(100),
+    personneNom VARCHAR(100),
+    personnePrenom VARCHAR(100),
+    personneTelephone VARCHAR(15),
+    personneCourriel VARCHAR(100),
+    numLicence VARCHAR(6) NOT NULL,
+    typeLicence CHAR(1) NOT NULL,
+    assurance CHAR(2) NOT NULL,
+    optionSki BOOLEAN NOT NULL,
+    optionSlackline BOOLEAN NOT NULL,
+    optionTrail BOOLEAN NOT NULL,
+    optionVTT BOOLEAN NOT NULL,
+    optionAssurance BOOLEAN NOT NULL,
+    seance INT,
     FOREIGN KEY (Seance) REFERENCES Seance(idSeance),
+    lInscription INT NOT NULL,
+    FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
     CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
     CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
     CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
@@ -70,18 +79,9 @@ CREATE TABLE Personne (
     CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
 );
 
-CREATE TABLE Inscription (
-    idInscription INT AUTO_INCREMENT PRIMARY KEY,
-    Mail VARCHAR(100) NOT NULL,
-    Password VARCHAR(100) NOT NULL,
-    DateNaissance DATE NOT NULL,
-    laPersonne INT NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
-);
-
 CREATE TABLE Admin (
     idAdmin INT AUTO_INCREMENT PRIMARY KEY,
-    Droit CHAR(5) NOT NULL,
+    droit CHAR(5) NOT NULL,
     laPersonne INT NOT NULL,
     FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
 );
@@ -91,7 +91,7 @@ CREATE TRIGGER check_date_naissance
 BEFORE INSERT ON Inscription
 FOR EACH ROW
 BEGIN
-    IF NEW.DateNaissance > NOW() THEN
+    IF NEW.dateNaissance > NOW() THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La date de naissance ne peut pas être ultérieure à la date actuelle.';
     END IF;  -- skipcq: SQL-L003
