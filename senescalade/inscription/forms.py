@@ -8,6 +8,7 @@ class CustomUserCreationForm(forms.ModelForm):
         fields = ['birth_date', 'email', 'password', 'confirm_password']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}),
+            'email': forms.EmailInput(),
             'password': forms.PasswordInput(),
             'confirm_password': forms.PasswordInput(),
         }
