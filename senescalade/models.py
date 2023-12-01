@@ -243,7 +243,7 @@ class DjangoMigrations(models.Model):
     """
     Model definition for the DjangoMigrations model
 
-    Fields: 
+    Fields:
         id (AutoField): Primary key
         app (CharField): App
         name (CharField): Name
@@ -297,7 +297,7 @@ class Inscription(models.Model):
         password (CharField): Password
         datenaissance (DateField): Date of birth
 
-    Meta:   
+    Meta:
         managed (bool): If False, no database table creation, modification, or deletion operations will be performed for this model
         db_table (str): The name of the database table to use for the model
     """
