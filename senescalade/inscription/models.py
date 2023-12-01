@@ -1,3 +1,6 @@
+from django.db import models
+
+
 class CustomUser(models.Model):
     birth_date = models.DateField()
     email = models.EmailField(unique=True)
