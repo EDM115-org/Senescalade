@@ -9,7 +9,7 @@ class Admin(models.Model):
         idadmin (AutoField): Primary key
         droit (CharField): Droit d'administration
         lapersonne (ForeignKey): Foreign key to Personne
-    
+
     Meta:
         managed (bool): If False, no database table creation, modification, or deletion operations will be performed for this model
         db_table (str): The name of the database table to use for the model
@@ -32,7 +32,7 @@ class AuthGroup(models.Model):
 
     Fields:
         name (CharField): Name of the group
-    
+
     Meta:
         managed (bool): If False, no database table creation, modification, or deletion operations will be performed for this model
         db_table (str): The name of the database table to use for the model
