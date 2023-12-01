@@ -13,7 +13,7 @@ class CustomUser(models.Model):
     """
 
     birth_date = models.DateField()
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=False)
     password = models.CharField(max_length=100)
     confirm_password = models.CharField(max_length=100)
 

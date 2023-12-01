@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("birth_date", models.DateField()),
-                ("email", models.EmailField(max_length=254, unique=True)),
+                ("email", models.EmailField(max_length=254, unique=False)),
                 ("password", models.CharField(max_length=100)),
                 ("confirm_password", models.CharField(max_length=100)),
             ],
