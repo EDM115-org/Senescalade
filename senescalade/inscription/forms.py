@@ -40,9 +40,7 @@ class CustomUserCreationForm(forms.ModelForm):
 
 
 class CustomUserLoginForm(forms.Form):
-    """
-    A form for user login with email and password fields.
-    """
+    """A form for user login with email and password fields."""
 
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
