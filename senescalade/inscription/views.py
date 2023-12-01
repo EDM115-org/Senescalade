@@ -4,6 +4,16 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def register_user(request):
+    """
+    Register a new user.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -17,6 +27,16 @@ def register_user(request):
 
 
 def login_user(request):
+    """
+    Logs in a user.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     if request.method == "POST":
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
@@ -32,5 +52,14 @@ def login_user(request):
 
 
 def logout_user(request):
+    """
+    Logs out the user and redirects to the login page.
+
+    Parameters:
+    - request: The HTTP request object.
+
+    Returns:
+    - A redirect response to the login page.
+    """
     logout(request)
     return redirect("login")
