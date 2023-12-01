@@ -2,12 +2,50 @@
 
 {% block content %}
 
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.10/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'resourceTimelineWeek'
+            });
+            calendar.render();
+        });
+    </script>
+
     <h1>Bienvenue sur votre profil</h1>
 
-    <p>mail : {{ new_user.email }}</p>
-    <p>mot de passe : {{ new_user.password }}</p>
-    <p>mot de passe confirmé : {{ new_user.confirm_password }}</p>
-    <p>Date de naissance : {{ new_user.birth_date }}</p>
-</html>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Jour</th>
+                <th>Heure de Séance</th>
+                <th>Durée de Séance</th>
+                <th>Type de Séance</th>
+                <th>Niveau</th>
+                <th>Nombre de Places</th>
+                <th>Nombre de Places Restantes</th>
+                <th>Professeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in data %}
+                <tr>
+                    <td>{{ instance.idSeance }}</td>
+                    <td>{{ instance.jour }}</td>
+                    <td>{{ instance.heureSeance }}</td>
+                    <td>{{ instance.dureeSeance }}</td>
+                    <td>{{ instance.typeSeance }}</td>
+                    <td>{{ instance.niveau }}</td>
+                    <td>{{ instance.nbPlaces }}</td>
+                    <td>{{ instance.nbPlacesRestantes }}</td>
+                    <td>{{ instance.professeur }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id='calendar'></div>
 
 {% endblock %}

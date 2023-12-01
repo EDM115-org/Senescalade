@@ -11,7 +11,8 @@
 			"driver": "MySQL",
 			"name": "SAE",
 			"database": "sae",
-			"username": "sae"
+			"username": "sae",
+			"password": "Senescalade!56"
 		}
 	]
 }

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomUserLoginForm
+from .models import DataCalendar
 from django.contrib.auth import authenticate, login, logout
+from django.db.models.query import QuerySet
 
 
 def register_user(request):
@@ -20,7 +22,11 @@ def register_user(request):
             new_user = form.save(commit=False)
             new_user.save()
 
-            return render(request, "inscription/creneau.html", {"new_user": new_user})
+            # Récupérer toutes les lignes de la table
+            queryset = DataCalendar.objects.all()
+
+            return render(request, "inscription/creneau.html", {"new_user": new_user, "data": queryset})
+
     else:
         form = CustomUserCreationForm()
     return render(request, "inscription/register.html", {"form": form})
