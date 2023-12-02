@@ -7,7 +7,27 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'resourceTimelineWeek'
+                locale: 'fr',
+                initialView: 'timeGridWeek',
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                firstDay: 1,
+                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+                buttonText: {
+                    today:    'Aujourd\'hui',
+                    month:    'Mois',
+                    week:     'Semaine',
+                    day:      'Jour',
+                    list:     'Liste'
+                },
+                allDaySlot: false,
+                dayHeaderFormat: { weekday: 'long' },
+                headerToolbar: {
+                    left: '',
+                    center: '',
+                    right: ''
+                },
+                selectable: true,
+                height: 'auto',
             });
             calendar.render();
         });

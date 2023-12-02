@@ -73,3 +73,16 @@ def logout_user(request):
     """
     logout(request)
     return redirect("login")
+
+def creneau(request):
+    """
+    Affiche les créneaux disponibles
+
+    Parameters:
+    - request: The HTTP request object.
+
+    Returns:
+    - A redirect response to the login page.
+    """
+    queryset = DataCalendar.objects.all()
+    return render(request, "inscription/creneau.html", {"data": queryset})
