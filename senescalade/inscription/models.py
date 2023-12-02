@@ -21,10 +21,12 @@ class CustomUser(models.Model):
         managed = False
         db_table = "inscription_customuser"
 
+
 class DataCalendar(models.Model):
     """
     Seance(idSeance (INT, PK), jour (CHAR(50)), heureSeance (TIME), dureeSeance (TIME), typeSeance (CHAR(100)), niveau (CHAR(100)), nbPlaces (INT), nbPlacesRestantes (INT), professeur (CHAR(100)))
     """
+
     idSeance = models.IntegerField(primary_key=True)
     jour = models.CharField(max_length=50)
     heureSeance = models.TimeField()

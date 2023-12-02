@@ -201,7 +201,7 @@ class DjangoAdminLog(models.Model):
     """
 
     action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, default='')
+    object_id = models.TextField(blank=True, default="")
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
@@ -386,25 +386,25 @@ class Personne(models.Model):
     nationalite = models.CharField(max_length=2)
     adresse = models.CharField(max_length=255)
     complementadresse = models.CharField(
-        db_column="complementAdresse", max_length=255, blank=True, default=''
+        db_column="complementAdresse", max_length=255, blank=True, default=""
     )
     codepostal = models.CharField(db_column="codePostal", max_length=5)
     ville = models.CharField(max_length=100)
     pays = models.CharField(max_length=2)
-    telephone = models.CharField(max_length=10, blank=True, default='')
-    mobile = models.CharField(max_length=10, blank=True, default='')
-    courriel2 = models.CharField(max_length=100, blank=True, default='')
+    telephone = models.CharField(max_length=10, blank=True, default="")
+    mobile = models.CharField(max_length=10, blank=True, default="")
+    courriel2 = models.CharField(max_length=100, blank=True, default="")
     personnenom = models.CharField(
-        db_column="personneNom", max_length=100, blank=True, default=''
+        db_column="personneNom", max_length=100, blank=True, default=""
     )
     personneprenom = models.CharField(
-        db_column="personnePrenom", max_length=100, blank=True, default=''
+        db_column="personnePrenom", max_length=100, blank=True, default=""
     )
     personnetelephone = models.CharField(
-        db_column="personneTelephone", max_length=15, blank=True, default=''
+        db_column="personneTelephone", max_length=15, blank=True, default=""
     )
     personnecourriel = models.CharField(
-        db_column="personneCourriel", max_length=100, blank=True, default=''
+        db_column="personneCourriel", max_length=100, blank=True, default=""
     )
     numlicence = models.CharField(db_column="numLicence", max_length=6)
     typelicence = models.CharField(db_column="typeLicence", max_length=1)
@@ -451,10 +451,10 @@ class Seance(models.Model):
     heureseance = models.TimeField(db_column="heureSeance")
     dureeseance = models.TimeField(db_column="dureeSeance")
     typeseance = models.CharField(db_column="typeSeance", max_length=100)
-    niveau = models.CharField(max_length=100, blank=True, default='')
+    niveau = models.CharField(max_length=100, blank=True, default="")
     nbplaces = models.IntegerField(db_column="nbPlaces")
     nbplacesrestantes = models.IntegerField(db_column="nbPlacesRestantes")
-    professeur = models.CharField(max_length=100, blank=True, default='')
+    professeur = models.CharField(max_length=100, blank=True, default="")
 
     class Meta:
         managed = False

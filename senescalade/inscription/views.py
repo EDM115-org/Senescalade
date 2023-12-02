@@ -25,7 +25,11 @@ def register_user(request):
             # Récupérer toutes les lignes de la table
             queryset = DataCalendar.objects.all()
 
-            return render(request, "inscription/creneau.html", {"new_user": new_user, "data": queryset})
+            return render(
+                request,
+                "inscription/creneau.html",
+                {"new_user": new_user, "data": queryset},
+            )
 
     else:
         form = CustomUserCreationForm()
