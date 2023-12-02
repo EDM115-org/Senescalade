@@ -2,6 +2,8 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """Represents a database migration for altering the options of the CustomUser model."""
+
     dependencies = [
         ("inscription", "0007_alter_customuser_table_alter_datacalendar_table"),
     ]

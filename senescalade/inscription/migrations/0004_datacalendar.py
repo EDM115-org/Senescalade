@@ -4,6 +4,8 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """Represents a database migration for the 'DataCalendar' model."""
+
     dependencies = [
         ("inscription", "0003_alter_customuser_table"),
     ]
