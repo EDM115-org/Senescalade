@@ -1,14 +1,17 @@
 FROM archlinux:latest
 
-ARG TOKEN
 RUN pacman -Syyu --noconfirm && \
-    pacman -S --noconfirm python-pip git mysql && \
+    pacman -S --noconfirm python-pip git mysql apache && \
     pacman -Scc --noconfirm
 RUN python -m venv /venv && \
     . /venv/bin/activate && \
     pip install -U pip setuptools wheel
 ENV PATH="/venv/bin:$PATH"
 WORKDIR /app
-RUN git clone https://$TOKEN@github.com/EDM115-org/Tab-Magiques.git . && \
+RUN git clone https://github.com/EDM115-org/Tab-Magiques.git . && \
     pip install -U -r /app/requirements.txt
-CMD ["bash", "start.sh"]
+COPY apache.conf /etc/httpd/conf/extra/httpd.conf
+COPY .env /app/
+RUN echo "Include conf/extra/httpd.conf" >> /etc/httpd/conf/httpd.conf
+EXPOSE 80
+CMD ["bash", "-c", "httpd -DFOREGROUND & bash start.sh"]
