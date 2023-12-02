@@ -28,7 +28,56 @@
                 },
                 selectable: true,
                 height: 'auto',
+                eventBackgroundColor: '#44475A',
+                eventBorderColor: '#BD93F9',
+                eventTextColor: '#F8F8F2',
             });
+
+            const dayNameToIndex = {
+                "Dimanche": 0,
+                "Lundi": 1,
+                "Mardi": 2,
+                "Mercredi": 3,
+                "Jeudi": 4,
+                "Vendredi": 5,
+                "Samedi": 6
+            };
+            const currentDate = new Date();
+            const currentDayIndex = currentDate.getDay();
+
+            var events = [];
+            {% for instance in data %}
+                var desiredDay = '{{ instance.jour }}';
+                var desiredDayIndex = dayNameToIndex[desiredDay];
+                var daysDifference = desiredDayIndex - currentDayIndex;
+                var desiredDate = new Date(currentDate);
+                desiredDate.setDate(currentDate.getDate() + daysDifference);
+                if (desiredDate > currentDate) {
+                    desiredDate.setDate(desiredDate.getDate() - 7);
+                }
+                var formattedDate = desiredDate.toISOString().slice(0, 10);
+
+                var event = {
+                    id: '{{ instance.idSeance }}',
+                    title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
+                    start: '{{ instance.heureSeance|safe }}',
+                    end: '{{ instance.dureeSeance|safe }}',
+                    allDay: false,
+                    /*extendedProps: {
+                        nbPlaces: '{{ instance.nbPlaces }}',
+                        nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
+                        professeur: '{{ instance.professeur }}',
+                        dureeSeance: '{{ instance.dureeSeance }}',
+                    },
+                    backgroundColor: '{% if instance.nbPlacesRestantes == 0 %}#ff0000{% else %}#00ff00{% endif %}',*/
+                };
+                event.start = formattedDate + 'T' + event.start;
+                event.end = formattedDate + 'T' + event.end;
+    
+                events.push(event);
+                console.log(formattedDate, event)
+            {% endfor %}
+            calendar.addEventSource(events);
             calendar.render();
         });
     </script>
