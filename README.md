@@ -43,8 +43,8 @@ cd .. && pip install -U -r requirements.txt
 cd senescalade && py manage.py migrate
 py manage.py createsuperuser
     root
-	senescalade@live.fr
-	Senescalade!56
+    senescalade@live.fr
+    Senescalade!56
 py manage.py runserver
 ```
 
@@ -89,7 +89,7 @@ py manage.py runserver
 
 ### Fonctionnalités
 
-- [x] Inscription
+- [ ] Inscription
 - [ ] Connexion
 - [ ] Interface d'administration
 - [ ] Envoi de mail

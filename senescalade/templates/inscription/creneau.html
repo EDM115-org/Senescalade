@@ -44,17 +44,20 @@
             };
             const currentDate = new Date();
             const currentDayIndex = currentDate.getDay();
-
             var events = [];
-            {% for instance in data %}
+
+            {% for instance in data %}                
                 var desiredDay = '{{ instance.jour }}';
                 var desiredDayIndex = dayNameToIndex[desiredDay];
                 var daysDifference = desiredDayIndex - currentDayIndex;
+                var originalDaysDifference = Math.abs(daysDifference);
                 var desiredDate = new Date(currentDate);
-                desiredDate.setDate(currentDate.getDate() + daysDifference);
-                if (desiredDate > currentDate) {
-                    desiredDate.setDate(desiredDate.getDate() - 7);
+                
+                if (originalDaysDifference == 6) {
+                    daysDifference += 7;
                 }
+
+                desiredDate.setDate(currentDate.getDate() + daysDifference);
                 var formattedDate = desiredDate.toISOString().slice(0, 10);
 
                 var event = {
@@ -63,19 +66,17 @@
                     start: '{{ instance.heureSeance|safe }}',
                     end: '{{ instance.dureeSeance|safe }}',
                     allDay: false,
-                    /*extendedProps: {
+                    extendedProps: {
                         nbPlaces: '{{ instance.nbPlaces }}',
                         nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
                         professeur: '{{ instance.professeur }}',
                         dureeSeance: '{{ instance.dureeSeance }}',
                     },
-                    backgroundColor: '{% if instance.nbPlacesRestantes == 0 %}#ff0000{% else %}#00ff00{% endif %}',*/
                 };
                 event.start = formattedDate + 'T' + event.start;
                 event.end = formattedDate + 'T' + event.end;
     
                 events.push(event);
-                console.log(formattedDate, event)
             {% endfor %}
 
             calendar.addEventSource(events);
