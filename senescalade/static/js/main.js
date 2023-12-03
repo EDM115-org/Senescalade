@@ -4,7 +4,7 @@
  * @param {string} dateString - The date string in 'DD MMMM YYYY' format.
  * @returns {string} The date string in 'YYYY-MM-DD' format.
  */
-function convertDateFormat(dateString) {
+function convertDateFormat(dateString) {  // skipcq: JS-0128
     const monthNames = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
     const parts = dateString.split(' ');
 
@@ -32,7 +32,7 @@ function convertDateFormat(dateString) {
  * const category = determineCategory('2008-08-15');
  * console.log(category); // Output: 'U16'
  */
-function determineCategory(birthDate) {
+function determineCategory(birthDate) {  // skipcq: JS-0128
     const currentYear = new Date().getFullYear();
     let birthYear = parseInt(birthDate.split("-")[0]);
     let age = currentYear - birthYear;

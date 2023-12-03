@@ -5,7 +5,7 @@ RUN pacman -Syyu --noconfirm && \
     pacman -Scc --noconfirm
 RUN python -m venv /venv && \
     . /venv/bin/activate && \
-    pip install -U pip setuptools wheel
+    pip install -U pip==23.3.1 setuptools==69.0.2 wheel==0.42.0
 ENV PATH="/venv/bin:$PATH"
 WORKDIR /app
 RUN git clone https://github.com/EDM115-org/Tab-Magiques.git . && \
