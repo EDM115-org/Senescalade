@@ -1,34 +1,47 @@
-name: Lints the code using Black code style, and pushes the changes back to the repo
+name: "Black linter"
 
 on:
   schedule:
-    - cron: '0 4 * * 6'
+    - cron: "0 3 * * 0"
   workflow_dispatch:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    name: "Lint"
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 10
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Black-ify
-        uses: psf/black@stable
+
+      - name: "Black-ify"
+        uses: "psf/black@stable"
         with:
           options: "-v -t py312 --safe --exclude .git .github"
-      - name: Commit changes
+
+      - name: "Check for changes"
+        id: git-check
+        run: |
+          git diff --exit-code || echo "##[set-output name=changed;]true"
+
+      - name: "Commit changes"
+        if: steps.git-check.outputs.changed
         run: |
           d=`date '+%Y/%m/%dT%H:%M:%SZ'`
           git config --local user.email ${{ secrets.GH_EMAIL }}
           git config --local user.name ${{ secrets.GH_USERNAME }}
           git add -A
           git commit -m "Code style changed to Black at ${d}"
-      - name: Push commit
-        uses: ad-m/github-push-action@v0.8.0
+
+      - name: "Push"
+        if: steps.git-check.outputs.changed
+        uses: "ad-m/github-push-action@v0.8.0"
         with:
           force: false
-          directory: "."
+          directory: '.'
           branch: ${{ github.ref }}
           github_token: ${{ secrets.GH_TOKEN }}
