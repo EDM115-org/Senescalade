@@ -6,7 +6,7 @@
  */
 function convertDateFormat(dateString) {
     const monthNames = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-    let parts = dateString.split(' ');
+    const parts = dateString.split(' ');
 
     if (parts.length !== 3) {
         throw new Error('Invalid date format');
@@ -14,7 +14,7 @@ function convertDateFormat(dateString) {
 
     let day = parts[0];
     let month = monthNames.indexOf(parts[1].toLowerCase()) + 1;
-    let year = parts[2];
+    const year = parts[2];
 
     if (month < 10) month = `0${month}`;
     if (day.length < 2) day = `0${day}`;
