@@ -34,8 +34,8 @@ function convertDateFormat(dateString) {
  */
 function determineCategory(birthDate) {
     const currentYear = new Date().getFullYear();
-    var birthYear = parseInt(birthDate.split("-")[0]);
-    var age = currentYear - birthYear;
+    let birthYear = parseInt(birthDate.split("-")[0]);
+    let age = currentYear - birthYear;
 
     if (age < 6) {
         return 'Babygrimpe';
