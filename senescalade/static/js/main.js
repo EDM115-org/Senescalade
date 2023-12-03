@@ -16,8 +16,8 @@ function convertDateFormat(dateString) {
     let month = monthNames.indexOf(parts[1].toLowerCase()) + 1;
     let year = parts[2];
 
-    if (month < 10) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
+    if (month < 10) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
 
     return `${year}-${month}-${day}`;
 }
