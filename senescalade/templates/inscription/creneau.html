@@ -24,7 +24,7 @@
                 headerToolbar: {
                     left: '',
                     center: '',
-                    right: 'prev,next'
+                    right: ''
                 },
                 selectable: true,
                 height: 'auto',
@@ -44,43 +44,116 @@
             };
             const currentDate = new Date();
             const currentDayIndex = currentDate.getDay();
+            const userCategory = determineCategory('{{ user.birthdate }}');
             var events = [];
 
-            {% for instance in data %}                
-                var desiredDay = '{{ instance.jour }}';
-                var desiredDayIndex = dayNameToIndex[desiredDay];
-                var daysDifference = desiredDayIndex - currentDayIndex;
-                var originalDaysDifference = Math.abs(daysDifference);
-                var desiredDate = new Date(currentDate);
-                
-                if (desiredDayIndex == currentDayIndex) {
-                    // do nothing
-                } else if (currentDayIndex == 0) {
-                    daysDifference -= 7;
-                } else if (originalDaysDifference == 6) {
-                    daysDifference += 7;
-                }
-                
-                desiredDate.setDate(currentDate.getDate() + daysDifference);
-                var formattedDate = desiredDate.toISOString().slice(0, 10);
+            {% for instance in data %}
+                if (userCategory == "{{ instance.typeSeance }}" && userCategory == "Babygrimpe") {
+                    var desiredDay = '{{ instance.jour }}';
+                    var desiredDayIndex = dayNameToIndex[desiredDay];
+                    var daysDifference = desiredDayIndex - currentDayIndex;
+                    var originalDaysDifference = Math.abs(daysDifference);
+                    var desiredDate = new Date(currentDate);
+                    
+                    if (desiredDayIndex == currentDayIndex) {
+                        // do nothing
+                    } else if (currentDayIndex == 0) {
+                        daysDifference -= 7;
+                    } else if (originalDaysDifference == 6) {
+                        daysDifference += 7;
+                    }
+                    
+                    desiredDate.setDate(currentDate.getDate() + daysDifference);
+                    var formattedDate = desiredDate.toISOString().slice(0, 10);
 
-                var event = {
-                    id: '{{ instance.idSeance }}',
-                    title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
-                    start: '{{ instance.heureSeance|safe }}',
-                    end: '{{ instance.dureeSeance|safe }}',
-                    allDay: false,
-                    extendedProps: {
-                        nbPlaces: '{{ instance.nbPlaces }}',
-                        nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
-                        professeur: '{{ instance.professeur }}',
-                        dureeSeance: '{{ instance.dureeSeance }}',
-                    },
-                };
-                event.start = formattedDate + 'T' + event.start;
-                event.end = formattedDate + 'T' + event.end;
-    
-                events.push(event);
+                    var event = {
+                        id: '{{ instance.idSeance }}',
+                        title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
+                        start: '{{ instance.heureSeance|safe }}',
+                        end: '{{ instance.dureeSeance|safe }}',
+                        allDay: false,
+                        extendedProps: {
+                            nbPlaces: '{{ instance.nbPlaces }}',
+                            nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
+                            professeur: '{{ instance.professeur }}',
+                            dureeSeance: '{{ instance.dureeSeance }}',
+                        },
+                    };
+                    event.start = formattedDate + 'T' + event.start;
+                    event.end = formattedDate + 'T' + event.end;
+        
+                    events.push(event);
+                } else if (userCategory == "{{ instance.typeSeance }}" && userCategory == "Adultes") {
+                    var desiredDay = '{{ instance.jour }}';
+                    var desiredDayIndex = dayNameToIndex[desiredDay];
+                    var daysDifference = desiredDayIndex - currentDayIndex;
+                    var originalDaysDifference = Math.abs(daysDifference);
+                    var desiredDate = new Date(currentDate);
+                    
+                    if (desiredDayIndex == currentDayIndex) {
+                        // do nothing
+                    } else if (currentDayIndex == 0) {
+                        daysDifference -= 7;
+                    } else if (originalDaysDifference == 6) {
+                        daysDifference += 7;
+                    }
+                    
+                    desiredDate.setDate(currentDate.getDate() + daysDifference);
+                    var formattedDate = desiredDate.toISOString().slice(0, 10);
+
+                    var event = {
+                        id: '{{ instance.idSeance }}',
+                        title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
+                        start: '{{ instance.heureSeance|safe }}',
+                        end: '{{ instance.dureeSeance|safe }}',
+                        allDay: false,
+                        extendedProps: {
+                            nbPlaces: '{{ instance.nbPlaces }}',
+                            nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
+                            professeur: '{{ instance.professeur }}',
+                            dureeSeance: '{{ instance.dureeSeance }}',
+                        },
+                    };
+                    event.start = formattedDate + 'T' + event.start;
+                    event.end = formattedDate + 'T' + event.end;
+        
+                    events.push(event);
+                } else if ("{{ instance.typeSeance }}" == "Jeunes" && "{{ instance.niveau }}" == userCategory) {
+                    var desiredDay = '{{ instance.jour }}';
+                    var desiredDayIndex = dayNameToIndex[desiredDay];
+                    var daysDifference = desiredDayIndex - currentDayIndex;
+                    var originalDaysDifference = Math.abs(daysDifference);
+                    var desiredDate = new Date(currentDate);
+                    
+                    if (desiredDayIndex == currentDayIndex) {
+                        // do nothing
+                    } else if (currentDayIndex == 0) {
+                        daysDifference -= 7;
+                    } else if (originalDaysDifference == 6) {
+                        daysDifference += 7;
+                    }
+                    
+                    desiredDate.setDate(currentDate.getDate() + daysDifference);
+                    var formattedDate = desiredDate.toISOString().slice(0, 10);
+
+                    var event = {
+                        id: '{{ instance.idSeance }}',
+                        title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
+                        start: '{{ instance.heureSeance|safe }}',
+                        end: '{{ instance.dureeSeance|safe }}',
+                        allDay: false,
+                        extendedProps: {
+                            nbPlaces: '{{ instance.nbPlaces }}',
+                            nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
+                            professeur: '{{ instance.professeur }}',
+                            dureeSeance: '{{ instance.dureeSeance }}',
+                        },
+                    };
+                    event.start = formattedDate + 'T' + event.start;
+                    event.end = formattedDate + 'T' + event.end;
+        
+                    events.push(event);
+                }
             {% endfor %}
 
             calendar.addEventSource(events);
@@ -88,38 +161,7 @@
         });
     </script>
 
-    <h1>Bienvenue sur votre profil</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Jour</th>
-                <th>Heure de Séance</th>
-                <th>Durée de Séance</th>
-                <th>Type de Séance</th>
-                <th>Niveau</th>
-                <th>Nombre de Places</th>
-                <th>Nombre de Places Restantes</th>
-                <th>Professeur</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for instance in data %}
-                <tr>
-                    <td>{{ instance.idSeance }}</td>
-                    <td>{{ instance.jour }}</td>
-                    <td>{{ instance.heureSeance }}</td>
-                    <td>{{ instance.dureeSeance }}</td>
-                    <td>{{ instance.typeSeance }}</td>
-                    <td>{{ instance.niveau }}</td>
-                    <td>{{ instance.nbPlaces }}</td>
-                    <td>{{ instance.nbPlacesRestantes }}</td>
-                    <td>{{ instance.professeur }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Choisissez votre créneau</h1>
 
     <div id='calendar'></div>
 
