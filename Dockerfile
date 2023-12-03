@@ -1,4 +1,4 @@
-FROM archlinux:latest
+FROM archlinux:base
 
 RUN pacman -Syyu --noconfirm && \
     pacman -S --noconfirm python-pip git mysql apache && \
