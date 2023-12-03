@@ -24,7 +24,7 @@
                 headerToolbar: {
                     left: '',
                     center: '',
-                    right: ''
+                    right: 'prev,next'
                 },
                 selectable: true,
                 height: 'auto',
@@ -53,10 +53,14 @@
                 var originalDaysDifference = Math.abs(daysDifference);
                 var desiredDate = new Date(currentDate);
                 
-                if (originalDaysDifference == 6) {
+                if (desiredDayIndex == currentDayIndex) {
+                    // do nothing
+                } else if (currentDayIndex == 0) {
+                    daysDifference -= 7;
+                } else if (originalDaysDifference == 6) {
                     daysDifference += 7;
                 }
-
+                
                 desiredDate.setDate(currentDate.getDate() + daysDifference);
                 var formattedDate = desiredDate.toISOString().slice(0, 10);
 
