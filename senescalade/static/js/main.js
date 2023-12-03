@@ -34,8 +34,8 @@ function convertDateFormat(dateString) {  // skipcq: JS-0128
  */
 function determineCategory(birthDate) {  // skipcq: JS-0128
     const currentYear = new Date().getFullYear();
-    let birthYear = parseInt(birthDate.split("-")[0]);
-    let age = currentYear - birthYear;
+    const birthYear = parseInt(birthDate.split("-")[0]);
+    const age = currentYear - birthYear;
 
     if (age < 6) {
         return 'Babygrimpe';
