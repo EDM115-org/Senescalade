@@ -44,7 +44,7 @@
             };
             const currentDate = new Date();
             const currentDayIndex = currentDate.getDay();
-            const userCategory = determineCategory('{{ user.birthdate }}');
+            var userCategory = determineCategory(convertDateFormat('{{ user.birth_date }}'));
             var events = [];
 
             {% for instance in data %}
