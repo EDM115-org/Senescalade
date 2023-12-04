@@ -69,3 +69,14 @@ def logout_user(request):
     """
     logout(request)
     return redirect("login")
+
+def debug_calendar(request):
+    """Debug view to get all the events on the calendar"""
+    queryset = DataCalendar.objects.all()
+
+    return render(
+        request,
+        "inscription/debug_calendar.html",
+        {"data": queryset},
+    )
+

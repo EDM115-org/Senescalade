@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.10/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                initialView: 'timeGridWeek',
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                firstDay: 1,
+                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+                buttonText: {
+                    today:    'Aujourd\'hui',
+                    month:    'Mois',
+                    week:     'Semaine',
+                    day:      'Jour',
+                    list:     'Liste'
+                },
+                allDaySlot: false,
+                dayHeaderFormat: { weekday: 'long' },
+                headerToolbar: {
+                    left: '',
+                    center: '',
+                    right: 'prev,next'
+                },
+                selectable: true,
+                height: 'auto',
+                eventBackgroundColor: '#44475A',
+                eventBorderColor: '#BD93F9',
+                eventTextColor: '#F8F8F2',
+            });
+
+            const dayNameToIndex = {
+                "Dimanche": 0,
+                "Lundi": 1,
+                "Mardi": 2,
+                "Mercredi": 3,
+                "Jeudi": 4,
+                "Vendredi": 5,
+                "Samedi": 6
+            };
+            const currentDate = new Date();
+            const currentDayIndex = currentDate.getDay();
+            var events = [];
+
+            {% for instance in data %}
+				var desiredDay = '{{ instance.jour }}';
+				var desiredDayIndex = dayNameToIndex[desiredDay];
+				var daysDifference = desiredDayIndex - currentDayIndex;
+				var originalDaysDifference = Math.abs(daysDifference);
+				var desiredDate = new Date(currentDate);
+				
+				if (desiredDayIndex == currentDayIndex) {
+					// do nothing
+				} else if (currentDayIndex == 0) {
+					daysDifference -= 7;
+				} else if (originalDaysDifference == 6) {
+					daysDifference += 7;
+				}
+				
+				desiredDate.setDate(currentDate.getDate() + daysDifference);
+				var formattedDate = desiredDate.toISOString().slice(0, 10);
+
+				var event = {
+					id: '{{ instance.idSeance }}',
+					title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
+					start: '{{ instance.heureSeance|safe }}',
+					end: '{{ instance.dureeSeance|safe }}',
+					allDay: false,
+					extendedProps: {
+						nbPlaces: '{{ instance.nbPlaces }}',
+						nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
+						professeur: '{{ instance.professeur }}',
+						dureeSeance: '{{ instance.dureeSeance }}',
+					},
+				};
+				event.start = formattedDate + 'T' + event.start;
+				event.end = formattedDate + 'T' + event.end;
+	
+				events.push(event);
+            {% endfor %}
+
+            calendar.addEventSource(events);
+            calendar.render();
+        });
+    </script>
+
+    <h1>Choisissez votre créneau</h1>
+
+    <div id='calendar'></div>
+
+{% endblock %}
