@@ -61,6 +61,8 @@
                         daysDifference -= 7;
                     } else if (originalDaysDifference == 6) {
                         daysDifference += 7;
+                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
+                        daysDifference += 7;
                     }
                     
                     desiredDate.setDate(currentDate.getDate() + daysDifference);
@@ -96,6 +98,8 @@
                         daysDifference -= 7;
                     } else if (originalDaysDifference == 6) {
                         daysDifference += 7;
+                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
+                        daysDifference += 7;
                     }
                     
                     desiredDate.setDate(currentDate.getDate() + daysDifference);
@@ -130,6 +134,8 @@
                     } else if (currentDayIndex == 0) {
                         daysDifference -= 7;
                     } else if (originalDaysDifference == 6) {
+                        daysDifference += 7;
+                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
                         daysDifference += 7;
                     }
                     

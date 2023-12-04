@@ -44,6 +44,7 @@
             };
             const currentDate = new Date();
             const currentDayIndex = currentDate.getDay();
+			console.log("currentDayIndex: " + currentDayIndex);
             var events = [];
 
             {% for instance in data %}
@@ -52,16 +53,28 @@
 				var daysDifference = desiredDayIndex - currentDayIndex;
 				var originalDaysDifference = Math.abs(daysDifference);
 				var desiredDate = new Date(currentDate);
+				// console.log everything
+				console.log("desiredDay: " + desiredDay);
+				console.log("desiredDayIndex: " + desiredDayIndex);
+				console.log("daysDifference: " + daysDifference);
+				console.log("originalDaysDifference: " + originalDaysDifference);
 				
 				if (desiredDayIndex == currentDayIndex) {
 					// do nothing
+					console.log("do nothing");
 				} else if (currentDayIndex == 0) {
 					daysDifference -= 7;
+					console.log("currentDayIndex == 0");
 				} else if (originalDaysDifference == 6) {
 					daysDifference += 7;
+					console.log("originalDaysDifference == 6");
+				} else if (desiredDayIndex == 0 && daysDifference < 0) {
+					daysDifference += 7;
+					console.log("desiredDayIndex == 0 && daysDifference < 0");
 				}
 				
 				desiredDate.setDate(currentDate.getDate() + daysDifference);
+				console.log("desiredDate: " + desiredDate);
 				var formattedDate = desiredDate.toISOString().slice(0, 10);
 
 				var event = {
