@@ -1,5 +1,9 @@
 version = 1
 
+exclude_patterns = [
+  "senescalade/static/vendor/**"
+]
+
 [[analyzers]]
 name = "docker"
 

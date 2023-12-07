@@ -50,4 +50,25 @@ function determineCategory(birthDate) {  // skipcq: JS-0128
     }
 }
 
+function timeStringToMinutes(timeString) {
+    let [hours, minutes] = timeString.split(":").map(Number);
+    return hours * 60 + minutes;
+}
 
+function calculateDurationInMinutes(startTimeString, endTimeString) {
+    let startTimeInMinutes = timeStringToMinutes(startTimeString);
+    let endTimeInMinutes = timeStringToMinutes(endTimeString);
+
+    return endTimeInMinutes - startTimeInMinutes;
+}
+
+function minutesToTimeString(minutes) {
+    let hours = Math.floor(minutes / 60);
+    let remainingMinutes = minutes % 60;
+
+    if (remainingMinutes === 0) {
+        return `${hours}h`;
+    } else {
+        return `${hours}h${remainingMinutes < 10 ? '0' : ''}${remainingMinutes}`;
+    }
+}

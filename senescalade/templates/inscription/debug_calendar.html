@@ -5,6 +5,9 @@
 
     <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
+        var styleSheet = document.getElementById("draculaStylesheet");
+        styleSheet.disabled = true;
+        //styleSheet.parentNode.removeChild(styleSheet);
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -32,25 +35,61 @@
                 eventBorderColor: "#BD93F9",
                 eventTextColor: "#F8F8F2",
                 eventClick: function(info) {
-                    // Affichez les extendedProps quelque part sur la page
+                    if (info.event.extendedProps.nbPlacesRestantes <= 0) {
+                        return;
+                    }
                     document.getElementById("eventDetails").innerText = 
+                        info.event.title + ", " +
+                        info.event.extendedProps.jourSeance + ", " +
+                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
+                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
                         "Places: " + info.event.extendedProps.nbPlaces + ", " +
-                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes + ", " +
-                        "Professeur: " + info.event.extendedProps.professeur;
-    
-                    // Marquez l'événement comme sélectionné
+                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
                     if (selectedEventId) {
                         var oldEvent = calendar.getEventById(selectedEventId);
                         if (oldEvent) {
-                            oldEvent.setProp('backgroundColor', '#44475A'); // Couleur d'origine
+                            oldEvent.setProp('backgroundColor', '#44475A');
+                            oldEvent.setProp('textColor', '#F8F8F2');
                         }
                     }
-                    info.event.setProp('backgroundColor', '#50C878'); // Couleur pour l'événement sélectionné
+                    info.event.setProp('backgroundColor', '#50FA7B');
+                    info.event.setProp('textColor', '#282A36');
                     selectedEventId = info.event.id;
-    
-                    // Stockez l'ID de l'événement dans le formulaire
                     document.getElementById("selectedEventId").value = selectedEventId;
                     document.getElementById("eventForm").style.display = "";
+                },
+                eventMouseEnter: function(info) {
+                    if (info.event.extendedProps.nbPlacesRestantes > 0) {
+                        info.el.style.cursor = "pointer";
+                    } else {
+                        return;
+                    }
+                    var tooltip = document.createElement("div");
+                    tooltip.style.position = "absolute";
+                    tooltip.style.top = info.jsEvent.pageY + "px";
+                    tooltip.style.left = info.jsEvent.pageX + "px";
+                    tooltip.style.backgroundColor = "#282A36";
+                    tooltip.style.color = "#F8F8F2";
+                    tooltip.style.padding = "5px";
+                    tooltip.style.borderRadius = "5px";
+                    tooltip.style.zIndex = "1000";
+                    tooltip.innerText = 
+                        info.event.title + ", " +
+                        info.event.extendedProps.jourSeance + ", " +
+                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
+                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
+                        "Places: " + info.event.extendedProps.nbPlaces + ", " +
+                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+                    document.body.appendChild(tooltip);
+                    info.el.addEventListener("mouseleave", function() {
+                        try {
+                            if (tooltip && tooltip.parentNode) {
+                                tooltip.parentNode.removeChild(tooltip);
+                            }
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    });
                 },
             });
 
@@ -109,7 +148,10 @@
 						nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
 						professeur: "{{ instance.professeur }}",
 						dureeSeance: "{{ instance.dureeSeance }}",
+                        jourSeance: "{{ instance.jour }}",
 					},
+                    backgroundColor: "{% if instance.nbPlacesRestantes > 0 %}#44475A{% else %}#FF5555{% endif %}",
+                    textColor: "{% if instance.nbPlacesRestantes > 0 %}#F8F8F2{% else %}#282A36{% endif %}"
 				};
 				event.start = formattedDate + 'T' + event.start;
 				event.end = formattedDate + 'T' + event.end;
@@ -130,6 +172,5 @@
         <button type="submit">Suivant</button>
     </form>
     <div id="calendar"></div>
-
 
 {% endblock %}
