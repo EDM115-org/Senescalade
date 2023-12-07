@@ -35,6 +35,9 @@
                 eventBorderColor: "#BD93F9",
                 eventTextColor: "#F8F8F2",
                 eventClick: function(info) {
+                    if (info.event.extendedProps.nbPlacesRestantes <= 0) {
+                        return;
+                    }
                     document.getElementById("eventDetails").innerText = 
                         info.event.title + ", " +
                         info.event.extendedProps.jourSeance + ", " +
@@ -56,7 +59,11 @@
                     document.getElementById("eventForm").style.display = "";
                 },
                 eventMouseEnter: function(info) {
-                    info.el.style.cursor = "pointer";
+                    if (info.event.extendedProps.nbPlacesRestantes > 0) {
+                        info.el.style.cursor = "pointer";
+                    } else {
+                        return;
+                    }
                     var tooltip = document.createElement("div");
                     tooltip.style.position = "absolute";
                     tooltip.style.top = info.jsEvent.pageY + "px";
@@ -143,6 +150,8 @@
 						dureeSeance: "{{ instance.dureeSeance }}",
                         jourSeance: "{{ instance.jour }}",
 					},
+                    backgroundColor: "{% if instance.nbPlacesRestantes > 0 %}#44475A{% else %}#FF5555{% endif %}",
+                    textColor: "{% if instance.nbPlacesRestantes > 0 %}#F8F8F2{% else %}#282A36{% endif %}"
 				};
 				event.start = formattedDate + 'T' + event.start;
 				event.end = formattedDate + 'T' + event.end;
@@ -163,6 +172,5 @@
         <button type="submit">Suivant</button>
     </form>
     <div id="calendar"></div>
-
 
 {% endblock %}
