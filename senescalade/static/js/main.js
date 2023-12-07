@@ -27,10 +27,6 @@ function convertDateFormat(dateString) {  // skipcq: JS-0128
  * 
  * @param {string} birthDate - The birth date of a person in the format 'YYYY-MM-DD'.
  * @returns {string} The category based on the calculated age.
- *
- * @example
- * const category = determineCategory('2008-08-15');
- * console.log(category); // Output: 'U16'
  */
 function determineCategory(birthDate) {  // skipcq: JS-0128
     const currentYear = new Date().getFullYear();
@@ -53,3 +49,5 @@ function determineCategory(birthDate) {  // skipcq: JS-0128
         return 'Adultes';
     }
 }
+
+
