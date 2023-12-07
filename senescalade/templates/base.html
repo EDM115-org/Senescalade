@@ -5,12 +5,13 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/dracula.css' %}" />
         <link rel="icon" type="image/jpg" href="{% static 'img/logo-squared.jpg' %}" />
         <title>Senescalade</title>
     </head>
     <body>
         <script src="{% static 'js/main.js' %}"></script>
-        <h1>Senescalade</h1>
+        <h1><a href='/'>Senescalade</a></h1>
         
         {% block content %}{% endblock %}
 
