@@ -9,6 +9,15 @@ from django.db import models
 
 
 class Admin(models.Model):
+    """
+    Represents an admin user.
+
+    Fields:
+    - idadmin: An AutoField that serves as the primary key for the Admin model.
+    - droit: A CharField that stores the rights of the admin user.
+    - lapersonne: A ForeignKey that references the Personne model, representing the associated person for the admin user.
+    """
+
     idadmin = models.AutoField(db_column='idAdmin', primary_key=True)
     droit = models.CharField(max_length=5)
     lapersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='laPersonne')
@@ -19,6 +28,13 @@ class Admin(models.Model):
 
 
 class AuthGroup(models.Model):
+    """
+    Represents a Django model for user groups.
+
+    Fields:
+    - name: A CharField that stores the name of the user group. It is unique and has a maximum length of 150 characters.
+    """
+
     name = models.CharField(unique=True, max_length=150)
 
     class Meta:
@@ -27,6 +43,15 @@ class AuthGroup(models.Model):
 
 
 class AuthGroupPermissions(models.Model):
+    """
+    Represents a Django model for managing the permissions of user groups.
+
+    Fields:
+    - id: An AutoField that serves as the primary key for the AuthGroupPermissions model.   
+    - group: A ForeignKey that references the AuthGroup model, representing the user group associated with the permission.
+    - permission: A ForeignKey that references the AuthPermission model, representing the permission associated with the user group.
+    """
+
     id = models.BigAutoField(primary_key=True)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
     permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
@@ -38,6 +63,14 @@ class AuthGroupPermissions(models.Model):
 
 
 class AuthPermission(models.Model):
+    """
+    Represents a Django model for managing permissions of user groups.
+
+    Fields:
+    - name: A CharField that stores the name of the permission.
+    - content_type: A ForeignKey that references the DjangoContentType model, representing the content type associated with the permission.
+    - codename: A CharField that stores the codename of the permission.
+    """
     name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
@@ -49,6 +82,22 @@ class AuthPermission(models.Model):
 
 
 class AuthUser(models.Model):
+    """
+    Represents a Django model for managing user authentication and authorization.
+
+    Fields:
+    - password: Stores the user's password.
+    - last_login: Stores the timestamp of the user's last login.
+    - is_superuser: Indicates whether the user has superuser privileges.
+    - username: Stores the user's username.
+    - first_name: Stores the user's first name.
+    - last_name: Stores the user's last name.
+    - email: Stores the user's email address.
+    - is_staff: Indicates whether the user is a staff member.
+    - is_active: Indicates whether the user's account is active.
+    - date_joined: Stores the timestamp of when the user joined.
+    """
+
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, default='')
     is_superuser = models.IntegerField()
@@ -66,6 +115,15 @@ class AuthUser(models.Model):
 
 
 class AuthUserGroups(models.Model):
+    """
+    Represents a Django model for managing the relationship between users and groups.
+
+    Fields:
+    - id: An AutoField that serves as the primary key for the AuthUserGroups model.
+    - user: A ForeignKey that references the AuthUser model, representing the user associated with the group.
+    - group: A ForeignKey that references the AuthGroup model, representing the group associated with the user.
+    """
+
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
@@ -77,6 +135,15 @@ class AuthUserGroups(models.Model):
 
 
 class AuthUserUserPermissions(models.Model):
+    """
+    Represents a Django model for managing the permissions assigned to users.
+
+    Fields:
+    - id: An AutoField that serves as the primary key for the AuthUserUserPermissions model.
+    - user: A ForeignKey that references the AuthUser model, representing the user associated with the permission.
+    - permission: A ForeignKey that references the AuthPermission model, representing the permission associated with the user.
+    """
+
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
@@ -88,6 +155,19 @@ class AuthUserUserPermissions(models.Model):
 
 
 class DjangoAdminLog(models.Model):
+    """
+    Represents a Django model for managing admin logs.
+
+    Fields:
+    - action_time: The timestamp of the action.
+    - object_id: The ID of the object involved in the action.
+    - object_repr: A string representation of the object involved.
+    - action_flag: An integer representing the type of action performed.
+    - change_message: A message describing the change made.
+    - content_type: The content type of the object involved.
+    - user: The user who performed the action.
+    """
+
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, default='')
     object_repr = models.CharField(max_length=200)
@@ -102,6 +182,14 @@ class DjangoAdminLog(models.Model):
 
 
 class DjangoContentType(models.Model):
+    """
+    Represents a Django model for managing content types in the Django admin interface.
+
+    Fields:
+    - app_label: A CharField that stores the app label of the content type.
+    - model: A CharField that stores the model of the content type.
+    """
+
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
 
@@ -112,6 +200,16 @@ class DjangoContentType(models.Model):
 
 
 class DjangoMigrations(models.Model):
+    """
+    Represents a Django model for managing migrations.
+
+    Fields:
+    - id: An AutoField that serves as the primary key for the DjangoMigrations model.
+    - app: A CharField that stores the app of the migration.
+    - name: A CharField that stores the name of the migration.
+    - applied: A DateTimeField that stores the timestamp of when the migration was applied.
+    """
+
     id = models.BigAutoField(primary_key=True)
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -123,6 +221,15 @@ class DjangoMigrations(models.Model):
 
 
 class DjangoSession(models.Model):
+    """
+    Represents a Django model for managing sessions.
+
+    Fields:
+    - session_key: A CharField that serves as the primary key for the DjangoSession model.
+    - session_data: A TextField that stores the session data.
+    - expire_date: A DateTimeField that stores the timestamp of when the session expires.
+    """
+
     session_key = models.CharField(primary_key=True, max_length=40)
     session_data = models.TextField()
     expire_date = models.DateTimeField()
@@ -133,6 +240,16 @@ class DjangoSession(models.Model):
 
 
 class Inscription(models.Model):
+    """
+    Represents a Django model for managing user registrations.
+
+    Fields:
+    - idinscription: An AutoField that serves as the primary key for the Inscription model.
+    - mail: A CharField that stores the email of the user registration.
+    - password: A CharField that stores the password of the user registration.
+    - datenaissance: A DateField that stores the date of birth of the user registration.
+    """
+
     idinscription = models.AutoField(db_column='idInscription', primary_key=True)
     mail = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
@@ -142,8 +259,60 @@ class Inscription(models.Model):
         managed = False
         db_table = 'inscription'
 
+    @classmethod
+    def create(cls, mail, password, datenaissance):
+        """
+        Creates a new Inscription object with the specified email, password, and date of birth.
+
+        Args:
+        - mail: The email of the user registration.
+        - password: The password of the user registration.
+        - datenaissance: The date of birth of the user registration.
+
+        Returns:
+        - The newly created Inscription object.
+        """
+        return cls.objects.create(mail=mail, password=password, datenaissance=datenaissance)
+
+    @classmethod
+    def get(cls, idinscription):
+        """
+        Retrieves the Inscription object with the specified ID.
+
+        Args:
+        - idinscription: The ID of the Inscription object to retrieve.
+
+        Returns:
+        - The Inscription object with the specified ID.
+        """
+        return cls.objects.get(idinscription=idinscription)
+
+    @classmethod
+    def filter(cls, mail):
+        """
+        Returns a queryset of Inscription objects that match the specified email.
+
+        Args:
+        - mail: The email to filter by.
+
+        Returns:
+        - A queryset of Inscription objects that match the specified email.
+        """
+        return cls.objects.filter(mail=mail)
+
 
 class InscriptionCustomuser(models.Model):
+    """
+    Represents a Django model for managing user registrations.
+
+    Fields:
+    - id: An AutoField that serves as the primary key for the InscriptionCustomuser model.
+    - birth_date: A DateField that stores the user's birth date.
+    - email: A CharField that stores the user's email address. It is unique.
+    - password: A CharField that stores the user's password.
+    - confirm_password: A CharField that stores the user's confirmed password.
+    """
+
     id = models.BigAutoField(primary_key=True)
     birth_date = models.DateField()
     email = models.CharField(unique=True, max_length=254)
@@ -156,6 +325,40 @@ class InscriptionCustomuser(models.Model):
 
 
 class Personne(models.Model):
+    """
+    Represents a Django model for managing personal information of users.
+    
+    Fields:
+    - idpersonne: An AutoField that serves as the primary key for the Personne model.
+    - action: A CharField that stores the action related to the person.
+    - nom: A CharField that stores the last name of the person.
+    - prenom: A CharField that stores the first name of the person.
+    - sexe: A CharField that stores the gender of the person.
+    - nationalite: A CharField that stores the nationality of the person.
+    - adresse: A CharField that stores the address of the person.
+    - complementadresse: A CharField that stores additional address information.
+    - codepostal: A CharField that stores the postal code of the person's address.
+    - ville: A CharField that stores the city of the person's address.
+    - pays: A CharField that stores the country of the person's address.
+    - telephone: A CharField that stores the telephone number of the person.
+    - mobile: A CharField that stores the mobile number of the person.
+    - courriel2: A CharField that stores the secondary email of the person.
+    - personnenom: A CharField that stores the last name of another person associated with the person.
+    - personneprenom: A CharField that stores the first name of another person associated with the person.
+    - personnetelephone: A CharField that stores the telephone number of another person associated with the person.
+    - personnecourriel: A CharField that stores the email of another person associated with the person.
+    - numlicence: A CharField that stores the license number of the person.
+    - typelicence: A CharField that stores the type of license of the person.
+    - assurance: A CharField that stores the insurance information of the person.
+    - optionski: An IntegerField that stores the option for skiing.
+    - optionslackline: An IntegerField that stores the option for slacklining.
+    - optiontrail: An IntegerField that stores the option for trail activities.
+    - optionvtt: An IntegerField that stores the option for mountain biking.
+    - optionassurance: An IntegerField that stores the option for additional insurance.
+    - seance: A ForeignKey that references the Seance model, representing the associated session for the person.
+    - linscription: A ForeignKey that references the Inscription model, representing the associated user registration for the person.
+    """
+
     idpersonne = models.AutoField(db_column='idPersonne', primary_key=True)
     action = models.CharField(max_length=1)
     nom = models.CharField(max_length=100)
@@ -191,6 +394,21 @@ class Personne(models.Model):
 
 
 class Seance(models.Model):
+    """
+    Represents a Django model for managing sessions.
+
+    Fields:
+    - idseance: AutoField, primary key for the Seance model.
+    - jour: CharField, stores the day of the session.
+    - heureseance: TimeField, stores the start time of the session.
+    - dureeseance: TimeField, stores the duration of the session.
+    - typeseance: CharField, stores the type of the session.
+    - niveau: CharField, stores the level of the session.
+    - nbplaces: IntegerField, stores the total number of available places for the session.
+    - nbplacesrestantes: IntegerField, stores the number of remaining places for the session.
+    - professeur: CharField, stores the name of the professor for the session.
+    """
+
     idseance = models.AutoField(db_column='idSeance', primary_key=True)
     jour = models.CharField(max_length=50)
     heureseance = models.TimeField(db_column='heureSeance')
