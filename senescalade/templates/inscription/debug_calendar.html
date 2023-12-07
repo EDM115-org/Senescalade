@@ -5,6 +5,9 @@
 
     <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
+        var styleSheet = document.getElementById("draculaStylesheet");
+        styleSheet.disabled = true;
+        styleSheet.parentNode.removeChild(styleSheet);
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -32,23 +35,20 @@
                 eventBorderColor: "#BD93F9",
                 eventTextColor: "#F8F8F2",
                 eventClick: function(info) {
-                    // Affichez les extendedProps quelque part sur la page
                     document.getElementById("eventDetails").innerText = 
                         "Places: " + info.event.extendedProps.nbPlaces + ", " +
                         "Restantes: " + info.event.extendedProps.nbPlacesRestantes + ", " +
                         "Professeur: " + info.event.extendedProps.professeur;
-    
-                    // Marquez l'événement comme sélectionné
                     if (selectedEventId) {
                         var oldEvent = calendar.getEventById(selectedEventId);
                         if (oldEvent) {
-                            oldEvent.setProp('backgroundColor', '#44475A'); // Couleur d'origine
+                            oldEvent.setProp('backgroundColor', '#44475A');
+                            oldEvent.setProp('textColor', '#F8F8F2');
                         }
                     }
-                    info.event.setProp('backgroundColor', '#50C878'); // Couleur pour l'événement sélectionné
+                    info.event.setProp('backgroundColor', '#50FA7B');
+                    info.event.setProp('textColor', '#282A36');
                     selectedEventId = info.event.id;
-    
-                    // Stockez l'ID de l'événement dans le formulaire
                     document.getElementById("selectedEventId").value = selectedEventId;
                     document.getElementById("eventForm").style.display = "";
                 },
