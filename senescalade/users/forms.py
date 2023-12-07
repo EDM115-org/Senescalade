@@ -1,7 +1,6 @@
 # users/forms.py
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from inscription.models import CustomUser
 
 
 class CustomUserLoginForm(forms.Form):
