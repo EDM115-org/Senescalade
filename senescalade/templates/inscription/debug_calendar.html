@@ -36,9 +36,12 @@
                 eventTextColor: "#F8F8F2",
                 eventClick: function(info) {
                     document.getElementById("eventDetails").innerText = 
+                        info.event.title + ", " +
+                        info.event.extendedProps.jourSeance + ", " +
+                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
+                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
                         "Places: " + info.event.extendedProps.nbPlaces + ", " +
-                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes + ", " +
-                        "Professeur: " + info.event.extendedProps.professeur;
+                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
                     if (selectedEventId) {
                         var oldEvent = calendar.getEventById(selectedEventId);
                         if (oldEvent) {
@@ -54,10 +57,6 @@
                 },
                 eventMouseEnter: function(info) {
                     info.el.style.cursor = "pointer";
-                    // show a "popup" (more like a tooltip) when hovering over an event
-                    // it should display all properties of the event, including extendedProps
-                    // it should appear as long as the mouse is over the event
-
                     var tooltip = document.createElement("div");
                     tooltip.style.position = "absolute";
                     tooltip.style.top = info.jsEvent.pageY + "px";
@@ -68,6 +67,7 @@
                     tooltip.style.borderRadius = "5px";
                     tooltip.style.zIndex = "1000";
                     tooltip.innerText = 
+                        info.event.title + ", " +
                         info.event.extendedProps.jourSeance + ", " +
                         info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
                         "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
