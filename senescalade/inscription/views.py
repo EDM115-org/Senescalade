@@ -31,45 +31,6 @@ def register_user(request):
         form = CustomUserCreationForm()
     return render(request, "inscription/register.html", {"form": form})
 
-
-def login_user(request):
-    """
-    Logs in a user.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-
-    Returns:
-        HttpResponse: The HTTP response object.
-
-    """
-    if request.method == "POST":
-        form = CustomUserLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("home")
-    else:
-        form = CustomUserLoginForm()
-    return render(request, "inscription/login.html", {"form": form})
-
-
-def logout_user(request):
-    """
-    Logs out the user and redirects to the login page.
-
-    Parameters:
-    - request: The HTTP request object.
-
-    Returns:
-    - A redirect response to the login page.
-    """
-    logout(request)
-    return redirect("login")
-
 def debug_calendar(request):
     """Debug view to get all the events on the calendar"""
     queryset = DataCalendar.objects.all()

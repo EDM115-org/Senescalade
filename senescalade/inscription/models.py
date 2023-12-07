@@ -18,7 +18,7 @@ class CustomUser(models.Model):
     confirm_password = models.CharField(max_length=100)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "inscription_customuser"
 
 
