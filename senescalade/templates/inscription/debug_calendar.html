@@ -1,35 +1,35 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
+        document.addEventListener("DOMContentLoaded", function() {
+            var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'fr',
-                initialView: 'timeGridWeek',
+                locale: "fr",
+                initialView: "timeGridWeek",
                 firstDay: 1,
-                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+                titleFormat: { year: "numeric", month: "long", day: "numeric" },
                 buttonText: {
-                    today:    'Aujourd\'hui',
-                    month:    'Mois',
-                    week:     'Semaine',
-                    day:      'Jour',
-                    list:     'Liste'
+                    today:    "Aujourd'hui",
+                    month:    "Mois",
+                    week:     "Semaine",
+                    day:      "Jour",
+                    list:     "Liste"
                 },
                 allDaySlot: false,
-                dayHeaderFormat: { weekday: 'long' },
+                dayHeaderFormat: { weekday: "long" },
                 headerToolbar: {
                     left: '',
                     center: '',
-                    right: 'prev,next'
+                    right: "prev,next"
                 },
                 selectable: true,
-                height: 'auto',
-                eventBackgroundColor: '#44475A',
-                eventBorderColor: '#BD93F9',
-                eventTextColor: '#F8F8F2',
+                height: "auto",
+                eventBackgroundColor: "#44475A",
+                eventBorderColor: "#BD93F9",
+                eventTextColor: "#F8F8F2",
             });
 
             const dayNameToIndex = {
@@ -77,16 +77,16 @@
 				var formattedDate = desiredDate.toISOString().slice(0, 10);
 
 				var event = {
-					id: '{{ instance.idSeance }}',
-					title: '{{ instance.typeSeance }}{% if instance.niveau != "" %} - {{ instance.niveau }}{% endif %}',
-					start: '{{ instance.heureSeance|safe }}',
-					end: '{{ instance.dureeSeance|safe }}',
+					id: "{{ instance.idSeance }}",
+					title: "{{ instance.typeSeance }}{% if instance.niveau != '' %} - {{ instance.niveau }}{% endif %}",
+					start: "{{ instance.heureSeance|safe }}",
+					end: "{{ instance.dureeSeance|safe }}",
 					allDay: false,
 					extendedProps: {
-						nbPlaces: '{{ instance.nbPlaces }}',
-						nbPlacesRestantes: '{{ instance.nbPlacesRestantes }}',
-						professeur: '{{ instance.professeur }}',
-						dureeSeance: '{{ instance.dureeSeance }}',
+						nbPlaces: "{{ instance.nbPlaces }}",
+						nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
+						professeur: "{{ instance.professeur }}",
+						dureeSeance: "{{ instance.dureeSeance }}",
 					},
 				};
 				event.start = formattedDate + 'T' + event.start;
@@ -102,6 +102,6 @@
 
     <h1>Choisissez votre créneau</h1>
 
-    <div id='calendar'></div>
+    <div id="calendar"></div>
 
 {% endblock %}
