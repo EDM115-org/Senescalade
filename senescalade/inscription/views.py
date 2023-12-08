@@ -36,7 +36,6 @@ def debug_calendar(request):
     """Debug view to get all the events on the calendar"""
     queryset = DataCalendar.objects.all()
     serialized_data = serializers.serialize('json', queryset)
-    print(queryset, "\n", serialized_data)
 
     return render(
         request,

@@ -115,6 +115,7 @@ function createEvent(idSeance, instance) {
             nbPlacesRestantes: instance.nbPlacesRestantes,
             professeur: instance.professeur,
             dureeSeance: instance.dureeSeance,
+            jourSeance: instance.jour,
         },
     };
     if (instance.niveau != '') {
