@@ -300,30 +300,6 @@ class Inscription(models.Model):
         """
         return cls.objects.filter(mail=mail)
 
-
-class InscriptionCustomuser(models.Model):
-    """
-    Represents a Django model for managing user registrations.
-
-    Fields:
-    - id: An AutoField that serves as the primary key for the InscriptionCustomuser model.
-    - birth_date: A DateField that stores the user's birth date.
-    - email: A CharField that stores the user's email address. It is unique.
-    - password: A CharField that stores the user's password.
-    - confirm_password: A CharField that stores the user's confirmed password.
-    """
-
-    id = models.BigAutoField(primary_key=True)
-    birth_date = models.DateField()
-    email = models.CharField(unique=True, max_length=254)
-    password = models.CharField(max_length=100)
-    confirm_password = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'inscription_customuser'
-
-
 class Personne(models.Model):
     """
     Represents a Django model for managing personal information of users.
