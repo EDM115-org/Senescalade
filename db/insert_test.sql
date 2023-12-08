@@ -48,6 +48,9 @@ INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces,
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 5, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
-INSERT INTO Inscription(mail, password, confirm_password, dateNaissance, isAdmin) VALUES ('admin@gmail.com', 'admin', 'admin', '1999-01-01', 1);
+INSERT INTO Inscription(idInscription, mail, password, confirm_password, dateNaissance, isAdmin) VALUES (1, 'admin@gmail.com', 'admin', 'admin', '1999-01-01', 1);
+INSERT INTO Inscription(idInscription, mail, password, confirm_password, dateNaissance, isAdmin) VALUES (2, 'user@gmail.com', 'user', 'user', '1999-01-01', 0);
+
+INSERT INTO Personne(action, nom, prenom, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, seance, lInscription) VALUES ('C', 'DUPONT', 'Jean', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
 
 INSERT INTO Admin(idAdmin, droit) VALUES (1, 'admin');
