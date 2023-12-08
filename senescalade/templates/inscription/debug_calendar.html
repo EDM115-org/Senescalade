@@ -7,7 +7,6 @@
     <script>
         var styleSheet = document.getElementById("draculaStylesheet");
         styleSheet.disabled = true;
-        //styleSheet.parentNode.removeChild(styleSheet);
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -93,88 +92,16 @@
                 },
             });
 
-            const dayNameToIndex = {
-                "Dimanche": 0,
-                "Lundi": 1,
-                "Mardi": 2,
-                "Mercredi": 3,
-                "Jeudi": 4,
-                "Vendredi": 5,
-                "Samedi": 6
-            };
-            const currentDate = new Date();
-            const currentDayIndex = currentDate.getDay();
-			console.log("currentDayIndex: " + currentDayIndex);
             var events = [];
-
-            {% for instance in data %}
-				var desiredDay = '{{ instance.jour }}';
-				var desiredDayIndex = dayNameToIndex[desiredDay];
-				var daysDifference = desiredDayIndex - currentDayIndex;
-				var originalDaysDifference = Math.abs(daysDifference);
-				var desiredDate = new Date(currentDate);
-
-				console.log("desiredDay: " + desiredDay);
-				console.log("desiredDayIndex: " + desiredDayIndex);
-				console.log("daysDifference: " + daysDifference);
-				console.log("originalDaysDifference: " + originalDaysDifference);
-				
-				if (desiredDayIndex == currentDayIndex) {
-					// do nothing
-					console.log("do nothing");
-				} else if (currentDayIndex == 0) {
-					daysDifference -= 7;
-					console.log("currentDayIndex == 0");
-				} else if (originalDaysDifference == 6) {
-					daysDifference += 7;
-					console.log("originalDaysDifference == 6");
-				} else if (desiredDayIndex == 0 && daysDifference < 0) {
-					daysDifference += 7;
-					console.log("desiredDayIndex == 0 && daysDifference < 0");
-				}
-				
-				desiredDate.setDate(currentDate.getDate() + daysDifference);
-				console.log("desiredDate: " + desiredDate);
-				var formattedDate = desiredDate.toISOString().slice(0, 10);
-
-				var event = {
-					id: "{{ instance.idSeance }}",
-					title: "{{ instance.typeSeance }}{% if instance.niveau != '' %} - {{ instance.niveau }}{% endif %}",
-					start: "{{ instance.heureSeance|safe }}",
-					end: "{{ instance.dureeSeance|safe }}",
-					allDay: false,
-					extendedProps: {
-						nbPlaces: "{{ instance.nbPlaces }}",
-						nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
-						professeur: "{{ instance.professeur }}",
-						dureeSeance: "{{ instance.dureeSeance }}",
-                        jourSeance: "{{ instance.jour }}",
-					},
-                    backgroundColor: "{% if instance.nbPlacesRestantes > 0 %}#44475A{% else %}#FF5555{% endif %}",
-                    textColor: "{% if instance.nbPlacesRestantes > 0 %}#F8F8F2{% else %}#282A36{% endif %}"
-				};
-				event.start = formattedDate + 'T' + event.start;
-				event.end = formattedDate + 'T' + event.end;
-	
-				events.push(event);
-            {% endfor %}
-
-            function checkAllEventsFull() {
-                var allFull = true;
-                calendar.getEvents().forEach(function(event) {
-                    if (event.extendedProps.nbPlacesRestantes > 0) {
-                        allFull = false;
-                    }
-                });
-        
-                if (allFull) {
-                    document.getElementById("waitlistForm").style.display = "";
-                }
-            }
+            var dataCalendarData = JSON.parse('{{ data|safe }}');
+            dataCalendarData.forEach(instance => {
+                var event = createEvent(instance.pk, instance.fields);
+                events.push(event);
+            });
 
             calendar.addEventSource(events);
             calendar.render();
-            checkAllEventsFull();
+            checkAllEventsFull(calendar, document);
         });
     </script>
 
