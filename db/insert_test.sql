@@ -48,6 +48,6 @@ INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces,
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 0, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 10, 'Pierre');
 
-INSERT INTO Inscription(mail, password, confirm_password, dateNaissance, isAdmin) VALUES ('admin@glaim.com', 'admin', 'admin', '1999-01-01', 1);
+INSERT INTO Inscription(mail, password, confirm_password, dateNaissance, isAdmin) VALUES ('admin@gmail.com', 'admin', 'admin', '1999-01-01', 1);
 
 INSERT INTO Admin(idAdmin, droit) VALUES (1, 'admin');
