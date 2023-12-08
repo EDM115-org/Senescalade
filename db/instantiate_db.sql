@@ -37,6 +37,7 @@ CREATE TABLE Inscription (
     idInscription INT AUTO_INCREMENT PRIMARY KEY,
     mail VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
+    confirm_password VARCHAR(100) NOT NULL,
     dateNaissance DATE NOT NULL
 );
 
