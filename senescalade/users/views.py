@@ -20,7 +20,11 @@ def login_user(request):
                 return render(request, "users/login.html", {"form": form})
 
             if mail == user.mail and password == user.password:
-                return render(request, "users/success.html")
+                if user.isAdmin == 1:
+                    return render(request, "users/PortailAdmin/success.html")
+                else :
+                    return render(request, "users/PortailUser/success.html")
+            
     else:
         form = CustomUserLoginForm()
     
