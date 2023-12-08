@@ -6,20 +6,21 @@ class CustomUser(models.Model):
     Represents a custom user in the system.
 
     Attributes:
-        birth_date (DateField): The birth date of the user.
-        email (EmailField): The email address of the user.
+        dateNaissance (DateField): The birth date of the user.
+        mail (EmailField): The email address of the user.
         password (CharField): The password of the user.
         confirm_password (CharField): The confirmed password of the user.
     """
 
-    birth_date = models.DateField()
-    email = models.EmailField(unique=False)
+    idInscription = models.IntegerField(primary_key=True)
+    dateNaissance = models.DateField()
+    mail = models.EmailField(unique=False)
     password = models.CharField(max_length=100)
     confirm_password = models.CharField(max_length=100)
 
     class Meta:
-        managed = True
-        db_table = "inscription_customuser"
+        managed = False
+        db_table = "Inscription"
 
 
 class DataCalendar(models.Model):

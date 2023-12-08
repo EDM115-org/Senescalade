@@ -8,11 +8,11 @@ class CustomUserLoginForm(forms.Form):
     A form for user login with email and password fields.
     """
 
-    email = forms.EmailField()
+    mail = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
     labels = {
-        "email": _("Email"),
+        "mail": _("Email"),
         "password": _("Mot de passe"),
     }
 
