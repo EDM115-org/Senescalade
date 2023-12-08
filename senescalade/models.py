@@ -255,51 +255,12 @@ class Inscription(models.Model):
     password = models.CharField(max_length=100)
     confirm_password = models.CharField(max_length=100)
     datenaissance = models.DateField(db_column='dateNaissance')
+    isadmin = models.BooleanField(db_column='isAdmin', default=False, db_default='False')
 
     class Meta:
         managed = False
         db_table = 'inscription'
 
-    @classmethod
-    def create(cls, mail, password, datenaissance):
-        """
-        Creates a new Inscription object with the specified email, password, and date of birth.
-
-        Args:
-        - mail: The email of the user registration.
-        - password: The password of the user registration.
-        - datenaissance: The date of birth of the user registration.
-
-        Returns:
-        - The newly created Inscription object.
-        """
-        return cls.objects.create(mail=mail, password=password, datenaissance=datenaissance)
-
-    @classmethod
-    def get(cls, idinscription):
-        """
-        Retrieves the Inscription object with the specified ID.
-
-        Args:
-        - idinscription: The ID of the Inscription object to retrieve.
-
-        Returns:
-        - The Inscription object with the specified ID.
-        """
-        return cls.objects.get(idinscription=idinscription)
-
-    @classmethod
-    def filter(cls, mail):
-        """
-        Returns a queryset of Inscription objects that match the specified email.
-
-        Args:
-        - mail: The email to filter by.
-
-        Returns:
-        - A queryset of Inscription objects that match the specified email.
-        """
-        return cls.objects.filter(mail=mail)
 
 class Personne(models.Model):
     """

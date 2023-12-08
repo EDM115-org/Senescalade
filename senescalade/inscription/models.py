@@ -17,6 +17,7 @@ class CustomUser(models.Model):
     mail = models.EmailField(unique=False)
     password = models.CharField(max_length=100)
     confirm_password = models.CharField(max_length=100)
+    isAdmin = models.BooleanField(default=False)
 
     class Meta:
         managed = False

@@ -21,10 +21,11 @@ class CustomUserCreationForm(forms.ModelForm):
         password: "Mot de passe"
         confirm_password: "Confirmez le mot de passe"
     """
+    isAdmin = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = CustomUser
-        fields = ["dateNaissance", "mail", "password", "confirm_password"]
+        fields = ["dateNaissance", "mail", "password", "confirm_password", "isAdmin"]
         widgets = {
             "dateNaissance": forms.DateInput(attrs={"type": "date"}),
             "mail": forms.EmailInput(),
