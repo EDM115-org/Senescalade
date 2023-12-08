@@ -37,7 +37,11 @@ CREATE TABLE Inscription (
     idInscription INT AUTO_INCREMENT PRIMARY KEY,
     mail VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    dateNaissance DATE NOT NULL
+    dateNaissance DATE NOT NULL,
+    laPersonne INT,
+    isAdmin BOOLEAN NOT NULL,
+    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+
 );
 
 CREATE TABLE Personne (
@@ -79,10 +83,9 @@ CREATE TABLE Personne (
 );
 
 CREATE TABLE Admin (
-    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
-    droit CHAR(5) NOT NULL,
-    laPersonne INT NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+    idAdmin INT PRIMARY KEY,
+    droit CHAR(5) NOT NULL
+    FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
 );
 
 DELIMITER //
