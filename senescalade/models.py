@@ -253,6 +253,7 @@ class Inscription(models.Model):
     idinscription = models.AutoField(db_column='idInscription', primary_key=True)
     mail = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
+    confirm_password = models.CharField(max_length=100)
     datenaissance = models.DateField(db_column='dateNaissance')
 
     class Meta:
