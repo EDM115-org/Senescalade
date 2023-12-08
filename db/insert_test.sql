@@ -34,7 +34,7 @@ INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces,
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mardi', '19:00:00', '20:30:00', 'Jeunes', 'Perf', 20, 20, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mardi', '20:00:00', '22:00:00', 'Adultes', '', 20, 20, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mercredi', '15:30:00', '17:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre');
-INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 10, 'Pierre');
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 0, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U16', 10, 10, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U18', 10, 10, 'Pierre');
@@ -45,8 +45,8 @@ INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces,
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '11:00:00', '12:30:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '13:30:00', '15:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '15:00:00', '16:30:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
-INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 0, 'Pierre');
-INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 10, 'Pierre');
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 5, 'Pierre');
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 INSERT INTO Inscription(mail, password, confirm_password, dateNaissance, isAdmin) VALUES ('admin@glaim.com', 'admin', 'admin', '1999-01-01', 1);
 
