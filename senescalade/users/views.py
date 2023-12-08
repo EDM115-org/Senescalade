@@ -11,21 +11,16 @@ def login_user(request):
     if request.method == "POST":
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data["email"]
+            mail = form.cleaned_data["mail"]
             password = form.cleaned_data["password"]
             
             try:
-                user = get_object_or_404(CustomUser, email=email)
+                user = get_object_or_404(CustomUser, mail=mail)
             except Http404:
                 return render(request, "users/login.html", {"form": form})
 
-            if email == user.email and password == user.password:
+            if mail == user.mail and password == user.password:
                 return render(request, "users/success.html")
-            
-            else:
-                messages.error(request, 'Identifiants invalides. Vérifiez vos champs.')
-        else:
-            messages.error(request, 'Formulaire invalide. Vérifiez vos champs.')
     else:
         form = CustomUserLoginForm()
     
