@@ -24,16 +24,16 @@ class CustomUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ["birth_date", "email", "password", "confirm_password"]
+        fields = ["dateNaissance", "mail", "password", "confirm_password"]
         widgets = {
-            "birth_date": forms.DateInput(attrs={"type": "date"}),
-            "email": forms.EmailInput(),
+            "dateNaissance": forms.DateInput(attrs={"type": "date"}),
+            "mail": forms.EmailInput(),
             "password": forms.PasswordInput(),
             "confirm_password": forms.PasswordInput(),
         }
         labels = {
-            "birth_date": _("Date de naissance"),
-            "email": _("Email"),
+            "dateNaissance": _("Date de naissance"),
+            "mail": _("Email"),
             "password": _("Mot de passe"),
             "confirm_password": _("Confirmez le mot de passe"),
         }
@@ -42,5 +42,5 @@ class CustomUserCreationForm(forms.ModelForm):
 class CustomUserLoginForm(forms.Form):
     """A form for user login with email and password fields."""
 
-    email = forms.EmailField()
+    mail = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
