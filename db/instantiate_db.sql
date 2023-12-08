@@ -39,9 +39,7 @@ CREATE TABLE Inscription (
     password VARCHAR(100) NOT NULL,
     confirm_password VARCHAR(100) NOT NULL,
     dateNaissance DATE NOT NULL,
-    laPersonne INT,
-    isAdmin BOOLEAN NOT NULL,
-    FOREIGN KEY (laPersonne) REFERENCES Personne(idPersonne)
+    isAdmin BOOLEAN NOT NULL
 );
 
 CREATE TABLE Personne (
@@ -84,7 +82,7 @@ CREATE TABLE Personne (
 
 CREATE TABLE Admin (
     idAdmin INT PRIMARY KEY,
-    droit CHAR(5) NOT NULL
+    droit CHAR(5) NOT NULL,
     FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
 );
 
