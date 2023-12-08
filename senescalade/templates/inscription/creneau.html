@@ -5,6 +5,8 @@
 
     <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
+        var styleSheet = document.getElementById("draculaStylesheet");
+        styleSheet.disabled = true;
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -31,144 +33,110 @@
                 eventBackgroundColor: "#44475A",
                 eventBorderColor: "#BD93F9",
                 eventTextColor: "#F8F8F2",
+                eventClick: function(info) {
+                    if (info.event.extendedProps.nbPlacesRestantes <= 0) {
+                        return;
+                    }
+                    document.getElementById("eventDetails").innerText = 
+                        info.event.title + ", " +
+                        info.event.extendedProps.jourSeance + ", " +
+                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
+                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
+                        "Places: " + info.event.extendedProps.nbPlaces + ", " +
+                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+                    if (selectedEventId) {
+                        var oldEvent = calendar.getEventById(selectedEventId);
+                        if (oldEvent) {
+                            oldEvent.setProp('backgroundColor', '#44475A');
+                            oldEvent.setProp('textColor', '#F8F8F2');
+                        }
+                    }
+                    info.event.setProp('backgroundColor', '#50FA7B');
+                    info.event.setProp('textColor', '#282A36');
+                    selectedEventId = info.event.id;
+                    document.getElementById("selectedEventId").value = selectedEventId;
+                    document.getElementById("eventForm").style.display = "";
+                },
+                eventMouseEnter: function(info) {
+                    if (info.event.extendedProps.nbPlacesRestantes > 0) {
+                        info.el.style.cursor = "pointer";
+                    } else {
+                        return;
+                    }
+                    var tooltip = document.createElement("div");
+                    tooltip.style.position = "absolute";
+                    tooltip.style.top = info.jsEvent.pageY + "px";
+                    tooltip.style.left = info.jsEvent.pageX + "px";
+                    tooltip.style.backgroundColor = "#282A36";
+                    tooltip.style.color = "#F8F8F2";
+                    tooltip.style.padding = "5px";
+                    tooltip.style.borderRadius = "5px";
+                    tooltip.style.zIndex = "1000";
+                    tooltip.innerText = 
+                        info.event.title + ", " +
+                        info.event.extendedProps.jourSeance + ", " +
+                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
+                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
+                        "Places: " + info.event.extendedProps.nbPlaces + ", " +
+                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+                    document.body.appendChild(tooltip);
+                    info.el.addEventListener("mouseleave", function() {
+                        try {
+                            if (tooltip && tooltip.parentNode) {
+                                tooltip.parentNode.removeChild(tooltip);
+                            }
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    });
+                },
             });
 
-            const dayNameToIndex = {
-                "Dimanche": 0,
-                "Lundi": 1,
-                "Mardi": 2,
-                "Mercredi": 3,
-                "Jeudi": 4,
-                "Vendredi": 5,
-                "Samedi": 6
-            };
-            const currentDate = new Date();
-            const currentDayIndex = currentDate.getDay();
+            var checkbox = document.getElementById('waitlistCheckbox');
+            var submitButton = document.getElementById('submitWaitlist');
+
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    submitButton.style.display = 'block';
+                } else {
+                    submitButton.style.display = 'none';
+                }
+            });
+
             var userCategory = determineCategory(convertDateFormat("{{ user.dateNaissance }}"));
             var events = [];
-
-            {% for instance in data %}
-                if (userCategory == "{{ instance.typeSeance }}" && userCategory == "Babygrimpe") {
-                    var desiredDay = '{{ instance.jour }}';
-                    var desiredDayIndex = dayNameToIndex[desiredDay];
-                    var daysDifference = desiredDayIndex - currentDayIndex;
-                    var originalDaysDifference = Math.abs(daysDifference);
-                    var desiredDate = new Date(currentDate);
-                    
-                    if (desiredDayIndex == currentDayIndex) {
-                        // do nothing
-                    } else if (currentDayIndex == 0) {
-                        daysDifference -= 7;
-                    } else if (originalDaysDifference == 6) {
-                        daysDifference += 7;
-                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
-                        daysDifference += 7;
-                    }
-                    
-                    desiredDate.setDate(currentDate.getDate() + daysDifference);
-                    var formattedDate = desiredDate.toISOString().slice(0, 10);
-
-                    var event = {
-                        id: "{{ instance.idSeance }}",
-                        title: "{{ instance.typeSeance }}{% if instance.niveau != '' %} - {{ instance.niveau }}{% endif %}",
-                        start: "{{ instance.heureSeance|safe }}",
-                        end: "{{ instance.dureeSeance|safe }}",
-                        allDay: false,
-                        extendedProps: {
-                            nbPlaces: "{{ instance.nbPlaces }}",
-                            nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
-                            professeur: "{{ instance.professeur }}",
-                            dureeSeance: "{{ instance.dureeSeance }}",
-                        },
-                    };
-                    event.start = formattedDate + 'T' + event.start;
-                    event.end = formattedDate + 'T' + event.end;
-        
+            var dataCalendarData = JSON.parse('{{ data|safe }}');
+            dataCalendarData.forEach(instance => {
+                if (userCategory == instance.fields.typeSeance) {
+                    var event = createEvent(instance.pk, instance.fields);
                     events.push(event);
-                } else if (userCategory == "{{ instance.typeSeance }}" && userCategory == "Adultes") {
-                    var desiredDay = '{{ instance.jour }}';
-                    var desiredDayIndex = dayNameToIndex[desiredDay];
-                    var daysDifference = desiredDayIndex - currentDayIndex;
-                    var originalDaysDifference = Math.abs(daysDifference);
-                    var desiredDate = new Date(currentDate);
-                    
-                    if (desiredDayIndex == currentDayIndex) {
-                        // do nothing
-                    } else if (currentDayIndex == 0) {
-                        daysDifference -= 7;
-                    } else if (originalDaysDifference == 6) {
-                        daysDifference += 7;
-                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
-                        daysDifference += 7;
-                    }
-                    
-                    desiredDate.setDate(currentDate.getDate() + daysDifference);
-                    var formattedDate = desiredDate.toISOString().slice(0, 10);
-
-                    var event = {
-                        id: "{{ instance.idSeance }}",
-                        title: "{{ instance.typeSeance }}{% if instance.niveau != '' %} - {{ instance.niveau }}{% endif %}",
-                        start: "{{ instance.heureSeance|safe }}",
-                        end: "{{ instance.dureeSeance|safe }}",
-                        allDay: false,
-                        extendedProps: {
-                            nbPlaces: "{{ instance.nbPlaces }}",
-                            nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
-                            professeur: "{{ instance.professeur }}",
-                            dureeSeance: "{{ instance.dureeSeance }}",
-                        },
-                    };
-                    event.start = formattedDate + 'T' + event.start;
-                    event.end = formattedDate + 'T' + event.end;
-        
-                    events.push(event);
-                } else if ("{{ instance.typeSeance }}" == "Jeunes" && "{{ instance.niveau }}" == userCategory) {
-                    var desiredDay = '{{ instance.jour }}';
-                    var desiredDayIndex = dayNameToIndex[desiredDay];
-                    var daysDifference = desiredDayIndex - currentDayIndex;
-                    var originalDaysDifference = Math.abs(daysDifference);
-                    var desiredDate = new Date(currentDate);
-                    
-                    if (desiredDayIndex == currentDayIndex) {
-                        // do nothing
-                    } else if (currentDayIndex == 0) {
-                        daysDifference -= 7;
-                    } else if (originalDaysDifference == 6) {
-                        daysDifference += 7;
-                    } else if (desiredDayIndex == 0 && daysDifference < 0) {
-                        daysDifference += 7;
-                    }
-                    
-                    desiredDate.setDate(currentDate.getDate() + daysDifference);
-                    var formattedDate = desiredDate.toISOString().slice(0, 10);
-
-                    var event = {
-                        id: "{{ instance.idSeance }}",
-                        title: "{{ instance.typeSeance }}{% if instance.niveau != '' %} - {{ instance.niveau }}{% endif %}",
-                        start: "{{ instance.heureSeance|safe }}",
-                        end: "{{ instance.dureeSeance|safe }}",
-                        allDay: false,
-                        extendedProps: {
-                            nbPlaces: "{{ instance.nbPlaces }}",
-                            nbPlacesRestantes: "{{ instance.nbPlacesRestantes }}",
-                            professeur: "{{ instance.professeur }}",
-                            dureeSeance: "{{ instance.dureeSeance }}",
-                        },
-                    };
-                    event.start = formattedDate + 'T' + event.start;
-                    event.end = formattedDate + 'T' + event.end;
-        
+                } else if (instance.fields.typeSeance == "Jeunes" && instance.fields.niveau == userCategory) {
+                    var event = createEvent(instance.pk, instance.fields);
                     events.push(event);
                 }
-            {% endfor %}
+            });
 
             calendar.addEventSource(events);
             calendar.render();
+            checkAllEventsFull(calendar, document);
         });
     </script>
 
     <h1>Choisissez votre créneau</h1>
-
+    <div id="eventDetails"></div>
+    <form id="eventForm" style="display: none;" action="votre_url_suivante" method="post">
+        <input type="hidden" id="selectedEventId" name="selectedEventId" value="0">
+        {% csrf_token %}
+        <button type="submit">Suivant</button>
+    </form>
+    <form id="waitlistForm" style="display: none;" action="your_waitlist_url" method="post">
+        <h2>Toutes les places sont prises. En attendant qu'une place se libère, vous pouvez vous inscrire sur liste d'attente, et nous vous enverrons un mail si une place se libère.</h2>
+        {% csrf_token %}
+        <label for="waitlistCheckbox">Je souhaite être inscrit sur la liste d'attente</label>
+        <input type="checkbox" id="waitlistCheckbox" name="waitlistCheckbox" value="0">
+        <button type="submit" id="submitWaitlist" style="display: none;">S'inscrire à la liste d'attente</button>
+    </form>
+    
     <div id="calendar"></div>
 
 {% endblock %}

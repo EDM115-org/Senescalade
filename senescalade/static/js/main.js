@@ -192,7 +192,7 @@ function eventMouseEnter(info, document) {
     });
 }
 
-function checkAllEventsFull() {
+function checkAllEventsFull(calendar, document) {
     var allFull = true;
     calendar.getEvents().forEach(function(event) {
         if (event.extendedProps.nbPlacesRestantes > 0) {

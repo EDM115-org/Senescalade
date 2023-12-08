@@ -96,13 +96,12 @@
             var dataCalendarData = JSON.parse('{{ data|safe }}');
             dataCalendarData.forEach(instance => {
                 var event = createEvent(instance.pk, instance.fields);
-                console.log(event);
                 events.push(event);
             });
 
             calendar.addEventSource(events);
             calendar.render();
-            checkAllEventsFull();
+            checkAllEventsFull(calendar, document);
         });
     </script>
 
