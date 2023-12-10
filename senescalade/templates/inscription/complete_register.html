@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Compléter l'inscription</h1>
+{{ id }}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_id" value="complete_register" />
+    {{ form.as_p }}
+    <button type="submit">Terminer l'inscription</button>
+</form>
+{% endblock %}

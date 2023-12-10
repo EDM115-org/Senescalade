@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import CustomUser
+from .models import CustomUser, CustomPersonne
 
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -43,8 +43,113 @@ class CustomUserCreationForm(forms.ModelForm):
         }
 
 
-class CustomUserLoginForm(forms.Form):
-    """A form for user login with email and password fields."""
+class CompleteUserCreationForm(forms.ModelForm):
+    """
+    A form for completing the user's profile.
 
-    mail = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    Inherits from forms.ModelForm and provides fields and widgets for user profile completion.
+
+    Attributes:
+        nom (TextInput): The user's last name.
+        prenom (TextInput): The user's first name.
+        telephone (TextInput): The user's phone number.
+        adresse (TextInput): The user's address.
+        codePostal (TextInput): The user's postal code.
+        ville (TextInput): The user's city.
+        pays (TextInput): The user's country.
+
+    Labels:
+        nom: "Nom"
+        prenom: "Prénom"
+        telephone: "Téléphone"
+        adresse: "Adresse"
+        codePostal: "Code postal"
+        ville: "Ville"
+        pays: "Pays"
+    """
+
+    class Meta:
+        model = CustomPersonne
+        fields = [
+            "nom",
+            "prenom",
+            "sexe",
+            "nationalite",
+            "adresse",
+            "complementAdresse",
+            "codePostal",
+            "ville",
+            "pays",
+            "telephone",
+            "mobile",
+            "courriel2",
+            "personneNom",
+            "personnePrenom",
+            "personneTelephone",
+            "personneCourriel",
+            "assurance",
+            "optionSki",
+            "optionSlackline",
+            "optionTrail",
+            "optionVTT",
+            "optionAssurance",
+        ]
+        widgets = {
+            "nom": forms.TextInput(),
+            "prenom": forms.TextInput(),
+            "sexe": forms.RadioSelect(choices=CustomPersonne.SEXE_CHOICES),
+            "nationalite": forms.TextInput(),
+            "adresse": forms.TextInput(),
+            "complementAdresse": forms.TextInput(),
+            "codePostal": forms.TextInput(),
+            "ville": forms.TextInput(),
+            "pays": forms.TextInput(),
+            "telephone": forms.TextInput(),
+            "mobile": forms.TextInput(),
+            "courriel2": forms.EmailInput(),
+            "personneNom": forms.TextInput(),
+            "personnePrenom": forms.TextInput(),
+            "personneTelephone": forms.TextInput(),
+            "personneCourriel": forms.EmailInput(),
+            "assurance": forms.RadioSelect(choices=CustomPersonne.ASSURANCE_CHOICES),
+            "optionSki": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionSlackline": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionTrail": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionVTT": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionAssurance": forms.RadioSelect(choices=CustomPersonne.OPTION_ASSURANCE_CHOICES)
+        }
+        labels = {
+            "nom": _("Nom"),
+            "prenom": _("Prénom"),
+            "sexe": _("Sexe"),
+            "nationalite": _("Nationalité (un code pays en 2 lettres, ex: FR pour France)"),
+            "adresse": _("Adresse"),
+            "complementAdresse": _("Complément d'adresse (facultatif)"),
+            "codePostal": _("Code postal"),
+            "ville": _("Ville"),
+            "pays": _("Pays"),
+            "telephone": _("Téléphone (facultatif)"),
+            "mobile": _("Mobile (facultatif)"),
+            "courriel2": _("Second Email (facultatif)"),
+            "personneNom": _("Nom de la personne à contacter (facultatif)"),
+            "personnePrenom": _("Prénom de la personne à contacter (facultatif)"),
+            "personneTelephone": _("Téléphone de la personne à contacter (facultatif)"),
+            "personneCourriel": _("Email de la personne à contacter (facultatif)"),
+            "assurance": _("Assurance"),
+            "optionSki": _("Option ski"),
+            "optionSlackline": _("Option slackline"),
+            "optionTrail": _("Option trail"),
+            "optionVTT": _("Option VTT"),
+            "optionAssurance": _("Option assurance")
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CompleteUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['complementAdresse'].required = False
+        self.fields['telephone'].required = False
+        self.fields['mobile'].required = False
+        self.fields['courriel2'].required = False
+        self.fields['personneNom'].required = False
+        self.fields['personnePrenom'].required = False
+        self.fields['personneTelephone'].required = False
+        self.fields['personneCourriel'].required = False

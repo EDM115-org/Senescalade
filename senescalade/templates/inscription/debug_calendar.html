@@ -96,15 +96,17 @@
 
     <h1>Choisissez votre créneau</h1>
     <div id="eventDetails"></div>
-    <form id="eventForm" style="display: none;" action="votre_url_suivante" method="post">
-        <input type="hidden" id="selectedEventId" name="selectedEventId" value="0">
+    <form id="eventForm" style="display: none;" method="post">
         {% csrf_token %}
+        <input type="hidden" id="selectedEventId" name="selectedEventId" value="0">
+        <input type="hidden" name="form_id" value="creneau" />
         <button type="submit">Suivant</button>
     </form>
-    <form id="waitlistForm" style="display: none;" action="your_waitlist_url" method="post">
+    <form id="waitlistForm" style="display: none;" method="post">
         <h2>Toutes les places sont prises. En attendant qu'une place se libère, vous pouvez vous inscrire sur liste d'attente, et nous vous enverrons un mail si une place se libère.</h2>
         {% csrf_token %}
         <input type="checkbox" id="waitlistCheckbox" name="waitlistCheckbox" value="0">
+        <input type="hidden" name="form_id" value="waitlist" />
         <button type="submit">S'inscrire à la liste d'attente</button>
     </form>
     <div id="calendar"></div>
