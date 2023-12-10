@@ -1,9 +1,9 @@
 # users/views.py
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from .forms import CustomUserLoginForm
 from inscription.models import CustomUser, CustomPersonne
-from django.http import Http404
 
 
 def login_user(request):
