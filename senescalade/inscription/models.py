@@ -43,7 +43,8 @@ class DataCalendar(models.Model):
         managed = False
         db_table = "Seance"
 
-class CustomPersonne (models.Model):
+
+class CustomPersonne(models.Model):
     """
     Personne(idPersonne (INT, PK), action (CHAR(1)), nom (CHAR(100)), prenom (CHAR(100)), sexe (CHAR(1)), nationalite (CHAR(2)), adresse (CHAR(255)), complementAdresse (CHAR(255)), codePostal (CHAR(5)), ville (CHAR(100)), pays (CHAR(2)), telephone (CHAR(10)), mobile (CHAR(10)), courriel2 (CHAR(100)), personneNom (CHAR(100)), personnePrenom (CHAR(100)), personneTelephone (CHAR(15)), personneCourriel (CHAR(100)), numLicence (CHAR(6)), typeLicence (CHAR(1)), assurance (CHAR(2)), optionSki (BOOL), optionSlackline (BOOL), optionTrail (BOOL), optionVTT (BOOL), optionAssurance (BOOL), seance (INT), lInscription (INT))
     """

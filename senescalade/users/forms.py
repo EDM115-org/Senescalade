@@ -15,5 +15,3 @@ class CustomUserLoginForm(forms.Form):
         "mail": _("Email"),
         "password": _("Mot de passe"),
     }
-
-

@@ -21,7 +21,10 @@ class CustomUserCreationForm(forms.ModelForm):
         password: "Mot de passe"
         confirm_password: "Confirmez le mot de passe"
     """
-    isAdmin = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False)
+
+    isAdmin = forms.BooleanField(
+        initial=False, widget=forms.HiddenInput(), required=False
+    )
 
     class Meta:
         model = CustomUser
