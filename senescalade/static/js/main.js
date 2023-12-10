@@ -134,13 +134,13 @@ function createEvent(idSeance, instance) {  // skipcq: JS-0128
     const originalDaysDifference = Math.abs(daysDifference);
     let desiredDate = new Date(currentDate);
     
-    if (desiredDayIndex == currentDayIndex) {
+    if (desiredDayIndex === currentDayIndex) {
         // do nothing
-    } else if (currentDayIndex == 0) {
+    } else if (currentDayIndex === 0) {
         daysDifference -= 7;
-    } else if (originalDaysDifference == 6) {
+    } else if (originalDaysDifference === 6) {
         daysDifference += 7;
-    } else if (desiredDayIndex == 0 && daysDifference < 0) {
+    } else if (desiredDayIndex === 0 && daysDifference < 0) {
         daysDifference += 7;
     }
 
@@ -161,7 +161,7 @@ function createEvent(idSeance, instance) {  // skipcq: JS-0128
             jourSeance: instance.jour,
         },
     };
-    if (instance.niveau != '') {
+    if (instance.niveau !== '') {
         event.title += ` - ${instance.niveau}`;
     }
     if (instance.nbPlacesRestantes > 0) {
