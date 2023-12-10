@@ -254,7 +254,7 @@ function eventMouseEnter(info, document) {
         "Places: " + info.event.extendedProps.nbPlaces + ", " +
         "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
     document.body.appendChild(tooltip);
-    info.el.addEventListener("mouseleave", function() {
+    info.el.addEventListener("mouseleave", () => {
         try {
             if (tooltip && tooltip.parentNode) {
                 tooltip.parentNode.removeChild(tooltip);
@@ -262,7 +262,7 @@ function eventMouseEnter(info, document) {
         } catch (e) {
             console.error(e);
         }
-    });
+    });    
 }
 
 
@@ -274,7 +274,7 @@ function eventMouseEnter(info, document) {
  */
 function checkAllEventsFull(calendar, document) {
     var allFull = true;
-    calendar.getEvents().forEach(function(event) {
+    calendar.getEvents().forEach(event => {
         if (event.extendedProps.nbPlacesRestantes > 0) {
             allFull = false;
         }
