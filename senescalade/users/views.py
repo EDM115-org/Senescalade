@@ -7,6 +7,15 @@ from django.http import Http404
 
 
 def login_user(request):
+    """
+    Handles user login functionality.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing the user's login information.
+
+    Returns:
+        Rendered HTML page: The rendered login form or one of the success pages based on the user's role and enrollment status.
+    """
     if request.method == "POST":
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
