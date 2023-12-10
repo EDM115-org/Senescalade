@@ -4,9 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserLoginForm(forms.Form):
-    """
-    A form for user login with email and password fields.
-    """
+    """A form for user login with email and password fields."""
 
     mail = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
