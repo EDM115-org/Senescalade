@@ -38,22 +38,21 @@ def login_user(request):
                     return render(
                         request, "users/PortailAdmin/success.html", {"user": user}
                     )
-                else:
-                    try:
-                        get_object_or_404(
-                            CustomPersonne, lInscription=user.idInscription
-                        )
-                        return render(
-                            request,
-                            "users/PortailUser/Inscrit/success.html",
-                            {"user": user},
-                        )
-                    except Http404:
-                        return render(
-                            request,
-                            "users/PortailUser/NonInscrit/success.html",
-                            {"user": user},
-                        )
+                try:
+                    get_object_or_404(
+                        CustomPersonne, lInscription=user.idInscription
+                    )
+                    return render(
+                        request,
+                        "users/PortailUser/Inscrit/success.html",
+                        {"user": user},
+                    )
+                except Http404:
+                    return render(
+                        request,
+                        "users/PortailUser/NonInscrit/success.html",
+                        {"user": user},
+                    )
 
     else:
         form = CustomUserLoginForm()
