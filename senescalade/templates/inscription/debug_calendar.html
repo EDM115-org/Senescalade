@@ -5,11 +5,11 @@
 
     <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
-        var styleSheet = document.getElementById("draculaStylesheet");
+        let styleSheet = document.getElementById("draculaStylesheet");
         styleSheet.disabled = true;
         document.addEventListener("DOMContentLoaded", function() {
-            var calendarEl = document.getElementById("calendar");
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            let calendarEl = document.getElementById("calendar");
+            let calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: "fr",
                 initialView: "timeGridWeek",
                 firstDay: 1,
@@ -37,15 +37,10 @@
                     if (info.event.extendedProps.nbPlacesRestantes <= 0) {
                         return;
                     }
-                    document.getElementById("eventDetails").innerText = 
-                        info.event.title + ", " +
-                        info.event.extendedProps.jourSeance + ", " +
-                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
-                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
-                        "Places: " + info.event.extendedProps.nbPlaces + ", " +
-                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+                    document.getElementById("eventDetails").innerText = `${info.event.title}, ${info.event.extendedProps.jourSeance}, ${info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}, Durée: ${minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance))}, Places: ${info.event.extendedProps.nbPlaces}, Restantes: ${info.event.extendedProps.nbPlacesRestantes}`;
+
                     if (selectedEventId) {
-                        var oldEvent = calendar.getEventById(selectedEventId);
+                        let oldEvent = calendar.getEventById(selectedEventId);
                         if (oldEvent) {
                             oldEvent.setProp('backgroundColor', '#44475A');
                             oldEvent.setProp('textColor', '#F8F8F2');
@@ -63,24 +58,18 @@
                     } else {
                         return;
                     }
-                    var tooltip = document.createElement("div");
+                    let tooltip = document.createElement("div");
                     tooltip.style.position = "absolute";
-                    tooltip.style.top = info.jsEvent.pageY + "px";
-                    tooltip.style.left = info.jsEvent.pageX + "px";
+                    tooltip.style.top = `${info.jsEvent.pageY}px`;
+                    tooltip.style.left = `${info.jsEvent.pageX}px`;
                     tooltip.style.backgroundColor = "#282A36";
                     tooltip.style.color = "#F8F8F2";
                     tooltip.style.padding = "5px";
                     tooltip.style.borderRadius = "5px";
                     tooltip.style.zIndex = "1000";
-                    tooltip.innerText = 
-                        info.event.title + ", " +
-                        info.event.extendedProps.jourSeance + ", " +
-                        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
-                        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
-                        "Places: " + info.event.extendedProps.nbPlaces + ", " +
-                        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+                    tooltip.innerText = `${info.event.title}, ${info.event.extendedProps.jourSeance}, ${info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}, Durée: ${minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance))}, Places: ${info.event.extendedProps.nbPlaces}, Restantes: ${info.event.extendedProps.nbPlacesRestantes}`;
                     document.body.appendChild(tooltip);
-                    info.el.addEventListener("mouseleave", function() {
+                    info.el.addEventListener("mouseleave", () => {
                         try {
                             if (tooltip && tooltip.parentNode) {
                                 tooltip.parentNode.removeChild(tooltip);
@@ -92,10 +81,10 @@
                 },
             });
 
-            var events = [];
-            var dataCalendarData = JSON.parse('{{ data|safe }}');
+            let events = [];
+            const dataCalendarData = JSON.parse('{{ data|safe }}');
             dataCalendarData.forEach(instance => {
-                var event = createEvent(instance.pk, instance.fields);
+                let event = createEvent(instance.pk, instance.fields);
                 events.push(event);
             });
 

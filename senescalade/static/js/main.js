@@ -162,7 +162,7 @@ function createEvent(idSeance, instance) {
         },
     };
     if (instance.niveau != '') {
-        event.title += ' - ' + instance.niveau;
+        event.title += ` - ${instance.niveau}`;
     }
     if (instance.nbPlacesRestantes > 0) {
         event.backgroundColor = '#44475A';
@@ -171,8 +171,8 @@ function createEvent(idSeance, instance) {
         event.backgroundColor = '#FF5555';
         event.textColor = '#282A36';
     }
-    event.start = formattedDate + 'T' + event.start;
-    event.end = formattedDate + 'T' + event.end;
+    event.start = `${formattedDate}T${event.start}`;
+    event.end = `${formattedDate}T${event.end}`;
 
     return event;
 }
@@ -192,13 +192,8 @@ function eventClick(info, document, selectedEventId, calendar) {
     if (info.event.extendedProps.nbPlacesRestantes <= 0) {
         return;
     }
-    document.getElementById("eventDetails").innerText = 
-        info.event.title + ", " +
-        info.event.extendedProps.jourSeance + ", " +
-        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
-        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
-        "Places: " + info.event.extendedProps.nbPlaces + ", " +
-        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+    document.getElementById("eventDetails").innerText = `${info.event.title}, ${info.event.extendedProps.jourSeance}, ${info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}, Durée: ${minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance))}, Places: ${info.event.extendedProps.nbPlaces}, Restantes: ${info.event.extendedProps.nbPlacesRestantes}`;
+
     if (selectedEventId) {
         let oldEvent = calendar.getEventById(selectedEventId);
         if (oldEvent) {
@@ -233,20 +228,14 @@ function eventMouseEnter(info, document) {
     }
     let tooltip = document.createElement("div");
     tooltip.style.position = "absolute";
-    tooltip.style.top = info.jsEvent.pageY + "px";
-    tooltip.style.left = info.jsEvent.pageX + "px";
+    tooltip.style.top = `${info.jsEvent.pageY}px`;
+    tooltip.style.left = `${info.jsEvent.pageX}px`;
     tooltip.style.backgroundColor = "#282A36";
     tooltip.style.color = "#F8F8F2";
     tooltip.style.padding = "5px";
     tooltip.style.borderRadius = "5px";
     tooltip.style.zIndex = "1000";
-    tooltip.innerText = 
-        info.event.title + ", " +
-        info.event.extendedProps.jourSeance + ", " +
-        info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ", " +
-        "Durée: " + minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance)) + ", " +
-        "Places: " + info.event.extendedProps.nbPlaces + ", " +
-        "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
+    tooltip.innerText = `${info.event.title}, ${info.event.extendedProps.jourSeance}, ${info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}, Durée: ${minutesToTimeString(calculateDurationInMinutes(info.event.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), info.event.extendedProps.dureeSeance))}, Places: ${info.event.extendedProps.nbPlaces}, Restantes: ${info.event.extendedProps.nbPlacesRestantes}`;
     document.body.appendChild(tooltip);
     info.el.addEventListener("mouseleave", () => {
         try {
