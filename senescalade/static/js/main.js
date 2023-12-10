@@ -192,9 +192,11 @@ function createEvent(idSeance, instance) {
  * 
  * @param {object} info - Contains information about the clicked event, such as title, start time, and extended properties.
  * @param {object} document - Represents the HTML document and is used to manipulate the webpage elements.
+ * @param {string} selectedEventId - The ID of the previously selected event.
+ * @param {object} calendar - The calendar object.
  * @returns {void} - Performs actions on the webpage elements and does not return any value.
  */
-function eventClick(info, document) {
+function eventClick(info, document, selectedEventId, calendar) {
     if (info.event.extendedProps.nbPlacesRestantes <= 0) {
         return;
     }
