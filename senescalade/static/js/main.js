@@ -128,7 +128,7 @@ const currentDayIndex = currentDate.getDay();
  * @param {object} instance - An object containing information about the seance.
  * @returns {object} - An event object with properties including the seance ID, title, start time, end time, all-day status, and extended properties.
  */
-function createEvent(idSeance, instance) {
+function createEvent(idSeance, instance) {  // skipcq: JS-0128
     const desiredDayIndex = dayNameToIndex[instance.jour];
     let daysDifference = desiredDayIndex - currentDayIndex;
     const originalDaysDifference = Math.abs(daysDifference);
@@ -188,7 +188,7 @@ function createEvent(idSeance, instance) {
  * @param {object} calendar - The calendar object.
  * @returns {void} - Performs actions on the webpage elements and does not return any value.
  */
-function eventClick(info, document, selectedEventId, calendar) {
+function eventClick(info, document, selectedEventId, calendar) {  // skipcq: JS-0128
     if (info.event.extendedProps.nbPlacesRestantes <= 0) {
         return;
     }
@@ -220,7 +220,7 @@ function eventClick(info, document, selectedEventId, calendar) {
  * @param {object} document - The document object of the webpage.
  * @returns {void} - Performs actions on the webpage elements and does not return any value.
  */
-function eventMouseEnter(info, document) {
+function eventMouseEnter(info, document) {  // skipcq: JS-0128
     if (info.event.extendedProps.nbPlacesRestantes > 0) {
         info.el.style.cursor = "pointer";
     } else {
@@ -255,7 +255,7 @@ function eventMouseEnter(info, document) {
  * @param {Object} document - The document object.
  * @returns {void} - Performs actions on the webpage elements and does not return any value.
  */
-function checkAllEventsFull(calendar, document) {
+function checkAllEventsFull(calendar, document) {  // skipcq: JS-0128
     let allFull = true;
     calendar.getEvents().forEach(event => {
         if (event.extendedProps.nbPlacesRestantes > 0) {
