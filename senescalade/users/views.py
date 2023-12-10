@@ -1,11 +1,9 @@
 # users/views.py
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
 from .forms import CustomUserLoginForm
 from inscription.models import CustomUser, CustomPersonne
 from django.http import Http404
-from django.contrib.auth import authenticate, login
 
 
 def login_user(request):
@@ -33,7 +31,7 @@ def login_user(request):
                     )
                 else:
                     try:
-                        personne = get_object_or_404(
+                        get_object_or_404(
                             CustomPersonne, lInscription=user.idInscription
                         )
                         return render(

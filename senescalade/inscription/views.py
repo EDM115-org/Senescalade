@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core import serializers
-from .forms import CustomUserCreationForm, CustomUserLoginForm
+from .forms import CustomUserCreationForm
 from .models import DataCalendar
 
 
