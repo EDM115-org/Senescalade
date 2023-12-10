@@ -4,6 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Represents a database migration for the Django app.
+
+    Attributes:
+        initial (bool): Indicates if this migration is the initial migration for the app.
+        dependencies (list): Specifies the dependencies of this migration on other migrations.
+        operations (list): Contains the operations to be performed in this migration.
+    """
+
     initial = True
 
     dependencies = []

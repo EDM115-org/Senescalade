@@ -4,6 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    A class used in Django to manage database migrations.
+
+    Attributes:
+        dependencies (list): A list of dependencies for the migration.
+        operations (list): A list of operations to be performed in the migration.
+    """
+
     dependencies = [
         ("inscription", "0001_initial"),
     ]
