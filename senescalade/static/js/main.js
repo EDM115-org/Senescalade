@@ -239,7 +239,7 @@ function eventMouseEnter(info, document) {  // skipcq: JS-0128
     document.body.appendChild(tooltip);
     info.el.addEventListener("mouseleave", () => {
         try {
-            if (tooltip && tooltip.parentNode) {
+            if (tooltip?.parentNode) {
                 tooltip.parentNode.removeChild(tooltip);
             }
         } catch (e) {
