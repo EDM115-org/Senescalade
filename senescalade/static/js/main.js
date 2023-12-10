@@ -1,6 +1,5 @@
 /**
  * Converts a date string from 'DD MMMM YYYY' format to 'YYYY-MM-DD' format.
- * 
  * @param {string} dateString - The date string in 'DD MMMM YYYY' format.
  * @returns {string} The date string in 'YYYY-MM-DD' format.
  */
@@ -22,9 +21,9 @@ function convertDateFormat(dateString) {  // skipcq: JS-0128
     return `${year}-${month}-${day}`;
 }
 
+
 /**
  * Determines the category based on the age calculated from the birth date.
- * 
  * @param {string} birthDate - The birth date of a person in the format 'YYYY-MM-DD'.
  * @returns {string} The category based on the calculated age.
  */
@@ -50,11 +49,33 @@ function determineCategory(birthDate) {  // skipcq: JS-0128
     }
 }
 
-function timeStringToMinutes(timeString) {
-    let [hours, minutes] = timeString.split(":").map(Number);
-    return hours * 60 + minutes;
+
+/**
+ * Converts a time string in the format 'HH:MM' to the equivalent number of minutes.
+ * @param {string} timeString - The time string in the format 'HH:MM'.
+ * @returns {number} The equivalent number of minutes for the given time string.
+ */
+function calculateDurationInMinutes(startTime, duration) {
+    function timeStringToMinutes(timeString) {
+        let [hours, minutes] = timeString.split(":").map(Number);
+        return hours * 60 + minutes;
+    }
+    
+    let startMinutes = timeStringToMinutes(startTime);
+    let durationMinutes = timeStringToMinutes(duration);
+    let endMinutes = startMinutes + durationMinutes;
+    let durationInMinutes = endMinutes - startMinutes;
+    
+    return durationInMinutes;
 }
 
+
+/**
+ * Calculates the duration of an event in minutes.
+ * @param {string} startTime - The start time of the event in the format "HH:MM".
+ * @param {string} duration - The duration of the event in the format "HH:MM".
+ * @returns {number} The duration of the event in minutes.
+ */
 function calculateDurationInMinutes(startTimeString, endTimeString) {
     let startTimeInMinutes = timeStringToMinutes(startTimeString);
     let endTimeInMinutes = timeStringToMinutes(endTimeString);
@@ -62,6 +83,12 @@ function calculateDurationInMinutes(startTimeString, endTimeString) {
     return endTimeInMinutes - startTimeInMinutes;
 }
 
+
+/**
+ * Converts minutes to a time string representation.
+ * @param {number} minutes - The number of minutes.
+ * @returns {string} The time string representation.
+ */
 function minutesToTimeString(minutes) {
     let hours = Math.floor(minutes / 60);
     let remainingMinutes = minutes % 60;
@@ -73,6 +100,11 @@ function minutesToTimeString(minutes) {
     }
 }
 
+
+/**
+ * Mapping of day names to their corresponding index.
+ * @type {Object.<string, number>}
+ */
 const dayNameToIndex = {
     "Dimanche": 0,
     "Lundi": 1,
@@ -82,9 +114,28 @@ const dayNameToIndex = {
     "Vendredi": 5,
     "Samedi": 6
 };
+
+
+/**
+ * Represents the current date.
+ * @type {Date}
+ */
 const currentDate = new Date();
+
+
+/**
+ * Represents the index of the current day.
+ * @type {number}
+ */
 const currentDayIndex = currentDate.getDay();
 
+
+/**
+ * Creates an event object based on the given seance information.
+ * @param {number} idSeance - The ID of the seance.
+ * @param {object} instance - An object containing information about the seance.
+ * @returns {object} - An event object with properties including the seance ID, title, start time, end time, all-day status, and extended properties.
+ */
 function createEvent(idSeance, instance) {
     var desiredDayIndex = dayNameToIndex[instance.jour];
     var daysDifference = desiredDayIndex - currentDayIndex;
@@ -134,6 +185,15 @@ function createEvent(idSeance, instance) {
     return event;
 }
 
+
+/**
+ * Triggers when a user clicks on an event.
+ * Updates the event details displayed on the webpage and changes the background color of the selected event.
+ * 
+ * @param {object} info - Contains information about the clicked event, such as title, start time, and extended properties.
+ * @param {object} document - Represents the HTML document and is used to manipulate the webpage elements.
+ * @returns {void} - Performs actions on the webpage elements and does not return any value.
+ */
 function eventClick(info, document) {
     if (info.event.extendedProps.nbPlacesRestantes <= 0) {
         return;
@@ -159,6 +219,18 @@ function eventClick(info, document) {
     document.getElementById("eventForm").style.display = "";
 }
 
+
+/**
+ * Triggered when the mouse enters an event element on a webpage.
+ * Checks if there are any remaining places for the event and changes the cursor style accordingly.
+ * Creates a tooltip element and positions it next to the mouse cursor if there are remaining places.
+ * The tooltip displays information about the event, including its title, date, start time, duration, and the number of places remaining.
+ * When the mouse leaves the event element, the tooltip is removed.
+ * 
+ * @param {object} info - Information about the event and the mouse event.
+ * @param {object} document - The document object of the webpage.
+ * @returns {void} - Performs actions on the webpage elements and does not return any value.
+ */
 function eventMouseEnter(info, document) {
     if (info.event.extendedProps.nbPlacesRestantes > 0) {
         info.el.style.cursor = "pointer";
@@ -193,6 +265,13 @@ function eventMouseEnter(info, document) {
     });
 }
 
+
+/**
+ * Checks if all events in the calendar are full.
+ * @param {Object} calendar - The calendar object.
+ * @param {Object} document - The document object.
+ * @returns {void} - Performs actions on the webpage elements and does not return any value.
+ */
 function checkAllEventsFull(calendar, document) {
     var allFull = true;
     calendar.getEvents().forEach(function(event) {
