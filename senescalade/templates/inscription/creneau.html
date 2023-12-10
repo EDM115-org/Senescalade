@@ -5,11 +5,11 @@
 
     <script src="{% static 'vendor/fullcalendar-6.1.10/dist/index.global.min.js' %}"></script>
     <script>
-        var styleSheet = document.getElementById("draculaStylesheet");
+        let styleSheet = document.getElementById("draculaStylesheet");
         styleSheet.disabled = true;
         document.addEventListener("DOMContentLoaded", function() {
-            var calendarEl = document.getElementById("calendar");
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            let calendarEl = document.getElementById("calendar");
+            let calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: "fr",
                 initialView: "timeGridWeek",
                 firstDay: 1,
@@ -45,7 +45,7 @@
                         "Places: " + info.event.extendedProps.nbPlaces + ", " +
                         "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
                     if (selectedEventId) {
-                        var oldEvent = calendar.getEventById(selectedEventId);
+                        let oldEvent = calendar.getEventById(selectedEventId);
                         if (oldEvent) {
                             oldEvent.setProp('backgroundColor', '#44475A');
                             oldEvent.setProp('textColor', '#F8F8F2');
@@ -63,7 +63,7 @@
                     } else {
                         return;
                     }
-                    var tooltip = document.createElement("div");
+                    let tooltip = document.createElement("div");
                     tooltip.style.position = "absolute";
                     tooltip.style.top = info.jsEvent.pageY + "px";
                     tooltip.style.left = info.jsEvent.pageX + "px";
@@ -80,7 +80,7 @@
                         "Places: " + info.event.extendedProps.nbPlaces + ", " +
                         "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
                     document.body.appendChild(tooltip);
-                    info.el.addEventListener("mouseleave", function() {
+                    info.el.addEventListener("mouseleave", () => {
                         try {
                             if (tooltip && tooltip.parentNode) {
                                 tooltip.parentNode.removeChild(tooltip);
@@ -92,8 +92,8 @@
                 },
             });
 
-            var checkbox = document.getElementById('waitlistCheckbox');
-            var submitButton = document.getElementById('submitWaitlist');
+            let checkbox = document.getElementById('waitlistCheckbox');
+            let submitButton = document.getElementById('submitWaitlist');
 
             checkbox.addEventListener('change', function() {
                 if (this.checked) {
@@ -103,15 +103,15 @@
                 }
             });
 
-            var userCategory = determineCategory(convertDateFormat("{{ user.dateNaissance }}"));
-            var events = [];
-            var dataCalendarData = JSON.parse('{{ data|safe }}');
+            const userCategory = determineCategory(convertDateFormat("{{ user.dateNaissance }}"));
+            let events = [];
+            const dataCalendarData = JSON.parse('{{ data|safe }}');
             dataCalendarData.forEach(instance => {
                 if (userCategory == instance.fields.typeSeance) {
-                    var event = createEvent(instance.pk, instance.fields);
+                    let event = createEvent(instance.pk, instance.fields);
                     events.push(event);
                 } else if (instance.fields.typeSeance == "Jeunes" && instance.fields.niveau == userCategory) {
-                    var event = createEvent(instance.pk, instance.fields);
+                    let event = createEvent(instance.pk, instance.fields);
                     events.push(event);
                 }
             });

@@ -51,34 +51,26 @@ function determineCategory(birthDate) {  // skipcq: JS-0128
 
 
 /**
- * Converts a time string in the format 'HH:MM' to the equivalent number of minutes.
- * @param {string} timeString - The time string in the format 'HH:MM'.
- * @returns {number} The equivalent number of minutes for the given time string.
+ * Converts a time string to minutes.
+ * @param {string} timeString - The time string in the format "HH:MM".
+ * @returns {number} The total number of minutes.
  */
-function calculateDurationInMinutes(startTime, duration) {
-    function timeStringToMinutes(timeString) {
-        let [hours, minutes] = timeString.split(":").map(Number);
-        return hours * 60 + minutes;
-    }
-    
-    let startMinutes = timeStringToMinutes(startTime);
-    let durationMinutes = timeStringToMinutes(duration);
-    let endMinutes = startMinutes + durationMinutes;
-    let durationInMinutes = endMinutes - startMinutes;
-    
-    return durationInMinutes;
+function timeStringToMinutes(timeString) {
+    const [hours, minutes] = timeString.split(":").map(Number);
+
+    return hours * 60 + minutes;
 }
 
 
 /**
  * Calculates the duration of an event in minutes.
  * @param {string} startTime - The start time of the event in the format "HH:MM".
- * @param {string} duration - The duration of the event in the format "HH:MM".
+ * @param {string} endTimeString - The duration of the event in the format "HH:MM".
  * @returns {number} The duration of the event in minutes.
  */
 function calculateDurationInMinutes(startTimeString, endTimeString) {
-    let startTimeInMinutes = timeStringToMinutes(startTimeString);
-    let endTimeInMinutes = timeStringToMinutes(endTimeString);
+    const startTimeInMinutes = timeStringToMinutes(startTimeString);
+    const endTimeInMinutes = timeStringToMinutes(endTimeString);
 
     return endTimeInMinutes - startTimeInMinutes;
 }
@@ -90,8 +82,8 @@ function calculateDurationInMinutes(startTimeString, endTimeString) {
  * @returns {string} The time string representation.
  */
 function minutesToTimeString(minutes) {
-    let hours = Math.floor(minutes / 60);
-    let remainingMinutes = minutes % 60;
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
 
     if (remainingMinutes === 0) {
         return `${hours}h`;
@@ -137,10 +129,10 @@ const currentDayIndex = currentDate.getDay();
  * @returns {object} - An event object with properties including the seance ID, title, start time, end time, all-day status, and extended properties.
  */
 function createEvent(idSeance, instance) {
-    var desiredDayIndex = dayNameToIndex[instance.jour];
-    var daysDifference = desiredDayIndex - currentDayIndex;
-    var originalDaysDifference = Math.abs(daysDifference);
-    var desiredDate = new Date(currentDate);
+    const desiredDayIndex = dayNameToIndex[instance.jour];
+    let daysDifference = desiredDayIndex - currentDayIndex;
+    const originalDaysDifference = Math.abs(daysDifference);
+    let desiredDate = new Date(currentDate);
     
     if (desiredDayIndex == currentDayIndex) {
         // do nothing
@@ -153,9 +145,9 @@ function createEvent(idSeance, instance) {
     }
 
     desiredDate.setDate(currentDate.getDate() + daysDifference);
-    var formattedDate = desiredDate.toISOString().slice(0, 10);
+    const formattedDate = desiredDate.toISOString().slice(0, 10);
 
-    var event = {
+    let event = {
         id: idSeance,
         title: instance.typeSeance,
         start: instance.heureSeance,
@@ -208,7 +200,7 @@ function eventClick(info, document, selectedEventId, calendar) {
         "Places: " + info.event.extendedProps.nbPlaces + ", " +
         "Restantes: " + info.event.extendedProps.nbPlacesRestantes;
     if (selectedEventId) {
-        var oldEvent = calendar.getEventById(selectedEventId);
+        let oldEvent = calendar.getEventById(selectedEventId);
         if (oldEvent) {
             oldEvent.setProp('backgroundColor', '#44475A');
             oldEvent.setProp('textColor', '#F8F8F2');
@@ -239,7 +231,7 @@ function eventMouseEnter(info, document) {
     } else {
         return;
     }
-    var tooltip = document.createElement("div");
+    let tooltip = document.createElement("div");
     tooltip.style.position = "absolute";
     tooltip.style.top = info.jsEvent.pageY + "px";
     tooltip.style.left = info.jsEvent.pageX + "px";
@@ -264,7 +256,7 @@ function eventMouseEnter(info, document) {
         } catch (e) {
             console.error(e);
         }
-    });    
+    });
 }
 
 
@@ -275,7 +267,7 @@ function eventMouseEnter(info, document) {
  * @returns {void} - Performs actions on the webpage elements and does not return any value.
  */
 function checkAllEventsFull(calendar, document) {
-    var allFull = true;
+    let allFull = true;
     calendar.getEvents().forEach(event => {
         if (event.extendedProps.nbPlacesRestantes > 0) {
             allFull = false;
