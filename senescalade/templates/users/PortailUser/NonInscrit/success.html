@@ -8,16 +8,23 @@
 
         {{ form.dateNaissance.label_tag }}
         <input type="date" name="dateNaissance" id="dateNaissance" />
+        <br>
+        <br>
 
         {{ form.mail.label_tag }}
         <input type="mail" name="mail" value="{{ form.instance.mail }}" />
+        <br>
+        <br>
 
         {{ form.password.label_tag }}
         <input type="password" name="password" value="{{ form.instance.password }}" />
+        <br>
+        <br>
 
         {{ form.confirm_password.label_tag }}
         <input type="password" name="confirm_password" value="{{ form.instance.confirm_password }}" />
-
+        <br>
+        <br>
 
         <button type="submit">Modification du profil</button>
     </form>

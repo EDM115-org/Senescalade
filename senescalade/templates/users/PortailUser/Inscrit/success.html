@@ -1,8 +1,125 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Connexion réussie</h1>
-    <p>Bienvenue sur le portail User!</p>
-    <p>Vous êtes connecté en tant que {{ user.mail }}</p>
-    <p>Vous êtes inscrit</p>
+<h1>Connexion réussie</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_id" value="edit_profile_inscrit" />
+
+    {{ form.nom.label_tag }}
+    <input type="text" name="nom" value="{{ form.instance.nom }}" />
+    <br>
+    <br>
+
+    {{ form.prenom.label_tag }}
+    <input type="text" name="prenom" value="{{ form.instance.prenom }}" />
+    <br>
+    <br>
+
+    {{ form.sexe.label_tag }}
+    <input type="RadioSelect" name="sexe" value="{{ form.instance.sexe }}" />
+    <br>
+    <br>
+
+    {{ form.nationalite.label_tag }}
+    <input type="Select" name="nationalite" value="{{ form.instance.nationalite }}" />
+    <br>
+    <br>
+
+    {{ form.adresse.label_tag }}
+    <input type="text" name="adresse" value="{{ form.instance.adresse }}" />
+    <br>
+    <br>
+
+    {{ form.complementAdresse.label_tag }}
+    <input type="text" name="complementAdresse" value="{{ form.instance.complementAdresse }}" />
+    <br>
+    <br>
+
+    {{ form.codePostal.label_tag }}
+    <input type="text" name="codePostal" value="{{ form.instance.codePostal }}" />
+    <br>
+    <br>
+
+    {{ form.ville.label_tag }}
+    <input type="text" name="ville" value="{{ form.instance.ville }}" />
+    <br>
+    <br>
+
+    {{ form.pays.label_tag }}
+    <input type="Select" name="pays" value="{{ form.instance.pays }}" />
+    <br>
+    <br>
+
+    {{ form.telephone.label_tag }}
+    <input type="text" name="telephone" value="{{ form.instance.telephone }}" />
+    <br>
+    <br>
+
+    {{ form.mobile.label_tag }}
+    <input type="text" name="mobile" value="{{ form.instance.mobile }}" />
+    <br>
+    <br>
+
+    {{ form.courriel2.label_tag }}
+    <input type="email" name="courriel2" value="{{ form.instance.courriel2 }}" />
+    <br>
+    <br>
+
+    {{ form.personneNom.label_tag }}
+    <input type="text" name="personneNom" value="{{ form.instance.personneNom }}" />
+    <br>
+    <br>
+
+    {{ form.personnePrenom.label_tag }}
+    <input type="text" name="personnePrenom" value="{{ form.instance.personnePrenom }}" />
+    <br>
+    <br>
+
+    {{ form.personneTelephone.label_tag }}
+    <input type="text" name="personneTelephone" value="{{ form.instance.personneTelephone }}" />
+    <br>
+    <br>
+
+    {{ form.personneCourriel.label_tag }}
+    <input type="email" name="personneCourriel" value="{{ form.instance.personneCourriel }}" />
+    <br>
+    <br>
+
+    {{ form.assurance.label_tag }}
+    <input type="RadioSelect" name="assurance" value="{{ form.instance.assurance }}" />
+    <br>
+    <br>
+
+    {{ form.optionSki.label_tag }}
+    <input type="RadioSelect" name="optionSki" value="{{ form.instance.optionSki }}" />
+    <br>
+    <br>
+
+    {{ form.optionSlackline.label_tag }}
+    <input type="RadioSelect" name="optionSlackline" value="{{ form.instance.optionSlackline }}" />
+    <br>
+    <br>
+
+    {{ form.optionTrail.label_tag }}
+    <input type="RadioSelect" name="optionTrail" value="{{ form.instance.optionTrail }}" />
+    <br>
+    <br>
+
+    {{ form.optionVTT.label_tag }}
+    <input type="RadioSelect" name="optionVTT" value="{{ form.instance.optionVTT }}" />
+    <br>
+    <br>
+
+    {{ form.optionAssurance.label_tag }}
+    <input type="RadioSelect" name="optionAssurance" value="{{ form.instance.optionAssurance }}" />
+    <br>
+    <br>
+
+
+    <button type="submit">Modification du profil</button>
+</form>
+
+
+<a href="{% url 'users-deconnexion' %}">Deconnexion</a>
 {% endblock %}
