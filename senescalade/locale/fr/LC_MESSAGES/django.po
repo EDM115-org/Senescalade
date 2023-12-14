@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"Report-Msgid-Bugs-To: EDM115\n"
-"POT-Creation-Date: 2023-11-30 17:44+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-14 17:44+0100\n"
 "PO-Revision-Date: 2023-11-30 17:44+0100\n"
 "Last-Translator: EDM115 <git@edm115.dev>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,107 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: .\inscription\forms.py:17
+
+#: .\inscription\forms.py:39
 msgid "Date de naissance"
 msgstr "Date de naissance"
 
-#: .\inscription\forms.py:18
+#: .\inscription\forms.py:40 .\users\forms.py:14
 msgid "Email"
 msgstr "Email"
 
-#: .\inscription\forms.py:19
+#: .\inscription\forms.py:41 .\users\forms.py:15
 msgid "Mot de passe"
 msgstr "Mot de passe"
 
-#: .\inscription\forms.py:20
+#: .\inscription\forms.py:42
 msgid "Confirmez le mot de passe"
 msgstr "Confirmez le mot de passe"
+
+#: .\inscription\forms.py:122
+msgid "Nom"
+msgstr ""
+
+#: .\inscription\forms.py:123
+msgid "Prénom"
+msgstr ""
+
+#: .\inscription\forms.py:124
+msgid "Sexe"
+msgstr ""
+
+#: .\inscription\forms.py:125
+msgid "Nationalité"
+msgstr ""
+
+#: .\inscription\forms.py:126
+msgid "Adresse"
+msgstr ""
+
+#: .\inscription\forms.py:127
+msgid "Complément d'adresse (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:128
+msgid "Code postal"
+msgstr ""
+
+#: .\inscription\forms.py:129
+msgid "Ville"
+msgstr ""
+
+#: .\inscription\forms.py:130
+msgid "Pays"
+msgstr ""
+
+#: .\inscription\forms.py:131
+msgid "Téléphone (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:132
+msgid "Mobile (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:133
+msgid "Second Email (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:134
+msgid "Nom de la personne à contacter (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:135
+msgid "Prénom de la personne à contacter (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:136
+msgid "Téléphone de la personne à contacter (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:137
+msgid "Email de la personne à contacter (facultatif)"
+msgstr ""
+
+#: .\inscription\forms.py:138
+msgid "Assurance"
+msgstr ""
+
+#: .\inscription\forms.py:139
+msgid "Option ski"
+msgstr ""
+
+#: .\inscription\forms.py:140
+msgid "Option slackline"
+msgstr ""
+
+#: .\inscription\forms.py:141
+msgid "Option trail"
+msgstr ""
+
+#: .\inscription\forms.py:142
+msgid "Option VTT"
+msgstr ""
+
+#: .\inscription\forms.py:143
+msgid "Option assurance"
+msgstr ""

@@ -20,7 +20,7 @@ class CustomUser(models.Model):
     isAdmin = models.BooleanField(default=False)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "Inscription"
 
 
