@@ -2,7 +2,32 @@
 
 {% block content %}
     <h1>Connexion réussie</h1>
-    <p>Bienvenue sur le portail User!</p>
-    <p>Vous êtes connecté en tant que {{ user.mail }}</p>
-    <p>Vous n'êtes pas inscrit</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_id" value="edit_profile" />
+
+        {{ form.dateNaissance.label_tag }}
+        <input type="date" name="dateNaissance" id="dateNaissance" />
+
+        {{ form.mail.label_tag }}
+        <input type="mail" name="mail" value="{{ form.instance.mail }}" />
+
+        {{ form.password.label_tag }}
+        <input type="password" name="password" value="{{ form.instance.password }}" />
+
+        {{ form.confirm_password.label_tag }}
+        <input type="password" name="confirm_password" value="{{ form.instance.confirm_password }}" />
+
+
+        <button type="submit">Modification du profil</button>
+    </form>
+
+
+    <a href="{% url 'users-deconnexion' %}">Deconnexion</a>
+
+
+    <script>
+        const dateN = convertDateFormat("{{ form.instance.dateNaissance }}");
+        document.getElementById("dateNaissance").value = dateN;
+    </script>
 {% endblock %}

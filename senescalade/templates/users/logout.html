@@ -1,0 +1,8 @@
+<!-- logout.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Déconnexion réussie</h1>
+    <p>Merci de vous être déconnecté.</p>
+    <a href="{% url 'users-connexion' %}">Retour à la page de connexion</a>
+{% endblock %}

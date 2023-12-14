@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{% block content %}
-	<h3>Informations sur le grimpeur</h3>
-	<form action="" method="post">
-		{{ form.as_p }}
-		{% csrf_token %}
-		<input type="submit" value="Enregistrer" />
-{% endblock %}
