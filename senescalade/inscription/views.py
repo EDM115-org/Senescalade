@@ -45,6 +45,9 @@ def register_user(request):
         elif form_id == "waitlist":
             print(request.POST)
             return render(request, "error.html", {"error": "La liste d'attente n'est pas encore implémentée. Veuillez réessayer plus tard."})
+        elif form_id == "complete_register":
+            print(request.POST)
+            return render(request, "error.html", {"error": "La création de compte n'est pas encore implémentée. Veuillez réessayer plus tard."})
     form = CustomUserCreationForm()
     return render(request, "inscription/register.html", {"form": form})
 
