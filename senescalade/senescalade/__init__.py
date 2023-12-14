@@ -14,7 +14,7 @@ class LoggingMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if request.method == 'POST' and LOG_POST:
+        if LOG_POST and request.method == 'POST':
             self.log_post_data(request)
         if LOG_HEADERS:
             self.log_request_headers(request)

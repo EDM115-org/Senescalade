@@ -12,7 +12,7 @@ class CustomUser(models.Model):
         confirm_password (CharField): The confirmed password of the user.
     """
 
-    idInscription = models.IntegerField(primary_key=True)
+    idInscription = models.AutoField(primary_key=True)
     dateNaissance = models.DateField()
     mail = models.EmailField(unique=False)
     password = models.CharField(max_length=100)
@@ -20,7 +20,7 @@ class CustomUser(models.Model):
     isAdmin = models.BooleanField(default=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "Inscription"
 
 
@@ -29,7 +29,7 @@ class DataCalendar(models.Model):
     Seance(idSeance (INT, PK), jour (CHAR(50)), heureSeance (TIME), dureeSeance (TIME), typeSeance (CHAR(100)), niveau (CHAR(100)), nbPlaces (INT), nbPlacesRestantes (INT), professeur (CHAR(100)))
     """
 
-    idSeance = models.IntegerField(primary_key=True)
+    idSeance = models.AutoField(primary_key=True)
     jour = models.CharField(max_length=50)
     heureSeance = models.TimeField()
     dureeSeance = models.TimeField()
@@ -40,7 +40,7 @@ class DataCalendar(models.Model):
     professeur = models.CharField(max_length=100)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "Seance"
 
 
@@ -49,7 +49,7 @@ class CustomPersonne(models.Model):
     Personne(idPersonne (INT, PK), action (CHAR(1)), nom (CHAR(100)), prenom (CHAR(100)), sexe (CHAR(1)), nationalite (CHAR(2)), adresse (CHAR(255)), complementAdresse (CHAR(255)), codePostal (CHAR(5)), ville (CHAR(100)), pays (CHAR(2)), telephone (CHAR(10)), mobile (CHAR(10)), courriel2 (CHAR(100)), personneNom (CHAR(100)), personnePrenom (CHAR(100)), personneTelephone (CHAR(15)), personneCourriel (CHAR(100)), numLicence (CHAR(6)), typeLicence (CHAR(1)), assurance (CHAR(2)), optionSki (BOOL), optionSlackline (BOOL), optionTrail (BOOL), optionVTT (BOOL), optionAssurance (BOOL), seance (INT), lInscription (INT))
     """
 
-    idPersonne = models.IntegerField(primary_key=True)
+    idPersonne = models.AutoField(primary_key=True)
     action = models.CharField(max_length=1)
     nom = models.CharField(max_length=100)
     prenom = models.CharField(max_length=100)
@@ -79,7 +79,7 @@ class CustomPersonne(models.Model):
     lInscription = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "Personne"
     
     SEXE_CHOICES = (

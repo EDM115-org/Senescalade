@@ -2,7 +2,8 @@
 
 {% block content %}
 <h1>Compléter l'inscription</h1>
-{{ id }}
+{{ event_id }}
+{{ user.mail }}
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="form_id" value="complete_register" />
