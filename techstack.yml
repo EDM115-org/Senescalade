@@ -1,7 +1,7 @@
 repo_name: EDM115-org/Tab-Magiques
-report_id: fda803db19725ea9d7ab0f7157614a26
+report_id: 027260c615dac2a8d49d998c9b1a6a6f
 repo_type: Public
-timestamp: '2023-12-14T09:44:17+00:00'
+timestamp: '2023-12-14T12:18:16+00:00'
 requested_by: EDM115
 provider: github
 branch: master
@@ -97,8 +97,8 @@ tools:
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
   detection_source: ".github/workflows/codeql.yml"
-  last_updated_by: EDM115
-  last_updated_on: 2023-12-03 11:31:42.000000000 Z
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-12-14 10:23:27.000000000 Z
 - name: PyPI
   description: A repository of software for the Python programming language
   website_url: https://pypi.org/
