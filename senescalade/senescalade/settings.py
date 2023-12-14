@@ -27,6 +27,8 @@ DEBUG = True
 
 LOG_HEADERS = False
 
+LOG_POST = True
+
 ALLOWED_HOSTS = []
 
 # Application definition
