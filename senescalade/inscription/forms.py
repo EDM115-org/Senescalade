@@ -98,12 +98,12 @@ class CompleteUserCreationForm(forms.ModelForm):
             "nom": forms.TextInput(),
             "prenom": forms.TextInput(),
             "sexe": forms.RadioSelect(choices=CustomPersonne.SEXE_CHOICES),
-            "nationalite": forms.TextInput(),
+            "nationalite": forms.Select(choices=CustomPersonne.CODE_PAYS),
             "adresse": forms.TextInput(),
             "complementAdresse": forms.TextInput(),
             "codePostal": forms.TextInput(),
             "ville": forms.TextInput(),
-            "pays": forms.TextInput(),
+            "pays": forms.Select(choices=CustomPersonne.CODE_PAYS),
             "telephone": forms.TextInput(),
             "mobile": forms.TextInput(),
             "courriel2": forms.EmailInput(),
@@ -122,7 +122,7 @@ class CompleteUserCreationForm(forms.ModelForm):
             "nom": _("Nom"),
             "prenom": _("Prénom"),
             "sexe": _("Sexe"),
-            "nationalite": _("Nationalité (un code pays en 2 lettres, ex: FR pour France)"),
+            "nationalite": _("Nationalité"),
             "adresse": _("Adresse"),
             "complementAdresse": _("Complément d'adresse (facultatif)"),
             "codePostal": _("Code postal"),
@@ -145,7 +145,9 @@ class CompleteUserCreationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CompleteUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['nationalite'].initial = "FR"
         self.fields['complementAdresse'].required = False
+        self.fields['pays'].initial = "FR"
         self.fields['telephone'].required = False
         self.fields['mobile'].required = False
         self.fields['courriel2'].required = False
