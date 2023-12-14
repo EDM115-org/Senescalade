@@ -1,6 +1,9 @@
 import logging
 import pymysql
-from .settings import LOG_HEADERS, LOG_POST
+
+LOG_HEADERS = False
+
+LOG_POST = True
 
 pymysql.install_as_MySQLdb()
 
