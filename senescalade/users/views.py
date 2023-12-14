@@ -20,8 +20,8 @@ def login_user(request):
     if request.method == "POST":
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
-            mail = form.cleaned_data["mail"]
-            password = form.cleaned_data["password"]
+            mail = form.cleaned_data["email"]
+            password = form.cleaned_data["mot_de_passe"]
 
             try:
                 user = get_object_or_404(CustomUser, mail=mail)

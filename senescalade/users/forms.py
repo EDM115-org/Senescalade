@@ -8,9 +8,9 @@ class CustomUserLoginForm(forms.Form):
 
     email = forms.EmailField()
     mot_de_passe = forms.CharField(widget=forms.PasswordInput)
-    fields = ["email", "mot_de_passe"]
+    fields = ["mail", "password"]
     
     labels = {
-        "email": _("Email"),
-        "mot_de_passe": _("Mot de passe"),
+        "mail": _("Email"),
+        "password": _("Mot de passe"),
     }
