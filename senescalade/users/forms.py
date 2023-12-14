@@ -6,11 +6,11 @@ from django.utils.translation import gettext_lazy as _
 class CustomUserLoginForm(forms.Form):
     """A form for user login with email and password fields."""
 
-    mail = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    fields = ["mail", "password"]
+    email = forms.EmailField()
+    mot_de_passe = forms.CharField(widget=forms.PasswordInput)
+    fields = ["email", "mot_de_passe"]
     
     labels = {
-        "mail": _("Email"),
-        "password": _("Mot de passe"),
+        "email": _("Email"),
+        "mot_de_passe": _("Mot de passe"),
     }
