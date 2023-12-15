@@ -37,4 +37,6 @@
         const dateN = convertDateFormat("{{ form.instance.dateNaissance }}");
         document.getElementById("dateNaissance").value = dateN;
     </script>
+
+    <a href="{% url 'users-creneauNonInscrit' %}">Voir ses créneaux</a>
 {% endblock %}

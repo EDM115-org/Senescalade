@@ -2,9 +2,11 @@
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.contrib.sessions.backends.db import SessionStore
 from .forms import CustomUserLoginForm
 from inscription.forms import CompleteUserCreationForm, CustomUserCreationForm
 from inscription.models import CustomUser, CustomPersonne
+
 
 
 def login_user(request):
@@ -29,6 +31,17 @@ def login_user(request):
                 return render(request, "users/login.html", {"form": form})
 
             if mail == user.mail and password == user.password:
+                # Login the user
+                s = SessionStore()
+                s["user_id"] = user.idInscription
+                s["mail"] = user.mail
+                s.create()
+
+                request.session["session"] = s.session_key
+
+                # If you want get data to the session you can do this
+                # s = SessionStore(session_key=s.session_key)
+                # variable = s["variable"] 
 
                 if user.isAdmin == 1:
                     return render(
@@ -69,3 +82,12 @@ def logout_user(request):
 
     logout(request)
     return render(request, "users/logout.html")
+
+def creneauNonInscrit(request):
+    s = SessionStore(session_key=request.session["session"])
+    print("print : ", s.session_key)
+    user_mail = s["mail"]
+
+    user = CustomUser.objects.get(mail=user_mail)
+    
+    return render(request, "users/PortailUser/NonInscrit/creneau.html", {"user": user})
