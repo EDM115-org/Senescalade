@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Modification du profil</h1>
+
+
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_id" value="edit_profile" />
+
+    {{ form.dateNaissance.label_tag }}
+    <input type="date" name="dateNaissance" id="dateNaissance" />
+    <br>
+    <br>
+
+    {{ form.mail.label_tag }}
+    <input type="mail" name="mail" value="{{ form.instance.mail }}" />
+    <br>
+    <br>
+
+    {{ form.password.label_tag }}
+    <input type="password" name="password" />
+    <br>
+    <br>
+
+    {{ form.confirm_password.label_tag }}
+    <input type="password" name="confirm_password" />
+    <br>
+    <br>
+
+    <button type="submit">Modification du profil</button>
+</form>
+
+<script>
+    const dateN = convertDateFormat("{{ form.instance.dateNaissance }}");
+    document.getElementById("dateNaissance").value = dateN;
+</script>
+
+{% endblock %}

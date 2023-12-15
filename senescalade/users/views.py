@@ -90,3 +90,36 @@ def creneauNonInscrit(request):
     user = CustomUser.objects.get(mail=user_mail)
     
     return render(request, "users/PortailUser/NonInscrit/creneau.html", {"user": user})
+
+def edit_user(request):
+    s = SessionStore(session_key=request.session["session"])
+    user_mail = s["mail"]
+    print("mail :", user_mail)
+
+    try:
+        user = get_object_or_404(CustomUser, mail=user_mail)
+    except Http404:
+        return render(request, "users/PortailUser/NonInscrit/success.html", {"user": user})
+
+    user = CustomUser.objects.get(mail=user_mail)
+    
+    form = CustomUserCreationForm(instance=user)
+    
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            request.session["new_user_id"] = user.idInscription
+            request.session["mail"] = user.mail
+            request.session.save()
+            
+            s["mail"] = user.mail
+            s.save()
+            
+            return render(request, "users/PortailUser/NonInscrit/success.html", {"user": user})
+        print("hello")
+        return render(request, "users/PortailUser/NonInscrit/edit.html", {"user": user, "form": form})
+    else:
+        print("hi")
+        return render(request, "users/PortailUser/NonInscrit/edit.html", {"user": user, "form": form})
