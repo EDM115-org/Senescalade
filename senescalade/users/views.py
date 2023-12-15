@@ -40,7 +40,7 @@ def login_user(request):
                 request.session["session"] = s.session_key
 
                 # If you want get data to the session you can do this
-                # s = SessionStore(session_key=s.session_key)
+                # s = SessionStore(session_key=request.session["session"])
                 # variable = s["variable"] 
 
                 if user.isAdmin == 1:
@@ -85,7 +85,6 @@ def logout_user(request):
 
 def creneauNonInscrit(request):
     s = SessionStore(session_key=request.session["session"])
-    print("print : ", s.session_key)
     user_mail = s["mail"]
 
     user = CustomUser.objects.get(mail=user_mail)
