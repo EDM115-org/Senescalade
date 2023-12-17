@@ -9,7 +9,7 @@ class CustomUserLoginForm(forms.Form):
     email = forms.EmailField()
     mot_de_passe = forms.CharField(widget=forms.PasswordInput)
     fields = ["mail", "password"]
-    
+
     labels = {
         "mail": _("Email"),
         "password": _("Mot de passe"),

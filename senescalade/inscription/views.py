@@ -33,21 +33,47 @@ def register_user(request):
                     "inscription/creneau.html",
                     {"user": new_user, "data": serialized_data},
                 )
-            return render(request, "error.html", {"error": "Le formulaire n'est pas valide. Veuillez réessayer."})
+            return render(
+                request,
+                "error.html",
+                {"error": "Le formulaire n'est pas valide. Veuillez réessayer."},
+            )
         elif form_id == "creneau":
             selected_event_id = request.POST.get("selectedEventId")
             new_user_id = request.session.get("new_user_id")
             if new_user_id is not None:
                 new_user = CustomUser.objects.get(idInscription=new_user_id)
                 form = CompleteUserCreationForm()
-                return render(request, "inscription/complete_register.html", {"form": form, "event_id": selected_event_id, "user": new_user})
-            return render(request, "error.html", {"error": "L'identification a échouée. Soit la session a expirée, soit vous n'avez pas rempli le formulaire d'inscription. Veuillez réessayer."})
+                return render(
+                    request,
+                    "inscription/complete_register.html",
+                    {"form": form, "event_id": selected_event_id, "user": new_user},
+                )
+            return render(
+                request,
+                "error.html",
+                {
+                    "error": "L'identification a échouée. Soit la session a expirée, soit vous n'avez pas rempli le formulaire d'inscription. Veuillez réessayer."
+                },
+            )
         elif form_id == "waitlist":
             print(request.POST)
-            return render(request, "error.html", {"error": "La liste d'attente n'est pas encore implémentée. Veuillez réessayer plus tard."})
+            return render(
+                request,
+                "error.html",
+                {
+                    "error": "La liste d'attente n'est pas encore implémentée. Veuillez réessayer plus tard."
+                },
+            )
         elif form_id == "complete_register":
             print(request.POST)
-            return render(request, "error.html", {"error": "La création de compte n'est pas encore implémentée. Veuillez réessayer plus tard."})
+            return render(
+                request,
+                "error.html",
+                {
+                    "error": "La création de compte n'est pas encore implémentée. Veuillez réessayer plus tard."
+                },
+            )
     form = CustomUserCreationForm()
     return render(request, "inscription/register.html", {"form": form})
 
@@ -59,7 +85,11 @@ def debug_calendar(request):
         if form_id == "creneau":
             selected_event_id = request.POST.get("selectedEventId")
             form = CompleteUserCreationForm()
-            return render(request, "inscription/complete_register.html", {"form": form, "id": selected_event_id})
+            return render(
+                request,
+                "inscription/complete_register.html",
+                {"form": form, "id": selected_event_id},
+            )
         elif form_id == "waitlist":
             print(request.POST)
     queryset = DataCalendar.objects.all()

@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.security.SecurityMiddleware",
-	"senescalade.LoggingMiddleware",
+    "senescalade.LoggingMiddleware",
 ]
 
 ROOT_URLCONF = "senescalade.urls"
@@ -72,29 +72,29 @@ TEMPLATES = [
 ]
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-		'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'senescalade': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+        "senescalade": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }

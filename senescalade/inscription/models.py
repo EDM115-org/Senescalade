@@ -81,29 +81,23 @@ class CustomPersonne(models.Model):
     class Meta:
         managed = True
         db_table = "Personne"
-    
-    SEXE_CHOICES = (
-        ("H", "Homme"),
-        ("F", "Femme")
-    )
+
+    SEXE_CHOICES = (("H", "Homme"), ("F", "Femme"))
 
     ASSURANCE_CHOICES = (
         ("RC", "Responsabilité Civile"),
         ("B", "Base"),
         ("B+", "Base+"),
-        ("B++", "Base++")
+        ("B++", "Base++"),
     )
 
-    OPTIONS_CHOICES = (
-        ("OUI", "OUI"),
-        ("NON", "NON")
-    )
+    OPTIONS_CHOICES = (("OUI", "OUI"), ("NON", "NON"))
 
     OPTION_ASSURANCE_CHOICES = (
         ("IJ1", "IJ1"),
         ("IJ2", "IJ2"),
         ("IJ3", "IJ3"),
-        ("NON", "NON")
+        ("NON", "NON"),
     )
 
     CODE_PAYS = (
@@ -345,5 +339,5 @@ class CustomPersonne(models.Model):
         ("WF", "Wallis-et-Futuna"),
         ("YE", "Yémen"),
         ("ZM", "Zambie"),
-        ("ZW", "Zimbabwe")
+        ("ZW", "Zimbabwe"),
     )

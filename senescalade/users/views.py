@@ -8,7 +8,6 @@ from inscription.forms import CompleteUserCreationForm, CustomUserCreationForm
 from inscription.models import CustomUser, CustomPersonne
 
 
-
 def login_user(request):
     """
     Handles user login functionality.
@@ -41,14 +40,16 @@ def login_user(request):
 
                 # If you want get data to the session you can do this
                 # s = SessionStore(session_key=request.session["session"])
-                # variable = s["variable"] 
+                # variable = s["variable"]
 
                 if user.isAdmin == 1:
                     return render(
                         request, "users/PortailAdmin/success.html", {"user": user}
                     )
                 try:
-                    personne = get_object_or_404(CustomPersonne, lInscription=user.idInscription)
+                    personne = get_object_or_404(
+                        CustomPersonne, lInscription=user.idInscription
+                    )
                     form = CompleteUserCreationForm(instance=personne)
                     return render(
                         request,
@@ -69,6 +70,7 @@ def login_user(request):
 
     return render(request, "users/login.html", {"form": form})
 
+
 def logout_user(request):
     """
     Logs out the user and redirects to the login page.
@@ -83,13 +85,15 @@ def logout_user(request):
     logout(request)
     return render(request, "users/logout.html")
 
+
 def creneauNonInscrit(request):
     s = SessionStore(session_key=request.session["session"])
     user_mail = s["mail"]
 
     user = CustomUser.objects.get(mail=user_mail)
-    
+
     return render(request, "users/PortailUser/NonInscrit/creneau.html", {"user": user})
+
 
 def edit_user(request):
     s = SessionStore(session_key=request.session["session"])
@@ -99,12 +103,14 @@ def edit_user(request):
     try:
         user = get_object_or_404(CustomUser, mail=user_mail)
     except Http404:
-        return render(request, "users/PortailUser/NonInscrit/success.html", {"user": user})
+        return render(
+            request, "users/PortailUser/NonInscrit/success.html", {"user": user}
+        )
 
     user = CustomUser.objects.get(mail=user_mail)
-    
+
     form = CustomUserCreationForm(instance=user)
-    
+
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, instance=user)
         if form.is_valid():
@@ -113,13 +119,23 @@ def edit_user(request):
             request.session["new_user_id"] = user.idInscription
             request.session["mail"] = user.mail
             request.session.save()
-            
+
             s["mail"] = user.mail
             s.save()
-            
-            return render(request, "users/PortailUser/NonInscrit/success.html", {"user": user})
+
+            return render(
+                request, "users/PortailUser/NonInscrit/success.html", {"user": user}
+            )
         print("hello")
-        return render(request, "users/PortailUser/NonInscrit/edit.html", {"user": user, "form": form})
+        return render(
+            request,
+            "users/PortailUser/NonInscrit/edit.html",
+            {"user": user, "form": form},
+        )
     else:
         print("hi")
-        return render(request, "users/PortailUser/NonInscrit/edit.html", {"user": user, "form": form})
+        return render(
+            request,
+            "users/PortailUser/NonInscrit/edit.html",
+            {"user": user, "form": form},
+        )

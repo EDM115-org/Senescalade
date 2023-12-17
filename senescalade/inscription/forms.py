@@ -113,10 +113,14 @@ class CompleteUserCreationForm(forms.ModelForm):
             "personneCourriel": forms.EmailInput(),
             "assurance": forms.RadioSelect(choices=CustomPersonne.ASSURANCE_CHOICES),
             "optionSki": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
-            "optionSlackline": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionSlackline": forms.RadioSelect(
+                choices=CustomPersonne.OPTIONS_CHOICES
+            ),
             "optionTrail": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
             "optionVTT": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
-            "optionAssurance": forms.RadioSelect(choices=CustomPersonne.OPTION_ASSURANCE_CHOICES)
+            "optionAssurance": forms.RadioSelect(
+                choices=CustomPersonne.OPTION_ASSURANCE_CHOICES
+            ),
         }
         labels = {
             "nom": _("Nom"),
@@ -140,18 +144,18 @@ class CompleteUserCreationForm(forms.ModelForm):
             "optionSlackline": _("Option slackline"),
             "optionTrail": _("Option trail"),
             "optionVTT": _("Option VTT"),
-            "optionAssurance": _("Option assurance")
+            "optionAssurance": _("Option assurance"),
         }
 
     def __init__(self, *args, **kwargs):
         super(CompleteUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['nationalite'].initial = "FR"
-        self.fields['complementAdresse'].required = False
-        self.fields['pays'].initial = "FR"
-        self.fields['telephone'].required = False
-        self.fields['mobile'].required = False
-        self.fields['courriel2'].required = False
-        self.fields['personneNom'].required = False
-        self.fields['personnePrenom'].required = False
-        self.fields['personneTelephone'].required = False
-        self.fields['personneCourriel'].required = False
+        self.fields["nationalite"].initial = "FR"
+        self.fields["complementAdresse"].required = False
+        self.fields["pays"].initial = "FR"
+        self.fields["telephone"].required = False
+        self.fields["mobile"].required = False
+        self.fields["courriel2"].required = False
+        self.fields["personneNom"].required = False
+        self.fields["personnePrenom"].required = False
+        self.fields["personneTelephone"].required = False
+        self.fields["personneCourriel"].required = False
