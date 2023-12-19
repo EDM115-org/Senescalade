@@ -2,12 +2,35 @@
 
 {% block content %}
 <h1>Compléter l'inscription</h1>
-{{ event_id }}
-{{ user.mail }}
-<form method="post">
+<form method="post" id="complete_register">
     {% csrf_token %}
     <input type="hidden" name="form_id" value="complete_register" />
+    <input type="hidden" name="lInscription" value="{{ event_id }}" />
+    <input type="hidden" name="user" value="{{ user }}" />
     {{ form.as_p }}
     <button type="submit">Terminer l'inscription</button>
 </form>
+<script>
+    var user = JSON.parse('{{ user|safe }}')[0].fields;
+    var dateNaissance = new Date(user.dateNaissance);
+    var today = new Date();
+    var age = today.getFullYear() - dateNaissance.getFullYear();
+    var m = today.getMonth() - dateNaissance.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dateNaissance.getDate())) {
+        age--;
+    }
+    if (age < 18) {
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", "typeLicence");
+        input.setAttribute("value", "J");
+        document.getElementById("complete_register").appendChild(input);
+    } else {
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", "typeLicence");
+        input.setAttribute("value", "A");
+        document.getElementById("complete_register").appendChild(input);
+    }
+</script>
 {% endblock %}

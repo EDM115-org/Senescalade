@@ -68,6 +68,10 @@ class CompleteUserCreationForm(forms.ModelForm):
         pays: "Pays"
     """
 
+    action = forms.CharField(
+        initial='C', widget=forms.HiddenInput(), required=False
+    )
+
     class Meta:
         model = CustomPersonne
         fields = [

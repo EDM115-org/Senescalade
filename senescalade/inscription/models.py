@@ -14,7 +14,7 @@ class CustomUser(models.Model):
 
     idInscription = models.AutoField(primary_key=True)
     dateNaissance = models.DateField()
-    mail = models.EmailField(unique=False)
+    mail = models.EmailField()
     password = models.CharField(max_length=100)
     confirm_password = models.CharField(max_length=100)
     isAdmin = models.BooleanField(default=False)

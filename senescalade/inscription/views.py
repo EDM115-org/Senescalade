@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.core import serializers
 from .forms import CustomUserCreationForm, CompleteUserCreationForm
@@ -43,11 +45,12 @@ def register_user(request):
             new_user_id = request.session.get("new_user_id")
             if new_user_id is not None:
                 new_user = CustomUser.objects.get(idInscription=new_user_id)
+                serialized_data = serializers.serialize("json", [new_user])
                 form = CompleteUserCreationForm()
                 return render(
                     request,
                     "inscription/complete_register.html",
-                    {"form": form, "event_id": selected_event_id, "user": new_user},
+                    {"form": form, "event_id": selected_event_id, "user": serialized_data},
                 )
             return render(
                 request,
@@ -66,13 +69,36 @@ def register_user(request):
                 },
             )
         elif form_id == "complete_register":
-            print(request.POST)
+            inscription_id = request.POST.get("lInscription")
+            action = request.POST.get("action")
+            typeLicence = request.POST.get("typeLicence")
+            form = CompleteUserCreationForm(request.POST)
+            form.lInscription = inscription_id
+            form.action = action
+            form.typeLicence = typeLicence
+            user = request.POST.get("user")
+            if form.is_valid():
+                inscription = form.save(commit=False)
+                inscription.lInscription = inscription_id
+                inscription.action = action
+                inscription.typeLicence = typeLicence
+                inscription.save()
+                request.session["inscription"] = inscription.idPersonne
+                request.session.save()
+                try:
+                    mail = json.loads(user)[0]["fields"]["mail"]
+                except json.JSONDecodeError:
+                    mail = user
+
+                return render(
+                    request,
+                    "inscription/done.html",
+                    {"user": mail},
+                )
             return render(
                 request,
                 "error.html",
-                {
-                    "error": "La création de compte n'est pas encore implémentée. Veuillez réessayer plus tard."
-                },
+                {"error": "Le formulaire n'est pas valide. Veuillez réessayer."},
             )
     form = CustomUserCreationForm()
     return render(request, "inscription/register.html", {"form": form})

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Inscription terminée</h2>
+	<p>Vous êtes maintenant inscrit sur le site, {{ user }} !</p>
+	<p><a href="{% url 'users-connexion' %}">Connectez-vous</a> pour accéder à votre compte.</p>
+{% endblock %}
