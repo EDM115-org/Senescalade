@@ -72,14 +72,13 @@ def register_user(request):
             inscription_id = request.POST.get("lInscription")
             action = request.POST.get("action")
             typeLicence = request.POST.get("typeLicence")
-            form = CompleteUserCreationForm(request.POST)
-            form.lInscription = inscription_id
-            form.action = action
-            form.typeLicence = typeLicence
+            seance = request.POST.get("seance")
             user = request.POST.get("user")
+            form = CompleteUserCreationForm(request.POST)
             if form.is_valid():
                 inscription = form.save(commit=False)
                 inscription.lInscription = inscription_id
+                inscription.seance = seance
                 inscription.action = action
                 inscription.typeLicence = typeLicence
                 inscription.save()

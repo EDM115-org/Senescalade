@@ -1,11 +1,13 @@
-# users/views.py
+from math import e
 from django.contrib.auth import logout
-from django.shortcuts import render, redirect, get_object_or_404
+from django.core import serializers
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.contrib.sessions.backends.db import SessionStore
 from .forms import CustomUserLoginForm
 from inscription.forms import CompleteUserCreationForm, CustomUserCreationForm
 from inscription.models import CustomUser, CustomPersonne
+from .models import Seance
 
 
 def login_user(request):
@@ -30,17 +32,12 @@ def login_user(request):
                 return render(request, "users/login.html", {"form": form})
 
             if mail == user.mail and password == user.password:
-                # Login the user
                 s = SessionStore()
                 s["user_id"] = user.idInscription
                 s["mail"] = user.mail
                 s.create()
-
                 request.session["session"] = s.session_key
 
-                # If you want get data to the session you can do this
-                # s = SessionStore(session_key=request.session["session"])
-                # variable = s["variable"]
 
                 if user.isAdmin == 1:
                     return render(
@@ -50,24 +47,23 @@ def login_user(request):
                     personne = get_object_or_404(
                         CustomPersonne, lInscription=user.idInscription
                     )
-                    form = CompleteUserCreationForm(instance=personne)
+                    serialized_data = serializers.serialize("json", [personne])
                     return render(
                         request,
                         "users/PortailUser/Inscrit/success.html",
-                        {"user": personne, "form": form},
+                        {"user": serialized_data, "mail": mail},
                     )
                 except Http404:
-                    form = CustomUserCreationForm(instance=user)
+                    serialized_data = serializers.serialize("json", [user])
 
                     return render(
                         request,
                         "users/PortailUser/NonInscrit/success.html",
-                        {"user": user, "form": form},
+                        {"user": serialized_data, "mail": mail},
                     )
-
-    else:
-        form = CustomUserLoginForm()
-
+            else:
+                return render(request, "users/login.html", {"form": form})
+    form = CustomUserLoginForm()
     return render(request, "users/login.html", {"form": form})
 
 
@@ -86,56 +82,66 @@ def logout_user(request):
     return render(request, "users/logout.html")
 
 
-def creneauNonInscrit(request):
+def creneau(request):
     s = SessionStore(session_key=request.session["session"])
     user_mail = s["mail"]
 
     user = CustomUser.objects.get(mail=user_mail)
+    serialized_data = serializers.serialize("json", [user])
 
-    return render(request, "users/PortailUser/NonInscrit/creneau.html", {"user": user})
+    try:
+        personne = get_object_or_404(
+            CustomPersonne, lInscription=user.idInscription
+        )
+        seance = get_object_or_404(Seance, pk=personne.seance)
+        serialized_seance = serializers.serialize("json", [seance])
+        serialized_data = serializers.serialize("json", [personne])
+        return render(
+            request,
+            "users/PortailUser/Inscrit/creneau.html",
+            {"user": serialized_data, "seance": serialized_seance},
+        )
+    except Http404:
+        return render(
+            request,
+            "users/PortailUser/NonInscrit/success.html",
+            {"user": serialized_data, "mail": user_mail},
+        )
 
 
 def edit_user(request):
     s = SessionStore(session_key=request.session["session"])
     user_mail = s["mail"]
-    print("mail :", user_mail)
+    user = get_object_or_404(CustomUser, mail=user_mail)
 
     try:
-        user = get_object_or_404(CustomUser, mail=user_mail)
-    except Http404:
-        return render(
-            request, "users/PortailUser/NonInscrit/success.html", {"user": user}
-        )
+        personne = CustomPersonne.objects.get(lInscription=user.idInscription)
+        est_inscrit = True
+    except CustomPersonne.DoesNotExist:
+        est_inscrit = False
 
-    user = CustomUser.objects.get(mail=user_mail)
-
-    form = CustomUserCreationForm(instance=user)
+    if est_inscrit:
+        form = CompleteUserCreationForm(instance=personne)
+        template = "users/PortailUser/Inscrit/edit.html"
+    else:
+        form = CustomUserCreationForm(instance=user)
+        template = "users/PortailUser/NonInscrit/edit.html"
 
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST, instance=user)
+        if est_inscrit:
+            form = CompleteUserCreationForm(request.POST, instance=personne)
+        else:
+            form = CustomUserCreationForm(request.POST, instance=user)
+
         if form.is_valid():
-            user = form.save(commit=False)
-            user.save()
-            request.session["new_user_id"] = user.idInscription
+            form.save()
             request.session["mail"] = user.mail
             request.session.save()
-
             s["mail"] = user.mail
             s.save()
 
-            return render(
-                request, "users/PortailUser/NonInscrit/success.html", {"user": user}
-            )
-        print("hello")
-        return render(
-            request,
-            "users/PortailUser/NonInscrit/edit.html",
-            {"user": user, "form": form},
-        )
-    else:
-        print("hi")
-        return render(
-            request,
-            "users/PortailUser/NonInscrit/edit.html",
-            {"user": user, "form": form},
-        )
+            success_template = "users/PortailUser/Inscrit/success.html" if est_inscrit else "users/PortailUser/NonInscrit/success.html"
+            return render(request, success_template, {"user": user})
+
+    serialized_data = serializers.serialize("json", [user])
+    return render(request, template, {"user": serialized_data, "form": form})

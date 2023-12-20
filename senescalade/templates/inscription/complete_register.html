@@ -4,13 +4,16 @@
 <h1>Compléter l'inscription</h1>
 <form method="post" id="complete_register">
     {% csrf_token %}
-    <input type="hidden" name="form_id" value="complete_register" />
-    <input type="hidden" name="lInscription" value="{{ event_id }}" />
-    <input type="hidden" name="user" value="{{ user }}" />
+    <input type="hidden" name="form_id" value="complete_register" id="form_id" />
+    <input type="hidden" name="seance" value="{{ event_id }}" id="seance" />
+    <input type="hidden" name="lInscription" id="lInscription" />
+    <input type="hidden" name="user" value="{{ user }}" id="user" />
     {{ form.as_p }}
     <button type="submit">Terminer l'inscription</button>
 </form>
 <script>
+    var uid = JSON.parse('{{ user|safe }}')[0].pk;
+    document.getElementById("lInscription").value = uid;
     var user = JSON.parse('{{ user|safe }}')[0].fields;
     var dateNaissance = new Date(user.dateNaissance);
     var today = new Date();
