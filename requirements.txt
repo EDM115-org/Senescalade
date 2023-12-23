@@ -6,7 +6,7 @@ django-compressor==4.4
 django-cors-headers==4.3.1
 django-filter==23.5
 django-haystack==3.2.1
-django-tailwind==3.7.0
+django-tailwind==3.8.0
 djangorestframework==3.14.0
 djoser==2.2.2
 elasticsearch-dsl==8.11.0
