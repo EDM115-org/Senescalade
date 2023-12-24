@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Seance(models.Model):
     """
     Represents a Django model for managing sessions.

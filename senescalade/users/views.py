@@ -38,7 +38,6 @@ def login_user(request):
                 s.create()
                 request.session["session"] = s.session_key
 
-
                 if user.isAdmin == 1:
                     return render(
                         request, "users/PortailAdmin/success.html", {"user": user}
@@ -90,9 +89,7 @@ def creneau(request):
     serialized_data = serializers.serialize("json", [user])
 
     try:
-        personne = get_object_or_404(
-            CustomPersonne, lInscription=user.idInscription
-        )
+        personne = get_object_or_404(CustomPersonne, lInscription=user.idInscription)
         seance = get_object_or_404(Seance, pk=personne.seance)
         serialized_seance = serializers.serialize("json", [seance])
         serialized_data = serializers.serialize("json", [personne])
@@ -140,7 +137,11 @@ def edit_user(request):
             s["mail"] = user.mail
             s.save()
 
-            success_template = "users/PortailUser/Inscrit/success.html" if est_inscrit else "users/PortailUser/NonInscrit/success.html"
+            success_template = (
+                "users/PortailUser/Inscrit/success.html"
+                if est_inscrit
+                else "users/PortailUser/NonInscrit/success.html"
+            )
             return render(request, success_template, {"user": user})
 
     serialized_data = serializers.serialize("json", [user])
