@@ -1,7 +1,8 @@
 repo_name: EDM115-org/Tab-Magiques
-report_id: fda803db19725ea9d7ab0f7157614a26
+report_id: 886b29de4526585bbc84b702f01567e5
+version: 0.1
 repo_type: Public
-timestamp: '2023-12-14T09:44:17+00:00'
+timestamp: '2024-01-04T15:05:00+00:00'
 requested_by: EDM115
 provider: github
 branch: master
@@ -15,6 +16,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -25,6 +27,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: Python
   description: A clear and powerful object-oriented programming language, comparable
@@ -35,6 +38,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/993/pUBY5pVj.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: SQL
   description: It is a domain-specific language used in programming
@@ -44,6 +48,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/2271/default_068d33483bba6b81ee13fbd4dc7aab9780896a54.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/db/create_db.sql
   detection_source: db/create_db.sql
   last_updated_by: EDM115
   last_updated_on: 2023-11-08 13:44:07.000000000 Z
@@ -55,6 +60,7 @@ tools:
   category: Data Stores
   sub_category: Databases
   image_url: https://img.stackshare.io/service/1025/logo-mysql-170x170.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: EDM115
   last_updated_on: 2023-11-13 18:24:38.000000000 Z
@@ -66,6 +72,7 @@ tools:
   category: Data Stores
   sub_category: Database Tools
   image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: EDM115
   last_updated_on: 2023-11-13 18:24:38.000000000 Z
@@ -78,6 +85,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Virtual Machine Platforms & Containers
   image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: Git
   description: Fast, scalable, distributed revision control system
@@ -87,6 +95,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -96,9 +105,10 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/.github/workflows/codeql.yml
   detection_source: ".github/workflows/codeql.yml"
-  last_updated_by: EDM115
-  last_updated_on: 2023-12-03 11:31:42.000000000 Z
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-12-14 10:23:27.000000000 Z
 - name: PyPI
   description: A repository of software for the Python programming language
   website_url: https://pypi.org/
@@ -107,6 +117,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Hosted Package Repository
   image_url: https://img.stackshare.io/service/12572/-RIWgodF_400x400.jpg
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: EDM115
   last_updated_on: 2023-11-13 18:24:38.000000000 Z
@@ -130,6 +141,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/2270/no-img-open-source.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/Organisation/Compléments/UML.html
   detection_source: Organisation/Compléments/UML.html
   last_updated_by: EDM115
   last_updated_on: 2023-11-24 12:22:20.000000000 Z
@@ -141,6 +153,7 @@ tools:
   category: Communications
   sub_category: Large Language Model Tools
   image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: EDM115
   last_updated_on: 2023-11-13 18:24:38.000000000 Z
@@ -153,6 +166,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/EDM115-org/Tab-Magiques
   detection_source: Repo Metadata
 - name: Django
   description: A high-level Python Web framework that encourages rapid development
