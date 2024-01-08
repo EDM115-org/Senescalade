@@ -2,7 +2,10 @@
 
 {% block content %}
     <h1>Connexion réussie</h1>
-    <p>Bienvenue sur le portail User!</p>
-    <p>Vous êtes connecté en tant que {{ user.mail }}</p>
-    <p>Vous n'êtes pas inscrit</p>
+
+    <p> Vous êtes connecté en tant que {{ user.mail }} </p>
+
+    <a href="{% url 'users-deconnexion' %}">Deconnexion</a>
+
+    <a href="{% url 'users-edit' %}">Modification du profil</a>
 {% endblock %}

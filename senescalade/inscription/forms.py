@@ -68,6 +68,8 @@ class CompleteUserCreationForm(forms.ModelForm):
         pays: "Pays"
     """
 
+    action = forms.CharField(initial="C", widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = CustomPersonne
         fields = [
@@ -98,12 +100,12 @@ class CompleteUserCreationForm(forms.ModelForm):
             "nom": forms.TextInput(),
             "prenom": forms.TextInput(),
             "sexe": forms.RadioSelect(choices=CustomPersonne.SEXE_CHOICES),
-            "nationalite": forms.TextInput(),
+            "nationalite": forms.Select(choices=CustomPersonne.CODE_PAYS),
             "adresse": forms.TextInput(),
             "complementAdresse": forms.TextInput(),
             "codePostal": forms.TextInput(),
             "ville": forms.TextInput(),
-            "pays": forms.TextInput(),
+            "pays": forms.Select(choices=CustomPersonne.CODE_PAYS),
             "telephone": forms.TextInput(),
             "mobile": forms.TextInput(),
             "courriel2": forms.EmailInput(),
@@ -113,16 +115,20 @@ class CompleteUserCreationForm(forms.ModelForm):
             "personneCourriel": forms.EmailInput(),
             "assurance": forms.RadioSelect(choices=CustomPersonne.ASSURANCE_CHOICES),
             "optionSki": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
-            "optionSlackline": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
+            "optionSlackline": forms.RadioSelect(
+                choices=CustomPersonne.OPTIONS_CHOICES
+            ),
             "optionTrail": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
             "optionVTT": forms.RadioSelect(choices=CustomPersonne.OPTIONS_CHOICES),
-            "optionAssurance": forms.RadioSelect(choices=CustomPersonne.OPTION_ASSURANCE_CHOICES)
+            "optionAssurance": forms.RadioSelect(
+                choices=CustomPersonne.OPTION_ASSURANCE_CHOICES
+            ),
         }
         labels = {
             "nom": _("Nom"),
             "prenom": _("Prénom"),
             "sexe": _("Sexe"),
-            "nationalite": _("Nationalité (un code pays en 2 lettres, ex: FR pour France)"),
+            "nationalite": _("Nationalité"),
             "adresse": _("Adresse"),
             "complementAdresse": _("Complément d'adresse (facultatif)"),
             "codePostal": _("Code postal"),
@@ -140,16 +146,18 @@ class CompleteUserCreationForm(forms.ModelForm):
             "optionSlackline": _("Option slackline"),
             "optionTrail": _("Option trail"),
             "optionVTT": _("Option VTT"),
-            "optionAssurance": _("Option assurance")
+            "optionAssurance": _("Option assurance"),
         }
 
     def __init__(self, *args, **kwargs):
         super(CompleteUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['complementAdresse'].required = False
-        self.fields['telephone'].required = False
-        self.fields['mobile'].required = False
-        self.fields['courriel2'].required = False
-        self.fields['personneNom'].required = False
-        self.fields['personnePrenom'].required = False
-        self.fields['personneTelephone'].required = False
-        self.fields['personneCourriel'].required = False
+        self.fields["nationalite"].initial = "FR"
+        self.fields["complementAdresse"].required = False
+        self.fields["pays"].initial = "FR"
+        self.fields["telephone"].required = False
+        self.fields["mobile"].required = False
+        self.fields["courriel2"].required = False
+        self.fields["personneNom"].required = False
+        self.fields["personnePrenom"].required = False
+        self.fields["personneTelephone"].required = False
+        self.fields["personneCourriel"].required = False

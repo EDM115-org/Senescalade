@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Voir ses créneaux</h1>
+
+    <script>
+        var seance = {{ seance|safe }};
+        var seanceFields = JSON.parse(JSON.stringify(seance[0].fields));
+
+        var tableHTML = "<table border='1'><tr><th>Key</th><th>Value</th></tr>";
+        for (var key in seanceFields) {
+            tableHTML += "<tr><td>" + key + "</td><td>" + seanceFields[key] + "</td></tr>";
+        }
+        tableHTML += "</table>";
+        document.write(tableHTML);
+    </script>
+{% endblock %}
