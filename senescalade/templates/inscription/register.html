@@ -4,7 +4,26 @@
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="form_id" value="register" />
-    {{ form.as_p }}
-    <button type="submit">Inscription</button>
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if field.field.widget.input_type in 'text,password,email,date' %}
+                <input type="{{ field.field.widget.input_type }}" class="drac-input drac-input-border-md drac-input-purple drac-text-white drac-m-xs" name="{{ field.name }}" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+            {% elif field.field.widget.input_type == 'textarea' %}
+                <textarea class="drac-input drac-input-border-md drac-input-purple drac-text-white drac-m-xs" name="{{ field.name }}" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>{{ field.value }}</textarea>
+            {% elif field.field.widget.input_type == 'radio' %}
+                <input type="{{ field.field.widget.input_type }}" class="drac-radio drac-radio-purple" name="{{ field.name }}" id="{{ field.id_for_label }}">
+            {% elif field.field.widget.input_type == 'select' %}
+                <select class="drac-select drac-select-purple" name="{{ field.name }}" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+                    {% for choice in field.field.choices %}
+                        <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                {{ field }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="drac-btn drac-bg-animated">Inscription</button>
 </form>
 {% endblock %}
