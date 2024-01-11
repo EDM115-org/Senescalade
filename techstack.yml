@@ -2,11 +2,11 @@ repo_name: EDM115-org/Tab-Magiques
 report_id: 886b29de4526585bbc84b702f01567e5
 version: 0.1
 repo_type: Public
-timestamp: '2024-01-05T09:16:41+00:00'
+timestamp: '2024-01-11T12:29:37+00:00'
 requested_by: EDM115
 provider: github
 branch: master
-detected_tools_count: 27
+detected_tools_count: 24
 tools:
 - name: CSS 3
   description: The latest evolution of the Cascading Style Sheets language
@@ -64,18 +64,6 @@ tools:
   detection_source: requirements.txt
   last_updated_by: EDM115
   last_updated_on: 2023-11-13 18:24:38.000000000 Z
-- name: pgvector
-  description: Open-source vector similarity search for Postgres
-  website_url: https://github.com/pgvector/pgvector/
-  open_source: false
-  hosted_saas: false
-  category: Data Stores
-  sub_category: Database Tools
-  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
-  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
-  detection_source: requirements.txt
-  last_updated_by: EDM115
-  last_updated_on: 2023-11-13 18:24:38.000000000 Z
 - name: Docker
   description: Enterprise Container Platform for High-Velocity Innovation.
   website_url: https://www.docker.com/
@@ -124,7 +112,7 @@ tools:
 - name: pytest
   description: A full-featured Python testing tool to help you write better programs
   website_url: http://pytest.org/latest/
-  version: 7.4.3
+  version: 7.4.4
   license: MIT
   open_source: true
   hosted_saas: false
@@ -133,30 +121,8 @@ tools:
   image_url: https://img.stackshare.io/service/4586/Lu99Qe0Z_400x400.png
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
-  last_updated_by: EDM115
-  last_updated_on: 2023-11-13 18:24:38.000000000 Z
-- name: HTML
-  description: Hypertext Markup Language for creating web pages.
-  website_url: http://
-  open_source: false
-  hosted_saas: false
-  image_url: https://img.stackshare.io/service/2270/no-img-open-source.png
-  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/Organisation/Compléments/UML.html
-  detection_source: Organisation/Compléments/UML.html
-  last_updated_by: EDM115
-  last_updated_on: 2023-11-24 12:22:20.000000000 Z
-- name: LangChain
-  description: Build AI apps with LLMs through composability
-  website_url: https://github.com/hwchase17/langchain
-  open_source: true
-  hosted_saas: false
-  category: Communications
-  sub_category: Large Language Model Tools
-  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
-  detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
-  detection_source: requirements.txt
-  last_updated_by: EDM115
-  last_updated_on: 2023-11-13 18:24:38.000000000 Z
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-12-31 19:38:30.000000000 Z
 - name: Shell
   description: A shell is a text-based terminal, used for manipulating programs and
     files. Shell scripts typically manage program execution.
@@ -172,7 +138,7 @@ tools:
   description: A high-level Python Web framework that encourages rapid development
     and clean
   package_url: https://pypi.org/project/Django
-  version: '5.0'
+  version: 5.0.1
   license: BSD-3-Clause
   open_source: true
   hosted_saas: false
@@ -182,7 +148,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: Markdown
   description: Python implementation of Markdown
   package_url: https://pypi.org/project/Markdown
@@ -214,7 +180,7 @@ tools:
 - name: black
   description: The uncompromising code formatter
   package_url: https://pypi.org/project/black
-  version: 23.12.0
+  version: 23.12.1
   license: MIT
   open_source: true
   hosted_saas: false
@@ -224,7 +190,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-13 05:57:29.000000000 Z
+  last_updated_on: 2023-12-23 05:50:09.000000000 Z
 - name: celery
   description: Distributed Task Queue
   package_url: https://pypi.org/project/celery
@@ -252,7 +218,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: django-cors-headers
   description: Django-cors-headers is a Django application for handling the server
     headers required for Cross-Origin Resource Sharing
@@ -267,7 +233,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: django-filter
   description: Django-filter is a reusable Django application for allowing users to
     filter querysets dynamically
@@ -282,7 +248,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: django-haystack
   description: Pluggable search for Django
   package_url: https://pypi.org/project/django-haystack
@@ -296,7 +262,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: djangorestframework
   description: Web APIs for Django, made easy
   package_url: https://pypi.org/project/djangorestframework
@@ -310,7 +276,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-12-06 02:58:43.000000000 Z
+  last_updated_on: 2024-01-03 08:33:31.000000000 Z
 - name: elasticsearch-dsl
   description: Python client for Elasticsearch
   package_url: https://pypi.org/project/elasticsearch-dsl
@@ -328,7 +294,7 @@ tools:
 - name: setuptools
   description: Easily download
   package_url: https://pypi.org/project/setuptools
-  version: 69.0.2
+  version: 69.0.3
   license: MIT
   open_source: true
   hosted_saas: false
@@ -338,7 +304,7 @@ tools:
   detection_source_url: https://github.com/EDM115-org/Tab-Magiques/blob/master/requirements.txt
   detection_source: requirements.txt
   last_updated_by: renovate[bot]
-  last_updated_on: 2023-11-21 21:22:15.000000000 Z
+  last_updated_on: 2023-12-24 08:03:00.000000000 Z
 - name: wheel
   description: A built-package format for Python
   package_url: https://pypi.org/project/wheel
