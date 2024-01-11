@@ -65,7 +65,11 @@ def register_user(request):
                 return render(
                     request,
                     "inscription/complete_register.html",
-                    {"form": form, "event_id": selected_event_id, "user": serialized_data},
+                    {
+                        "form": form,
+                        "event_id": selected_event_id,
+                        "user": serialized_data,
+                    },
                 )
             return render(
                 request,

@@ -10,8 +10,6 @@ EDM115-org/Tab-Magiques is built on the following main stack:
 - [pytest](http://pytest.org/latest/) – Testing Frameworks
 - [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - [GitHub Actions](https://github.com/features/actions) – Continuous Integration
-- [LangChain](https://github.com/hwchase17/langchain) – Large Language Model Tools
-- [pgvector](https://github.com/pgvector/pgvector/) – Database Tools
 - [Docker](https://www.docker.com/) – Virtual Machine Platforms & Containers
 
 Full tech stack [here](/techstack.md)
@@ -29,8 +27,6 @@ EDM115-org/Tab-Magiques is built on the following main stack:
 - <img width='25' height='25' src='https://img.stackshare.io/service/4586/Lu99Qe0Z_400x400.png' alt='pytest'/> [pytest](http://pytest.org/latest/) – Testing Frameworks
 - <img width='25' height='25' src='https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png' alt='Shell'/> [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - <img width='25' height='25' src='https://img.stackshare.io/service/11563/actions.png' alt='GitHub Actions'/> [GitHub Actions](https://github.com/features/actions) – Continuous Integration
-- <img width='25' height='25' src='https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg' alt='LangChain'/> [LangChain](https://github.com/hwchase17/langchain) – Large Language Model Tools
-- <img width='25' height='25' src='https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png' alt='pgvector'/> [pgvector](https://github.com/pgvector/pgvector/) – Database Tools
 - <img width='25' height='25' src='https://img.stackshare.io/service/586/n4u37v9t_400x400.png' alt='Docker'/> [Docker](https://www.docker.com/) – Virtual Machine Platforms & Containers
 
 Full tech stack [here](/techstack.md)
@@ -42,7 +38,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [EDM115-org/Tab-Magiques](https://github.com/EDM115-org/Tab-Magiques)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|27<br/>Tools used|12/14/23 <br/>Report generated|
+|24<br/>Tools used|01/11/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -83,20 +79,12 @@ Full tech stack [here](/techstack.md)
 </tr>
 </table>
 
-## <img src='https://img.stackshare.io/databases.svg'/> Data (2)
+## <img src='https://img.stackshare.io/databases.svg'/> Data (1)
 <table><tr>
   <td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/1025/logo-mysql-170x170.png' alt='MySQL'>
   <br>
   <sub><a href="http://www.mysql.com">MySQL</a></sub>
-  <br>
-  <sub></sub>
-</td>
-
-<td align='center'>
-  <img width='36' height='36' src='https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png' alt='pgvector'>
-  <br>
-  <sub><a href="https://github.com/pgvector/pgvector/">pgvector</a></sub>
   <br>
   <sub></sub>
 </td>
@@ -143,31 +131,15 @@ Full tech stack [here](/techstack.md)
   <br>
   <sub><a href="http://pytest.org/latest/">pytest</a></sub>
   <br>
-  <sub>v7.4.3</sub>
+  <sub>v7.4.4</sub>
 </td>
 
 </tr>
 </table>
 
-## Other (3)
+## Other (1)
 <table><tr>
   <td align='center'>
-  <img width='36' height='36' src='https://img.stackshare.io/service/2270/no-img-open-source.png' alt='HTML'>
-  <br>
-  <sub><a href="http://">HTML</a></sub>
-  <br>
-  <sub></sub>
-</td>
-
-<td align='center'>
-  <img width='36' height='36' src='https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg' alt='LangChain'>
-  <br>
-  <sub><a href="https://github.com/hwchase17/langchain">LangChain</a></sub>
-  <br>
-  <sub></sub>
-</td>
-
-<td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png' alt='Shell'>
   <br>
   <sub><a href="https://en.wikipedia.org/wiki/Shell_script">Shell</a></sub>
@@ -185,18 +157,18 @@ Full tech stack [here](/techstack.md)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
-|[Django](https://pypi.org/project/Django)|v5.0|12/06/23|renovate[bot] |BSD-3-Clause|N/A|
+|[Django](https://pypi.org/project/Django)|v5.0.1|01/03/24|renovate[bot] |BSD-3-Clause|N/A|
 |[Markdown](https://pypi.org/project/Markdown)|v3.5.1|11/13/23|renovate[bot] |BSD-3-Clause|N/A|
 |[PyMySQL](https://pypi.org/project/PyMySQL)|v1.1.0|11/13/23|EDM115 |MIT|N/A|
-|[black](https://pypi.org/project/black)|v23.12.0|12/13/23|renovate[bot] |MIT|N/A|
+|[black](https://pypi.org/project/black)|v23.12.1|12/23/23|renovate[bot] |MIT|N/A|
 |[celery](https://pypi.org/project/celery)|v5.3.6|11/22/23|renovate[bot] |BSD-3-Clause|N/A|
-|[django-compressor](https://pypi.org/project/django-compressor)|v4.4|12/06/23|renovate[bot] |MIT|N/A|
-|[django-cors-headers](https://pypi.org/project/django-cors-headers)|v4.3.1|12/06/23|renovate[bot] |MIT|N/A|
-|[django-filter](https://pypi.org/project/django-filter)|v23.5|12/06/23|renovate[bot] |BSD-3-Clause|N/A|
-|[django-haystack](https://pypi.org/project/django-haystack)|v3.2.1|12/06/23|renovate[bot] |DSDP|N/A|
-|[djangorestframework](https://pypi.org/project/djangorestframework)|v3.14.0|12/06/23|renovate[bot] |BSD-3-Clause|N/A|
+|[django-compressor](https://pypi.org/project/django-compressor)|v4.4|01/03/24|renovate[bot] |MIT|N/A|
+|[django-cors-headers](https://pypi.org/project/django-cors-headers)|v4.3.1|01/03/24|renovate[bot] |MIT|N/A|
+|[django-filter](https://pypi.org/project/django-filter)|v23.5|01/03/24|renovate[bot] |BSD-3-Clause|N/A|
+|[django-haystack](https://pypi.org/project/django-haystack)|v3.2.1|01/03/24|renovate[bot] |DSDP|N/A|
+|[djangorestframework](https://pypi.org/project/djangorestframework)|v3.14.0|01/03/24|renovate[bot] |BSD-3-Clause|N/A|
 |[elasticsearch-dsl](https://pypi.org/project/elasticsearch-dsl)|v8.11.0|11/13/23|dependabot[bot] |Apache-2.0|N/A|
-|[setuptools](https://pypi.org/project/setuptools)|v69.0.2|11/21/23|renovate[bot] |MIT|N/A|
+|[setuptools](https://pypi.org/project/setuptools)|v69.0.3|12/24/23|renovate[bot] |MIT|N/A|
 |[wheel](https://pypi.org/project/wheel)|v0.42.0|11/26/23|dependabot[bot] |MIT|N/A|
 
 <br/>
