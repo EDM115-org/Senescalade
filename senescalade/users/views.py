@@ -163,7 +163,7 @@ def continue_inscription(request):
         "inscription/creneau.html",
         {"user": user, "data": serialized_data},
     ) """
-    
+
     """
     The POST data looks like that :
     POST Data : {'csrfmiddlewaretoken': '1UgXs0oaz5cYrzM15edzIYl3JCKbLolCijxVNrW0kHm301lrgbF1NgnlekSSR3ho', 'form_id': 'register', 'dateNaissance': '2013-03-06', 'mail': 'ntm@sae.com', 'password': 'azertyuiop', 'confirm_password': 'azertyuiop', 'isAdmin': 'False'}
