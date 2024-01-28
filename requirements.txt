@@ -1,5 +1,5 @@
 base58check==1.0.2
-black==23.12.1
+black==24.1.1
 celery==5.3.6
 Django==5.0.1
 django-compressor==4.4
