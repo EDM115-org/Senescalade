@@ -3,9 +3,11 @@
 {% block content %}
     <h1>Connexion réussie</h1>
 
-    <p> Vous êtes connecté en tant que {{ user.mail }} </p>
+    <p> Vous êtes connecté en tant que {{ mail }} </p>
 
     <a href="{% url 'users-deconnexion' %}">Deconnexion</a>
+
+    <a href="{% url 'users-continue-inscription' %}">Reprendre l'inscription</a>
 
     <a href="{% url 'users-edit' %}">Modification du profil</a>
 {% endblock %}

@@ -1,4 +1,6 @@
+from hmac import new
 import json
+import re
 
 from django.shortcuts import render
 from django.core import serializers
@@ -23,17 +25,30 @@ def register_user(request):
         if form_id == "register":
             form = CustomUserCreationForm(request.POST)
             if form.is_valid():
-                new_user = form.save(commit=False)
-                new_user.save()
-                request.session["new_user_id"] = new_user.idInscription
-                request.session.save()
+                try:
+                    reprise = request.POST.get("reprise")
+                    reprise = True if reprise == "True" else False
+                    new_user = CustomUser.objects.get(mail=request.POST.get("mail"))
+                except:
+                    reprise = False
+                if not reprise:
+                    new_user = form.save(commit=False)
+                    new_user.save()
+                    request.session["new_user_id"] = new_user.idInscription
+                    request.session.save()
                 queryset = DataCalendar.objects.all()
                 serialized_data = serializers.serialize("json", queryset)
 
+                if not reprise:
+                    return render(
+                        request,
+                        "inscription/creneau.html",
+                        {"user": new_user, "data": serialized_data},
+                    )
                 return render(
                     request,
                     "inscription/creneau.html",
-                    {"user": new_user, "data": serialized_data},
+                    {"user": new_user, "data": serialized_data, "pass_to": "creneau"},
                 )
             return render(
                 request,

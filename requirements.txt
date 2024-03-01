@@ -1,7 +1,7 @@
 base58check==1.0.2
-black==23.12.1
+black==24.2.0
 celery==5.3.6
-Django==5.0.1
+Django==5.0.2
 django-compressor==4.4
 django-cors-headers==4.3.1
 django-filter==23.5
@@ -9,9 +9,9 @@ django-haystack==3.2.1
 django-tailwind==3.8.0
 djangorestframework==3.14.0
 djoser==2.2.2
-elasticsearch-dsl==8.11.0
-Markdown==3.5.1
+elasticsearch-dsl==8.12.0
+Markdown==3.5.2
 PyMySQL==1.1.0
-pytest==7.4.4
-setuptools==69.0.3
+pytest==8.0.2
+setuptools==69.1.1
 wheel==0.42.0

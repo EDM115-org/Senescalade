@@ -1,4 +1,3 @@
-from math import e
 from django.contrib.auth import logout
 from django.core import serializers
 from django.shortcuts import render, get_object_or_404
@@ -6,7 +5,8 @@ from django.http import Http404
 from django.contrib.sessions.backends.db import SessionStore
 from .forms import CustomUserLoginForm
 from inscription.forms import CompleteUserCreationForm, CustomUserCreationForm
-from inscription.models import CustomUser, CustomPersonne
+from inscription.models import CustomUser, CustomPersonne, DataCalendar
+from inscription.views import register_user
 from .models import Seance
 
 
@@ -76,7 +76,6 @@ def logout_user(request):
     Returns:
     - A redirect response to the login page.
     """
-
     logout(request)
     return render(request, "users/logout.html")
 
@@ -132,10 +131,13 @@ def edit_user(request):
 
         if form.is_valid():
             form.save()
-            request.session["mail"] = user.mail
-            request.session.save()
-            s["mail"] = user.mail
-            s.save()
+            if not est_inscrit:
+                user_mail = form.cleaned_data["mail"]
+                user = get_object_or_404(CustomUser, mail=user_mail)
+                request.session["mail"] = user.mail
+                request.session.save()
+                s["mail"] = user.mail
+                s.save()
 
             success_template = (
                 "users/PortailUser/Inscrit/success.html"
@@ -146,3 +148,45 @@ def edit_user(request):
 
     serialized_data = serializers.serialize("json", [user])
     return render(request, template, {"user": serialized_data, "form": form})
+
+
+def continue_inscription(request):
+    s = SessionStore(session_key=request.session["session"])
+    user_mail = s["mail"]
+    user = get_object_or_404(CustomUser, mail=user_mail)
+
+    """ queryset = DataCalendar.objects.all()
+    serialized_data = serializers.serialize("json", queryset)
+
+    return render(
+        request,
+        "inscription/creneau.html",
+        {"user": user, "data": serialized_data},
+    ) """
+
+    """
+    The POST data looks like that :
+    POST Data : {'csrfmiddlewaretoken': '1UgXs0oaz5cYrzM15edzIYl3JCKbLolCijxVNrW0kHm301lrgbF1NgnlekSSR3ho', 'form_id': 'register', 'dateNaissance': '2013-03-06', 'mail': 'ntm@sae.com', 'password': 'azertyuiop', 'confirm_password': 'azertyuiop', 'isAdmin': 'False'}
+
+    retrieve dateNaissance, mail, password, confirm_password, isAdmin from the user object, then Craft a POST request witg form_id = "register" and the data above, and pass it to the register_user view.
+    """
+    if request.POST.get("pass_to") != None:
+        form_id = request.POST.get("pass_to")
+    else:
+        form_id = "register"
+    dateNaissance = user.dateNaissance
+    mail = user.mail
+    password = user.password
+    confirm_password = user.password
+    isAdmin = user.isAdmin
+
+    request.POST = request.POST.copy()
+    request.POST["form_id"] = form_id
+    request.POST["dateNaissance"] = dateNaissance
+    request.POST["mail"] = mail
+    request.POST["password"] = password
+    request.POST["confirm_password"] = confirm_password
+    request.POST["isAdmin"] = isAdmin
+    request.POST["reprise"] = "True"
+    request.method = "POST"
+    return register_user(request)
