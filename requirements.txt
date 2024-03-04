@@ -1,7 +1,7 @@
 base58check==1.0.2
 black==24.2.0
 celery==5.3.6
-Django==5.0.2
+Django==5.0.3
 django-compressor==4.4
 django-cors-headers==4.3.1
 django-filter==23.5
