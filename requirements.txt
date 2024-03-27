@@ -3,7 +3,7 @@ black==24.3.0
 Django==5.0.3
 django-compressor==4.4
 django-cors-headers==4.3.1
-django-filter==24.1
+django-filter==24.2
 django-haystack==3.2.1
 django-tailwind==3.8.0
 djangorestframework==3.15.1
