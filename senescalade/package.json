@@ -1,0 +1,22 @@
+{
+  "name": "senescalade",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.11.1",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "vuetify": "^3.5.14"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47"
+  }
+}
