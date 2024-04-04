@@ -3,14 +3,22 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "analyze": "rimraf .output && nuxi analyze",
+    "build": "rimraf .output && nuxi build",
+    "dev": "nuxi dev -p 8000",
+    "generate": "nuxi generate",
+    "prepare": "nuxi prepare",
+    "preview": "nuxi preview",
+    "start": "npm run build && cross-env PORT=8000 nuxi start"
   },
   "devDependencies": {
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/i18n": "^8.3.0",
+    "cross-env": "^7.0.3",
     "nuxt": "^3.11.1",
+    "rimraf": "^5.0.5",
+    "sass": "^1.74.1",
+    "sass-loader": "^14.1.1",
     "vite-plugin-vuetify": "^2.0.3",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
