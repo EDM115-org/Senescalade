@@ -1,4 +1,4 @@
-name: "Black linter"
+name: "Lints the code with ESLint"
 
 on:
   schedule:
@@ -18,10 +18,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: "Black-ify"
-        uses: "psf/black@stable"
-        with:
-          options: "-v -t py312 --safe --exclude .git .github"
+      - name: "Lint the code"
+        run: |
+          cd senescalade
+          npm ci
+          npm run lint-fix
 
       - name: "Check for changes"
         id: git-check
@@ -35,7 +36,7 @@ jobs:
           git config --local user.email ${{ secrets.GH_EMAIL }}
           git config --local user.name ${{ secrets.GH_USERNAME }}
           git add -A
-          git commit -m "Code style changed to Black at ${d}"
+          git commit -m "chore: weekly lint (${d})"
 
       - name: "Push"
         if: steps.git-check.outputs.changed

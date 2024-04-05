@@ -1,3 +1,4 @@
+#!/bin/bash
 source /app/.env
 echo "Senescalade - Starting server..."
 cd /app/senescalade
