@@ -1,6 +1,6 @@
 version = 1
 
-exclude_patterns = ["senescalade/node_modules/**"]
+exclude_patterns = ["node_modules/**"]
 
 [[analyzers]]
 name = "docker"

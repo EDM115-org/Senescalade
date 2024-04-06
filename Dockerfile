@@ -8,12 +8,10 @@ RUN apk update && \
     npm i -g clean-modules@3.0.4
 
 WORKDIR /app/
-ADD /senescalade/package.json .
-ADD /senescalade/package-lock.json .
+ADD . .
 
-RUN npm ci --no-audit --no-fund
-ADD /senescalade/ .
-RUN npm run build
+RUN npm ci --no-audit --no-fund && \
+    npm run build
 
 ##########################
 # copy built app and assemble actual dist

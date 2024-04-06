@@ -4,7 +4,7 @@
 
 ### Application web d'inscription pour l'association Senescalade
 
-Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques.svg/?label=active+issues&show_trend=true&token=WF6hxNEht95_hyiFpZdVK2h6)](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques/)  
+Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques.svg/?label=active+issues&show_trend=true&token=WF6hxNEht95_hyiFpZdVK2h6)](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques/)
 
 </center>
 
@@ -13,13 +13,15 @@ Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](http
 Prérequis :
 - Node.js 20
 - MySQL 8.0.35
+- Docker
+- Docker Compose
 
 ### Production (Docker)
 
 ```bash
 git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
-docker build -t senescalade-prod .
-docker run -d -p 80:80 --env-file .env senescalade-prod
+npm i
+npm run prod-docker
 ```
 
 ### Développement (Windows)
@@ -36,15 +38,9 @@ CREATE DATABASE IF NOT EXISTS sae;
 Puis dans un powershell
 
 ```bash
-git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques/senescalade
-py -m venv .venv && source .venv/Scripts/activate
-cd .. && pip install -U -r requirements.txt
-cd senescalade && py manage.py migrate
-py manage.py createsuperuser
-    root
-    senescalade@live.fr
-    Senescalade!56
-py manage.py runserver
+git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
+npm i
+npm run dev
 ```
 
 ## Code
@@ -77,7 +73,4 @@ Sources to check :
 - https://nuxt.com/modules/nuxt-mail
 - https://pwa.nuxtjs.org/setup
 
-- [ ] Add Zellij
-- [ ] Add nvm
-- [ ] Add docker compose
 - [ ] Test the dockerfile
