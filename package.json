@@ -1,25 +1,15 @@
 {
-  "name": "senescalade",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "analyze": "rimraf .output && nuxi analyze",
-    "build": "rimraf .output && nuxi build",
-    "dev": "nuxi dev -p 8000",
-    "dev-docker": "docker compose --profile dev up -d --wait",
-    "generate": "nuxi generate",
-    "lint": "eslint --ext js,vue --ignore-path .gitignore .",
-    "lint-fix": "eslint --ext js,vue --ignore-path .gitignore --fix .",
-    "prepare": "nuxi prepare",
-    "preview": "nuxi preview",
-    "prod-docker": "docker compose --profile prod up -d --wait",
-    "start": "npm run build && cross-env PORT=8000 nuxi start",
-    "stop-dev-docker": "docker compose --profile dev stop",
-    "stop-prod-docker": "docker compose --profile prod stop",
-    "upgrade": "nuxi upgrade --force",
-    "zellij-dev": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.dev.kdl && npm run stop-dev-docker",
-    "zellij-prod": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.prod.kdl && npm run stop-prod-docker"
+  "author": "EDM115 <dev@edm115.eu.org> (https://edm115.dev)",
+  "bugs": {
+    "url": "https://github.com/EDM115-org/Tab-Magiques/issues",
+    "email": "senescalade@edm115.eu.org"
   },
+  "contributors": [
+    "EDM115 <dev@edm115.eu.org> (https://edm115.dev)",
+    "EuphoriaReal",
+    "yamakajump"
+  ],
+  "description": "Une webapp pour la gestion des inscriptions de l'association Senescalade",
   "devDependencies": {
     "@formkit/auto-animate": "^0.8.1",
     "@mdi/font": "^7.4.47",
@@ -61,5 +51,42 @@
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vuetify": "^3.5.14"
-  }
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
+  "homepage": "https://github.com/EDM115-org/Tab-Magiques",
+  "keywords": [
+    "nuxt",
+    "vuetify",
+    "escalade",
+    "senescalade"
+  ],
+  "license": "MIT",
+  "name": "senescalade",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EDM115-org/Tab-Magiques.git"
+  },
+  "scripts": {
+    "analyze": "rimraf .output && nuxi analyze",
+    "build": "rimraf .output && nuxi build",
+    "dev": "nuxi dev -p 8000",
+    "dev-docker": "docker compose --profile dev up -d --wait",
+    "generate": "nuxi generate",
+    "lint": "eslint --ext js,vue --ignore-path .gitignore .",
+    "lint-fix": "eslint --ext js,vue --ignore-path .gitignore --fix .",
+    "preview": "nuxi preview",
+    "prod-docker": "docker compose --profile prod up -d --wait",
+    "start": "npm run build && cross-env PORT=8000 nuxi start",
+    "stop-dev-docker": "docker compose --profile dev stop",
+    "stop-prod-docker": "docker compose --profile prod stop",
+    "upgrade": "nuxi upgrade --force",
+    "zellij-dev": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.dev.kdl && npm run stop-dev-docker",
+    "zellij-prod": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.prod.kdl && npm run stop-prod-docker"
+  },
+  "type": "module",
+  "version": "1.0.0"
 }
