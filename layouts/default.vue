@@ -7,15 +7,16 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line no-undef
 useHead({
-  title: 'Senescalade',
+  title: "Senescalade",
   meta: [
-    { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'description', content: 'Senescalade' }
+    { charset: "utf-8" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "description", content: "Senescalade" }
   ],
   link: [
-    { rel: 'icon', type: 'image/ico', href: '/favicon.ico' }
+    { rel: "icon", type: "image/ico", href: "/favicon.ico" }
   ]
 })
 </script>

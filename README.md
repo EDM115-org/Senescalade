@@ -60,20 +60,9 @@ npm run dev
 
 Sources to check :
 
-- https://nuxt.com/modules/pinia
-- https://nuxt.com/modules/i18n
-- https://nuxt.com/modules/eslint
-- https://nuxt.com/modules/vueuse
 - https://nuxt.com/modules/auto-animate
-- https://nuxt.com/modules/image
 - https://nuxt.com/modules/test-utils
-- https://nuxt.com/modules/icon
-- https://nuxt.com/modules/device
-- https://nuxt.com/modules/google-fonts
-- https://nuxt.com/modules/lodash
-- https://nuxt.com/modules/link-checker
-- https://nuxt.com/modules/aos
 - https://nuxt.com/modules/nuxt-mail
-- https://pwa.nuxtjs.org/setup
+- https://vite-pwa-org.netlify.app/frameworks/nuxt.html + https://vite-pwa-org.netlify.app/assets-generator/
 
 - [ ] Test the dockerfile
