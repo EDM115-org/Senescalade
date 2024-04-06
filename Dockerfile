@@ -8,7 +8,7 @@ RUN apk update && \
     npm i -g clean-modules@3.0.4
 
 WORKDIR /app/
-ADD . .
+COPY . .
 
 RUN npm ci --no-audit --no-fund && \
     npm run build
@@ -27,9 +27,9 @@ WORKDIR /app/
 
 COPY --from=builder /app/.output /app/.output
 
-ADD README.md .
-ADD LICENSE .
-ADD .env .
+COPY README.md .
+COPY LICENSE .
+COPY .env .
 
 EXPOSE 8000
 
