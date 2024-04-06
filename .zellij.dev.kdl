@@ -1,0 +1,16 @@
+layout {
+    pane {
+      split_direction "vertical"
+      pane name="senescalade" borderless=true {
+        command "${DEV_SHELL}"
+        args "-ic" "nvm use > /dev/null 2>&1 && ${DEV_SHELL}"
+      }
+      pane name="nuxt" {
+        command "${DEV_SHELL}"
+        args "-ic" "nvm use > /dev/null 2>&1 && npm run dev | tee logs/nuxt_logs_$(date +%Y-%m-%d_%H-%M-%S).txt"
+      }
+    }
+    pane size=2 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

@@ -1,17 +1,36 @@
-FROM archlinux:base
+##########################
+# install dev deps and build
+FROM node:20.11.1-alpine3.19 AS builder
 
-RUN pacman -Syyu --noconfirm && \
-    pacman -S --noconfirm python-pip git mysql apache && \
-    pacman -Scc --noconfirm
-RUN python -m venv /venv && \
-    . /venv/bin/activate && \
-    pip install --no-cache-dir -U pip==23.3.1 setuptools==69.0.2 wheel==0.42.0
-ENV PATH="/venv/bin:$PATH"
-WORKDIR /app
-RUN git clone https://github.com/EDM115-org/Tab-Magiques.git . && \
-    pip install --no-cache-dir -U -r /app/requirements.txt
-COPY apache.conf /etc/httpd/conf/extra/httpd.conf
-COPY .env /app/
-RUN echo "Include conf/extra/httpd.conf" >> /etc/httpd/conf/httpd.conf
-EXPOSE 80
-CMD ["bash", "-c", "httpd -DFOREGROUND & bash start.sh"]
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add --no-cache git mysql-client && \
+    npm i -g clean-modules@3.0.4
+
+WORKDIR /app/
+ADD . .
+
+RUN npm ci --no-audit --no-fund && \
+    npm run build
+
+##########################
+# copy built app and assemble actual dist
+FROM node:20.11.1-alpine3.19
+
+LABEL org.opencontainers.image.authors="dev@edm115.dev"
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+ENV PORT 8000
+
+WORKDIR /app/
+
+COPY --from=builder /app/.output /app/.output
+
+ADD README.md .
+ADD LICENSE .
+ADD .env .
+
+EXPOSE 8000
+
+CMD ["node", "--max-http-header-size", "64000", ".output/server/index.mjs"]

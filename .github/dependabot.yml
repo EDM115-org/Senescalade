@@ -1,6 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
@@ -10,10 +10,10 @@ updates:
     assignees:
       - "EDM115"
     commit-message:
-      prefix: "[dependabot/pip] "
-      include: scope
+      prefix: "[dependabot/npm] "
+      include: "scope"
     labels:
-      - "dependabot/pip"
+      - "dependabot/npm"
     pull-request-branch-name:
       separator: "/"
     reviewers:

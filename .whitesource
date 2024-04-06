@@ -14,17 +14,13 @@
     "issueType": "DEPENDENCY",
     "minSeverityLevel": "LOW"
   },
-  "python": {
-    "installVirtualenv": true,
-    "invokePipAsModule": true,
-    "path": "python3.11"
-  },
   "scanSettings": {
     "baseBranches": [
       "master"
     ],
     "configMode": "AUTO",
-    "cloneSubmodules": true
+    "cloneSubmodules": true,
+    "exploitability": true
   },
   "remediateSettings": {
     "enableRenovate": true,
