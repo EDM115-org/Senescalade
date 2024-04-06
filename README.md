@@ -11,6 +11,7 @@ Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](http
 ## Utilisation
 
 Prérequis :
+
 - Node.js 20
 - MySQL 8.0.35
 - Docker
@@ -27,6 +28,7 @@ npm run prod-docker
 ### Développement (Windows)
 
 Ouvrir le MySQL Shell
+
 ```sql
 \sql
 \connect root@localhost
@@ -57,6 +59,7 @@ npm run dev
 ## Development
 
 Sources to check :
+
 - https://nuxt.com/modules/pinia
 - https://nuxt.com/modules/i18n
 - https://nuxt.com/modules/eslint
