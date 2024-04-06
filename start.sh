@@ -1,7 +1,7 @@
 #!/bin/bash
 source /app/.env
 echo "Senescalade - Starting server..."
-cd /app/senescalade
+cd /app/senescalade || exit
 if [ "$DB_CREATED" != "true" ]; then
 	mysql -u root -e "CREATE USER '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASS';"
 	mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
