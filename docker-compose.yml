@@ -1,0 +1,24 @@
+services:
+  senescalade-dev:
+    build:
+      args:
+        NODE_ENV: development
+      dockerfile: ./Dockerfile
+    environment:
+      - NODE_ENV=development
+    image: edm115/senescalade:dev
+    network_mode: "host"
+    profiles:
+      - dev
+  
+  senescalade-prod:
+    build:
+      args:
+        NODE_ENV: production
+      dockerfile: ./Dockerfile
+    environment:
+      - NODE_ENV=production
+    image: edm115/senescalade:prod
+    network_mode: "host"
+    profiles:
+      - prod
