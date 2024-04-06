@@ -156,3 +156,4 @@ cython_debug/
 
 # Custom
 *.session.sql
+node_modules
