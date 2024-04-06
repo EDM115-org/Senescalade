@@ -1,6 +1,6 @@
 ##########################
 # install dev deps and build
-FROM node:20.11.1-alpine3.19 AS builder
+FROM node:20.12.1-alpine3.19 AS builder
 
 RUN apk update && \
     apk upgrade --no-cache && \
@@ -15,7 +15,7 @@ RUN npm ci --no-audit --no-fund && \
 
 ##########################
 # copy built app and assemble actual dist
-FROM node:20.11.1-alpine3.19
+FROM node:20.12.1-alpine3.19
 
 LABEL org.opencontainers.image.authors="dev@edm115.dev"
 
