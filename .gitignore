@@ -21,3 +21,4 @@ logs
 
 # Custom
 *.session.sql
+node_modules
