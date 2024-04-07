@@ -40,7 +40,7 @@
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-vue": "^9.24.0",
-    "happy-dom": "^13.10.1",
+    "happy-dom": "^14.7.1",
     "nuxt-aos": "^1.2.4",
     "nuxt-icon": "^0.6.10",
     "nuxt-link-checker": "^3.0.0-rc.7",
