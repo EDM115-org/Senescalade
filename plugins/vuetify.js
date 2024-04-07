@@ -10,37 +10,41 @@ export default defineNuxtPlugin((app) => {
     locale: {
       locale: "fr",
       fallback: "en",
-      messages: { fr, en },
+      messages: { fr, en }
     },
     theme: {
       defaultTheme: "dark",
       themes: {
-        light: {
-          dark: false,
-          colors: {
-            primary: "#1976D2",
-            secondary: "#424242",
-            accent: "#82B1FF",
-            error: "#FF5252",
-            info: "#2196F3",
-            success: "#4CAF50",
-            warning: "#FFC107",
-          },
-        },
         dark: {
-          dark: true,
           colors: {
-            primary: "#2196F3",
-            secondary: "#424242",
-            accent: "#82B1FF",
-            error: "#FF5252",
-            info: "#2196F3",
-            success: "#4CAF50",
-            warning: "#FFC107",
+            accent: "#53B9C8",
+            background: "#020613",
+            error: "#EE3124",
+            info: "#53B9C8",
+            primary: "#EE3124",
+            secondary: "#2646CB",
+            success: "#50FA7B",
+            text: "#F8F8F2",
+            warning: "#F5A249"
           },
+          dark: true
         },
-      },
-    },
+        light: {
+          colors: {
+            accent: "#53B9C8",
+            background: "#DFDFD2",
+            error: "#EE3124",
+            info: "#53B9C8",
+            primary: "#EE3124",
+            secondary: "#803EDF",
+            success: "#3CD863",
+            text: "#070B1A",
+            warning: "#FFB86C"
+          },
+          dark: false
+        }
+      }
+    }
   })
   app.vueApp.use(vuetify)
 })

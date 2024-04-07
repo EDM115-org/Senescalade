@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <LayoutNavBar />
       <NuxtPage />
     </v-main>
   </v-app>

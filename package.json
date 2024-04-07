@@ -32,7 +32,6 @@
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-vue": "^9.24.0",
-    "eslint-plugin-vuetify": "^2.2.0",
     "happy-dom": "^13.10.1",
     "nuxt": "^3.11.2",
     "nuxt-aos": "^1.2.4",

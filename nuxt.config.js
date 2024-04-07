@@ -84,6 +84,7 @@ export default defineNuxtConfig({
   plugins: [{
     src: "~/plugins/vuetify"
   }],
+  ssr: true,
   telemetry: false,
   vite: {
     vue: {
