@@ -84,6 +84,13 @@ export default defineNuxtConfig({
     "nuxt-lodash",
     // "nuxt-mail"
   ],
+  nitro: {
+    esbuild: {
+      options: {
+        target: "esnext"
+      }
+    }
+  },
   plugins: [{
     src: "~/plugins/vuetify"
   }],
