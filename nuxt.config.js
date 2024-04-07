@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     offset: 100,
     once: true
   },
+  app: {
+    pageTransition: { name: "page", mode: "out-in" }
+  },
   build: {
     transpile: ["vuetify"],
   },

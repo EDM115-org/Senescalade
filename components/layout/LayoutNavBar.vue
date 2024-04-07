@@ -2,11 +2,43 @@
   <v-app-bar
     class="px-8"
     color="secondary"
+    dense
     floating
     rounded="b-xl"
     scroll-behavior="elevate"
   >
-    <v-app-bar-title text="Senescalade" />
+    <template #prepend>
+      <NuxtLink
+        to="/"
+        class="flex items-center"
+      >
+        <v-img
+          src="~/public/images/salamandre.png"
+          alt="Senescalade"
+          min-height="40"
+          max-height="40"
+          min-width="40"
+          max-width="40"
+        />
+      </NuxtLink>
+    </template>
+    <v-app-bar-title>
+      <NuxtLink
+        to="/"
+        class="text-h6"
+      >
+        Senescalade
+      </NuxtLink>
+      <NuxtLink
+        to="/dev"
+      >
+        <v-btn
+          class="mx-2"
+          color="warning"
+          text="Dev"
+        />
+      </NuxtLink>
+    </v-app-bar-title>
     <v-spacer />
     <v-btn
       :prepend-icon="accountIcon"

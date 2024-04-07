@@ -64,5 +64,6 @@ Sources to check :
 - https://nuxt.com/modules/test-utils
 - https://nuxt.com/modules/nuxt-mail
 - https://vite-pwa-org.netlify.app/frameworks/nuxt.html + https://vite-pwa-org.netlify.app/assets-generator/
+- Store : https://github.com/data-fair/processings/blob/e6cc8abc336853363e950e3e73c13939d7570eb2/ui/store/pinia.js
 
 - [ ] Test the dockerfile
