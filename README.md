@@ -65,5 +65,6 @@ Sources to check :
 - https://nuxt.com/modules/nuxt-mail
 - https://vite-pwa-org.netlify.app/frameworks/nuxt.html + https://vite-pwa-org.netlify.app/assets-generator/
 - Store : https://github.com/data-fair/processings/blob/e6cc8abc336853363e950e3e73c13939d7570eb2/ui/store/pinia.js
+- BDD : https://github.com/sidorares/node-mysql2 (base : https://github.com/mysqljs/mysql, image : https://hub.docker.com/_/mysql)
 
-- [ ] Test the dockerfile
+- [ ] Test the dockerfile and docker-compose

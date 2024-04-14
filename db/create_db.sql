@@ -1,5 +1,5 @@
 /*
-SAE Salle d'escalade -- Partie BDD
+SAE Senescalade -- Partie BDD
 BATARD Corentin - LEDERREY Lussandre - MACCREZ Allan
 INFO 2A2
 

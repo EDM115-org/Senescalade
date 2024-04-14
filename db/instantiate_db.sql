@@ -1,5 +1,5 @@
 /*
-SAE Salle d'escalade -- Partie BDD
+SAE Senescalade -- Partie BDD
 BATARD Corentin - LEDERREY Lussandre - MACCREZ Allan
 INFO 2A2
 
@@ -21,7 +21,7 @@ Version MySQL
 
 USE sae;
 
-CREATE TABLE Seance (
+CREATE TABLE IF NOT EXISTS Seance (
     idSeance INT AUTO_INCREMENT PRIMARY KEY,
     jour CHAR(50) NOT NULL,
     heureSeance TIME NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Seance (
     professeur CHAR(100)
 );
 
-CREATE TABLE Inscription (
+CREATE TABLE IF NOT EXISTS Inscription (
     idInscription INT AUTO_INCREMENT PRIMARY KEY,
     mail VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE Inscription (
     isAdmin BOOLEAN NOT NULL
 );
 
-CREATE TABLE Personne (
+CREATE TABLE IF NOT EXISTS Personne (
     idPersonne INT AUTO_INCREMENT PRIMARY KEY,
     action CHAR(1) NOT NULL,
     nom VARCHAR(100) NOT NULL,
@@ -80,14 +80,14 @@ CREATE TABLE Personne (
     CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
 );
 
-CREATE TABLE Admin (
+CREATE TABLE IF NOT EXISTS Admin (
     idAdmin INT PRIMARY KEY,
     droit CHAR(5) NOT NULL,
     FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
 );
 
 DELIMITER //
-CREATE TRIGGER check_date_naissance
+CREATE TRIGGER IF NOT EXISTS check_date_naissance
 BEFORE INSERT ON Inscription
 FOR EACH ROW
 BEGIN
