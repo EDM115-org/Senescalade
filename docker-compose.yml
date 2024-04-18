@@ -6,8 +6,7 @@ services:
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
     image: mysql:8.0.36
-    ports:
-      - "3306:3306"
+    network_mode: "host"
     profiles:
       - dev
       - prod

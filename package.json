@@ -87,8 +87,8 @@
     "stop-dev-docker": "docker compose --profile dev stop",
     "stop-prod-docker": "docker compose --profile prod stop",
     "upgrade": "nuxi upgrade --force",
-    "zellij-dev": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.dev.kdl && npm run stop-dev-docker",
-    "zellij-prod": "cross-env DEV_SHELL=$(basename \"$SHELL\") && zellij --layout .zellij.prod.kdl && npm run stop-prod-docker"
+    "zellij-dev": "export $(cat .env | xargs) && cross-env-shell DEV_SHELL=$(basename $SHELL) \"zellij --layout .zellij.dev.kdl && npm run stop-dev-docker\"",
+    "zellij-prod": "export $(cat .env | xargs) && cross-env-shell DEV_SHELL=$(basename $SHELL) \"zellij --layout .zellij.prod.kdl && npm run stop-prod-docker\""
   },
   "type": "module",
   "version": "1.0.0"
