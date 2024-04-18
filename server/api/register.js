@@ -15,8 +15,6 @@ try {
 }
 
 // eslint-disable-next-line no-undef
-//add user to database
-
 export default defineEventHandler(async (event) => {
   console.log("Received event", event)
   if (!connection) {
