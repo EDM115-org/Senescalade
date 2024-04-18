@@ -5,9 +5,16 @@ layout {
         command "${DEV_SHELL}"
         args "-ic" "nvm use > /dev/null 2>&1 && ${DEV_SHELL}"
       }
+    }
+    pane {
+      split_direction "vertical"
+      pane name="mysql" {
+        command "${DEV_SHELL}"
+        args "-ic" "nvm use > /dev/null 2>&1 && npm run dev-docker && mkdir -p /tmp/senescalade logs; touch /tmp/senescalade/zjdms && docker compose logs -f | tee logs/docker_logs_$(date +%Y-%m-%d_%H-%M-%S).txt"
+      }
       pane name="nuxt" {
         command "${DEV_SHELL}"
-        args "-ic" "nvm use > /dev/null 2>&1 && npm run dev | tee logs/nuxt_logs_$(date +%Y-%m-%d_%H-%M-%S).txt"
+        args "-ic" "nvm use > /dev/null 2>&1 && echo 'Waiting for deps to start...' && while [ ! -f /tmp/senescalade/zjdms ]; do sleep 1; done && rm /tmp/senescalade/zjdms && npm run dev"
       }
     }
     pane size=2 borderless=true {

@@ -1,19 +1,16 @@
-##########################
 # install dev deps and build
 FROM node:20.12.2-alpine3.19 AS builder
 
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache git mysql-client && \
-    npm i -g clean-modules@3.0.4
+    apk add --no-cache git mysql-client
 
-WORKDIR /app/
-COPY . .
+WORKDIR /build/
+COPY . /build/
 
 RUN npm ci --no-audit --no-fund && \
     npm run build
 
-##########################
 # copy built app and assemble actual dist
 FROM node:20.12.2-alpine3.19
 
@@ -25,7 +22,7 @@ ENV PORT 8000
 
 WORKDIR /app/
 
-COPY --from=builder /app/.output /app/.output
+COPY --from=builder /build/.output /app/.output
 
 COPY README.md .
 COPY LICENSE .
@@ -33,4 +30,4 @@ COPY .env .
 
 EXPOSE 8000
 
-CMD ["node", "--max-http-header-size", "64000", ".output/server/index.mjs"]
+CMD ["node", ".output/server/index.mjs"]

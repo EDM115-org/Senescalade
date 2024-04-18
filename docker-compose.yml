@@ -11,6 +11,7 @@ services:
     profiles:
       - dev
       - prod
+      - test-dev
     volumes:
       - db-data:/var/lib/mysql
       - ./db/create_db.sql:/docker-entrypoint-initdb.d/1_create_db.sql
@@ -34,7 +35,7 @@ services:
     image: edm115/senescalade:dev
     network_mode: "host"
     profiles:
-      - dev
+      - test-dev
 
   senescalade-prod:
     build:
