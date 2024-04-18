@@ -13,7 +13,6 @@
   "dependencies": {
     "@mdi/font": "7.4.47",
     "mysql2": "3.9.6",
-    "nuxt": "3.11.2",
     "ofetch": "1.3.4",
     "vue": "3.4.23",
     "vue-router": "4.3.2",
@@ -40,6 +39,7 @@
     "eslint-config-standard": "17.1.0",
     "eslint-plugin-vue": "9.25.0",
     "happy-dom": "13.10.1",
+    "nuxt": "^3.11.2",
     "nuxt-aos": "1.2.4",
     "nuxt-icon": "0.6.10",
     "nuxt-link-checker": "3.0.0-rc.8",

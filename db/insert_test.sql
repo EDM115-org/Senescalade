@@ -160,23 +160,23 @@ WHERE NOT EXISTS (
 );
 
 
-INSERT INTO Inscription(idInscription, mail, password, confirm_password, dateNaissance, isAdmin)
--- VALUES (1, 'admin@gmail.com', 'admin', 'admin', '1999-01-01', 1);
-SELECT * FROM (SELECT 1, 'admin@gmail.com', 'admin', 'admin', '1999-01-01', 1) AS tmp
+INSERT INTO Inscription(idInscription, mail, password, isAdmin)
+-- VALUES (1, 'admin@gmail.com', 'admin', 1);
+SELECT * FROM (SELECT 1, 'admin@gmail.com', 'admin', 1) AS tmp
 WHERE NOT EXISTS (
   SELECT idInscription FROM Inscription WHERE idInscription = 1
 );
 
-INSERT INTO Inscription(idInscription, mail, password, confirm_password, dateNaissance, isAdmin)
--- VALUES (2, 'user@gmail.com', 'user', 'user', '1999-01-01', 0);
-SELECT * FROM (SELECT 2, 'user@gmail.com', 'user', 'user', '1999-01-01', 0) AS tmp
+INSERT INTO Inscription(idInscription, mail, password, isAdmin)
+-- VALUES (2, 'user@gmail.com', 'user', 0);
+SELECT * FROM (SELECT 2, 'user@gmail.com', 'user', 'user', 0) AS tmp
 WHERE NOT EXISTS (
   SELECT idInscription FROM Inscription WHERE idInscription = 2
 );
 
 INSERT INTO Personne(action, nom, prenom, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, seance, lInscription)
--- VALUES ('C', 'DUPONT', 'Jean', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
-SELECT * FROM (SELECT 'C', 'DUPONT', 'Jean', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2) AS tmp
+-- VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
+SELECT * FROM (SELECT 'C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2) AS tmp
 WHERE NOT EXISTS (
   SELECT idPersonne FROM Personne WHERE idPersonne = 1
 );

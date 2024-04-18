@@ -37,8 +37,6 @@ CREATE TABLE IF NOT EXISTS Inscription (
     idInscription INT AUTO_INCREMENT PRIMARY KEY,
     mail VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    confirm_password VARCHAR(100) NOT NULL,
-    dateNaissance DATE NOT NULL,
     isAdmin BOOLEAN NOT NULL
 );
 
@@ -47,6 +45,7 @@ CREATE TABLE IF NOT EXISTS Personne (
     action CHAR(1) NOT NULL,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
+    dateNaissance DATE NOT NULL,
     sexe CHAR(1) NOT NULL,
     nationalite CHAR(2) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
@@ -88,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Admin (
 
 DELIMITER //
 CREATE TRIGGER IF NOT EXISTS check_date_naissance
-BEFORE INSERT ON Inscription
+BEFORE INSERT ON Personne
 FOR EACH ROW
 BEGIN
     IF NEW.dateNaissance > NOW() THEN
