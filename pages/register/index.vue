@@ -7,7 +7,7 @@
       <v-row>
         <v-col cols="12">
           <v-text-field
-            v-model="email"
+            v-model="mail"
             label="Email"
             required
             type="email"
@@ -58,7 +58,7 @@
 import { ref } from "vue"
 
 const showPassword = ref(false)
-const email = ref("")
+const mail = ref("")
 const password = ref("")
 
 const togglePasswordVisibility = () => {
@@ -71,7 +71,7 @@ async function register() {
     const registerData = await $fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({
-        email: email.value,
+        mail: mail.value,
         password: password.value,
       }),
     })

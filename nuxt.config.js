@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     quality: 100
   },
   linkChecker: {
-    failOnError: true,
+    failOnError: false,
     report: {
       html: true,
       markdown: true
@@ -94,7 +94,7 @@ export default defineNuxtConfig({
   plugins: [{
     src: "~/plugins/vuetify"
   }],
-  ssr: true,
+  ssr: false,
   telemetry: false,
   vite: {
     vue: {

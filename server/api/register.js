@@ -16,17 +16,18 @@ try {
 
 // eslint-disable-next-line no-undef
 export default defineEventHandler(async (event) => {
-  console.log("Received event", event)
   if (!connection) {
     return {
       status: 500,
       body: { error: "Database connection not available" }
     }
   }
+  // eslint-disable-next-line no-undef
+  const body = await readBody(event)
   // add user to database
-  const { email, password } = event.body
+  const { mail, password } = body
   try {
-    const [rows] = await connection.execute(`INSERT INTO users (email, password) VALUES ('${email}', '${password}')`)
+    const [rows] = await connection.execute(`INSERT INTO Inscription(mail, password, isAdmin) VALUES ('${mail}', '${password}', 0)`)
     console.log(rows)
     return {
       status: 200,
