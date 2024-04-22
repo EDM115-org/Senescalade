@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise"
+import { defineEventHandler } from "h3"
 
 // Create a connection to the database
 let connection = null
@@ -15,7 +16,6 @@ try {
   connection = null
 }
 
-// eslint-disable-next-line no-undef
 export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
@@ -40,7 +40,8 @@ export default defineEventHandler(async (event) => {
     console.error(err)
     return {
       status: 500,
-      body: { error: "Error getting data" }
+      body: { error: "Error getting data" },
+      event
     }
   }
   return {

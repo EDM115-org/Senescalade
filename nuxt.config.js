@@ -1,6 +1,6 @@
+import { defineNuxtConfig } from "nuxt/config"
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
 
-// eslint-disable-next-line no-undef
 export default defineNuxtConfig({
   aos: {
     duration: 800,
@@ -70,9 +70,9 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
+    "@nuxt/eslint",
     "@nuxt/image",
     "@nuxtjs/device",
-    "@nuxtjs/eslint-module",
     "@nuxtjs/google-fonts",
     "@nuxtjs/i18n",
     "@pinia/nuxt",

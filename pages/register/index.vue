@@ -67,7 +67,6 @@ const togglePasswordVisibility = () => {
 
 async function register() {
   try {
-    // eslint-disable-next-line no-undef
     const registerData = await $fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({

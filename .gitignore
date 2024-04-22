@@ -1,24 +1,11 @@
-# Environments
 .env
-.venv
-env/
-venv/
-ENV/
 
-# Node dependencies
 node_modules
 
-# Nuxt dev/build outputs
 .output
-.data
 .nuxt
-.nitro
-.cache
 
-# Logs
 logs
 *.log
 
-# Custom
 *.session.sql
-node_modules

@@ -4,7 +4,6 @@ import "vuetify/styles"
 import { createVuetify } from "vuetify"
 import { en, fr } from "vuetify/locale"
 
-// eslint-disable-next-line no-undef
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
     locale: {

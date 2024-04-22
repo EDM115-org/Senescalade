@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise"
+import { defineEventHandler, readBody } from "h3"
 
 // Create a connection to the database
 let connection = null
@@ -14,7 +15,6 @@ try {
   connection = null
 }
 
-// eslint-disable-next-line no-undef
 export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
@@ -22,7 +22,6 @@ export default defineEventHandler(async (event) => {
       body: { error: "Database connection not available" }
     }
   }
-  // eslint-disable-next-line no-undef
   const body = await readBody(event)
   // add user to database
   const { mail, password } = body

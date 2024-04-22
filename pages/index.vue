@@ -54,7 +54,6 @@
 
 <script setup>
 async function fetchDb() {
-  // eslint-disable-next-line no-undef
   const data = await $fetch("/api/db")
   console.log(data)
 }
