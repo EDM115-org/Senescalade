@@ -24,10 +24,12 @@ jobs:
           node-version: lts/iron
           check-latest: true
 
-      - name: "Lint the code"
+      - name: "Install dependencies"
         run: |
-          npm ci
-          npm run lint-fix
+          npm ci || npm i
+      
+      - name: "Lint the code"
+        run: npm run lint-fix
 
       - name: "Check for changes"
         id: git-check
