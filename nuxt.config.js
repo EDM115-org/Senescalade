@@ -70,6 +70,7 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
+    "@nuxt/devtools",
     "@nuxt/eslint",
     "@nuxt/image",
     "@nuxtjs/device",
