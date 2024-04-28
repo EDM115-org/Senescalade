@@ -55,6 +55,7 @@
 <script setup>
 async function fetchDb() {
   const data = await $fetch("/api/db")
+
   console.log(data)
 }
 </script>

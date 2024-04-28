@@ -74,6 +74,7 @@ async function register() {
         password: password.value,
       }),
     })
+
     console.log(registerData)
   } catch (error) {
     console.error("Error registering user:", error)

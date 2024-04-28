@@ -62,17 +62,17 @@ const store = useMainStore()
 
 const connected = computed(() => store.isConnected)
 const accountIcon = ref("mdi-login")
-const accountText = computed(() => connected.value ? "Déconnexion" : "Connexion")
+const accountText = computed(() => (connected.value ? "Déconnexion" : "Connexion"))
 
 watch(connected, (value) => {
   accountIcon.value = value ? "mdi-logout" : "mdi-login"
 })
 
-function toggleTheme () {
+function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"
 }
 
-function handleConnect () {
+function handleConnect() {
   if (connected.value) {
     store.logout()
   } else {
