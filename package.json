@@ -42,7 +42,7 @@
     "nuxt": "3.11.2",
     "nuxt-aos": "1.2.4",
     "nuxt-icon": "0.6.10",
-    "nuxt-link-checker": "3.0.0-rc.8",
+    "nuxt-link-checker": "3.0.0-rc.10",
     "nuxt-lodash": "2.5.3",
     "nuxt-mail": "5.0.1",
     "pinia": "2.1.7",
