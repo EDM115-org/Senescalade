@@ -36,7 +36,7 @@
     "@vueuse/nuxt": "10.9.0",
     "@vueuse/router": "10.9.0",
     "cross-env": "7.0.3",
-    "eslint": "9.1.1",
+    "eslint": "9.2.0",
     "eslint-plugin-vue": "9.25.0",
     "happy-dom": "14.7.1",
     "nuxt": "3.11.2",
@@ -67,7 +67,7 @@
   "license": "MIT",
   "name": "senescalade",
   "overrides": {
-    "eslint": "9.1.1"
+    "eslint": "9.2.0"
   },
   "private": true,
   "repository": {
