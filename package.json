@@ -28,7 +28,7 @@
     "@nuxtjs/google-fonts": "3.2.0",
     "@nuxtjs/i18n": "8.3.1",
     "@pinia/nuxt": "0.5.1",
-    "@stylistic/eslint-plugin": "1.8.0",
+    "@stylistic/eslint-plugin": "1.8.1",
     "@vite-pwa/nuxt": "0.7.0",
     "@vue/test-utils": "2.4.6",
     "@vueuse/core": "10.9.0",
