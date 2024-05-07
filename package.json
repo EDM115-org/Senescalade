@@ -46,7 +46,7 @@
     "nuxt-lodash": "2.5.3",
     "nuxt-mail": "5.0.1",
     "pinia": "2.1.7",
-    "playwright-core": "1.43.1",
+    "playwright-core": "1.44.0",
     "rimraf": "5.0.5",
     "sass": "1.76.0",
     "sass-loader": "14.2.1",
