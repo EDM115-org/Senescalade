@@ -30,7 +30,7 @@
     "@pinia/nuxt": "0.5.1",
     "@stylistic/eslint-plugin": "1.8.0",
     "@vite-pwa/nuxt": "0.7.0",
-    "@vue/test-utils": "2.4.5",
+    "@vue/test-utils": "2.4.6",
     "@vueuse/core": "10.9.0",
     "@vueuse/integrations": "10.9.0",
     "@vueuse/nuxt": "10.9.0",
