@@ -2,7 +2,7 @@ name: "Lints the code with ESLint"
 
 on:
   schedule:
-    - cron: "0 3 * * 0"
+    - cron: "0 8 * * 0"
   workflow_dispatch:
 
 jobs:
@@ -28,15 +28,15 @@ jobs:
         run: |
           npm ci || npm i
       
-      - name: "Lint the code"
-        run: npm run lint-fix
+      - name: "Build and lint the code"
+        run: npm run build && npm run lint-fix
 
       - name: "Check for changes"
         id: git-check
         run: |
           git diff --exit-code || echo "##[set-output name=changed;]true"
 
-      - name: "Commit changes"
+      - name: "Commit changes (if any)"
         if: steps.git-check.outputs.changed
         run: |
           d=`date '+%Y/%m/%dT%H:%M:%SZ'`
@@ -45,7 +45,7 @@ jobs:
           git add -A
           git commit -m "chore: weekly lint (${d})"
 
-      - name: "Push"
+      - name: "Push (if changes)"
         if: steps.git-check.outputs.changed
         uses: "ad-m/github-push-action@v0.8.0"
         with:
