@@ -37,7 +37,7 @@
     "@vueuse/router": "10.9.0",
     "cross-env": "7.0.3",
     "eslint": "9.2.0",
-    "eslint-plugin-vue": "9.25.0",
+    "eslint-plugin-vue": "9.26.0",
     "happy-dom": "14.10.1",
     "nuxt": "3.11.2",
     "nuxt-aos": "1.2.4",
