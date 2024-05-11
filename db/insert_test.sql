@@ -1,189 +1,75 @@
-/*
-SAE Senescalade -- Partie BDD
-BATARD Corentin - LEDERREY Lussandre - MACCREZ Allan
-INFO 2A2
-
-
-Version MySQL
-*/
-
---  .oooooo..o       .o.       oooooooooooo           oooooooooooo  .oooooo..o   .oooooo.         .o.       ooooo              .o.       oooooooooo.   oooooooooooo
--- d8P'    `Y8      .888.      `888'     `8           `888'     `8 d8P'    `Y8  d8P'  `Y8b       .888.      `888'             .888.      `888'   `Y8b  `888'     `8
--- Y88bo.          .8"888.      888                    888         Y88bo.      888              .8"888.      888             .8"888.      888      888  888
---  `"Y8888o.     .8' `888.     888oooo8               888oooo8     `"Y8888o.  888             .8' `888.     888            .8' `888.     888      888  888oooo8
---      `"Y88b   .88ooo8888.    888    "               888    "         `"Y88b 888            .88ooo8888.    888           .88ooo8888.    888      888  888    "
--- oo     .d8P  .8'     `888.   888       o            888       o oo     .d8P `88b    ooo   .8'     `888.   888       o  .8'     `888.   888     d88'  888       o
--- 8""88888P'  o88o     o8888o o888ooooood8           o888ooooood8 8""88888P'   `Y8bood8P'  o88o     o8888o o888ooooood8 o88o     o8888o o888bood8P'   o888ooooood8
-
 -- -------------------------------------------------------
 --               SCRIPT DE TEST D'INSERTION             --
 -- -------------------------------------------------------
 
 USE sae;
 
-/*
-Seance(idSeance (INT, PK), jour (CHAR(50)), heureSeance (TIME), dureeSeance (TIME), typeSeance (CHAR(100)), niveau (CHAR(100)), nbPlaces (INT), nbPlacesRestantes (INT), professeur (CHAR(100)))
-Inscription(idInscription (INT, PK), mail (VARCHAR(100)), password (VARCHAR(100)), dateNaissance (DATE))
-Personne(idPersonne (INT, PK), action (CHAR(1)), nom (VARCHAR(100)), prenom (VARCHAR(100)), sexe (CHAR(1)), nationalite (CHAR(2)), adresse (VARCHAR(255)), complementAdresse (VARCHAR(255)), codePostal (VARCHAR(5)), ville (VARCHAR(100)), pays (CHAR(2)), telephone (VARCHAR(10)), mobile (VARCHAR(10)), courriel2 (VARCHAR(100)), personneNom (VARCHAR(100)), personnePrenom (VARCHAR(100)), personneTelephone (VARCHAR(15)), personneCourriel (VARCHAR(100)), numLicence (VARCHAR(6)), typeLicence (CHAR(1)), assurance (CHAR(2)), optionSki (BOOLEAN), optionSlackline (BOOLEAN), optionTrail (BOOLEAN), optionVTT (BOOLEAN), optionAssurance (BOOLEAN), seance = @Seance.idSeance (NN), lInscription = @Inscription.idInscription (NN))
-Admin(idAdmin (INT, PK), droit (CHAR(5)), laPersonne = @Personne.idPersonne (NN))
-*/
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
+VALUES ('Lundi', '17:30:00', '19:00:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Lundi', '17:30:00', '19:00:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Lundi', '17:30:00', '19:00:00', 'Jeunes', 'U14', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Lundi' AND heureSeance = '17:30:00'
-);
-INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Lundi', '19:00:00', '21:00:00', 'Adultes', '', 20, 1, 'Pierre');
-SELECT * FROM (SELECT 'Lundi', '19:00:00', '21:00:00', 'Adultes', '', 20, 1, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Lundi' AND heureSeance = '19:00:00'
-);
+VALUES ('Lundi', '19:00:00', '21:00:00', 'Adultes', '', 20, 1, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Mardi', '17:30:00', '19:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Mardi', '17:30:00', '19:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mardi' AND heureSeance = '17:30:00'
-);
+VALUES ('Mardi', '17:30:00', '19:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Mardi', '19:00:00', '20:30:00', 'Jeunes', 'Perf', 20, 20, 'Pierre');
-SELECT * FROM (SELECT 'Mardi', '19:00:00', '20:30:00', 'Jeunes', 'Perf', 20, 20, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mardi' AND heureSeance = '19:00:00'
-);
+VALUES ('Mardi', '19:00:00', '20:30:00', 'Jeunes', 'Perf', 20, 20, 'Pierre');
 
-INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) -- VALUES ('Mardi', '20:00:00', '22:00:00', 'Adultes', '', 20, 20, 'Pierre');
-SELECT * FROM (SELECT 'Mardi', '20:00:00', '22:00:00', 'Adultes', '', 20, 20, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mardi' AND heureSeance = '20:00:00'
-);
+INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur) VALUES ('Mardi', '20:00:00', '22:00:00', 'Adultes', '', 20, 20, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Mercredi', '15:30:00', '17:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Mercredi', '15:30:00', '17:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mercredi' AND heureSeance = '15:30:00'
-);
+VALUES ('Mercredi', '15:30:00', '17:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 0, 'Pierre');
-SELECT * FROM (SELECT 'Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 0, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mercredi' AND heureSeance = '17:00:00'
-);
+VALUES ('Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 0, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
-SELECT * FROM (SELECT 'Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Mercredi' AND heureSeance = '19:30:00'
-);
+VALUES ('Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U16', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U16', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Jeudi' AND heureSeance = '17:30:00'
-);
+VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U16', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U18', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U18', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Jeudi' AND heureSeance = '17:30:00'
-);
+VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U18', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Jeudi', '19:00:00', '21:00:00', 'Adultes', 'Autonomie', 20, 20, 'Pierre');
-SELECT * FROM (SELECT 'Jeudi', '19:00:00', '21:00:00', 'Adultes', 'Autonomie', 20, 20, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Jeudi' AND heureSeance = '19:00:00'
-);
+VALUES ('Jeudi', '19:00:00', '21:00:00', 'Adultes', 'Autonomie', 20, 20, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Vendredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Vendredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Vendredi' AND heureSeance = '17:00:00'
-);
+VALUES ('Vendredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Vendredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
-SELECT * FROM (SELECT 'Vendredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Vendredi' AND heureSeance = '19:30:00'
-);
+VALUES ('Vendredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Samedi', '09:30:00', '11:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Samedi', '09:30:00', '11:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Samedi' AND heureSeance = '09:30:00'
-);
+VALUES ('Samedi', '09:30:00', '11:00:00', 'Jeunes', 'U10', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Samedi', '11:00:00', '12:30:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Samedi', '11:00:00', '12:30:00', 'Jeunes', 'U12', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Samedi' AND heureSeance = '11:00:00'
-);
+VALUES ('Samedi', '11:00:00', '12:30:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Samedi', '13:30:00', '15:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Samedi', '13:30:00', '15:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Samedi' AND heureSeance = '13:30:00'
-);
+VALUES ('Samedi', '13:30:00', '15:00:00', 'Jeunes', 'U12', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Samedi', '15:00:00', '16:30:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
-SELECT * FROM (SELECT 'Samedi', '15:00:00', '16:30:00', 'Jeunes', 'U14', 10, 10, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Samedi' AND heureSeance = '15:00:00'
-);
+VALUES ('Samedi', '15:00:00', '16:30:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 5, 'Pierre');
-SELECT * FROM (SELECT 'Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 5, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Samedi' AND heureSeance = '16:30:00'
-);
+VALUES ('Samedi', '16:30:00', '18:00:00', 'Jeunes', 'U16', 10, 5, 'Pierre');
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
--- VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
-SELECT * FROM (SELECT 'Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre') AS tmp
-WHERE NOT EXISTS (
-  SELECT jour FROM Seance WHERE jour = 'Dimanche' AND heureSeance = '10:00:00'
-);
+VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
--- VALUES (1, 'admin@gmail.com', 'admin', 1);
-SELECT * FROM (SELECT 1, 'admin@gmail.com', 'admin', 1) AS tmp
-WHERE NOT EXISTS (
-  SELECT idInscription FROM Inscription WHERE idInscription = 1
-);
+VALUES (1, 'admin@gmail.com', 'admin', 1);
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
--- VALUES (2, 'user@gmail.com', 'user', 0);
-SELECT * FROM (SELECT 2, 'user@gmail.com', 'user', 0) AS tmp
-WHERE NOT EXISTS (
-  SELECT idInscription FROM Inscription WHERE idInscription = 2
-);
+VALUES (2, 'user@gmail.com', 'user', 0);
 
 INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, seance, lInscription)
--- VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
-SELECT * FROM (SELECT 'C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2) AS tmp
-WHERE NOT EXISTS (
-  SELECT idPersonne FROM Personne WHERE idPersonne = 1
-);
+VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
+
 
 INSERT INTO Admin(idAdmin, droit)
--- VALUES (1, 'admin');
-SELECT * FROM (SELECT 1, 'admin') AS tmp
-WHERE NOT EXISTS (
-  SELECT idAdmin FROM Admin WHERE idAdmin = 1
-);
+VALUES (1, 'admin');
