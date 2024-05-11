@@ -59,6 +59,3 @@ async function fetchDb() {
   console.log(data)
 }
 </script>
-
-<style scoped>
-</style>

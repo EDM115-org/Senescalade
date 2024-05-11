@@ -80,6 +80,3 @@ function handleConnect() {
   }
 }
 </script>
-
-<style scoped>
-</style>
