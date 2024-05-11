@@ -1,18 +1,95 @@
 {
+	"[css]": {
+		"editor.defaultFormatter": "vscode.css-language-features"
+	},
+	"[dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "Vue.volar"
+	},
+	"codium.agent.onSave.improve": false,
+	"codium.agent.onSave.issues": false,
+	"console-ninja.allowConsoleLogToTriggerPredictions": true,
+	"console-ninja.captureFunctions": true,
+	"console-ninja.featureSet": "Community",
+	"console-ninja.outputMode": "In View",
+	"console-ninja.showWhatsNew": false,
+	"console-ninja.toolsToEnableSupportAutomaticallyFor": {
+		"angular": false,
+		"astro": false,
+		"hydrogen": false,
+		"jest": false,
+		"live-preview-extension": true,
+		"live-server": true,
+		"live-server-extension": true,
+		"nest.js": false,
+		"next.js": false,
+		"qwik": false,
+		"remix": false
+	},
+	"console-ninja.warnOnNoToolsDetected": false,
+	"css.autoValidation": "Always",
+	"docker-explorer.enableTelemetry": false,
+	"docker.contexts.showInStatusBar": true,
+	"docker.languageserver.diagnostics.instructionCasing": "error",
+	"docker.languageserver.diagnostics.instructionCmdMultiple": "error",
+	"docker.languageserver.diagnostics.instructionEntrypointMultiple": "error",
+	"docker.languageserver.diagnostics.instructionJSONInSingleQuotes": "error",
+	"docker.languageserver.diagnostics.instructionWorkdirRelative": "error",
+	"editor.tabSize": 2,
+	"eslint.experimental.useFlatConfig": true,
+	"eslint.format.enable": true,
+	"eslint.ignoreUntitled": true,
+	"files.eol": "\n",
+	"files.insertFinalNewline": true,
+	"fixJson.indentationSpaces": 2,
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true,
+	"gremlins.showInProblemPane": true,
+	"html-css-class-completion.enableEmmetSupport": true,
+	"importCost.fontStyle": "italic",
+	"importCost.largePackageDarkColor": "#FF5555",
+	"importCost.largePackageLightColor": "#FF5555",
+	"importCost.mediumPackageLightColor": "#50FA7B",
+	"importCost.smallPackageDarkColor": "#50FA7B",
+	"importCost.smallPackageLightColor": "#50FA7B",
+	"npm-intellisense.importQuotes": "\"",
+	"npm-intellisense.scanDevDependencies": true,
+	"path-intellisense.autoSlashAfterDirectory": true,
+	"path-intellisense.autoTriggerNextSuggestion": true,
+	"path-intellisense.showHiddenFiles": true,
 	"sqltools.connections": [
 		{
+			"database": "sae",
+			"driver": "MySQL",
 			"mysqlOptions": {
 				"authProtocol": "default",
 				"enableSsl": "Disabled"
 			},
+			"name": "SAE",
+			"password": "Senescalade!56",
+			"port": 3306,
 			"previewLimit": 50,
 			"server": "localhost",
-			"port": 3306,
-			"driver": "MySQL",
-			"name": "SAE",
-			"database": "sae",
-			"username": "sae",
-			"password": "Senescalade!56"
+			"username": "sae"
 		}
-	]
+	],
+	"vue.autoInsert.dotValue": true,
+	"vue.complete.casing.props": "autoCamel",
+	"vue.format.script.initialIndent": true,
+	"vue.format.style.initialIndent": true,
+	"vue.inlayHints.inlineHandlerLeading": true,
+	"vue.inlayHints.missingProps": true,
+	"vue.inlayHints.vBindShorthand": true,
+	"vue3snippets.semi": false,
+	"vue3snippets.trailingComma": "none",
+	"vue3snippets.vueIndentScriptAndStyle": true
 }
