@@ -47,7 +47,7 @@ export default createConfigForNuxt(
       "@stylistic/line-comment-position": [ "error", { position: "above" }],
       "@stylistic/lines-around-comment": [ "error", { beforeBlockComment: true, afterBlockComment: false, beforeLineComment: false, afterLineComment: false, allowBlockStart: true, allowBlockEnd: false, allowObjectStart: true, allowObjectEnd: false, allowArrayStart: true, allowArrayEnd: false, allowClassStart: true, allowClassEnd: false }],
       "@stylistic/lines-between-class-members": [ "error", "always", { exceptAfterSingleLine: true }],
-      "@stylistic/multi-line-comment-style": [ "error", "starred-block" ],
+      "@stylistic/multiline-comment-style": [ "error", "starred-block" ],
       "@stylistic/multiline-ternary": [ "error", "always-multiline" ],
       "@stylistic/new-parens": [ "error", "always" ],
       "@stylistic/newline-per-chained-call": [ "error", { ignoreChainWithDepth: 3 }],

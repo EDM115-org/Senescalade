@@ -53,7 +53,7 @@ export default defineNuxtConfig({
         "line-comment-position": [ "error", { position: "above" }],
         "lines-around-comment": [ "error", { beforeBlockComment: true, afterBlockComment: false, beforeLineComment: false, afterLineComment: false, allowBlockStart: true, allowBlockEnd: false, allowObjectStart: true, allowObjectEnd: false, allowArrayStart: true, allowArrayEnd: false, allowClassStart: true, allowClassEnd: false }],
         "lines-between-class-members": [ "error", "always", { exceptAfterSingleLine: true }],
-        "multi-line-comment-style": [ "error", "starred-block" ],
+        "multiline-comment-style": [ "error", "starred-block" ],
         "multiline-ternary": [ "error", "always-multiline" ],
         "new-parens": [ "error", "always" ],
         "newline-per-chained-call": [ "error", { ignoreChainWithDepth: 3 }],
