@@ -3,7 +3,7 @@ FROM node:20.13.1-alpine3.19 AS builder
 
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache git mysql-client
+    apk add --no-cache git>=2.43.0-r0 mysql-client>=10.11.6-r0
 
 WORKDIR /build/
 COPY . /build/
