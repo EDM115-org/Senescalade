@@ -4,7 +4,7 @@
       Inscription
     </h1>
     <FormLogin
-      :text="'S\'inscrire'"
+      text="S'inscrire"
       @submit:register="register($event)"
     />
     <v-row>

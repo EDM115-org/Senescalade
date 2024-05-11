@@ -4,7 +4,7 @@
       Connexion
     </h1>
     <FormLogin
-      :text="'Se connecter'"
+      text="Se connecter"
       @submit:login="login($event)"
     />
     <v-row>
