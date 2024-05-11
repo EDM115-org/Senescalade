@@ -12,6 +12,7 @@
   "description": "Une webapp pour la gestion des inscriptions de l'association Senescalade",
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "bcryptjs": "2.4.3",
     "mysql2": "3.9.7",
     "ofetch": "1.3.4",
     "vue": "3.4.27",

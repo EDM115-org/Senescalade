@@ -1,7 +1,6 @@
 import mysql from "mysql2/promise"
 import { defineEventHandler } from "h3"
 
-// Create a connection to the database
 let connection = null
 
 try {
@@ -27,7 +26,8 @@ export default defineEventHandler(async (event) => {
   // Get tables, and columns for all tables
   const returnData = {
     tables: [],
-    rows: {}
+    rows: {},
+    values: {}
   }
 
   try {
@@ -40,6 +40,14 @@ export default defineEventHandler(async (event) => {
       const [ columns ] = await connection.execute(`SHOW COLUMNS FROM ${table}`)
 
       returnData.rows[table] = columns
+    }
+
+    // get values from all tables
+    for (let i = 0; i < rows.length; i++) {
+      const table = rows[i][`Tables_in_${connection.config.database}`]
+      const [ values ] = await connection.execute(`SELECT * FROM ${table}`)
+
+      returnData.values[table] = values
     }
   } catch (err) {
     console.error(err)

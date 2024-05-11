@@ -3,6 +3,7 @@ import { defineStore } from "pinia"
 const useMainStore = defineStore("main", {
   state: () => ({
     connected: false,
+    user: null
   }),
   getters: {
     isConnected() {
@@ -10,11 +11,16 @@ const useMainStore = defineStore("main", {
     },
   },
   actions: {
-    login() {
+    login(user) {
+      if (this.connected) {
+        return
+      }
       this.connected = true
+      this.user = user
     },
     logout() {
       this.connected = false
+      this.user = null
     }
   }
 })

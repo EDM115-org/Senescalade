@@ -3,73 +3,49 @@
     <h1 class="text-center mt-5 mb-5">
       Connexion
     </h1>
-    <v-form @submit.prevent="login()">
-      <v-row>
-        <v-col cols="12">
-          <v-text-field
-            label="Email"
-            required
-            type="email"
-            class="input-field mx-auto"
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <v-text-field
-            label="Mot de passe"
-            required
-            :type="showPassword ? 'text' : 'password'"
-            class="input-field mx-auto"
-            outlined
-          >
-            <template #append-inner>
-              <v-icon @click="togglePasswordVisibility">
-                {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
-              </v-icon>
-            </template>
-          </v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col
-          cols="12"
-          class="text-center"
+    <FormLogin
+      :text="'Se connecter'"
+      @submit:login="login($event)"
+    />
+    <v-row>
+      <v-col
+        cols="12"
+        class="text-center"
+      >
+        <v-btn
+          color="secondary"
+          type="submit"
+          large
+          @click="$router.push('/register')"
         >
-          <v-btn
-            color="accent"
-            type="submit"
-            large
-          >
-            Se connecter
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
+          S'inscrire
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { useMainStore } from "~/store/main"
 
-const showPassword = ref(false)
+const store = useMainStore()
+const router = useRouter()
 
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value
+async function login(event) {
+  try {
+    const result = await $fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(event),
+    })
+
+    if (result.status === 200) {
+      store.login(result.body.user)
+      router.push("/")
+    } else {
+      console.error("Error logging in user :", result)
+    }
+  } catch (error) {
+    console.error("Error logging in user :", error)
+  }
 }
-
-const login = () => {
-  console.log("login")
-}
-
 </script>
-
-<style scoped>
-
-.input-field {
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-</style>

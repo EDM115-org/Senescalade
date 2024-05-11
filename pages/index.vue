@@ -10,7 +10,7 @@
       <v-col
         align="center"
       >
-        Bienvenue sur le site d'inscription de Senescalade.
+        Bienvenue sur le site d'inscription de Senescalade
         <v-divider class="my-4" />
         <v-row>
           <v-col>

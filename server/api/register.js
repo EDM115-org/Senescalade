@@ -1,7 +1,6 @@
 import mysql from "mysql2/promise"
 import { defineEventHandler, readBody } from "h3"
 
-// Create a connection to the database
 let connection = null
 
 try {
@@ -11,8 +10,7 @@ try {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
   })
-} catch (err) {
-  console.error(err)
+} catch {
   connection = null
 }
 
@@ -24,24 +22,21 @@ export default defineEventHandler(async (event) => {
     }
   }
   const body = await readBody(event)
-  // add user to database
   const { mail, password } = body
 
   try {
-    const [ rows ] = await connection.execute(`INSERT INTO Inscription(mail, password, isAdmin) VALUES ('${mail}', '${password}', 0)`)
+    const query = "INSERT INTO Inscription(mail, password, isAdmin) VALUES (?, ?, 0)"
 
-    console.log(rows)
+    await connection.execute(query, [ mail, password ])
 
     return {
       status: 200,
       body: { success: "User added" }
     }
   } catch (err) {
-    console.error(err)
-
     return {
       status: 500,
-      body: { error: "Error adding user" }
+      body: { error: `Error adding user, ${err}` }
     }
   }
 })
