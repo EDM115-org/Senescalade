@@ -71,11 +71,10 @@ const togglePasswordVisibility = () => {
 
 async function submit() {
   if (loginProps.text === "S'inscrire") {
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password.value, salt, (err, hash) => {
-        emit("submit:register", { mail: mail.value, password: hash })
-      })
-    })
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password.value, salt)
+
+    emit("submit:register", { mail: mail.value, password: hash })
   } else if (loginProps.text === "Se connecter") {
     emit("submit:login", { mail: mail.value, password: password.value })
   }
