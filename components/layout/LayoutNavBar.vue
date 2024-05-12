@@ -61,7 +61,7 @@ const store = useMainStore()
 const vuetifyTheme = useTheme()
 
 const accountIcon = ref("mdi-login")
-const accountText = computed(() => (connected.value ? "Déconnexion" : "Connexion"))
+const accountText = computed(() => (store.isConnected ? "Déconnexion" : "Connexion"))
 const connected = computed(() => store.isConnected)
 const theme = ref("dark")
 
