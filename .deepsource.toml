@@ -1,6 +1,6 @@
 version = 1
 
-exclude_patterns = ["node_modules/**"]
+exclude_patterns = [".nuxt/**", ".output/**", "node_modules/**"]
 
 [[analyzers]]
 name = "docker"
@@ -9,11 +9,13 @@ name = "docker"
 name = "javascript"
 
   [analyzers.meta]
-  plugins = ["vue"]
   environment = [
     "nodejs",
     "browser"
   ]
+  module_system = "es-modules"
+  plugins = ["vue"]
+  skip_doc_coverage = ["arrow-function-expression", "class-declaration", "class-expression", "function-declaration", "function-expression", "method-definition"]
   style_guide = "google"
 
 [[analyzers]]
@@ -30,5 +32,5 @@ name = "sql"
   comma_style = "trailing"
   indent_unit = "space"
   single_table_references = "consistent"
-  tab_space_size = 4
+  tab_space_size = 2
 
