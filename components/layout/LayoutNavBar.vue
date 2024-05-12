@@ -54,23 +54,31 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
+import { computed, onMounted, ref, watch } from "vue"
 import { useTheme } from "vuetify"
-import { computed, ref, watch } from "vue"
 
-const theme = useTheme()
 const store = useMainStore()
+const vuetifyTheme = useTheme()
 
-const connected = computed(() => store.isConnected)
 const accountIcon = ref("mdi-login")
 const accountText = computed(() => (connected.value ? "Déconnexion" : "Connexion"))
+const connected = computed(() => store.isConnected)
+const theme = ref("dark")
 
 watch(connected, (value) => {
   accountIcon.value = value ? "mdi-logout" : "mdi-login"
 })
 
 function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"
+  theme.value = theme.value === "dark" ? "light" : "dark"
+  store.setTheme(theme.value)
+  vuetifyTheme.global.name.value = theme.value
 }
+
+onMounted(() => {
+  store.setTheme(store.getTheme)
+  vuetifyTheme.global.name.value = store.getTheme
+})
 
 function handleConnect() {
   if (connected.value) {

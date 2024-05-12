@@ -1,16 +1,35 @@
+import cookie from "cookiejs"
+
 import { defineStore } from "pinia"
 
 const useMainStore = defineStore("main", {
   state: () => ({
     connected: false,
+    theme: "dark",
     user: null
   }),
   getters: {
+    getTheme() {
+      let theme = cookie.get("theme")
+
+      if (theme) {
+        this.setTheme(theme)
+      } else {
+        theme = this.theme
+      }
+
+      return theme
+    },
     isConnected() {
       return this.connected
-    },
+    }
   },
   actions: {
+    createCookie(name, value, days) {
+      cookie(name, value, days)
+
+      return value
+    },
     login(user) {
       if (this.connected) {
         return
@@ -21,6 +40,9 @@ const useMainStore = defineStore("main", {
     logout() {
       this.connected = false
       this.user = null
+    },
+    setTheme(theme) {
+      this.theme = this.createCookie("theme", theme, 30)
     }
   }
 })
