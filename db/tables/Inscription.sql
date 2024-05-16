@@ -1,0 +1,8 @@
+USE sae;
+
+CREATE TABLE IF NOT EXISTS Inscription (
+  idInscription INT AUTO_INCREMENT PRIMARY KEY,
+  mail VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  isAdmin BOOLEAN NOT NULL
+);

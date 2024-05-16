@@ -1,24 +1,5 @@
 USE sae;
 
-CREATE TABLE IF NOT EXISTS Seance (
-  idSeance INT AUTO_INCREMENT PRIMARY KEY,
-  jour CHAR(50) NOT NULL,
-  heureSeance TIME NOT NULL,
-  dureeSeance TIME NOT NULL,
-  typeSeance CHAR(100) NOT NULL,
-  niveau CHAR(100),
-  nbPlaces INT NOT NULL,
-  nbPlacesRestantes INT NOT NULL,
-  professeur CHAR(100)
-);
-
-CREATE TABLE IF NOT EXISTS Inscription (
-  idInscription INT AUTO_INCREMENT PRIMARY KEY,
-  mail VARCHAR(100) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  isAdmin BOOLEAN NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS Personne (
   idPersonne INT AUTO_INCREMENT PRIMARY KEY,
   action CHAR(1) NOT NULL,
@@ -55,30 +36,3 @@ CREATE TABLE IF NOT EXISTS Personne (
   CONSTRAINT check_type_licence CHECK (TypeLicence IN ('J', 'A', 'F')),
   CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
 );
-
-CREATE TABLE IF NOT EXISTS InscriptionSeance (
-  idInscription INT,
-  idSeance INT,
-  PRIMARY KEY (idInscription, idSeance),
-  FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription),
-  FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)
-);
-
-CREATE TABLE IF NOT EXISTS Admin (
-  idAdmin INT PRIMARY KEY,
-  droit CHAR(5) NOT NULL,
-  FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
-);
-
-DELIMITER //
-CREATE TRIGGER IF NOT EXISTS check_date_naissance
-BEFORE INSERT ON Personne
-FOR EACH ROW
-BEGIN
-  IF NEW.dateNaissance > NOW() THEN
-    SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'La date de naissance ne peut pas être ultérieure à la date actuelle.';
-  END IF;  -- skipcq: SQL-L003
-END;  -- skipcq: SQL-L003
-//
-DELIMITER ;  -- skipcq: SQL-L052, SQL-L039

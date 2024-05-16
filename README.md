@@ -45,6 +45,24 @@ npm i
 npm run dev
 ```
 
+### Build du Dockerfile
+
+```bash
+docker build -t tab-magiques .
+docker run -d --env-file ./.env -p 56860:56860 --name tab-magiques tab-magiques
+docker start tab-magiques
+docker logs tab-magiques
+docker stop tab-magiques
+```
+
+Publish :
+
+```bash
+docker tag tab-magiques edm115/tab-magiques:latest
+docker push edm115/tab-magiques:latest
+```
+
+
 ## Code
 
 ### Structure

@@ -1,7 +1,3 @@
--- -------------------------------------------------------
---               SCRIPT DE TEST D'INSERTION             --
--- -------------------------------------------------------
-
 USE sae;
 
 INSERT INTO Seance(jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
