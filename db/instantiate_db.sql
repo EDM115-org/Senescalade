@@ -51,8 +51,6 @@ CREATE TABLE IF NOT EXISTS Personne (
   optionTrail BOOLEAN NOT NULL,
   optionVTT BOOLEAN NOT NULL,
   optionAssurance BOOLEAN NOT NULL,
-  seance INT,
-  FOREIGN KEY (Seance) REFERENCES Seance(idSeance),
   lInscription INT NOT NULL,
   FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
   CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
@@ -60,6 +58,14 @@ CREATE TABLE IF NOT EXISTS Personne (
   CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
   CONSTRAINT check_type_licence CHECK (TypeLicence IN ('J', 'A', 'F')),
   CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
+);
+
+CREATE TABLE IF NOT EXISTS InscriptionSeance (
+  idInscription INT,
+  idSeance INT,
+  PRIMARY KEY (idInscription, idSeance),
+  FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription),
+  FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)
 );
 
 CREATE TABLE IF NOT EXISTS Admin (

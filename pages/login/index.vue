@@ -40,7 +40,7 @@ async function login(event) {
 
     if (result.status === 200) {
       store.login(result.body.user)
-      router.push("/")
+      router.push("/user")
     } else {
       console.error("Error logging in user :", result)
     }

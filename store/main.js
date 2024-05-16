@@ -20,6 +20,9 @@ const useMainStore = defineStore("main", {
 
       return theme
     },
+    getUser() {
+      return this.user
+    },
     isConnected() {
       return this.connected
     }

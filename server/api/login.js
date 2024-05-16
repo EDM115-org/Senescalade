@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
       if (passwordMatch) {
         return {
           status: 200,
-          body: { success: "User logged in", user: { mail: user.mail, isAdmin: user.isAdmin } }
+          body: { success: "User logged in", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin } }
         }
       } else {
         return {
