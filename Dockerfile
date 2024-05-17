@@ -12,8 +12,7 @@ FROM node:20.13.1-alpine3.19
 
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache git>=2.43.0-r0 mysql-client>=10.11.6-r0 && \
-    npm ci --no-audit --no-fund
+    apk add --no-cache git>=2.43.0-r0 mysql-client>=10.11.6-r0
 
 LABEL org.opencontainers.image.authors="EDM115 <dev@edm115.dev>, EuphoriaReal <allan.maccrez@gmail.com>, yamakajump"
 LABEL org.opencontainers.image.base.name="node:20.13.1-alpine3.19"
@@ -30,10 +29,14 @@ WORKDIR /app/
 
 COPY --from=builder /build/.output /app/.output
 
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
 COPY README.md .
 COPY LICENSE .
 COPY .env .
 COPY db/verif_db.mjs /app/verif_db.mjs
+
+RUN npm ci --no-audit --no-fund
 
 EXPOSE 56860
 
