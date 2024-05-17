@@ -12,7 +12,8 @@ FROM node:20.13.1-alpine3.19
 
 RUN apk update && \
     apk upgrade --no-cache && \
-    apk add --no-cache git>=2.43.0-r0 mysql-client>=10.11.6-r0
+    apk add --no-cache git>=2.43.0-r0 mysql-client>=10.11.6-r0 && \
+    npm ci --no-audit --no-fund
 
 LABEL org.opencontainers.image.authors="EDM115 <dev@edm115.dev>, EuphoriaReal <allan.maccrez@gmail.com>, yamakajump"
 LABEL org.opencontainers.image.base.name="node:20.13.1-alpine3.19"
@@ -32,8 +33,8 @@ COPY --from=builder /build/.output /app/.output
 COPY README.md .
 COPY LICENSE .
 COPY .env .
-COPY db/verif_db.js /app/verif_db.js
+COPY db/verif_db.mjs /app/verif_db.mjs
 
 EXPOSE 56860
 
-CMD ["node", "/app/verif_db.js", "&&", "node", "/app/.output/server/index.mjs"]
+CMD ["node", "/app/verif_db.mjs", "&&", "node", "/app/.output/server/index.mjs"]

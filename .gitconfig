@@ -1,0 +1,5 @@
+[core]
+  autocrlf = input
+  longpaths = true
+  fsmonitor = true
+  eol = lf
