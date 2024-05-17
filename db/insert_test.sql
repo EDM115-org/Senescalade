@@ -63,8 +63,8 @@ VALUES (1, 'admin@gmail.com', 'admin', 1);
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
 VALUES (2, 'user@gmail.com', 'user', 0);
 
-INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, seance, lInscription)
-VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 1, 2);
+INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription)
+VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 2);
 
 
 INSERT INTO Admin(idAdmin, droit)
