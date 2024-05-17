@@ -147,3 +147,4 @@ Lors de l'élaboration de notre projet pour le club d’escalade Senescalade, no
 - En ce qui concerne le **framework web côté serveur**, notre choix s'est porté sur **Django**. Sa nature complète, combinée à un ORM intégré et à une interface d'administration prête à l'emploi, a fait de lui un choix évident, d'autant plus qu'il s'intègre parfaitement avec notre choix de langage, Python.
 
 En somme, les choix technologiques réalisés pour ce projet ont été guidés par la recherche d'une solution robuste, intégrée et efficace, tout en veillant à maintenir une simplicité qui favorise la maintenance et l'évolutivité à long terme.
+

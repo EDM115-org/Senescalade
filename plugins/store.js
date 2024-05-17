@@ -6,3 +6,4 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.provide("store", store)
 })
+

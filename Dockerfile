@@ -38,3 +38,4 @@ COPY db/verif_db.mjs /app/verif_db.mjs
 EXPOSE 56860
 
 CMD ["node", "/app/verif_db.mjs", "&&", "node", "/app/.output/server/index.mjs"]
+

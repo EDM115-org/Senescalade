@@ -53,3 +53,4 @@ const useMainStore = defineStore("main", {
 export { useMainStore }
 
 export default useMainStore
+

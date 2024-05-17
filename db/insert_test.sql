@@ -69,3 +69,4 @@ VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', 
 
 INSERT INTO Admin(idAdmin, droit)
 VALUES (1, 'admin');
+

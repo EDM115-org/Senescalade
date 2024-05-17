@@ -36,3 +36,4 @@ CREATE TABLE IF NOT EXISTS Personne (
   CONSTRAINT check_type_licence CHECK (TypeLicence IN ('J', 'A', 'F')),
   CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
 );
+

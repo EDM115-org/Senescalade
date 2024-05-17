@@ -7,3 +7,4 @@ CREATE TABLE IF NOT EXISTS InscriptionSeance (
   FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription),
   FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)
 );
+

@@ -11,3 +11,4 @@ if [ "$DB_CREATED" != "true" ]; then
   source /app/.env
 fi
 python manage.py runserver
+

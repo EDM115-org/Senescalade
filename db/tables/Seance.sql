@@ -11,3 +11,4 @@ CREATE TABLE IF NOT EXISTS Seance (
   nbPlacesRestantes INT NOT NULL,
   professeur CHAR(100)
 );
+
