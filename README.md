@@ -86,4 +86,3 @@ Sources to check :
 - BDD : https://github.com/sidorares/node-mysql2 (base : https://github.com/mysqljs/mysql, image : https://hub.docker.com/_/mysql)
 
 - [ ] Test the dockerfile and docker-compose
-

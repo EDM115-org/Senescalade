@@ -24,4 +24,3 @@ useHead({
   display: none;
 }
 </style>
-

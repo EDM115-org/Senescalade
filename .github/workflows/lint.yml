@@ -53,4 +53,3 @@ jobs:
           directory: '.'
           branch: ${{ github.ref }}
           github_token: ${{ secrets.GH_TOKEN }}
-

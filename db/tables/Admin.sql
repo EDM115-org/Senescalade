@@ -5,4 +5,3 @@ CREATE TABLE IF NOT EXISTS Admin (
   droit CHAR(5) NOT NULL,
   FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
 );
-

@@ -69,5 +69,3 @@ for (const tableName of tableNames) {
     await connection.execute(`SOURCE ./tables/${tableName}.sql`)
   }
 }
-
-

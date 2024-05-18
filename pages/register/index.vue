@@ -37,4 +37,3 @@ async function register(event) {
   }
 }
 </script>
-

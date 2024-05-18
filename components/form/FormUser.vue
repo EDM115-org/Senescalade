@@ -344,7 +344,7 @@ const updateDate = (newDate) => {
 }
 
 
-async function submit() {
+function submit() {
   console.log(personne.value)
 }
 
@@ -355,4 +355,3 @@ async function submit() {
   max-width: 400px;
 }
 </style>
-

@@ -12,4 +12,3 @@ BEGIN
 END;  -- skipcq: SQL-L003
 //
 DELIMITER ;  -- skipcq: SQL-L052, SQL-L039
-

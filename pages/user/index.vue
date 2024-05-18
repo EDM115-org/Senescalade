@@ -15,8 +15,3 @@
     </NuxtLink>
   </v-container>
 </template>
-
-<script setup>
-
-</script>
-

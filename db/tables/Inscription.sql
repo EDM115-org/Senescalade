@@ -6,4 +6,3 @@ CREATE TABLE IF NOT EXISTS Inscription (
   password VARCHAR(100) NOT NULL,
   isAdmin BOOLEAN NOT NULL
 );
-

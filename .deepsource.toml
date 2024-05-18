@@ -33,5 +33,3 @@ name = "sql"
   indent_unit = "space"
   single_table_references = "consistent"
   tab_space_size = 2
-
-
