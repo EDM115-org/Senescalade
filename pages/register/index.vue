@@ -26,12 +26,15 @@
 </template>
 
 <script setup>
+const router = useRouter()
+
 async function register(event) {
   try {
     await $fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(event),
     })
+    router.push("/")
   } catch (error) {
     console.error("Error registering user :", error)
   }
