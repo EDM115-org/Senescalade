@@ -34,13 +34,22 @@
           outlined
           @click="datePickerMenu = !datePickerMenu"
         />
-        <v-date-picker
-          v-if="datePickerMenu"
-          v-model="date"
-          no-title
-          scrollable
-          @input="updateDate"
-        />
+        <v-menu
+          v-model="datePickerMenu"
+          close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
+          <template #activator="{ on, attrs }" />
+          <v-date-picker
+            v-model="date"
+            no-title
+            scrollable
+            @input="updateDate"
+          />
+        </v-menu>
       </v-col>
       <v-col
         cols="12"
