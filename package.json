@@ -7,7 +7,7 @@
   "contributors": [
     "EDM115 <dev@edm115.eu.org> (https://edm115.dev)",
     "EuphoriaReal <allan.maccrez@gmail.com>",
-    "yamakajump"
+    "yamakajump <corentin.batard2003@gmail.com> (https://yamakajump.com)"
   ],
   "description": "Une webapp pour la gestion des inscriptions de l'association Senescalade",
   "dependencies": {
