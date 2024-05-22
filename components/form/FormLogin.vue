@@ -1,5 +1,8 @@
 <template>
-  <v-form ref="form" @submit.prevent="submit">
+  <v-form
+    ref="form"
+    @submit.prevent="submit"
+  >
     <v-row>
       <v-col cols="12">
         <v-text-field
@@ -33,8 +36,15 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" class="text-center">
-        <v-btn color="accent" type="submit" large>
+      <v-col
+        cols="12"
+        class="text-center"
+      >
+        <v-btn
+          color="accent"
+          type="submit"
+          large
+        >
           {{ loginProps.text }}
         </v-btn>
       </v-col>
