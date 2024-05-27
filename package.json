@@ -34,7 +34,7 @@
     "@stylistic/eslint-plugin": "2.1.0",
     "@vite-pwa/nuxt": "0.7.0",
     "@vue/test-utils": "2.4.6",
-    "@vueuse/core": "10.9.0",
+    "@vueuse/core": "10.10.0",
     "@vueuse/integrations": "10.9.0",
     "@vueuse/nuxt": "10.9.0",
     "@vueuse/router": "10.9.0",
