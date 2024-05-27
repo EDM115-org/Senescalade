@@ -37,7 +37,7 @@
     "@vueuse/core": "10.9.0",
     "@vueuse/integrations": "10.9.0",
     "@vueuse/nuxt": "10.9.0",
-    "@vueuse/router": "10.9.0",
+    "@vueuse/router": "10.10.0",
     "cross-env": "7.0.3",
     "eslint": "9.3.0",
     "eslint-plugin-vue": "9.26.0",
