@@ -14,7 +14,7 @@
     "@mdi/font": "7.4.47",
     "bcryptjs": "2.4.3",
     "cookiejs": "2.1.3",
-    "mysql2": "3.9.7",
+    "mysql2": "3.9.8",
     "ofetch": "1.3.4",
     "vue": "3.4.27",
     "vue-router": "4.3.2",
