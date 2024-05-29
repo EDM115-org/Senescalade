@@ -1,4 +1,4 @@
-FROM node:20.13.1-alpine3.19
+FROM node:20.14.0-alpine3.19
 
 LABEL org.opencontainers.image.authors="EDM115 <dev@edm115.dev>, EuphoriaReal <allan.maccrez@gmail.com>, yamakajump"
 LABEL org.opencontainers.image.base.name="node:20.13.1-alpine3.19"
