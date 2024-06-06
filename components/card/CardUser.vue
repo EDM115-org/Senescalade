@@ -24,7 +24,6 @@
           <v-card-actions>
             <v-btn
               color="primary"
-              @click="editUser(person)"
             >
               Modifier
             </v-btn>
