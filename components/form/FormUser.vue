@@ -51,7 +51,7 @@
         </v-menu> -->
         <v-menu
           v-model="datePickerMenu"
-          close-on-content-click="false"
+          :close-on-content-click="false"
           transition="scale-transition"
           offset-y
           full-width
@@ -376,9 +376,10 @@ const updateDate = (newDate) => {
   datePickerMenu.value = false
 }
 
+const emit = defineEmits([ "submit:adduser" ])
 
 function submit() {
-  console.log(personne.value)
+  emit("submit:adduser", personne.value)
 }
 
 </script>
