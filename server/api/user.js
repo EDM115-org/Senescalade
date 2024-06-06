@@ -25,12 +25,12 @@ export default defineEventHandler(async (event) => {
   const {
     action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse,
     codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom,
-    personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki,
+    personneTelephone, personneCourriel, assurance, optionSki,
     optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription
   } = body
 
   try {
-    const query = "INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenompersonneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    const query = "INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenompersonneTelephone, personneCourriel, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     const values = [
       action,
@@ -51,8 +51,6 @@ export default defineEventHandler(async (event) => {
       personnePrenom,
       personneTelephone,
       personneCourriel,
-      numLicence,
-      typeLicence,
       assurance,
       optionSki,
       optionSlackline,

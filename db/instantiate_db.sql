@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS Personne (
   personnePrenom VARCHAR(100),
   personneTelephone VARCHAR(15),
   personneCourriel VARCHAR(100),
-  numLicence VARCHAR(6) NOT NULL,
-  typeLicence CHAR(1) NOT NULL,
+  numLicence VARCHAR(6),
+  typeLicence CHAR(1),
   assurance CHAR(2) NOT NULL,
   optionSki BOOLEAN NOT NULL,
   optionSlackline BOOLEAN NOT NULL,
@@ -51,8 +51,7 @@ CREATE TABLE IF NOT EXISTS Personne (
   FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
   CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
   CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
-  CONSTRAINT check_pays CHECK (Pays IN ('FR', 'US', 'CA')),
-  CONSTRAINT check_type_licence CHECK (TypeLicence IN ('J', 'A', 'F')),
+  CONSTRAINT check_type_licence CHECK (TypeLicence IN ('', 'J', 'A', 'F')),
   CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
 );
 
