@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Personne (
   personneCourriel VARCHAR(100),
   numLicence VARCHAR(6),
   typeLicence CHAR(1),
-  assurance CHAR(2) NOT NULL,
+  assurance CHAR(3) NOT NULL,
   optionSki BOOLEAN NOT NULL,
   optionSlackline BOOLEAN NOT NULL,
   optionTrail BOOLEAN NOT NULL,
