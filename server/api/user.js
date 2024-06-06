@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
   try {
     const query = "INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenompersonneTelephone, personneCourriel, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-    const values = [
+    await connection.execute(query, [
       action,
       nom,
       prenom,
@@ -58,9 +58,7 @@ export default defineEventHandler(async (event) => {
       optionVTT,
       optionAssurance,
       lInscription
-    ]
-
-    await connection.execute(query, [ values ])
+    ])
 
     return {
       status: 200,
