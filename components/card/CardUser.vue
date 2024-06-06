@@ -22,9 +22,6 @@
             <p><strong>Téléphone:</strong> {{ person.telephone || 'N/A' }}</p>
             <p><strong>Mobile:</strong> {{ person.mobile || 'N/A' }}</p>
             <p><strong>Adresse:</strong> {{ person.adresse }}</p>
-            <p v-if="person.complementAdresse">
-              <strong>Complément d'adresse:</strong> {{ person.complementAdresse }}
-            </p>
             <p><strong>Code Postal:</strong> {{ person.codePostal }}</p>
             <p><strong>Courriel:</strong> {{ person.courriel2 || 'N/A' }}</p>
           </v-card-text>
