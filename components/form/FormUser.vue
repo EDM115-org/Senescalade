@@ -357,6 +357,7 @@ const updateDate = (newDate) => {
   datePickerMenu.value = false
 }
 
+const emit = defineEmits([ "submit:adduser" ])
 
 function submit() {
   console.log(personne.value)
