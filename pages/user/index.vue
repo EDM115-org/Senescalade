@@ -13,5 +13,6 @@
         Ajouter un grimpeur
       </v-btn>
     </NuxtLink>
+    <CardUser />
   </v-container>
 </template>
