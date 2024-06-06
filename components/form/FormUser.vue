@@ -64,16 +64,15 @@
         md="6"
       >
         <v-radio-group
+          v-model="personne.sexe"
           label="Sexe"
           inline
         >
           <v-radio
-            v-model="personne.sexe"
             label="Homme"
             value="H"
           />
           <v-radio
-            v-model="personne.sexe"
             label="Femme"
             value="F"
           />
@@ -250,26 +249,23 @@
         md="6"
       >
         <v-radio-group
+          v-model="personne.assurance"
           label="Assurance"
           inline
         >
           <v-radio
-            v-model="personne.assurance"
             label="Responsabilité Civile"
             value="RC"
           />
           <v-radio
-            v-model="personne.assurance"
             label="B"
             value="B"
           />
           <v-radio
-            v-model="personne.assurance"
             label="B+"
             value="B+"
           />
           <v-radio
-            v-model="personne.assurance"
             label="B++"
             value="B++"
           />
@@ -336,19 +332,15 @@ const formattedDate = computed(() => {
   return date.value ? date.value.toLocaleDateString("fr-FR") : ""
 })
 
+const emit = defineEmits([ "submit:adduser" ])
+
 watch(date, (newDate) => {
   personne.value.dateNaissance = newDate ? newDate.toISOString().substr(0, 10) : ""
 })
 
 watch(selectedOptions, (newVal) => {
-  Object.keys(personne.value).forEach((key) => {
-    if (key.startsWith("option")) {
-      personne.value[key] = false
-    }
-  })
-
   newVal.forEach((option) => {
-    personne.value[option] = true
+    personne.value[option.value] = true
   })
 })
 
@@ -358,7 +350,7 @@ const updateDate = (newDate) => {
 }
 
 function submit() {
-  console.log(personne.value)
+  emit("submit:adduser", personne.value)
 }
 
 const optionItems = [
