@@ -27,7 +27,7 @@
         cols="12"
         md="6"
       >
-        <v-text-field
+        <!-- <v-text-field
           v-model="formattedDate"
           label="Date de Naissance"
           readonly
@@ -42,7 +42,31 @@
           max-width="290px"
           min-width="290px"
         >
-          <template #activator="{ on, attrs }" />
+          <v-date-picker
+            v-model="date"
+            no-title
+            scrollable
+            @input="updateDate"
+          />
+        </v-menu> -->
+        <v-menu
+          v-model="datePickerMenu"
+          close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          full-width
+          max-width="290px"
+          min-width="290px"
+        >
+          <template #activator="{ props }">
+            <v-text-field
+              v-model="formattedDate"
+              label="Date de naissance"
+              readonly
+              v-bind="props"
+              required
+            />
+          </template>
           <v-date-picker
             v-model="date"
             no-title
