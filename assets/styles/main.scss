@@ -1,4 +1,4 @@
-@use 'vuetify/settings' with (
+@use "vuetify/settings" with (
   $color-pack: false
 );
 
@@ -8,7 +8,7 @@ a {
 }
 
 body {
-  font-family: 'Nunito';
+  font-family: "Nunito";
 }
 
 .v-theme--light {
@@ -17,4 +17,20 @@ body {
 
 .v-theme--dark {
   --v-medium-emphasis-opacity: 1 !important;
+}
+
+input {
+  background: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill:active {
+  border: 1px solid transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #F8F8F2;
+  -webkit-box-shadow: 0 0 0px 1000px #00000000 inset !important;
+  box-shadow: 0 0 0px 1000px #00000000 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
