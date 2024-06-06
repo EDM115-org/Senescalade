@@ -27,6 +27,11 @@
             >
               Modifier
             </v-btn>
+            <v-btn
+              color="primary"
+            >
+              Supprimer
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
