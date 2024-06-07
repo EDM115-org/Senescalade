@@ -62,21 +62,55 @@ docker tag tab-magiques edm115/tab-magiques:latest
 docker push edm115/tab-magiques:latest
 ```
 
-
 ## Code
-
-### Structure
 
 ### Fonctionnalités
 
 - [ ] Inscription
-- [ ] Connexion
+- [x] Connexion
 - [ ] Interface d'administration
 - [ ] Envoi de mail
 
-## Development
+## Dévelopment
 
-Sources to check :
+### À faire
+
+**Utilisateur**
+- [ ] Inscription : date de naissance, planning, formulaire, redirection HelloAsso + champs obligatoires & warnings et désactiver le bouton tant que les champs ne sont pas remplis
+- [ ] Visualisation de son numéro de licence
+- [ ] Modifications d'informations
+- [ ] Affichage du créneau par user
+- [ ] Suppression de compte
+
+**Admin**
+- [ ] Visibilité des inscriptions (qui a payé ou non, ...)
+- [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
+- [ ] Ajout d'admins avec droits restreints
+- [ ] Modification de la BDD (GUI, insertion de requêtes custom ?)
+- [ ] Export d'un user en CSV
+- [ ] PDF de la liste des inscrits par créneau
+- [ ] Gérer les résinscriptions
+
+**Global**
+- [ ] Affichage des erreurs de l'API (v-alert)
+- [ ] Indicateurs visuels de connexion/chargement (v-skeleton-loader)
+- [ ] Envoi de mails
+- [ ] Mieux gérer le store + cookies/local storage ?
+- [ ] Routes -> Chargment direct du store à partir du stockage -> éviter d'avoir un user null
+
+**Design**
+- [ ] Clean les couleurs
+- [ ] Ajout de transitions
+- [ ] Images !!!
+- [ ] Responsive
+
+**Déploiement**
+- [ ] Docker + Docker Compose
+- [ ] Vérif de la BDD après un redéploiement
+- [ ] Instructions claires
+- [ ] Tests
+
+### Sources supplémentaires :
 
 - https://nuxt.com/modules/auto-animate
 - https://nuxt.com/modules/test-utils
@@ -84,5 +118,3 @@ Sources to check :
 - https://vite-pwa-org.netlify.app/frameworks/nuxt.html + https://vite-pwa-org.netlify.app/assets-generator/
 - Store : https://github.com/data-fair/processings/blob/e6cc8abc336853363e950e3e73c13939d7570eb2/ui/store/pinia.js
 - BDD : https://github.com/sidorares/node-mysql2 (base : https://github.com/mysqljs/mysql, image : https://hub.docker.com/_/mysql)
-
-- [ ] Test the dockerfile and docker-compose

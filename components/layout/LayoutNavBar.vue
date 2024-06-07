@@ -84,6 +84,7 @@ onMounted(() => {
 function handleConnect() {
   if (connected.value) {
     store.logout()
+    router.push("/")
   } else {
     router.push("/login")
   }
