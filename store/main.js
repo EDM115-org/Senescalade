@@ -37,6 +37,7 @@ const useMainStore = defineStore("main", {
       if (this.connected) {
         return
       }
+
       this.connected = true
       this.user = user
     },

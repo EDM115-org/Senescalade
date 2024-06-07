@@ -57,6 +57,7 @@ import { useMainStore } from "~/store/main"
 import { computed, onMounted, ref, watch } from "vue"
 import { useTheme } from "vuetify"
 
+const router = useRouter()
 const store = useMainStore()
 const vuetifyTheme = useTheme()
 
@@ -84,7 +85,7 @@ function handleConnect() {
   if (connected.value) {
     store.logout()
   } else {
-    store.login()
+    router.push("/login")
   }
 }
 </script>

@@ -37,25 +37,8 @@
               </v-btn>
             </NuxtLink>
           </v-col>
-          <v-col>
-            <v-btn
-              color="accent"
-              large
-              @click="fetchDb"
-            >
-              Fetch DB
-            </v-btn>
-          </v-col>
         </v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
-
-<script setup>
-async function fetchDb() {
-  const data = await $fetch("/api/db")
-
-  console.log(data)
-}
-</script>
