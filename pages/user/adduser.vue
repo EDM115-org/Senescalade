@@ -1,7 +1,6 @@
 <template>
   <v-container class="fillheight">
     <FormUser
-      text="Ajouter un grimpeur"
       @submit:adduser="adduser($event)"
     />
   </v-container>
