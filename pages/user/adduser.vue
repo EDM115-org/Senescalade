@@ -17,8 +17,6 @@ async function adduser(event) {
       body: JSON.stringify(event),
     })
 
-    console.log(result)
-
     if (result.status === 200) {
       router.push("/user")
     } else {

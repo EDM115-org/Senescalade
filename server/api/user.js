@@ -52,8 +52,6 @@ export default defineEventHandler(async (event) => {
     lInscription,
   } = body
 
-  console.log("Received lInscription:", lInscription)
-
   const params = [
     action,
     nom,

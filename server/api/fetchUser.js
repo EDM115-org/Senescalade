@@ -18,11 +18,9 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" },
+      body: { error: "Database connection not available", event },
     }
   }
-
-  console.log(event)
 
   try {
     const [ rows ] = await connection.execute("SELECT * FROM Personne")

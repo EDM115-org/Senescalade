@@ -41,8 +41,6 @@ async function login(event) {
     if (result.status === 200) {
       store.login(result.body.user)
 
-      console.log(result.body.user)
-
       if (result.body.user.isAdmin === 1) {
         router.push("/admin")
       } else {
