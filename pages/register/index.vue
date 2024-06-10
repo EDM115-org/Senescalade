@@ -25,6 +25,10 @@
 </template>
 
 <script setup>
+import { useMainStore } from "~/store/main"
+import { onMounted } from "vue"
+
+const store = useMainStore()
 const router = useRouter()
 
 async function register(event) {
@@ -33,9 +37,21 @@ async function register(event) {
       method: "POST",
       body: JSON.stringify(event),
     })
-    router.push("/")
+    router.push("/login")
   } catch (error) {
     console.error("Error registering user :", error)
   }
 }
+
+onMounted(() => {
+  const user = store.getUser
+
+  if (user) {
+    if (user.isAdmin === 1) {
+      router.push("/admin/dashboard")
+    } else {
+      router.push("/user")
+    }
+  }
+})
 </script>

@@ -2,7 +2,7 @@
   "validations": {
     "required": "Ce champ est requis",
     "email": "L'email n'est pas valide",
-    "minLength": "Ce champ doit avoir une longueur minimale de {min}",
+    "minLength": "Ce champ doit avoir une longueur minimale de {min} caractères",
     "sameAsPassword": "Les mots de passe ne correspondent pas"
   }
 }
