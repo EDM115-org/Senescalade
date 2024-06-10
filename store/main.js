@@ -24,11 +24,26 @@ const useMainStore = defineStore("main", {
 
       return theme
     },
-    getUser() {
-      return this.user
-    },
     isConnected() {
       return this.connected
+    },
+    isLogged() {
+      let loggedInCookie = cookie.get("isLoggedIn")
+
+      if (loggedInCookie) {
+        this.isLoggedIn = true
+      }
+
+      return this.isLoggedIn
+    },
+    getUser() {
+      let userCookie = cookie.get("user")
+
+      if (userCookie) {
+        this.user = JSON.parse(decodeURI(userCookie))
+      }
+
+      return this.user
     }
   },
   actions: {
@@ -38,16 +53,13 @@ const useMainStore = defineStore("main", {
       return value
     },
     login(user) {
-      if (this.connected) {
-        return
-      }
-
-      this.connected = true
-      this.user = user
+      this.isLoggedIn = this.createCookie("isLoggedIn", true, 1)
+      this.user = this.createCookie("user", JSON.stringify(user), 1)
     },
     logout() {
-      this.connected = false
+      this.isLoggedIn = false
       this.user = null
+      cookie.remove("isLoggedIn", "user")
     },
     setDisplayAdminMenu(val) {
       this.displayAdminMenu = val
