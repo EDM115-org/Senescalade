@@ -42,7 +42,7 @@ async function login(event) {
       store.login(result.body.user)
 
       if (result.body.user.isAdmin === 1) {
-        router.push("/admin")
+        router.push("/admin/dashboard")
       } else {
         router.push("/user")
       }

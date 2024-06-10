@@ -1,13 +1,22 @@
 <template>
   <v-app>
     <v-main>
-      <LayoutNavBar />
+      <LayoutNavBar v-if="displayNavBar" />
+      <LayoutNavBarAdmin v-else />
       <NuxtPage />
     </v-main>
   </v-app>
 </template>
 
 <script setup>
+import { computed } from "vue"
+
+const route = useRoute()
+
+const displayNavBar = computed(() => {
+  return !route.fullPath.includes("/admin")
+})
+
 useHead({
   title: "Senescalade",
   meta: [
