@@ -5,10 +5,14 @@ import { defineStore } from "pinia"
 const useMainStore = defineStore("main", {
   state: () => ({
     connected: false,
+    displayAdminMenu: true,
     theme: "dark",
     user: null
   }),
   getters: {
+    getDisplayAdminMenu() {
+      return this.displayAdminMenu
+    },
     getTheme() {
       let theme = cookie.get("theme")
 
@@ -44,6 +48,9 @@ const useMainStore = defineStore("main", {
     logout() {
       this.connected = false
       this.user = null
+    },
+    setDisplayAdminMenu(val) {
+      this.displayAdminMenu = val
     },
     setTheme(theme) {
       this.theme = this.createCookie("theme", theme, 30)

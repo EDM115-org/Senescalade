@@ -4,11 +4,12 @@
     color="secondary"
     dense
     floating
-    rounded="b-xl"
+    :rounded="adminPage ? 'none' : 'b-xl'"
     scroll-behavior="elevate"
   >
     <template #prepend>
       <NuxtLink
+        v-if="!adminPage"
         to="/"
         class="flex items-center"
       >
@@ -21,6 +22,11 @@
           max-width="40"
         />
       </NuxtLink>
+      <v-btn
+        v-else
+        icon="mdi-menu"
+        @click="displayMenu"
+      />
     </template>
     <v-app-bar-title>
       <NuxtLink
@@ -57,6 +63,7 @@ import { useMainStore } from "~/store/main"
 import { computed, onMounted, ref, watch } from "vue"
 import { useTheme } from "vuetify"
 
+const route = useRoute()
 const router = useRouter()
 const store = useMainStore()
 const vuetifyTheme = useTheme()
@@ -65,6 +72,7 @@ const accountIcon = ref("mdi-login")
 const accountText = computed(() => (store.isConnected ? "Déconnexion" : "Connexion"))
 const connected = computed(() => store.isConnected)
 const theme = ref("dark")
+const adminPage = computed(() => route.fullPath.includes("admin"))
 
 watch(connected, (value) => {
   accountIcon.value = value ? "mdi-logout" : "mdi-login"
@@ -74,6 +82,10 @@ function toggleTheme() {
   theme.value = theme.value === "dark" ? "light" : "dark"
   store.setTheme(theme.value)
   vuetifyTheme.global.name.value = theme.value
+}
+
+function displayMenu() {
+  store.setDisplayAdminMenu(!store.getDisplayAdminMenu)
 }
 
 onMounted(() => {
