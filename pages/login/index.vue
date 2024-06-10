@@ -4,7 +4,7 @@
       Connexion
     </h1>
     <FormLogin
-      text="Se connecter"
+      :inscription="false"
       @submit:login="login($event)"
     />
     <v-row>
@@ -15,7 +15,6 @@
         <v-btn
           color="secondary"
           type="submit"
-          large
           @click="$router.push('/register')"
         >
           S'inscrire

@@ -6,26 +6,47 @@
     <v-row>
       <v-col cols="12">
         <v-text-field
-          v-model="mail"
+          v-model="state.mail"
+          :error-messages="v$.mail.$errors.map(e => e.$message)"
+          class="input-field mx-auto"
           label="Email"
           required
-          type="email"
-          :rules="emailRules"
-          class="input-field mx-auto"
-          outlined
+          @blur="v$.mail.$touch"
+          @input="v$.mail.$touch"
         />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
         <v-text-field
-          v-model="password"
+          v-model="state.password"
+          :error-messages="v$.password.$errors.map(e => e.$message)"
+          :type="showPassword ? 'text' : 'password'"
+          class="input-field mx-auto"
           label="Mot de passe"
           required
+          @blur="v$.password.$touch"
+          @input="v$.password.$touch"
+        >
+          <template #append-inner>
+            <v-icon @click="togglePasswordVisibility">
+              {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
+            </v-icon>
+          </template>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <v-row v-if="loginProps.inscription">
+      <v-col cols="12">
+        <v-text-field
+          v-model="state.checkPassword"
+          :error-messages="v$.checkPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
-          :rules="passwordRules"
           class="input-field mx-auto"
-          outlined
+          label="Confirmation du mot de passe"
+          required
+          @blur="v$.checkPassword.$touch"
+          @input="v$.checkPassword.$touch"
         >
           <template #append-inner>
             <v-icon @click="togglePasswordVisibility">
@@ -41,11 +62,11 @@
         class="text-center"
       >
         <v-btn
+          :disabled="v$.$invalid"
           color="accent"
           type="submit"
-          large
         >
-          {{ loginProps.text }}
+          {{ loginProps.inscription ? "S'inscrire" : "Se connecter" }}
         </v-btn>
       </v-col>
     </v-row>
@@ -54,51 +75,61 @@
 
 <script setup>
 import bcrypt from "bcryptjs"
-import { ref } from "vue"
+import useVuelidate from "@vuelidate/core"
 
-const form = ref(null)
-const mail = ref("")
-const password = ref("")
-const showPassword = ref(false)
-
-const emailRules = [
-  (v) => !!v || "Email requis",
-  (v) => (/.+@.+\..+/).test(v) || "Email invalide"
-]
-
-const passwordRules = [
-  (v) => !!v || "Mot de passe requis",
-  (v) => v.length >= 8 || "Le mot de passe doit contenir au moins 8 caractères"
-]
+import { ref, reactive } from "vue"
+import { required, email, minLength, sameAs } from "@vuelidate/validators"
 
 const emit = defineEmits([ "submit:login", "submit:register" ])
 
 const loginProps = defineProps({
-  text: {
-    type: String,
-    default: ""
-  }
+  inscription: Boolean
 })
+
+const showPassword = ref(false)
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
 }
 
-async function submit() {
-  const formIsValid = await form.value.validate()
+const initialState = {
+  mail: "",
+  password: "",
+  checkPassword: "",
+}
 
-  if (!formIsValid) {
+const state = reactive({ ...initialState })
+
+const rules = {
+  mail: { required, email },
+  password: { required, minLength: minLength(8) },
+  checkPassword: loginProps.inscription ? { required, sameAsPassword: sameAs(computed(() => state.password)) } : {}
+}
+
+const v$ = useVuelidate(rules, state)
+
+async function submit() {
+  v$.value.$touch()
+
+  if (v$.value.$invalid) {
     return
   }
 
-  if (loginProps.text === "S'inscrire") {
+  if (loginProps.inscription === true) {
     const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password.value, salt)
+    const hash = await bcrypt.hash(state.password, salt)
 
-    emit("submit:register", { mail: mail.value, password: hash })
-  } else if (loginProps.text === "Se connecter") {
-    emit("submit:login", { mail: mail.value, password: password.value })
+    emit("submit:register", { mail: state.mail, password: hash })
+  } else {
+    emit("submit:login", { mail: state.mail, password: state.password })
   }
+
+  clear()
+}
+
+function clear() {
+  v$.value.$reset()
+  Object.assign(state, initialState)
 }
 </script>
 
@@ -106,6 +137,5 @@ async function submit() {
 .input-field {
   width: 100%;
   max-width: 300px;
-  margin-bottom: 20px;
 }
 </style>
