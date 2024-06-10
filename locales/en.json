@@ -1,8 +1,8 @@
 {
   "validations": {
-    "required": "The field {property} is required.",
-    "email": "The field {property} must be a valid email.",
-    "minLength": "The field {property} must have a minimum length of {min}.",
-    "sameAs": "The field {property} must be the same as {other}."
+    "required": "This field is required",
+    "email": "This email is not valid",
+    "minLength": "This field must have a minimum length of {min}",
+    "sameAsPassword": "The passwords do not match"
   }
 }
