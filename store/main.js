@@ -25,9 +25,6 @@ const useMainStore = defineStore("main", {
       return theme
     },
     isConnected() {
-      return this.connected
-    },
-    isLogged() {
       let loggedInCookie = cookie.get("isLoggedIn")
 
       if (loggedInCookie) {
