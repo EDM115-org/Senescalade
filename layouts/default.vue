@@ -27,9 +27,3 @@ useHead({
   link: [{ rel: "icon", type: "image/ico", href: "/favicon.ico" }]
 })
 </script>
-
-<style scoped>
-:deep(.v-input .v-input__details) {
-  display: none;
-}
-</style>
