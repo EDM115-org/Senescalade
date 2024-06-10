@@ -2,9 +2,8 @@
   <v-container class="fillheight">
     <LayoutNavBarAdmin v-if="isLoading" />
     <div v-if="isLoading">
-      <h1 class="text-center mt-5 mb-5">
-        Connexion
-      </h1>
+      <!-- Formulaire de mise à jour du mot de passe -->
+      <FormUpdatePassword />
     </div>
   </v-container>
 </template>
