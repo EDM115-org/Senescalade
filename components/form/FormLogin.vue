@@ -77,8 +77,9 @@
 import bcrypt from "bcryptjs"
 import useVuelidate from "@vuelidate/core"
 
+import { createI18nValidators } from "@/utils/i18n-validators"
 import { ref, reactive } from "vue"
-import { required, email, minLength, sameAs } from "@vuelidate/validators"
+import { useI18n } from "vue-i18n"
 
 const emit = defineEmits([ "submit:login", "submit:register" ])
 
@@ -99,6 +100,9 @@ const initialState = {
 }
 
 const state = reactive({ ...initialState })
+
+const { t } = useI18n()
+const { required, email, minLength, sameAs } = createI18nValidators(t)
 
 const rules = {
   mail: { required, email },

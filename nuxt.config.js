@@ -50,7 +50,11 @@ export default defineNuxtConfig({
       fallbackLocale: "fr",
       useCookie: true
     },
-    locales: [ "en", "fr" ],
+    langDir: "locales/",
+    locales: [
+      { code: "en", file: "en.json" },
+      { code: "fr", file: "fr.json" }
+    ],
     strategy: "no_prefix"
   },
   image: {

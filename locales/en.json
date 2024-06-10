@@ -1,0 +1,8 @@
+{
+  "validations": {
+    "required": "The field {property} is required.",
+    "email": "The field {property} must be a valid email.",
+    "minLength": "The field {property} must have a minimum length of {min}.",
+    "sameAs": "The field {property} must be the same as {other}."
+  }
+}
