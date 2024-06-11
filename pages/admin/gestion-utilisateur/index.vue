@@ -12,53 +12,56 @@
               <h2>Gestion des utilisateurs</h2>
             </v-card-title>
             <v-card-text>
-              <v-simple-table>
-                <template #default>
-                  <thead>
-                    <tr>
-                      <th
-                        style="width: 33%;"
-                        class="text-center"
-                      >
-                        Id
-                      </th>
-                      <th
-                        style="width: 33%;"
-                        class="text-center"
-                      >
-                        Email
-                      </th>
-                      <th
-                        style="width: 34%;"
-                        class="text-center"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="admin in admins"
-                      :key="admin.idInscription"
+              <v-table>
+                <thead>
+                  <tr>
+                    <th
+                      class="text-center"
+                      style="width: 33%;"
                     >
-                      <td class="text-center">
-                        {{ admin.idInscription }}
-                      </td>
-                      <td class="text-center">
-                        {{ admin.mail }}
-                      </td>
-                      <td class="text-center">
-                        <v-btn color="primary">
-                          Modifier
-                        </v-btn>
-                        <v-btn color="primary">
-                          Supprimer
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+                      Id
+                    </th>
+                    <th
+                      class="text-center"
+                      style="width: 33%;"
+                    >
+                      Email
+                    </th>
+                    <th
+                      class="text-center"
+                      style="width: 34%;"
+                    >
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="user in users"
+                    :key="user.idInscription"
+                  >
+                    <td class="text-center">
+                      {{ user.idInscription }}
+                    </td>
+                    <td class="text-center">
+                      {{ user.mail }}
+                    </td>
+                    <td class="d-flex justify-center align-center text-center">
+                      <v-btn
+                        color="accent"
+                        class="mr-2"
+                        icon="mdi-pencil"
+                        @click="editUser(user)"
+                      />
+                      <v-btn
+                        color="error"
+                        icon="mdi-delete"
+                        @click="deleteUser(user)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
             </v-card-text>
           </v-card>
         </v-col>
@@ -74,20 +77,30 @@ import { useMainStore } from "~/store/main"
 const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
-const admins = ref([])
+const users = ref([])
 
 const fetchInscription = async () => {
   try {
     const result = await $fetch("/api/fetchInscription")
 
     if (result.status === 200) {
-      admins.value = result.body
+      users.value = result.body
     } else {
-      console.error("Error fetching admins : ", result)
+      console.error("Error fetching users:", result)
     }
   } catch (error) {
-    console.error("Error fetching admins : ", error)
+    console.error("Error fetching users:", error)
   }
+}
+
+const editUser = (user) => {
+  // Handle user edit logic
+  console.log("Edit user:", user)
+}
+
+const deleteUser = (user) => {
+  // Handle user delete logic
+  console.log("Delete user:", user)
 }
 
 onMounted(async () => {
@@ -97,11 +110,11 @@ onMounted(async () => {
     const response = await $fetch("/api/getPermAdmin", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user: user
-      })
+        user: user,
+      }),
     })
 
     if (response) {

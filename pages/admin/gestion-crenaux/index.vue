@@ -57,19 +57,17 @@
                     <td class="text-center">
                       {{ seance.professeur }}
                     </td>
-                    <td class="text-center">
-                      <div style="display: flex; justify-content: center; align-items: center;">
-                        <v-btn
-                          color="accent"
-                          class="mr-2"
-                          icon="mdi-calendar-edit-outline"
-                        />
-                        <v-btn
-                          color="error"
-                          icon="mdi-calendar-remove-outline"
-                          @click.prevent="confirmDelete(seance)"
-                        />
-                      </div>
+                    <td class="d-flex justify-center align-center text-center">
+                      <v-btn
+                        color="accent"
+                        class="mr-2"
+                        icon="mdi-calendar-edit-outline"
+                      />
+                      <v-btn
+                        color="error"
+                        icon="mdi-calendar-remove-outline"
+                        @click.prevent="confirmDelete(seance)"
+                      />
                     </td>
                   </tr>
                 </tbody>

@@ -12,53 +12,56 @@
               <h2>Gestion des administrateurs</h2>
             </v-card-title>
             <v-card-text>
-              <v-simple-table>
-                <template #default>
-                  <thead>
-                    <tr>
-                      <th
-                        style="width: 33%;"
-                        class="text-center"
-                      >
-                        Id
-                      </th>
-                      <th
-                        style="width: 33%;"
-                        class="text-center"
-                      >
-                        Email
-                      </th>
-                      <th
-                        style="width: 34%;"
-                        class="text-center"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="admin in admins"
-                      :key="admin.idInscription"
+              <v-table>
+                <thead>
+                  <tr>
+                    <th
+                      class="text-center"
+                      style="width: 33%;"
                     >
-                      <td class="text-center">
-                        {{ admin.idInscription }}
-                      </td>
-                      <td class="text-center">
-                        {{ admin.mail }}
-                      </td>
-                      <td class="text-center">
-                        <v-btn color="primary">
-                          Modifier
-                        </v-btn>
-                        <v-btn color="primary">
-                          Supprimer
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+                      Id
+                    </th>
+                    <th
+                      class="text-center"
+                      style="width: 33%;"
+                    >
+                      Email
+                    </th>
+                    <th
+                      class="text-center"
+                      style="width: 34%;"
+                    >
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="admin in admins"
+                    :key="admin.idInscription"
+                  >
+                    <td class="text-center">
+                      {{ admin.idInscription }}
+                    </td>
+                    <td class="text-center">
+                      {{ admin.mail }}
+                    </td>
+                    <td class="d-flex justify-center align-center text-center">
+                      <v-btn
+                        color="accent"
+                        class="mr-2"
+                        icon="mdi-pencil"
+                        @click="editAdmin(admin)"
+                      />
+                      <v-btn
+                        color="error"
+                        icon="mdi-delete"
+                        @click="deleteAdmin(admin)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
             </v-card-text>
           </v-card>
         </v-col>
@@ -83,11 +86,21 @@ const fetchAdmin = async () => {
     if (result.status === 200) {
       admins.value = result.body
     } else {
-      console.error("Error fetching admins : ", result)
+      console.error("Error fetching admins:", result)
     }
   } catch (error) {
-    console.error("Error fetching admins : ", error)
+    console.error("Error fetching admins:", error)
   }
+}
+
+const editAdmin = (admin) => {
+  // Handle admin edit logic
+  console.log("Edit admin:", admin)
+}
+
+const deleteAdmin = (admin) => {
+  // Handle admin delete logic
+  console.log("Delete admin:", admin)
 }
 
 onMounted(async () => {
@@ -99,9 +112,7 @@ onMounted(async () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        user: user
-      })
+      body: JSON.stringify({ user: user })
     })
 
     if (response) {
