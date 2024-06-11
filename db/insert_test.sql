@@ -59,6 +59,9 @@ VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
 VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
+
+INSERT INTO Inscription(idInscription, mail, password, isAdmin)
+VALUES (2, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
 -- admintestadmin
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
@@ -70,3 +73,6 @@ VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', 
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
 VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
+VALUES (2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1);

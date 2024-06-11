@@ -62,7 +62,6 @@ try {
       items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
     }
   } else {
-    // Gérer les erreurs de mise à jour du mot de passe
     console.error("Error getPermAdmin:", response.statusText)
   }
 } catch (error) {

@@ -28,7 +28,7 @@
         @click="displayMenu"
       />
     </template>
-    <v-app-bar-title>
+    <v-app-bar-title v-if="smAndUp">
       <NuxtLink
         to="/"
         class="text-h6"
@@ -61,7 +61,7 @@
 <script setup>
 import { useMainStore } from "~/store/main"
 import { computed, onMounted, ref, watch } from "vue"
-import { useTheme } from "vuetify"
+import { useDisplay, useTheme } from "vuetify"
 
 const route = useRoute()
 const router = useRouter()
@@ -73,6 +73,8 @@ const accountText = computed(() => (store.isConnected ? "Déconnexion" : "Connex
 const connected = computed(() => store.isConnected)
 const theme = ref("dark")
 const adminPage = computed(() => route.fullPath.includes("admin"))
+
+const { smAndUp } = useDisplay()
 
 watch(connected, (value) => {
   accountIcon.value = value ? "mdi-logout" : "mdi-login"

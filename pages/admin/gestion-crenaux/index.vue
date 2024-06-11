@@ -153,8 +153,57 @@ const handleDelete = (idSeance) => {
   deleteSeance(idSeance)
 }
 
-onMounted(() => {
+const deleteSeance = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteSeance", {
+      method: "DELETE",
+      body: { idSeance: id }
+    })
+
+    if (result.status === 200) {
+      fetchSeance()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la connexion"
+    issueMessage.value = error
+  }
+}
+
+const confirmDelete = (seance) => {
+  deleteDialog.value.open(seance)
+}
+
+const handleDelete = (idSeance) => {
+  deleteSeance(idSeance)
+}
+
+onMounted(async () => {
   const user = store.getUser
+
+  try {
+    const response = await $fetch("/api/getPermAdmin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: user
+      })
+    })
+
+    if (response) {
+      if (response.body[0].ReadListSeance !== 1) {
+        return router.push("/admin/dashboard")
+      }
+    } else {
+      console.error("Error getPermAdmin:", response.statusText)
+    }
+  } catch (error) {
+    console.error("Error getPermAdmin:", error.message)
+  }
 
   if (user) {
     if (user.isAdmin !== 1) {
