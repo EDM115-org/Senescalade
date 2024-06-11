@@ -12,121 +12,77 @@
               <h2>Gestion des séances</h2>
             </v-card-title>
             <v-card-text>
-              <v-simple-table>
-                <template #default>
-                  <thead>
-                    <tr>
-                      <th
-                        style="width: 10%;"
-                        class="text-center"
-                      >
-                        ID
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Jour
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Heure
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Durée
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Type
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Niveau
-                      </th>
-                      <th
-                        style="width: 10%;"
-                        class="text-center"
-                      >
-                        Places
-                      </th>
-                      <th
-                        style="width: 10%;"
-                        class="text-center"
-                      >
-                        Places restantes
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Professeur
-                      </th>
-                      <th
-                        style="width: 15%;"
-                        class="text-center"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="seance in seances"
-                      :key="seance.idSeance"
+              <v-table>
+                <thead>
+                  <tr>
+                    <th
+                      v-for="header in headers"
+                      :key="header.text"
+                      :style="{ width: header.width }"
+                      class="text-center"
                     >
-                      <td class="text-center">
-                        {{ seance.idSeance }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.jour }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.heureSeance }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.dureeSeance }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.typeSeance }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.niveau }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.nbPlaces }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.nbPlacesRestantes }}
-                      </td>
-                      <td class="text-center">
-                        {{ seance.professeur }}
-                      </td>
-                      <td class="text-center">
-                        <v-btn color="primary">
-                          Modifier
-                        </v-btn>
-                        <v-btn color="primary">
-                          Supprimer
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+                      {{ header.text }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="seance in seances"
+                    :key="seance.idSeance"
+                  >
+                    <td class="text-center">
+                      {{ seance.idSeance }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.jour }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.heureSeance }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.dureeSeance }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.typeSeance }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.niveau }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.nbPlaces }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.nbPlacesRestantes }}
+                    </td>
+                    <td class="text-center">
+                      {{ seance.professeur }}
+                    </td>
+                    <td class="text-center">
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                        <v-btn
+                          color="accent"
+                          class="mr-2"
+                          icon="mdi-calendar-edit-outline"
+                        />
+                        <v-btn
+                          color="error"
+                          icon="mdi-calendar-remove-outline"
+                          @click.prevent="confirmDelete(seance)"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
     </div>
+    <PopUpDelete
+      ref="deleteDialog"
+      @confirm-delete="handleDelete"
+    />
   </v-container>
 </template>
 
@@ -138,6 +94,23 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const seances = ref([])
+const deleteDialog = ref(null)
+
+const errorMessage = ref("")
+const issueMessage = ref("")
+
+const headers = [
+  { text: "ID", width: "10%" },
+  { text: "Jour", width: "15%" },
+  { text: "Heure", width: "15%" },
+  { text: "Durée", width: "15%" },
+  { text: "Type", width: "15%" },
+  { text: "Niveau", width: "15%" },
+  { text: "Places", width: "10%" },
+  { text: "Places restantes", width: "10%" },
+  { text: "Professeur", width: "15%" },
+  { text: "Actions", width: "15%" },
+]
 
 const fetchSeance = async () => {
   try {
@@ -151,6 +124,33 @@ const fetchSeance = async () => {
   } catch (error) {
     console.error("Error fetching seances : ", error)
   }
+}
+
+const deleteSeance = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteSeance", {
+      method: "DELETE",
+      body: { idSeance: id }
+    })
+
+    if (result.status === 200) {
+      fetchSeance()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la connexion"
+    issueMessage.value = error
+  }
+}
+
+const confirmDelete = (seance) => {
+  deleteDialog.value.open(seance)
+}
+
+const handleDelete = (idSeance) => {
+  deleteSeance(idSeance)
 }
 
 onMounted(() => {
