@@ -7,14 +7,23 @@
       <v-col cols="12">
         <v-text-field
           v-model="state.oldPassword"
-          :error-messages="errors.oldPassword"
+          :error-messages="v$.oldPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
-          label="Ancien mot de passe"
+          label="Mot de passe"
           required
-          @blur="touch('oldPassword')"
-          @input="touch('oldPassword')"
-        />
+          @blur="v$.oldPassword.$touch"
+          @input="v$.oldPassword.$touch"
+        >
+          <template #append-inner>
+            <v-icon
+              tabindex="-1"
+              @click="togglePasswordVisibility"
+            >
+              {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
+            </v-icon>
+          </template>
+        </v-text-field>
       </v-col>
     </v-row>
 
@@ -22,14 +31,23 @@
       <v-col cols="12">
         <v-text-field
           v-model="state.newPassword"
-          :error-messages="errors.newPassword"
+          :error-messages="v$.newPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
-          label="Nouveau mot de passe"
+          label="Mot de passe"
           required
-          @blur="touch('newPassword')"
-          @input="touch('newPassword')"
-        />
+          @blur="v$.newPassword.$touch"
+          @input="v$.newPassword.$touch"
+        >
+          <template #append-inner>
+            <v-icon
+              tabindex="-1"
+              @click="togglePasswordVisibility"
+            >
+              {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
+            </v-icon>
+          </template>
+        </v-text-field>
       </v-col>
     </v-row>
 
@@ -37,14 +55,23 @@
       <v-col cols="12">
         <v-text-field
           v-model="state.confirmPassword"
-          :error-messages="errors.confirmPassword"
+          :error-messages="v$.confirmPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
-          label="Confirmer le nouveau mot de passe"
+          label="Confirmation du mot de passe"
           required
-          @blur="touch('confirmPassword')"
-          @input="touch('confirmPassword')"
-        />
+          @blur="v$.confirmPassword.$touch"
+          @input="v$.confirmPassword.$touch"
+        >
+          <template #append-inner>
+            <v-icon
+              tabindex="-1"
+              @click="togglePasswordVisibility"
+            >
+              {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
+            </v-icon>
+          </template>
+        </v-text-field>
       </v-col>
     </v-row>
 
@@ -54,7 +81,7 @@
         class="text-center"
       >
         <v-btn
-          :disabled="hasErrors || !isTouched"
+          :disabled="v$.$invalid"
           color="accent"
           type="submit"
         >
@@ -70,6 +97,9 @@
 import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
 
+import { createI18nValidators } from "@/assets/utils/i18n-validators"
+import { ref, reactive } from "vue"
+
 const store = useMainStore()
 
 const user = store.getUser
@@ -83,13 +113,16 @@ const initialState = {
 
 const state = reactive({ ...initialState })
 
-const { required, minLength, sameAs } = useVuelidate(validators, state)
+const { t } = useI18n()
+const { required, minLength, sameAs } = createI18nValidators(t)
 
-const validators = {
-  oldPassword: { required },
+const rules = {
+  oldPassword: { required, minLength: minLength(8) },
   newPassword: { required, minLength: minLength(8) },
-  confirmPassword: { required, sameAsPassword: sameAs(state.newPassword) }
+  confirmPassword: { required, sameAsPassword: sameAs(computed(() => state.newPassword)) }
 }
+
+const v$ = useVuelidate(rules, state)
 
 async function submit() {
   v$.value.$touch()
