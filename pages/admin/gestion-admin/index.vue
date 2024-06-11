@@ -1,7 +1,10 @@
 <template>
-  <v-container class="fillheight">
-    <LayoutNavBarAdmin v-if="isLoading" />
-    <div v-if="isLoading">
+  <v-container
+    v-if="adminLogged"
+    class="fillheight"
+  >
+    <LayoutNavBarAdmin />
+    <div>
       <v-row justify="center">
         <v-col cols="12">
           <v-card>
@@ -67,11 +70,10 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
-import { useRouter } from "vue-router"
 
 const store = useMainStore()
 const router = useRouter()
-const isLoading = ref(false)
+const adminLogged = ref(false)
 const admins = ref([])
 
 const fetchAdmin = async () => {
@@ -81,10 +83,10 @@ const fetchAdmin = async () => {
     if (result.status === 200) {
       admins.value = result.body
     } else {
-      console.error("Error fetching admins:", result)
+      console.error("Error fetching admins : ", result)
     }
   } catch (error) {
-    console.error("Error fetching admins:", error)
+    console.error("Error fetching admins : ", error)
   }
 }
 
@@ -95,7 +97,7 @@ onMounted(() => {
     if (user.isAdmin !== 1) {
       router.push("/user")
     } else {
-      isLoading.value = true
+      adminLogged.value = true
       fetchAdmin()
     }
   } else {

@@ -1,5 +1,8 @@
 <template>
-  <form ref="form" @submit.prevent="submit">
+  <form
+    ref="form"
+    @submit.prevent="submit"
+  >
     <v-row>
       <v-col cols="12">
         <v-text-field
@@ -46,8 +49,15 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12" class="text-center">
-        <v-btn :disabled="hasErrors || !isTouched" color="accent" type="submit">
+      <v-col
+        cols="12"
+        class="text-center"
+      >
+        <v-btn
+          :disabled="hasErrors || !isTouched"
+          color="accent"
+          type="submit"
+        >
           Modifier le mot de passe
         </v-btn>
       </v-col>
@@ -62,7 +72,7 @@ import useVuelidate from "@vuelidate/core"
 
 const store = useMainStore()
 
-const user = store.getUser()
+const user = store.getUser
 
 const showPassword = ref(false)
 const initialState = {

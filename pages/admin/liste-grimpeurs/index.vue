@@ -1,7 +1,10 @@
 <template>
-  <v-container class="fillheight">
-    <LayoutNavBarAdmin v-if="isLoading" />
-    <div v-if="isLoading">
+  <v-container
+    v-if="adminLogged"
+    class="fillheight"
+  >
+    <LayoutNavBarAdmin />
+    <div>
       <CardUser />
     </div>
   </v-container>
@@ -13,7 +16,7 @@ import { useRouter } from "vue-router"
 
 const store = useMainStore()
 const router = useRouter()
-const isLoading = ref(false)
+const adminLogged = ref(false)
 
 onMounted(() => {
   const user = store.getUser
@@ -22,7 +25,7 @@ onMounted(() => {
     if (user.isAdmin !== 1) {
       router.push("/user")
     } else {
-      isLoading.value = true
+      adminLogged.value = true
     }
   } else {
     router.push("/login")
