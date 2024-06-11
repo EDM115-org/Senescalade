@@ -2,7 +2,7 @@
   <v-alert
     v-if="!close"
     class="mx-auto"
-    color="error"
+    :color="color"
     closable
     variant="elevated"
     :width="mdAndUp ? '25%' : '75%'"
@@ -10,7 +10,7 @@
   >
     <v-btn
       v-if="issue"
-      color="secondary"
+      :color="color"
       class="mr-4"
       icon="mdi-information-outline"
       variant="flat"
@@ -18,7 +18,7 @@
     />
     <v-btn
       v-else
-      color="secondary"
+      :color="color"
       class="mr-4"
       icon="mdi-information-outline"
       variant="flat"
@@ -37,6 +37,10 @@ import { ref } from "vue"
 import { useDisplay } from "vuetify"
 
 defineProps({
+  color: {
+    type: String,
+    default: "error"
+  },
   issue: {
     type: String,
     default: ""

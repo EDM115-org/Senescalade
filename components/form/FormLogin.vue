@@ -94,7 +94,7 @@
 import bcrypt from "bcryptjs"
 import useVuelidate from "@vuelidate/core"
 
-import { createI18nValidators } from "@/assets/utils/i18n-validators"
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { ref, reactive } from "vue"
 import { useI18n } from "vue-i18n"
 

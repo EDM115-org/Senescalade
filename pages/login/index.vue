@@ -7,6 +7,7 @@
       v-if="errorMessage"
       :issue="issueMessage"
       :message="errorMessage"
+      :color="messageColor"
     />
     <FormLogin
       :inscription="false"
@@ -34,12 +35,16 @@ import { useMainStore } from "~/store/main"
 import { onMounted, ref } from "vue"
 
 const store = useMainStore()
+const route = useRoute()
 const router = useRouter()
 
 const errorMessage = ref("")
 const issueMessage = ref("")
+const messageColor = ref("error")
 
 async function login(event) {
+  messageColor.value = "error"
+
   try {
     const result = await $fetch("/api/login", {
       method: "POST",
@@ -73,6 +78,12 @@ onMounted(() => {
     } else {
       router.push("/user")
     }
+  }
+
+  if (route.query.inscription === "success") {
+    errorMessage.value = "Inscription réussie, veuillez vous connecter"
+    messageColor.value = "success"
+    router.replace({ query: {} })
   }
 })
 </script>

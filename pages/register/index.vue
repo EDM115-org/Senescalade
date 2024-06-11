@@ -47,7 +47,7 @@ async function register(event) {
     })
 
     if (result.status === 200) {
-      router.push("/login")
+      router.push("/login?inscription=success")
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""

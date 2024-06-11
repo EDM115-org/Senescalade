@@ -1,5 +1,11 @@
 <template>
-  <form
+  <Error
+    v-if="errorMessage"
+    :issue="issueMessage"
+    :message="errorMessage"
+    :color="messageColor"
+  />
+  <v-form
     ref="form"
     @submit.prevent="submit"
   >
@@ -10,7 +16,7 @@
           :error-messages="v$.oldPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
-          label="Mot de passe"
+          label="Ancien mot de passe"
           required
           @blur="v$.oldPassword.$touch"
           @input="v$.oldPassword.$touch"
@@ -34,7 +40,7 @@
           :error-messages="v$.newPassword.$errors.map(e => e.$message)"
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
-          label="Mot de passe"
+          label="Nouveau mot de passe"
           required
           @blur="v$.newPassword.$touch"
           @input="v$.newPassword.$touch"
@@ -89,22 +95,25 @@
         </v-btn>
       </v-col>
     </v-row>
-  </form>
+  </v-form>
 </template>
 
 
 <script setup>
-import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
 import bcrypt from "bcryptjs"
 
-import { createI18nValidators } from "@/assets/utils/i18n-validators"
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
+import { useMainStore } from "~/store/main"
 import { ref, reactive } from "vue"
 
 const store = useMainStore()
 
 const user = store.getUser
 
+const errorMessage = ref("")
+const issueMessage = ref("")
+const messageColor = ref("error")
 const showPassword = ref(false)
 
 const togglePasswordVisibility = () => {
@@ -132,28 +141,18 @@ const v$ = useVuelidate(rules, state)
 
 async function submit() {
   v$.value.$touch()
+  messageColor.value = "error"
 
   if (v$.value.$invalid) {
     return
   }
 
-  // Vérifier si les deux nouveaux mots de passe correspondent
-  if (state.newPassword !== state.confirmPassword) {
-    // Gérer l'erreur ici, par exemple afficher un message d'erreur à l'utilisateur
-    return
-  }
-
-  // Générer un nouveau sel et hasher le nouveau mot de passe
   const salt = await bcrypt.genSalt(10)
   const hashedNewPassword = await bcrypt.hash(state.newPassword, salt)
 
-  // Envoyer les données au serveur pour mise à jour du mot de passe
   try {
-    const response = await fetch("/api/updatePassword", {
+    const result = await $fetch("/api/updatePassword", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify({
         oldPassword: state.oldPassword,
         newPassword: hashedNewPassword,
@@ -161,16 +160,19 @@ async function submit() {
       })
     })
 
-    if (response.ok) {
-      // Gérer la mise à jour du mot de passe réussie
-      console.log("Password updated successfully")
-      clear()
+    if (result.status === 200) {
+      errorMessage.value = "Mot de passe modifié avec succès"
+      issueMessage.value = ""
+      messageColor.value = "success"
     } else {
-      // Gérer les erreurs de mise à jour du mot de passe
-      console.error("Error updating password:", response.statusText)
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
     }
+
+    clear()
   } catch (error) {
-    console.error("Error updating password:", error.message)
+    errorMessage.value = "Erreur lors du changement de mot de passe"
+    issueMessage.value = error
   }
 }
 
