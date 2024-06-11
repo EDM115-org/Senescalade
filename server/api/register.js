@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" }
+      body: { error: "Connexion à la base de données non disponible" }
     }
   }
   const body = await readBody(event)
@@ -31,12 +31,12 @@ export default defineEventHandler(async (event) => {
 
     return {
       status: 200,
-      body: { success: "User added" }
+      body: { success: "Utilisateur inscrit" }
     }
   } catch (err) {
     return {
       status: 500,
-      body: { error: `Error adding user, ${err}` }
+      body: { error: "Erreur durant l'inscription de l'utilisateur", message: err }
     }
   }
 })

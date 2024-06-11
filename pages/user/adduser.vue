@@ -1,5 +1,13 @@
 <template>
   <v-container class="fillheight">
+    <h1 class="text-center my-4">
+      Ajouter un grimpeur
+    </h1>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <FormUser
       @submit:adduser="adduser($event)"
     />
@@ -7,8 +15,12 @@
 </template>
 
 <script setup>
+import { ref } from "vue"
 
 const router = useRouter()
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 async function adduser(event) {
   try {
@@ -20,10 +32,12 @@ async function adduser(event) {
     if (result.status === 200) {
       router.push("/user")
     } else {
-      console.error("Error logging in user :", result)
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
     }
   } catch (error) {
-    console.error("Error adding user :", error)
+    errorMessage.value = "Erreur lors de l'ajout du grimpeur"
+    issueMessage.value = error
   }
 }
 </script>

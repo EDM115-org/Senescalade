@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available", event },
+      body: { error: "Connexion à la base de données non disponible", event },
     }
   }
 
@@ -30,11 +30,9 @@ export default defineEventHandler(async (event) => {
       body: rows,
     }
   } catch (err) {
-    console.error("Error executing query:", err)
-
     return {
       status: 500,
-      body: { error: `Error fetching persons, ${err}` },
+      body: { error: "Erreur durant la récupération des séances", message: err },
     }
   }
 })

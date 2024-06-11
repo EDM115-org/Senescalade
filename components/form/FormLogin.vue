@@ -29,7 +29,10 @@
           @input="v$.password.$touch"
         >
           <template #append-inner>
-            <v-icon @click="togglePasswordVisibility">
+            <v-icon
+              tabindex="-1"
+              @click="togglePasswordVisibility"
+            >
               {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
             </v-icon>
           </template>
@@ -49,7 +52,10 @@
           @input="v$.checkPassword.$touch"
         >
           <template #append-inner>
-            <v-icon @click="togglePasswordVisibility">
+            <v-icon
+              tabindex="-1"
+              @click="togglePasswordVisibility"
+            >
               {{ showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline' }}
             </v-icon>
           </template>

@@ -25,7 +25,7 @@ try {
       password: process.env.DB_PASSWORD
     })
   } catch {
-    console.error("Database connection not available.")
+    console.error("Connexion à la base de données non disponible.")
     process.exit(1)
   }
 }

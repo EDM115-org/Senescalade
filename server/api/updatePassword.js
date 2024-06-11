@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" }
+      body: { error: "Connexion à la base de données non disponible" }
     }
   }
 
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
     if (!user) {
       return {
         status: 401,
-        body: { error: "User not logged in" }
+        body: { error: "Utilisateur non connecté" }
       }
     }
 
@@ -55,24 +55,24 @@ export default defineEventHandler(async (event) => {
 
         return {
           status: 200,
-          body: { success: "Password updated successfully" }
+          body: { success: "Mot de passe mis à jour" }
         }
       } else {
         return {
           status: 401,
-          body: { error: "Invalid old password" }
+          body: { error: "Ancien mot de passe invalide" }
         }
       }
     } else {
       return {
         status: 404,
-        body: { error: "User not found" }
+        body: { error: "L'utilisateur n'existe pas" }
       }
     }
   } catch (err) {
     return {
       status: 500,
-      body: { error: `Error updating password: ${err.message}` }
+      body: { error: "Erreur durant la modification du mot de passe", message: err }
     }
   }
 })

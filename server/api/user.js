@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" },
+      body: { error: "Connexion à la base de données non disponible" },
     }
   }
   const body = await readBody(event)
@@ -96,14 +96,12 @@ export default defineEventHandler(async (event) => {
 
     return {
       status: 200,
-      body: { success: "Person added" },
+      body: { success: "Grimpeur ajouté" },
     }
   } catch (err) {
-    console.error("Error executing query:", err)
-
     return {
       status: 500,
-      body: { error: `Error adding person, ${err}` },
+      body: { error: "Erreur durant l'ajout d'un grimpeur", message: err },
     }
   }
 })

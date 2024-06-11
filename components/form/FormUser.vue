@@ -1,7 +1,4 @@
 <template>
-  <h1 class="text-center my-4">
-    Ajouter un grimpeur
-  </h1>
   <v-form @submit.prevent="submit">
     <h2 class="my-4">
       Informations personnelles

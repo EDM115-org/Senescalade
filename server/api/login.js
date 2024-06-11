@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" }
+      body: { error: "Connexion à la base de données non disponible" }
     }
   }
   const body = await readBody(event)
@@ -38,24 +38,24 @@ export default defineEventHandler(async (event) => {
       if (passwordMatch) {
         return {
           status: 200,
-          body: { success: "User logged in", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin } }
+          body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin } }
         }
       } else {
         return {
           status: 401,
-          body: { error: "Invalid password" }
+          body: { error: "Mot de passe invalide" }
         }
       }
     } else {
       return {
         status: 401,
-        body: { error: "User not found" }
+        body: { error: "L'utilisateur n'existe pas" }
       }
     }
   } catch (err) {
     return {
       status: 500,
-      body: { error: `Error logging in, ${err}` }
+      body: { error: "Erreur durant la connexion", message: err }
     }
   }
 })

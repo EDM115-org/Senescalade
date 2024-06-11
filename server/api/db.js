@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   if (!connection) {
     return {
       status: 500,
-      body: { error: "Database connection not available" }
+      body: { error: "Connexion à la base de données non disponible", event }
     }
   }
   // Get tables, and columns for all tables
@@ -50,12 +50,9 @@ export default defineEventHandler(async (event) => {
       returnData.values[table] = values
     }
   } catch (err) {
-    console.error(err)
-
     return {
       status: 500,
-      body: { error: "Error getting data" },
-      event
+      body: { error: "Erreur durant la récupération des données", message: err }
     }
   }
 

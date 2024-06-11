@@ -3,6 +3,11 @@
     <h1 class="text-center mt-5 mb-5">
       Connexion
     </h1>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <FormLogin
       :inscription="false"
       @submit:login="login($event)"
@@ -26,10 +31,13 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 
 const store = useMainStore()
 const router = useRouter()
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 async function login(event) {
   try {
@@ -47,10 +55,12 @@ async function login(event) {
         router.push("/user")
       }
     } else {
-      console.error("Error logging in user :", result)
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
     }
   } catch (error) {
-    console.error("Error logging in user :", error)
+    errorMessage.value = "Erreur lors de la connexion"
+    issueMessage.value = error
   }
 }
 

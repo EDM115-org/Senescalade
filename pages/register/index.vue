@@ -3,6 +3,11 @@
     <h1 class="text-center mt-5 mb-5">
       Inscription
     </h1>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <FormLogin
       :inscription="true"
       @submit:register="register($event)"
@@ -26,20 +31,30 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 
 const store = useMainStore()
 const router = useRouter()
 
+const errorMessage = ref("")
+const issueMessage = ref("")
+
 async function register(event) {
   try {
-    await $fetch("/api/register", {
+    const result = await $fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(event),
     })
-    router.push("/login")
+
+    if (result.status === 200) {
+      router.push("/login")
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
   } catch (error) {
-    console.error("Error registering user :", error)
+    errorMessage.value = "Erreur lors de l'inscription"
+    issueMessage.value = error
   }
 }
 
