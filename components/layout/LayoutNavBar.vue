@@ -28,7 +28,7 @@
         @click="displayMenu"
       />
     </template>
-    <v-app-bar-title v-if="mdAndUp">
+    <v-app-bar-title v-if="smAndUp">
       <NuxtLink
         to="/"
         class="text-h6"
@@ -74,7 +74,7 @@ const connected = computed(() => store.isConnected)
 const theme = ref("dark")
 const adminPage = computed(() => route.fullPath.includes("admin"))
 
-const { mdAndUp } = useDisplay()
+const { smAndUp } = useDisplay()
 
 watch(connected, (value) => {
   accountIcon.value = value ? "mdi-logout" : "mdi-login"
