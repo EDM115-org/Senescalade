@@ -32,6 +32,7 @@ function displayMenu() {
 
 const items = [
   { text: "Dashboard", to: "/admin/dashboard" },
+  { text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" },
   { text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" },
   { text: "Gestion des crénaux", to: "/admin/gestion-crenaux" },
   { text: "Gestion admin", to: "/admin/gestion-admin" },
