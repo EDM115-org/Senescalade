@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs"
 import mysql from "mysql2/promise"
 
 import { defineEventHandler, readBody } from "h3"
@@ -25,7 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event)
-  const { oldPassword, newPassword, user } = body
+  const { user } = body
 
   try {
     if (!user) {
@@ -35,34 +34,19 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const query = "SELECT * FROM Inscription WHERE idInscription = ?"
+    const query = "SELECT * FROM Inscription, Admin WHERE idInscription = idAdmin AND idAdmin = ?"
 
     const [ rows ] = await connection.execute(query, [ user.id ])
 
     if (rows.length > 0) {
-      const userFromDB = rows[0]
-      const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
-
-      if (passwordMatch) {
-        // Mettre à jour le mot de passe dans la base de données
-        const updateQuery = "UPDATE Inscription SET password = ? WHERE idInscription = ?"
-
-        await connection.execute(updateQuery, [ newPassword, userFromDB.idInscription ])
-
-        return {
-          status: 200,
-          body: { success: "Mot de passe mis à jour" }
-        }
-      } else {
-        return {
-          status: 401,
-          body: { error: "Ancien mot de passe invalide" }
-        }
+      return {
+        status: 200,
+        body: rows,
       }
     } else {
       return {
         status: 404,
-        body: { error: "L'utilisateur n'existe pas" }
+        body: { error: "L'utilisateur n'es pas admin" }
       }
     }
   } catch (err) {
