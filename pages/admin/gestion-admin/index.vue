@@ -56,7 +56,7 @@
                       <v-btn
                         color="error"
                         icon="mdi-delete"
-                        @click="deleteAdmin(admin)"
+                        @click.prevent="confirmDelete(admin)"
                       />
                     </td>
                   </tr>
@@ -67,6 +67,10 @@
         </v-col>
       </v-row>
     </div>
+    <PopUpDeleteUser
+      ref="deleteDialog"
+      @confirm-delete="handleDelete"
+    />
   </v-container>
 </template>
 
@@ -78,6 +82,10 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const admins = ref([])
+const deleteDialog = ref(null)
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 const fetchAdmin = async () => {
   try {
@@ -115,6 +123,14 @@ const deleteAdmin = async (id) => {
     errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
     issueMessage.value = error
   }
+}
+
+const confirmDelete = (admin) => {
+  deleteDialog.value.open(admin)
+}
+
+const handleDelete = (admin) => {
+  deleteAdmin(admin)
 }
 
 onMounted(async () => {

@@ -22,20 +22,29 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  try {
-    const body = await readBody(event)
-    const { idInscription } = body
+  console.log(event)
 
-    const [ rows ] = await connection.execute("DELETE FROM Inscription WHERE idInscription = ?", [ idInscription ])
+  if (event.node.req.method === "DELETE") {
+    try {
+      const body = await readBody(event)
+      const { idInscription } = body
 
-    return {
-      status: 200,
-      body: rows,
+      const [ rows ] = await connection.execute("DELETE FROM Inscription WHERE idInscription = ?", [ idInscription ])
+
+      return {
+        status: 200,
+        body: rows,
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la suppression de l'utilisateur", message: err },
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la suppression de la séance", message: err },
+      status: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })
