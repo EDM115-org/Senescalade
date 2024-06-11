@@ -62,6 +62,17 @@
         </v-text-field>
       </v-col>
     </v-row>
+    <v-row v-if="!loginProps.inscription">
+      <v-col
+        cols="12"
+        class="d-flex justify-center pa-0"
+      >
+        <v-checkbox
+          v-model="stayConnected"
+          label="Rester connecté"
+        />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
         cols="12"
@@ -94,6 +105,7 @@ const loginProps = defineProps({
 })
 
 const showPassword = ref(false)
+const stayConnected = ref(false)
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
@@ -102,7 +114,7 @@ const togglePasswordVisibility = () => {
 const initialState = {
   mail: "",
   password: "",
-  checkPassword: "",
+  checkPassword: ""
 }
 
 const state = reactive({ ...initialState })
@@ -131,7 +143,7 @@ async function submit() {
 
     emit("submit:register", { mail: state.mail, password: hash })
   } else {
-    emit("submit:login", { mail: state.mail, password: state.password })
+    emit("submit:login", { mail: state.mail, password: state.password, stayConnected })
   }
 
   clear()

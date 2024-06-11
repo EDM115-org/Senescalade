@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     }
   }
   const body = await readBody(event)
-  const { mail, password } = body
+  const { mail, password, stayConnected } = body
 
   try {
     const query = "SELECT * FROM Inscription WHERE mail = ?"
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
       if (passwordMatch) {
         return {
           status: 200,
-          body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin } }
+          body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
         }
       } else {
         return {

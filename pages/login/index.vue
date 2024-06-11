@@ -47,7 +47,7 @@ async function login(event) {
     })
 
     if (result.status === 200) {
-      store.login(result.body.user)
+      store.login(result.body.user, result.body.stayConnected)
 
       if (result.body.user.isAdmin === 1) {
         router.push("/admin/dashboard")
