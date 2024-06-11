@@ -24,19 +24,54 @@ import { computed } from "vue"
 
 const store = useMainStore()
 
+const user = store.getUser
+
 const drawer = computed(() => store.getDisplayAdminMenu)
 
 function displayMenu() {
   store.setDisplayAdminMenu(!store.getDisplayAdminMenu)
 }
 
-const items = [
-  { text: "Dashboard", to: "/admin/dashboard" },
-  { text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" },
-  { text: "Gestion des crénaux", to: "/admin/gestion-crenaux" },
-  { text: "Gestion admin", to: "/admin/gestion-admin" },
-  { text: "Profil", to: "/admin/profil" },
-]
+const items = [{ text: "Dashboard", to: "/admin/dashboard" }]
+
+try {
+  const response = await $fetch("/api/getPermAdmin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user: user
+    })
+  })
+
+  if (response) {
+    if (response.body[0].ReadListGrimpeur === 1) {
+      items.push({ text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" })
+    }
+
+    if (response.body[0].ReadListSeance === 1) {
+      items.push({ text: "Gestion des crénaux", to: "/admin/gestion-crenaux" })
+    }
+
+    if (response.body[0].ReadListAdmin === 1) {
+      items.push({ text: "Gestion admin", to: "/admin/gestion-admin" })
+    }
+
+    if (response.body[0].ReadListUtilisateur === 1) {
+      items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
+    }
+  } else {
+    // Gérer les erreurs de mise à jour du mot de passe
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
+
+items.push({ text: "Profil", to: "/admin/profil" })
+
+
 </script>
 
 <style scoped>
