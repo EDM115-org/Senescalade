@@ -61,7 +61,7 @@ INSERT INTO Inscription(idInscription, mail, password, isAdmin)
 VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
-VALUES (2, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
+VALUES (3, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
 -- admintestadmin
 
 INSERT INTO Inscription(idInscription, mail, password, isAdmin)
@@ -75,4 +75,4 @@ INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, Read
 VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
-VALUES (2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1);
+VALUES (3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1);
