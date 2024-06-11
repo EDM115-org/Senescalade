@@ -49,19 +49,25 @@ CREATE TABLE IF NOT EXISTS Personne (
   optionAssurance BOOLEAN NOT NULL,
   lInscription INT NOT NULL,
   isPaye BOOLEAN NOT NULL DEFAULT 0,
-  FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
-  CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
-  CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
-  CONSTRAINT check_type_licence CHECK (TypeLicence IN ('', 'J', 'A', 'F')),
-  CONSTRAINT check_assurance CHECK (Assurance IN ('RC', 'B', 'B+', 'B++'))
+  FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT check_action CHECK (action IN ('C', 'R')),
+  CONSTRAINT check_sexe CHECK (sexe IN ('H', 'F')),
+  CONSTRAINT check_type_licence CHECK (typeLicence IN ('', 'J', 'A', 'F')),
+  CONSTRAINT check_assurance CHECK (assurance IN ('RC', 'B', 'B+', 'B++'))
 );
 
 CREATE TABLE IF NOT EXISTS InscriptionSeance (
   idInscription INT,
   idSeance INT,
   PRIMARY KEY (idInscription, idSeance),
-  FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription),
+  FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Admin (
@@ -79,6 +85,8 @@ CREATE TABLE IF NOT EXISTS Admin (
   DeleteListAdmin BOOLEAN NOT NULL,
   DeleteListUtilisateur BOOLEAN NOT NULL,
   FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 DELIMITER //
@@ -89,7 +97,7 @@ BEGIN
   IF NEW.dateNaissance > NOW() THEN
     SIGNAL SQLSTATE '45000'
     SET MESSAGE_TEXT = 'La date de naissance ne peut pas être ultérieure à la date actuelle.';
-  END IF;  -- skipcq: SQL-L003
-END;  -- skipcq: SQL-L003
+  END IF;
+END;
 //
-DELIMITER ;  -- skipcq: SQL-L052, SQL-L039
+DELIMITER ;
