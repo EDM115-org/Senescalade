@@ -85,6 +85,7 @@ docker push edm115/tab-magiques:latest
 
 **Admin**
 
+- [ ] Dashboard (nombre de grimpeur, nombre non payé, nombre en liste d'attente)
 - [ ] Visibilité des inscriptions (qui a payé ou non, ...)
 - [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
 - [ ] Ajout d'admins avec droits restreints
