@@ -110,6 +110,13 @@ docker push edm115/tab-magiques:latest
 - [ ] Instructions claires
 - [ ] Tests
 
+**Module Mail (nodemailer)**
+- [ ] Mail mdp oublié
+- [ ] Mail pour confirm son mail première connexion
+- [ ] Mail liste d'attente
+- [ ] Mail de confirmation d'inscription à un crénaux
+- [ ] Mail modification mdp administration
+
 ### Sources supplémentaires :
 
 - https://nuxt.com/modules/auto-animate

@@ -48,14 +48,10 @@ export default defineEventHandler(async (event) => {
       const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
 
       if (passwordMatch) {
-        // Générer un nouveau sel et hasher le nouveau mot de passe
-        const salt = await bcrypt.genSalt(10)
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt)
-
         // Mettre à jour le mot de passe dans la base de données
         const updateQuery = "UPDATE Inscription SET password = ? WHERE idInscription = ?"
 
-        await connection.execute(updateQuery, [ hashedNewPassword, userFromDB.idInscription ])
+        await connection.execute(updateQuery, [ newPassword, userFromDB.idInscription ])
 
         return {
           status: 200,
