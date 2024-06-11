@@ -98,9 +98,23 @@ const editUser = (user) => {
   console.log("Edit user:", user)
 }
 
-const deleteUser = (user) => {
-  // Handle user delete logic
-  console.log("Delete user:", user)
+const deleteUser = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteUser", {
+      method: "DELETE",
+      body: { idInscription: id }
+    })
+
+    if (result.status === 200) {
+      fetchInscription()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
+    issueMessage.value = error
+  }
 }
 
 onMounted(async () => {

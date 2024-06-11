@@ -98,9 +98,23 @@ const editAdmin = (admin) => {
   console.log("Edit admin:", admin)
 }
 
-const deleteAdmin = (admin) => {
-  // Handle admin delete logic
-  console.log("Delete admin:", admin)
+const deleteAdmin = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteUser", {
+      method: "DELETE",
+      body: { idInscription: id }
+    })
+
+    if (result.status === 200) {
+      fetchAdmin()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
+    issueMessage.value = error
+  }
 }
 
 onMounted(async () => {

@@ -138,7 +138,7 @@ const deleteSeance = async (id) => {
       issueMessage.value = result.body.message ?? ""
     }
   } catch (error) {
-    errorMessage.value = "Erreur lors de la connexion"
+    errorMessage.value = "Erreur lors de la suppression de la séance"
     issueMessage.value = error
   }
 }
