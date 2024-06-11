@@ -77,7 +77,7 @@
         </v-col>
       </v-row>
     </div>
-    <PopUpDelete
+    <PopUpDeleteSeance
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />
