@@ -67,7 +67,7 @@ docker push edm115/tab-magiques:latest
 ### Fonctionnalités
 
 - [ ] Inscription
-- [x] Connexion
+- [X] Connexion
 - [ ] Interface d'administration
 - [ ] Envoi de mail
 
@@ -76,13 +76,15 @@ docker push edm115/tab-magiques:latest
 ### À faire
 
 **Utilisateur**
+
 - [ ] Inscription : date de naissance, planning, formulaire, redirection HelloAsso + champs obligatoires & warnings et désactiver le bouton tant que les champs ne sont pas remplis
 - [ ] Visualisation de son numéro de licence
 - [ ] Modifications d'informations
 - [ ] Affichage du créneau par user
 - [ ] Suppression de compte
 
-**Admin**
+**Adminsudo apt install code**
+
 - [ ] Visibilité des inscriptions (qui a payé ou non, ...)
 - [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
 - [ ] Ajout d'admins avec droits restreints
@@ -92,19 +94,22 @@ docker push edm115/tab-magiques:latest
 - [ ] Gérer les résinscriptions
 
 **Global**
-- [ ] Affichage des erreurs de l'API (v-alert)
+
+- [X] Affichage des erreurs de l'API (v-alert)
 - [ ] Indicateurs visuels de connexion/chargement (v-skeleton-loader)
 - [ ] Envoi de mails
-- [ ] Mieux gérer le store + cookies/local storage ?
-- [ ] Routes -> Chargment direct du store à partir du stockage -> éviter d'avoir un user null
+- [X] Mieux gérer le store + cookies/local storage ?
+- [X] Routes -> Chargment direct du store à partir du stockage -> éviter d'avoir un user null
 
 **Design**
+
 - [ ] Clean les couleurs
 - [ ] Ajout de transitions
 - [ ] Images !!!
 - [ ] Responsive
 
 **Déploiement**
+
 - [ ] Docker + Docker Compose
 - [ ] Vérif de la BDD après un redéploiement
 - [ ] Instructions claires
