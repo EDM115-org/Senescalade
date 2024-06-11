@@ -27,10 +27,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { oldPassword, newPassword, user } = body
 
-  console.log("oldPassword", oldPassword)
-  console.log("newPassword", newPassword)
-  console.log("user", user)
-
   try {
     if (!user) {
       return {
