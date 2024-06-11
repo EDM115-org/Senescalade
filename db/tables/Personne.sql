@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS Personne (
   optionVTT BOOLEAN NOT NULL,
   optionAssurance BOOLEAN NOT NULL,
   lInscription INT NOT NULL,
+  isPaye BOOLEAN NOT NULL,
   FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
   CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
   CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),

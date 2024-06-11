@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS Personne (
   optionVTT BOOLEAN NOT NULL,
   optionAssurance BOOLEAN NOT NULL,
   lInscription INT NOT NULL,
+  isPaye BOOLEAN NOT NULL,
   FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription),
   CONSTRAINT check_action CHECK (Action IN ('C', 'R')),
   CONSTRAINT check_sexe CHECK (Sexe IN ('H', 'F')),
@@ -65,7 +66,15 @@ CREATE TABLE IF NOT EXISTS InscriptionSeance (
 
 CREATE TABLE IF NOT EXISTS Admin (
   idAdmin INT PRIMARY KEY,
-  droit CHAR(5) NOT NULL,
+  ReadListGrimpeur BOOLEAN NOT NULL,
+  ReadListSeance BOOLEAN NOT NULL,
+  ReadListAdmin BOOLEAN NOT NULL,
+  UpdateListGrimpeur BOOLEAN NOT NULL,
+  UpdateListSeance BOOLEAN NOT NULL,
+  UpdateListAdmin BOOLEAN NOT NULL,
+  DeleteListGrimpeur BOOLEAN NOT NULL,
+  DeleteListSeance BOOLEAN NOT NULL,
+  DeleteListAdmin BOOLEAN NOT NULL,
   FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
 );
 

@@ -96,6 +96,7 @@
 <script setup>
 import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
+import bcrypt from "bcryptjs"
 
 import { createI18nValidators } from "@/assets/utils/i18n-validators"
 import { ref, reactive } from "vue"
@@ -142,6 +143,10 @@ async function submit() {
     return
   }
 
+  // Générer un nouveau sel et hasher le nouveau mot de passe
+  const salt = await bcrypt.genSalt(10)
+  const hashedNewPassword = await bcrypt.hash(state.newPassword, salt)
+
   // Envoyer les données au serveur pour mise à jour du mot de passe
   try {
     const response = await fetch("/api/updatePassword", {
@@ -151,7 +156,7 @@ async function submit() {
       },
       body: JSON.stringify({
         oldPassword: state.oldPassword,
-        newPassword: state.newPassword,
+        newPassword: hashedNewPassword,
         user: user
       })
     })
