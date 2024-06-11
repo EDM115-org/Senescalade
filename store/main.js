@@ -49,9 +49,15 @@ const useMainStore = defineStore("main", {
 
       return value
     },
-    login(user) {
+    login(user, stayConnected = false) {
       this.isLoggedIn = this.createCookie("isLoggedIn", true, 1)
-      this.user = this.createCookie("user", JSON.stringify(user), 1)
+      if (!stayConnected) {
+        this.isLoggedIn = this.createCookie("isLoggedIn", true, 1)
+        this.user = this.createCookie("user", encodeURI(JSON.stringify(user)), 1)
+      } else {
+        this.isLoggedIn = this.createCookie("isLoggedIn", true, 30)
+        this.user = this.createCookie("user", encodeURI(JSON.stringify(user)), 30)
+      }
     },
     logout() {
       this.isLoggedIn = false

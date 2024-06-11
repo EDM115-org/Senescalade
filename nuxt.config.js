@@ -57,19 +57,6 @@ export default defineNuxtConfig({
     ],
     strategy: "no_prefix"
   },
-  image: {
-    format: [ "webp", "png", "gif" ],
-    quality: 100
-  },
-  linkChecker: {
-    failOnError: false,
-    report: {
-      html: true,
-      markdown: true
-    },
-    runOnBuild: true,
-    showLiveInspections: true
-  },
   lodash: {
     prefix: "ldsh",
     prefixSkip: false,
@@ -83,18 +70,13 @@ export default defineNuxtConfig({
     },
     "@nuxt/devtools",
     "@nuxt/eslint",
-    "@nuxt/image",
-    "@nuxtjs/device",
     "@nuxtjs/google-fonts",
     "@nuxtjs/i18n",
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
     "@vueuse/nuxt",
     "nuxt-aos",
-    "nuxt-icon",
-    "nuxt-link-checker",
-    "nuxt-lodash",
-    // "nuxt-mail"
+    "nuxt-lodash"
   ],
   nitro: {
     esbuild: {
