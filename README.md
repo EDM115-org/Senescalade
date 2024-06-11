@@ -83,7 +83,7 @@ docker push edm115/tab-magiques:latest
 - [ ] Affichage du créneau par user
 - [ ] Suppression de compte
 
-**Adminsudo apt install code**
+**Admin**
 
 - [ ] Visibilité des inscriptions (qui a payé ou non, ...)
 - [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
