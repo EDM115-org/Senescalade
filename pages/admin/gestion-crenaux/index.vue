@@ -153,33 +153,6 @@ const handleDelete = (idSeance) => {
   deleteSeance(idSeance)
 }
 
-const deleteSeance = async (id) => {
-  try {
-    const result = await $fetch("/api/deleteSeance", {
-      method: "DELETE",
-      body: { idSeance: id }
-    })
-
-    if (result.status === 200) {
-      fetchSeance()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
-  } catch (error) {
-    errorMessage.value = "Erreur lors de la connexion"
-    issueMessage.value = error
-  }
-}
-
-const confirmDelete = (seance) => {
-  deleteDialog.value.open(seance)
-}
-
-const handleDelete = (idSeance) => {
-  deleteSeance(idSeance)
-}
-
 onMounted(async () => {
   const user = store.getUser
 
