@@ -65,7 +65,7 @@ export default defineNuxtConfig({
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
-        config.plugins.push(vuetify({ autoImport: true }))
+        config.plugins.push(vuetify({ autoImport: { labs: true } }))
       })
     },
     "@nuxt/devtools",
