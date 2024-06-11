@@ -27,6 +27,10 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { oldPassword, newPassword, user } = body
 
+  console.log("oldPassword", oldPassword)
+  console.log("newPassword", newPassword)
+  console.log("user", user)
+
   try {
     if (!user) {
       return {
@@ -37,7 +41,7 @@ export default defineEventHandler(async (event) => {
 
     const query = "SELECT * FROM Inscription WHERE idInscription = ?"
 
-    const [ rows ] = await connection.execute(query, [ user.idInscription ])
+    const [ rows ] = await connection.execute(query, [ user.id ])
 
     if (rows.length > 0) {
       const userFromDB = rows[0]

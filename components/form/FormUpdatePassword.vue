@@ -105,6 +105,11 @@ const store = useMainStore()
 const user = store.getUser
 
 const showPassword = ref(false)
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value
+}
+
 const initialState = {
   oldPassword: "",
   newPassword: "",
