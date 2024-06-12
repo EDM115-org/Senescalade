@@ -17,19 +17,25 @@
                   <tr>
                     <th
                       class="text-center"
-                      style="width: 33%;"
+                      style="width: 10%;"
                     >
                       Id
                     </th>
                     <th
                       class="text-center"
-                      style="width: 33%;"
+                      style="width: 20%;"
                     >
                       Email
                     </th>
                     <th
                       class="text-center"
-                      style="width: 34%;"
+                      style="width: 60%;"
+                    >
+                      Permissions
+                    </th>
+                    <th
+                      class="text-center"
+                      style="width: 10%;"
                     >
                       Actions
                     </th>
@@ -46,18 +52,41 @@
                     <td class="text-center">
                       {{ admin.mail }}
                     </td>
-                    <td class="d-flex justify-center align-center text-center">
-                      <v-btn
-                        color="accent"
-                        class="mr-2"
-                        icon="mdi-pencil"
-                        @click="editAdmin(admin)"
-                      />
-                      <v-btn
-                        color="error"
-                        icon="mdi-delete"
-                        @click.prevent="confirmDelete(admin)"
-                      />
+                    <td>
+                      <v-row class="d-flex flex-sm-wrap my-4">
+                        <v-col
+                          v-for="(value, key) in adminPermissions(admin)"
+                          :key="key"
+                          cols="4"
+                        >
+                          <v-chip
+                            :color="value ? 'green' : 'red'"
+                            variant="elevated"
+                          >
+                            {{ key }}
+                          </v-chip>
+                        </v-col>
+                      </v-row>
+                    </td>
+                    <td>
+                      <v-row class="justify-center">
+                        <v-col cols="auto">
+                          <v-btn
+                            color="accent"
+                            icon="mdi-pencil"
+                            :disabled="admin.idInscription === user.id"
+                            @click="editAdmin(admin)"
+                          />
+                        </v-col>
+                        <v-col cols="auto">
+                          <v-btn
+                            color="error"
+                            icon="mdi-delete"
+                            :disabled="admin.idInscription === user.id"
+                            @click.prevent="confirmDelete(admin)"
+                          />
+                        </v-col>
+                      </v-row>
                     </td>
                   </tr>
                 </tbody>
@@ -83,6 +112,7 @@ const router = useRouter()
 const adminLogged = ref(false)
 const admins = ref([])
 const deleteDialog = ref(null)
+const user = store.getUser
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -133,9 +163,24 @@ const handleDelete = (admin) => {
   deleteAdmin(admin)
 }
 
-onMounted(async () => {
-  const user = store.getUser
+const adminPermissions = (admin) => {
+  return {
+    "Gestion Grimpeur": admin.ReadListGrimpeur,
+    "Gestion Seance": admin.ReadListSeance,
+    "Gestion Admin": admin.ReadListAdmin,
+    "Gestion Utilisateur": admin.ReadListUtilisateur,
+    "Modification Grimpeur": admin.UpdateListGrimpeur,
+    "Modification Seance": admin.UpdateListSeance,
+    "Modification Admin": admin.UpdateListAdmin,
+    "Modification Utilisateur": admin.UpdateListUtilisateur,
+    "Suppression Grimpeur": admin.DeleteListGrimpeur,
+    "Suppression Seance": admin.DeleteListSeance,
+    "Suppression Admin": admin.DeleteListAdmin,
+    "Suppression Utilisateur": admin.DeleteListUtilisateur,
+  }
+}
 
+onMounted(async () => {
   try {
     const response = await $fetch("/api/getPermAdmin", {
       method: "POST",
