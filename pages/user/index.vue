@@ -8,9 +8,20 @@
     >
       <v-btn
         color="accent"
+        class="mr-2"
         large
       >
         Ajouter un grimpeur
+      </v-btn>
+    </NuxtLink>
+    <NuxtLink
+      to="/user/profil"
+    >
+      <v-btn
+        color="accent"
+        large
+      >
+        modifier son profil
       </v-btn>
     </NuxtLink>
     <CardUser />
