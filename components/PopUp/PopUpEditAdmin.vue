@@ -5,12 +5,18 @@
     transition="dialog-bottom-transition"
   >
     <v-card>
-      <v-card-title>Modifier les permissions de l'administrateur</v-card-title>
+      <v-card-title class="text-center">
+        Modifier les permissions de l'administrateur
+      </v-card-title>
       <v-card-text>
         <v-form ref="form">
           <v-row>
+            <!-- Lecture -->
+            <v-col cols="12">
+              <h3>Lecture</h3>
+            </v-col>
             <v-col
-              v-for="(value, key) in permissions"
+              v-for="(value, key) in readPermissions"
               :key="key"
               cols="12"
               sm="6"
@@ -18,7 +24,43 @@
               <v-checkbox
                 v-model="permissions[key]"
                 :model-value="value === 1 ? true : false"
-                :label="key"
+                :label="permissionNames[key]"
+                @update:model-value="permissions[key] = $event ? 1 : 0"
+              />
+            </v-col>
+
+            <!-- Modification -->
+            <v-col cols="12">
+              <h3>Modification</h3>
+            </v-col>
+            <v-col
+              v-for="(value, key) in updatePermissions"
+              :key="key"
+              cols="12"
+              sm="6"
+            >
+              <v-checkbox
+                v-model="permissions[key]"
+                :model-value="value === 1 ? true : false"
+                :label="permissionNames[key]"
+                @update:model-value="permissions[key] = $event ? 1 : 0"
+              />
+            </v-col>
+
+            <!-- Suppression -->
+            <v-col cols="12">
+              <h3>Suppression</h3>
+            </v-col>
+            <v-col
+              v-for="(value, key) in deletePermissions"
+              :key="key"
+              cols="12"
+              sm="6"
+            >
+              <v-checkbox
+                v-model="permissions[key]"
+                :model-value="value === 1 ? true : false"
+                :label="permissionNames[key]"
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
@@ -47,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, computed } from "vue"
 
 const isOpen = ref(false)
 const permissions = ref(null)
@@ -55,6 +97,21 @@ const idInscription = ref(null)
 const valid = ref(true)
 
 const emit = defineEmits([ "confirm-edit" ])
+
+const permissionNames = {
+  ReadListGrimpeur: "Lire la liste des grimpeurs",
+  ReadListSeance: "Lire la liste des séances",
+  ReadListAdmin: "Lire la liste des admins",
+  ReadListUtilisateur: "Lire la liste des utilisateurs",
+  UpdateListGrimpeur: "Mettre à jour la liste des grimpeurs",
+  UpdateListSeance: "Mettre à jour la liste des séances",
+  UpdateListAdmin: "Mettre à jour la liste des admins",
+  UpdateListUtilisateur: "Mettre à jour la liste des utilisateurs",
+  DeleteListGrimpeur: "Supprimer la liste des grimpeurs",
+  DeleteListSeance: "Supprimer la liste des séances",
+  DeleteListAdmin: "Supprimer la liste des admins",
+  DeleteListUtilisateur: "Supprimer la liste des utilisateurs"
+}
 
 const open = (adminPermissions) => {
   const { idInscription: id, mail, ...restPermissions } = adminPermissions
@@ -74,6 +131,18 @@ const confirmEdit = () => {
 }
 
 defineExpose({ open, close })
+
+const readPermissions = computed(() => {
+  return Object.fromEntries(Object.entries(permissions.value).filter(([ key ]) => key.startsWith("Read")))
+})
+
+const updatePermissions = computed(() => {
+  return Object.fromEntries(Object.entries(permissions.value).filter(([ key ]) => key.startsWith("Update")))
+})
+
+const deletePermissions = computed(() => {
+  return Object.fromEntries(Object.entries(permissions.value).filter(([ key ]) => key.startsWith("Delete")))
+})
 </script>
 
 <style scoped>

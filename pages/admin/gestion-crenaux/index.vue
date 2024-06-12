@@ -106,8 +106,8 @@ const issueMessage = ref("")
 const headers = [
   { text: "ID", width: "10%" },
   { text: "Jour", width: "15%" },
-  { text: "Heure", width: "15%" },
-  { text: "Durée", width: "15%" },
+  { text: "Heure de Debut", width: "15%" },
+  { text: "Heure de Fin", width: "15%" },
   { text: "Type", width: "15%" },
   { text: "Niveau", width: "15%" },
   { text: "Places", width: "10%" },
