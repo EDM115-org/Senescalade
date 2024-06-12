@@ -24,19 +24,26 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { mail, password } = body
 
-  try {
-    const query = "INSERT INTO Inscription(mail, password, isAdmin) VALUES (?, ?, 0)"
+  if (event.node.req.method === "GET") {
+    try {
+      const query = "INSERT INTO Inscription(mail, password, isAdmin) VALUES (?, ?, 0)"
 
-    await connection.execute(query, [ mail, password ])
+      await connection.execute(query, [ mail, password ])
 
-    return {
-      status: 200,
-      body: { success: "Utilisateur inscrit" }
+      return {
+        status: 200,
+        body: { success: "Utilisateur inscrit" }
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant l'inscription de l'utilisateur", message: err }
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant l'inscription de l'utilisateur", message: err }
+      status: 405,
+      body: { error: "Méthode non autorisée" }
     }
   }
 })

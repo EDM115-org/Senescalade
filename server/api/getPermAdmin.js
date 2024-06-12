@@ -26,33 +26,40 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { user } = body
 
-  try {
-    if (!user) {
+  if (event.node.req.method === "POST") {
+    try {
+      if (!user) {
+        return {
+          status: 401,
+          body: { error: "Utilisateur non connecté" }
+        }
+      }
+
+      const query = "SELECT * FROM Inscription, Admin WHERE idInscription = idAdmin AND idAdmin = ?"
+
+      const [ rows ] = await connection.execute(query, [ user.id ])
+
+      if (rows.length > 0) {
+        return {
+          status: 200,
+          body: rows,
+        }
+      } else {
+        return {
+          status: 404,
+          body: { error: "L'utilisateur n'es pas admin" }
+        }
+      }
+    } catch (err) {
       return {
-        status: 401,
-        body: { error: "Utilisateur non connecté" }
+        status: 500,
+        body: { error: "Erreur durant la modification du mot de passe", message: err }
       }
     }
-
-    const query = "SELECT * FROM Inscription, Admin WHERE idInscription = idAdmin AND idAdmin = ?"
-
-    const [ rows ] = await connection.execute(query, [ user.id ])
-
-    if (rows.length > 0) {
-      return {
-        status: 200,
-        body: rows,
-      }
-    } else {
-      return {
-        status: 404,
-        body: { error: "L'utilisateur n'es pas admin" }
-      }
-    }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la modification du mot de passe", message: err }
+      status: 405,
+      body: { error: "Méthode non autorisée" }
     }
   }
 })

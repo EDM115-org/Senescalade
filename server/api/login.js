@@ -26,36 +26,43 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { mail, password, stayConnected } = body
 
-  try {
-    const query = "SELECT * FROM Inscription WHERE mail = ?"
+  if (event.node.req.method === "POST") {
+    try {
+      const query = "SELECT * FROM Inscription WHERE mail = ?"
 
-    const [ rows ] = await connection.execute(query, [ mail ])
+      const [ rows ] = await connection.execute(query, [ mail ])
 
-    if (rows.length > 0) {
-      const user = rows[0]
-      const passwordMatch = await bcrypt.compare(password, user.password)
+      if (rows.length > 0) {
+        const user = rows[0]
+        const passwordMatch = await bcrypt.compare(password, user.password)
 
-      if (passwordMatch) {
-        return {
-          status: 200,
-          body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
+        if (passwordMatch) {
+          return {
+            status: 200,
+            body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
+          }
+        } else {
+          return {
+            status: 401,
+            body: { error: "Mot de passe invalide" }
+          }
         }
       } else {
         return {
           status: 401,
-          body: { error: "Mot de passe invalide" }
+          body: { error: "L'utilisateur n'existe pas" }
         }
       }
-    } else {
+    } catch (err) {
       return {
-        status: 401,
-        body: { error: "L'utilisateur n'existe pas" }
+        status: 500,
+        body: { error: "Erreur durant la connexion", message: err }
       }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la connexion", message: err }
+      status: 405,
+      body: { error: "Méthode non autorisée" }
     }
   }
 })
