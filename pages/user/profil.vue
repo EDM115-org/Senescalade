@@ -39,12 +39,12 @@ const user = store.getUser
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const confirmDelete = (user) => {
-  deleteDialog.value.open(user)
+const confirmDelete = (userToDelete) => {
+  deleteDialog.value.open(userToDelete)
 }
 
-const handleDelete = (user) => {
-  deleteUser(user)
+const handleDelete = (userToDelete) => {
+  deleteUser(userToDelete)
 }
 
 const deleteUser = async (id) => {

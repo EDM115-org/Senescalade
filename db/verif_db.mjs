@@ -55,10 +55,10 @@ for (const tableName of tableNames) {
   const triggerNames = triggers.map((row) => row.Trigger)
 
   for (const triggerName of triggerNames) {
-    const [ triggers ] = await connection.execute(`SHOW TRIGGERS WHERE Trigger_Name = '${triggerName}'`)
-    const triggerNames = triggers.map((row) => row.Trigger)
+    const [ triggers2 ] = await connection.execute(`SHOW TRIGGERS WHERE Trigger_Name = '${triggerName}'`)
+    const triggerNames2 = triggers2.map((row) => row.Trigger)
 
-    if (!triggerNames.includes(triggerName)) {
+    if (!triggerNames2.includes(triggerName)) {
       console.warn(`Trigger ${triggerName} doesn't exist. Creating it...`)
       await connection.execute(`SOURCE ./triggers/${triggerName}.sql`)
     }
