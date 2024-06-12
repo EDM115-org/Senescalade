@@ -100,7 +100,7 @@ const valid = ref(false)
 const emit = defineEmits([ "confirm-add", "confirm-edit" ])
 
 const rules = {
-  required: (value) => !!value || "Requis",
+  required: (value) => Boolean(value) || "Requis",
   jour: (value) => [ "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche" ].includes(value.toLowerCase()) || "Jour invalide",
   heure: (value) => (/^([01]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/).test(value) || "Heure invalide (hh:mm:ss)",
   duree: (value) => (/^([01]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/).test(value) || "Durée invalide (hh:mm:ss)",
