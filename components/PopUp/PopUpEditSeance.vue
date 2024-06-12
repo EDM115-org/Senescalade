@@ -18,12 +18,12 @@
           />
           <v-text-field
             v-model="seance.heureDebutSeance"
-            label="Heure"
+            label="Heure de Debut"
             :rules="[rules.required, rules.heure]"
           />
           <v-text-field
             v-model="seance.heureFinSeance"
-            label="Durée"
+            label="Heure de Fin"
             :rules="[rules.required, rules.duree]"
           />
           <v-number-input
