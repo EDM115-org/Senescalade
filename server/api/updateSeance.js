@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "POST") {
     try {
       const body = await readBody(event)
-      const { idSeance, jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
+      const { idSeance, jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
 
-      const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureSeance = ?, dureeSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
+      const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
 
       return {
         status: 200,

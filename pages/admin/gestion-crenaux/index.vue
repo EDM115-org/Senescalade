@@ -37,10 +37,10 @@
                       {{ seance.jour }}
                     </td>
                     <td class="text-center">
-                      {{ seance.heureSeance }}
+                      {{ seance.heureDebutSeance }}
                     </td>
                     <td class="text-center">
-                      {{ seance.dureeSeance }}
+                      {{ seance.heureFinSeance }}
                     </td>
                     <td class="text-center">
                       {{ seance.typeSeance }}
