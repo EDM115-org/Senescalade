@@ -69,8 +69,8 @@ const store = useMainStore()
 const vuetifyTheme = useTheme()
 
 const accountIcon = ref("mdi-login")
-const accountText = computed(() => (store.isConnected ? "Déconnexion" : "Connexion"))
-const connected = computed(() => store.isConnected)
+const accountText = computed(() => (store.getUser ? "Déconnexion" : "Connexion"))
+const connected = computed(() => store.getUser)
 const theme = ref("dark")
 const adminPage = computed(() => route.fullPath.includes("admin"))
 

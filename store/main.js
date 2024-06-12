@@ -4,7 +4,6 @@ import { defineStore } from "pinia"
 
 const useMainStore = defineStore("main", {
   state: () => ({
-    connected: false,
     displayAdminMenu: true,
     theme: "dark",
     user: null
@@ -24,15 +23,6 @@ const useMainStore = defineStore("main", {
 
       return theme
     },
-    isConnected() {
-      let loggedInCookie = cookie.get("isLoggedIn")
-
-      if (loggedInCookie) {
-        this.isLoggedIn = true
-      }
-
-      return this.isLoggedIn
-    },
     getUser() {
       let userCookie = cookie.get("user")
 
@@ -50,20 +40,15 @@ const useMainStore = defineStore("main", {
       return value
     },
     login(user, stayConnected = false) {
-      this.isLoggedIn = this.createCookie("isLoggedIn", true, 1)
-
       if (!stayConnected) {
-        this.isLoggedIn = this.createCookie("isLoggedIn", true, 1)
         this.user = this.createCookie("user", encodeURI(JSON.stringify(user)), 1)
       } else {
-        this.isLoggedIn = this.createCookie("isLoggedIn", true, 30)
         this.user = this.createCookie("user", encodeURI(JSON.stringify(user)), 30)
       }
     },
     logout() {
-      this.isLoggedIn = false
       this.user = null
-      cookie.remove("isLoggedIn", "user")
+      cookie.remove("user")
     },
     setDisplayAdminMenu(val) {
       this.displayAdminMenu = val
