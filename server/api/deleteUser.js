@@ -22,8 +22,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  console.log(event)
-
   if (event.node.req.method === "DELETE") {
     try {
       const body = await readBody(event)
