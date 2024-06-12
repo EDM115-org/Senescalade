@@ -17,12 +17,12 @@
             :rules="[rules.required, rules.jour]"
           />
           <v-text-field
-            v-model="seance.heureSeance"
+            v-model="seance.heureDebutSeance"
             label="Heure"
             :rules="[rules.required, rules.heure]"
           />
           <v-text-field
-            v-model="seance.dureeSeance"
+            v-model="seance.heureFinSeance"
             label="Durée"
             :rules="[rules.required, rules.duree]"
           />
@@ -83,8 +83,8 @@ const isOpen = ref(false)
 const seance = ref({
   idSeance: "",
   jour: "",
-  heureSeance: "",
-  dureeSeance: "",
+  heureDebutSeance: "",
+  heureFinSeance: "",
   typeSeance: "",
   niveau: "",
   nbPlaces: "",
