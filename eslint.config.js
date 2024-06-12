@@ -89,6 +89,7 @@ export default createConfigForNuxt(
       "@stylistic/wrap-regex": "error",
       "@stylistic/yield-star-spacing": [ "error", "before" ],
       "curly": [ "error", "all" ],
+      "@typescript-eslint/no-unused-vars": [ "warn" ],
       "vue/multi-word-component-names": "off",
     }
   }
