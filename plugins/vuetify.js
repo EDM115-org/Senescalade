@@ -31,10 +31,10 @@ export default defineNuxtPlugin((app) => {
         },
         light: {
           colors: {
-            accent: "#53B9C8",
+            accent: "#379DAD",
             background: "#DFDFD2",
             error: "#EE3124",
-            info: "#53B9C8",
+            info: "#379DAD",
             primary: "#EE3124",
             secondary: "#803EDF",
             success: "#3CD863",

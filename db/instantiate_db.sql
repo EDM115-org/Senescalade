@@ -3,8 +3,8 @@ USE sae;
 CREATE TABLE IF NOT EXISTS Seance (
   idSeance INT AUTO_INCREMENT PRIMARY KEY,
   jour CHAR(50) NOT NULL,
-  heureSeance TIME NOT NULL,
-  dureeSeance TIME NOT NULL,
+  heureDebutSeance TIME NOT NULL,
+  heureFinSeance TIME NOT NULL,
   typeSeance CHAR(100) NOT NULL,
   niveau CHAR(100),
   nbPlaces INT NOT NULL,

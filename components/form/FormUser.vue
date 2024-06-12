@@ -30,36 +30,6 @@
         cols="12"
         md="6"
       >
-        <v-menu
-          v-model="datePickerMenu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          full-width
-          max-width="290px"
-          min-width="290px"
-        >
-          <template #activator="{ props }">
-            <v-text-field
-              v-model="formattedDate"
-              label="Date de naissance"
-              readonly
-              v-bind="props"
-              required
-            />
-          </template>
-          <v-date-picker
-            v-model="date"
-            no-title
-            scrollable
-            @input="updateDate"
-          />
-        </v-menu>
-      </v-col>
-      <v-col
-        cols="12"
-        md="6"
-      >
         <v-radio-group
           v-model="personne.sexe"
           label="Sexe"
@@ -287,15 +257,23 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { ref, computed, watch } from "vue"
+import { ref, watch } from "vue"
 
 const store = useMainStore()
+const props = defineProps({
+  birthdate: {
+    type: String,
+    required: true,
+    default: ""
+  }
+
+})
 
 const personne = ref({
   action: "C",
   nom: "",
   prenom: "",
-  dateNaissance: "",
+  dateNaissance: props.birthdate,
   sexe: "",
   nationalite: "FR",
   adresse: "",
@@ -321,30 +299,15 @@ const personne = ref({
   lInscription: store.getUser.id
 })
 
-const datePickerMenu = ref(false)
-const date = ref(personne.value.dateNaissance ? new Date(personne.value.dateNaissance) : null)
 const selectedOptions = ref([])
 
-const formattedDate = computed(() => {
-  return date.value ? date.value.toLocaleDateString("fr-FR") : ""
-})
-
 const emit = defineEmits([ "submit:adduser" ])
-
-watch(date, (newDate) => {
-  personne.value.dateNaissance = newDate ? newDate.toISOString().substr(0, 10) : ""
-})
 
 watch(selectedOptions, (newVal) => {
   newVal.forEach((option) => {
     personne.value[option.value] = true
   })
 })
-
-const updateDate = (newDate) => {
-  date.value = newDate
-  datePickerMenu.value = false
-}
 
 function submit() {
   emit("submit:adduser", personne.value)
