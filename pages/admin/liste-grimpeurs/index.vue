@@ -138,9 +138,7 @@ onMounted(async () => {
   try {
     const response = await $fetch("/api/getPermAdmin", {
       method: "POST",
-      body: JSON.stringify({
-        user: user
-      })
+      body: JSON.stringify({ user })
     })
 
     if (response) {

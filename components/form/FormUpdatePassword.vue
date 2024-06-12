@@ -156,7 +156,7 @@ async function submit() {
       body: JSON.stringify({
         oldPassword: state.oldPassword,
         newPassword: hashedNewPassword,
-        user: user
+        user
       })
     })
 
