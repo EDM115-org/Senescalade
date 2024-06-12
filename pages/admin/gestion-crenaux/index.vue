@@ -233,7 +233,7 @@ onMounted(async () => {
 
     if (response) {
       if (response.body[0].ReadListSeance !== 1) {
-        return router.push("/admin/dashboard")
+        router.push("/admin/dashboard")
       }
     } else {
       console.error("Error getPermAdmin:", response.statusText)
