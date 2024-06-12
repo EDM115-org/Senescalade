@@ -118,6 +118,20 @@ const adminLogged = ref(false)
 const personnes = ref([])
 const afficheGrimpeurDialog = ref(null)
 
+const fetchPersonnes = async () => {
+  try {
+    const response = await $fetch("/api/fetchGrimpeur")
+
+    if (response) {
+      personnes.value = response.body
+    } else {
+      console.error("Error fetching personnes:", response.statusText)
+    }
+  } catch (error) {
+    console.error("Error fetching personnes:", error.message)
+  }
+}
+
 onMounted(async () => {
   const user = store.getUser
 
@@ -151,20 +165,6 @@ onMounted(async () => {
     router.push("/login")
   }
 })
-
-const fetchPersonnes = async () => {
-  try {
-    const response = await $fetch("/api/fetchGrimpeur")
-
-    if (response) {
-      personnes.value = response.body
-    } else {
-      console.error("Error fetching personnes:", response.statusText)
-    }
-  } catch (error) {
-    console.error("Error fetching personnes:", error.message)
-  }
-}
 
 const viewGrimpeur = (personne) => {
   afficheGrimpeurDialog.value.open(personne)

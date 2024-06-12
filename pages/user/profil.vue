@@ -39,14 +39,6 @@ const user = store.getUser
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const confirmDelete = (userToDelete) => {
-  deleteDialog.value.open(userToDelete)
-}
-
-const handleDelete = (userToDelete) => {
-  deleteUser(userToDelete)
-}
-
 const deleteUser = async (id) => {
   try {
     const result = await $fetch("/api/deleteUser", {
@@ -55,7 +47,6 @@ const deleteUser = async (id) => {
     })
 
     if (result.status === 200) {
-      // redirection vers la page d'accueil
       router.push("/")
     } else {
       errorMessage.value = result.body.error
@@ -65,5 +56,13 @@ const deleteUser = async (id) => {
     errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
     issueMessage.value = error
   }
+}
+
+const confirmDelete = (userToDelete) => {
+  deleteDialog.value.open(userToDelete)
+}
+
+const handleDelete = (userToDelete) => {
+  deleteUser(userToDelete)
 }
 </script>
