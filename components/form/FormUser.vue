@@ -148,7 +148,7 @@
     </v-row>
     <v-divider class="my-8" />
     <h2 class="my-4">
-      Personne de contact (si le grimpeur est mineur)
+      Personne de contact
     </h2>
     <v-row>
       <v-col

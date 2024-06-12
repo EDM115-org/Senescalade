@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { mail, password } = body
 
-  if (event.node.req.method === "GET") {
+  if (event.node.req.method === "POST") {
     try {
       const query = "INSERT INTO Inscription(mail, password, isAdmin) VALUES (?, ?, 0)"
 
