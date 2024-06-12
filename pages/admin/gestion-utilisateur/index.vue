@@ -48,12 +48,6 @@
                     </td>
                     <td class="d-flex justify-center align-center text-center">
                       <v-btn
-                        color="accent"
-                        class="mr-2"
-                        icon="mdi-pencil"
-                        @click="editUser(user)"
-                      />
-                      <v-btn
                         color="error"
                         icon="mdi-delete"
                         @click.prevent="confirmDelete(user)"
@@ -99,11 +93,6 @@ const fetchInscription = async () => {
   } catch (error) {
     console.error("Error fetching users:", error)
   }
-}
-
-const editUser = (user) => {
-  // Handle user edit logic
-  console.log("Edit user:", user)
 }
 
 const deleteUser = async (id) => {
