@@ -24,7 +24,7 @@ const issueMessage = ref("")
 
 async function adduser(event) {
   try {
-    const result = await $fetch("/api/user", {
+    const result = await $fetch("/api/addGrimpeur", {
       method: "POST",
       body: JSON.stringify(event),
     })

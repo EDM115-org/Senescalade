@@ -151,7 +151,7 @@ onMounted(async () => {
 
 const fetchPersonnes = async () => {
   try {
-    const response = await $fetch("/api/fetchUser")
+    const response = await $fetch("/api/fetchGrimpeur")
 
     if (response) {
       personnes.value = response.body
