@@ -62,6 +62,7 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-calendar-edit-outline"
+                        @click="editSeance(seance)"
                       />
                       <v-btn
                         color="error"
@@ -81,6 +82,10 @@
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />
+    <PopUpEditSeance
+      ref="editDialog"
+      @confirm-edit="handleSeance"
+    />
   </v-container>
 </template>
 
@@ -93,6 +98,7 @@ const router = useRouter()
 const adminLogged = ref(false)
 const seances = ref([])
 const deleteDialog = ref(null)
+const editDialog = ref(null)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -117,10 +123,10 @@ const fetchSeance = async () => {
     if (result.status === 200) {
       seances.value = result.body
     } else {
-      console.error("Error fetching seances : ", result)
+      console.error("Error fetching seances: ", result)
     }
   } catch (error) {
-    console.error("Error fetching seances : ", error)
+    console.error("Error fetching seances: ", error)
   }
 }
 
@@ -128,7 +134,7 @@ const deleteSeance = async (id) => {
   try {
     const result = await $fetch("/api/deleteSeance", {
       method: "DELETE",
-      body: { idSeance: id }
+      body: { idSeance: id },
     })
 
     if (result.status === 200) {
@@ -143,12 +149,39 @@ const deleteSeance = async (id) => {
   }
 }
 
+const updateSeance = async (seance) => {
+  try {
+    const result = await $fetch("/api/updateSeance", {
+      method: "POST",
+      body: seance,
+    })
+
+    if (result.status === 200) {
+      fetchSeance()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la modification de la séance"
+    issueMessage.value = error
+  }
+}
+
 const confirmDelete = (seance) => {
   deleteDialog.value.open(seance)
 }
 
 const handleDelete = (idSeance) => {
   deleteSeance(idSeance)
+}
+
+const editSeance = (seance) => {
+  editDialog.value.open(seance)
+}
+
+const handleSeance = (seance) => {
+  updateSeance(seance)
 }
 
 onMounted(async () => {
@@ -158,11 +191,11 @@ onMounted(async () => {
     const response = await $fetch("/api/getPermAdmin", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user: user
-      })
+        user: user,
+      }),
     })
 
     if (response) {

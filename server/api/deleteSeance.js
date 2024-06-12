@@ -22,20 +22,27 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  try {
-    const body = await readBody(event)
-    const { idSeance } = body
+  if (event.node.req.method === "DELETE") {
+    try {
+      const body = await readBody(event)
+      const { idSeance } = body
 
-    const [ rows ] = await connection.execute("DELETE FROM InscriptionSeance WHERE idSeance = ?", [ idSeance ]) && await connection.execute("DELETE FROM Seance WHERE idSeance = ?", [ idSeance ])
+      const [ rows ] = await connection.execute("DELETE FROM InscriptionSeance WHERE idSeance = ?", [ idSeance ]) && await connection.execute("DELETE FROM Seance WHERE idSeance = ?", [ idSeance ])
 
-    return {
-      status: 200,
-      body: rows,
+      return {
+        status: 200,
+        body: rows,
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la suppression de la séance", message: err },
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la suppression de la séance", message: err },
+      status: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })

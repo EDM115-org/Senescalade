@@ -22,20 +22,27 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  try {
-    const body = await readBody(event)
-    const { idSeance, jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
+  if (event.node.req.method === "POST") {
+    try {
+      const body = await readBody(event)
+      const { idSeance, jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
 
-    const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureSeance = ?, dureeSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
+      const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureSeance = ?, dureeSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureSeance, dureeSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
 
-    return {
-      status: 200,
-      body: rows,
+      return {
+        status: 200,
+        body: rows,
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la suppression de la séance", message: err },
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la suppression de la séance", message: err },
+      status: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })

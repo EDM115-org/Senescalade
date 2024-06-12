@@ -49,7 +49,7 @@ const role = ref(store.getUser.isAdmin)
 
 const fetchPersons = async () => {
   try {
-    const data = await $fetch("/api/fetchUser")
+    const data = await $fetch("/api/fetchGrimpeur")
 
     persons.value = data.body
   } catch (error) {

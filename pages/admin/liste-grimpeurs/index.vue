@@ -92,6 +92,7 @@
                       <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
+                        @click="viewGrimpeur(personne)"
                       />
                     </td>
                   </tr>
@@ -102,6 +103,7 @@
         </v-col>
       </v-row>
     </div>
+    <PopUpAfficheGrimpeur ref="afficheGrimpeurDialog" />
   </v-container>
 </template>
 
@@ -114,6 +116,7 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const personnes = ref([])
+const afficheGrimpeurDialog = ref(null)
 
 onMounted(async () => {
   const user = store.getUser
@@ -151,7 +154,7 @@ onMounted(async () => {
 
 const fetchPersonnes = async () => {
   try {
-    const response = await $fetch("/api/fetchUser")
+    const response = await $fetch("/api/fetchGrimpeur")
 
     if (response) {
       personnes.value = response.body
@@ -161,5 +164,9 @@ const fetchPersonnes = async () => {
   } catch (error) {
     console.error("Error fetching personnes:", error.message)
   }
+}
+
+const viewGrimpeur = (personne) => {
+  afficheGrimpeurDialog.value.open(personne)
 }
 </script>

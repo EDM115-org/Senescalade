@@ -22,17 +22,24 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  try {
-    const [ rows ] = await connection.execute("SELECT * FROM Seance")
+  if (event.node.req.method === "GET") {
+    try {
+      const [ rows ] = await connection.execute("SELECT * FROM Seance")
 
-    return {
-      status: 200,
-      body: rows,
+      return {
+        status: 200,
+        body: rows,
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la récupération des séances", message: err },
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant la récupération des séances", message: err },
+      status: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })

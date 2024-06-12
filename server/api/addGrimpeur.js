@@ -82,26 +82,34 @@ export default defineEventHandler(async (event) => {
     lInscription,
   ].map((param) => (param !== undefined ? param : null))
 
-  try {
-    const query = `
-      INSERT INTO Personne (
-        action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse,
-        codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom,
-        personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki,
-        optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `
 
-    await connection.execute(query, params)
+  if (event.node.req.method === "POST") {
+    try {
+      const query = `
+        INSERT INTO Personne (
+          action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse,
+          codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom,
+          personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki,
+          optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `
 
-    return {
-      status: 200,
-      body: { success: "Grimpeur ajouté" },
+      await connection.execute(query, params)
+
+      return {
+        status: 200,
+        body: { success: "Grimpeur ajouté" },
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant l'ajout d'un grimpeur", message: err },
+      }
     }
-  } catch (err) {
+  } else {
     return {
-      status: 500,
-      body: { error: "Erreur durant l'ajout d'un grimpeur", message: err },
+      status: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })
