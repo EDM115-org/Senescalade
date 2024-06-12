@@ -9,7 +9,21 @@
         <v-col cols="12">
           <v-card>
             <v-card-title>
-              <h2>Gestion des séances</h2>
+              <v-row>
+                <v-col>
+                  <h2>Gestion des séances</h2>
+                </v-col>
+                <v-spacer />
+                <v-col
+                  class="d-flex justify-sm-end"
+                >
+                  <v-btn
+                    color="success"
+                    icon="mdi-calendar-plus-outline"
+                    @click="editSeance(null)"
+                  />
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
@@ -84,7 +98,8 @@
     />
     <PopUpEditSeance
       ref="editDialog"
-      @confirm-edit="handleSeance"
+      @confirm-add="handleSeance($event, false)"
+      @confirm-edit="handleSeance($event, true)"
     />
   </v-container>
 </template>
@@ -168,6 +183,25 @@ const updateSeance = async (seance) => {
   }
 }
 
+const createSeance = async (seance) => {
+  try {
+    const result = await $fetch("/api/addSeance", {
+      method: "POST",
+      body: seance,
+    })
+
+    if (result.status === 200) {
+      fetchSeance()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de l'ajout de la séance"
+    issueMessage.value = error
+  }
+}
+
 const confirmDelete = (seance) => {
   deleteDialog.value.open(seance)
 }
@@ -180,8 +214,12 @@ const editSeance = (seance) => {
   editDialog.value.open(seance)
 }
 
-const handleSeance = (seance) => {
-  updateSeance(seance)
+const handleSeance = (seance, edit) => {
+  if (edit) {
+    updateSeance(seance)
+  } else {
+    createSeance(seance)
+  }
 }
 
 onMounted(async () => {

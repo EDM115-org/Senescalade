@@ -5,7 +5,7 @@
     transition="dialog-bottom-transition"
   >
     <v-card>
-      <v-card-title>Modifier la séance</v-card-title>
+      <v-card-title>{{ isEdit ? "Modifier la séance" : "Ajouter une séance" }}</v-card-title>
       <v-card-text>
         <v-form
           ref="form"
@@ -26,14 +26,16 @@
             label="Durée"
             :rules="[rules.required, rules.duree]"
           />
-          <v-text-field
+          <v-number-input
             v-model="seance.nbPlaces"
+            inset
             label="Nombre de places"
             type="number"
             :rules="[rules.required, rules.nbPlaces]"
           />
-          <v-text-field
+          <v-number-input
             v-model="seance.nbPlacesRestantes"
+            inset
             label="Places restantes"
             type="number"
             :rules="[rules.required, rules.nbPlacesRestantes]"
@@ -69,7 +71,7 @@
           :disabled="!valid"
           @click="confirmEdit"
         >
-          Sauvegarder
+          {{ isEdit ? "Sauvegarder" : "Ajouter" }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -79,22 +81,23 @@
 <script setup>
 import { ref } from "vue"
 
+const isEdit = ref(true)
 const isOpen = ref(false)
 const seance = ref({
-  idSeance: "",
+  idSeance: null,
   jour: "",
   heureDebutSeance: "",
   heureFinSeance: "",
   typeSeance: "",
   niveau: "",
-  nbPlaces: "",
-  nbPlacesRestantes: "",
+  nbPlaces: 0,
+  nbPlacesRestantes: 0,
   professeur: "",
 })
 
 const valid = ref(false)
 
-const emit = defineEmits([ "confirm-edit" ])
+const emit = defineEmits([ "confirm-add", "confirm-edit" ])
 
 const rules = {
   required: (value) => !!value || "Requis",
@@ -106,6 +109,9 @@ const rules = {
 }
 
 const open = (seanceData) => {
+  if (seanceData === null) {
+    isEdit.value = false
+  }
   seance.value = { ...seanceData }
   isOpen.value = true
 }
@@ -115,7 +121,11 @@ const close = () => {
 }
 
 const confirmEdit = () => {
-  emit("confirm-edit", seance.value)
+  if (isEdit.value) {
+    emit("confirm-edit", seance.value)
+  } else {
+    emit("confirm-add", seance.value)
+  }
   close()
 }
 
