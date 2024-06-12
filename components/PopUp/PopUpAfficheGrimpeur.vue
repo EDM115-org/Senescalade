@@ -51,7 +51,7 @@
                 <v-list-item-subtitle>{{ formatValue(personne.adresse) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.complementAdresse">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Complément d'adresse</v-list-item-title>
                 <v-list-item-subtitle>{{ formatValue(personne.complementAdresse) }}</v-list-item-subtitle>
