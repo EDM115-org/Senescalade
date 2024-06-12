@@ -13,18 +13,16 @@ const useMainStore = defineStore("main", {
       return this.displayAdminMenu
     },
     getTheme() {
-      let theme = cookie.get("theme")
+      const theme = cookie.get("theme")
 
       if (theme) {
         this.setTheme(theme)
-      } else {
-        theme = this.theme
       }
 
-      return theme
+      return this.theme
     },
     getUser() {
-      let userCookie = cookie.get("user")
+      const userCookie = cookie.get("user")
 
       if (userCookie) {
         this.user = JSON.parse(decodeURI(userCookie))
