@@ -12,19 +12,19 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Action</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.action }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.action) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Nom</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.nom }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.nom) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Prénom</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.prenom }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.prenom) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -36,103 +36,103 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Sexe</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.sexe }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.sexe) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Nationalité</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.nationalite }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.nationalite) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Adresse</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.adresse }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.adresse) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if="personne.complementAdresse">
               <v-list-item-content>
                 <v-list-item-title>Complément d'adresse</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.complementAdresse }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.complementAdresse) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Code Postal</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.codePostal }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.codePostal) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Ville</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.ville }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.ville) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Pays</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.pays }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.pays) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.telephone">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Téléphone</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.telephone }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.telephone) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.mobile">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Mobile</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.mobile }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.mobile) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.courriel2">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Courriel</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.courriel2 }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.courriel2) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.personneNom">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Nom de la personne à contacter</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.personneNom }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.personneNom) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.personnePrenom">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Prénom de la personne à contacter</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.personnePrenom }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.personnePrenom) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.personneTelephone">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Téléphone de la personne à contacter</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.personneTelephone }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.personneTelephone) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="personne.personneCourriel">
+            <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Courriel de la personne à contacter</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.personneCourriel }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.personneCourriel) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Numéro de Licence</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.numLicence }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.numLicence) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Type de Licence</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.typeLicence }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.typeLicence) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Assurance</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.assurance }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.assurance) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -168,7 +168,7 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Inscription</v-list-item-title>
-                <v-list-item-subtitle>{{ personne.lInscription }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatValue(personne.lInscription) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -193,8 +193,9 @@
   </v-dialog>
 </template>
 
+
 <script setup>
-import { ref } from "vue"
+import { ref, computed } from "vue"
 import { DateTime } from "luxon"
 
 const isOpen = ref(false)
@@ -230,8 +231,14 @@ const personne = ref({
 })
 
 const formattedDateNaissance = computed(() => {
-  return DateTime.fromISO(personne.value.dateNaissance).toLocaleString(DateTime.DATE_MED)
+  return personne.value.dateNaissance
+    ? DateTime.fromISO(personne.value.dateNaissance).toLocaleString(DateTime.DATE_MED)
+    : "Aucun"
 })
+
+const formatValue = (value) => {
+  return value ? value : "Aucun"
+}
 
 const open = (personneData) => {
   personne.value = { ...personneData }
@@ -244,6 +251,7 @@ const close = () => {
 
 defineExpose({ open, close })
 </script>
+
 
 <style scoped>
 .v-overlay {
