@@ -13,7 +13,7 @@
           class="mt-4"
         >
           <p class="font-weight-medium my-2 mx-4">
-            {{ seance.jour }} à {{ seance.heureSeance }} ({{ seance.typeSeance }})
+            {{ seance.jour }} à {{ seance.heureDebutSeance }} ({{ seance.typeSeance }})
           </p>
           <v-card-text>
             Professeur : {{ seance.professeur }} <br>
