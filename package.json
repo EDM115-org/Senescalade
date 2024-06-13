@@ -40,7 +40,7 @@
     "cross-env": "7.0.3",
     "eslint": "9.4.0",
     "eslint-plugin-vue": "9.26.0",
-    "nuxt": "3.11.2",
+    "nuxt": "3.12.1",
     "nuxt-aos": "1.2.4",
     "nuxt-lodash": "2.5.3",
     "pinia": "2.1.7",
