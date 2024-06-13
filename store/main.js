@@ -5,7 +5,7 @@ import { defineStore } from "pinia"
 const useMainStore = defineStore("main", {
   state: () => ({
     displayAdminMenu: true,
-    theme: "dark",
+    theme: "light",
     user: null
   }),
   getters: {
