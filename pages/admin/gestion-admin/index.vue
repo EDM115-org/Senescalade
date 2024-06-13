@@ -9,7 +9,20 @@
         <v-col cols="12">
           <v-card>
             <v-card-title>
-              <h2>Gestion des administrateurs</h2>
+              <v-row>
+                <v-col>
+                  <h2>Gestion des administrateurs</h2>
+                </v-col>
+                <v-spacer />
+                <v-col
+                  class="d-flex justify-sm-end"
+                >
+                  <v-btn
+                    color="success"
+                    icon="mdi-account-plus-outline"
+                  />
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
