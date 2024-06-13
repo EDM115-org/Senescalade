@@ -73,6 +73,7 @@
         </v-btn>
       </v-col>
     </v-row>
+    <FullCalendarView />
   </div>
 </template>
 
