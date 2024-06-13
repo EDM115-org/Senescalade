@@ -71,6 +71,7 @@
         >
           Fetch DB
         </v-btn>
+        <v-divider class="my-4" />
       </v-col>
     </v-row>
     <FullCalendarView />

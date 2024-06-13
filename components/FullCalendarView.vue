@@ -1,57 +1,49 @@
 <template>
-  <FullCalendar
-    :options="calendarOptions"
-  >
-    <template #eventContent="arg">
-      <b>{{ arg.timeText }}</b>
-      <i>{{ arg.event.title }}</i>
-    </template>
-  </FullCalendar>
+  <div :class="mdAndUp ? 'mx-16 my-4' : ''">
+    <FullCalendar
+      :options="calendarOptions"
+    >
+      <template #eventContent="arg">
+        <b>{{ arg.timeText }}</b>
+        <i>{{ arg.event.title }}</i>
+      </template>
+    </FullCalendar>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
-import FullCalendar from "@fullcalendar/vue3"
+import frLocale from "@fullcalendar/core/locales/fr"
 import timeGridPlugin from "@fullcalendar/timegrid"
-import interactionPlugin from "@fullcalendar/interaction"
+import FullCalendar from "@fullcalendar/vue3"
+import { ref, onMounted } from "vue"
+import { useDisplay, useTheme } from "vuetify"
+
+const { mdAndUp } = useDisplay()
+const theme = useTheme()
 
 const calendarOptions = ref({
   allDaySlot: false,
-  buttonText: {
-    today: "Aujourd'hui",
-    month: "Mois",
-    week: "Semaine",
-    day: "Jour",
-    list: "Liste"
-  },
-  dayHeaderFormat: { weekday: "long" },
+  dayHeaderFormat: mdAndUp.value ? { weekday: "long" } : { weekday: "short" },
   dayMaxEvents: true,
-  editable: false,
-  eventBackgroundColor: "#44475A",
+  expandRows: true,
+  eventBackgroundColor: theme.current?.colors?.background ?? "#282A36",
   eventClick: handleEventClick,
-  eventBorderColor: "#BD93F9",
+  eventBorderColor: "transparent",
   events: [],
-  eventTextColor: "#F8F8F2",
+  eventTextColor: "#282A36",
   firstDay: 1,
-  headerToolbar: {
-    left: "",
-    center: "",
-    right: ""
-  },
+  headerToolbar: false,
   height: "auto",
   initialView: "timeGridWeek",
-  locale: "fr",
-  plugins: [
-    timeGridPlugin,
-    interactionPlugin
-  ],
-  selectable: false,
-  selectMirror: true,
+  locale: frLocale,
+  plugins: [ timeGridPlugin ],
+  slotEventOverlap: false,
+  slotLabelFormat: { hour: "2-digit", minute: "2-digit", omitZeroMinute: false, meridiem: false },
+  slotMinTime: "08:00:00",
+  slotMaxTime: "23:00:00",
   titleFormat: { year: "numeric", month: "long", day: "numeric" },
   weekends: true,
 })
-
-const currentEvents = ref([])
 
 function handleEventClick(clickInfo) {
   alert(`Séance: ${clickInfo.event.title}\nNiveau: ${clickInfo.event.extendedProps.niveau}\nPlaces: ${clickInfo.event.extendedProps.nbPlaces}\nPlaces restantes: ${clickInfo.event.extendedProps.nbPlacesRestantes}\nProfesseur: ${clickInfo.event.extendedProps.professeur}`)
@@ -70,6 +62,7 @@ onMounted(async () => {
     eventDate.setDate(startOfWeek.getDate() + eventDay - 1)
 
     return {
+      id: event.idSeance,
       title: event.typeSeance,
       start: `${eventDate.toISOString().split("T")[0]}T${event.heureDebutSeance}`,
       end: `${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`,
@@ -78,7 +71,8 @@ onMounted(async () => {
         nbPlaces: event.nbPlaces,
         nbPlacesRestantes: event.nbPlacesRestantes,
         professeur: event.professeur
-      }
+      },
+      backgroundColor: event.nbPlacesRestantes === 0 ? "#FF5555" : "#50FA7B"
     }
   })
 
@@ -122,19 +116,25 @@ function dayToDayNumber(day) {
 }
 </script>
 
-<style scoped>
-/* @import '~@fullcalendar/common/main.css';
-@import '~@fullcalendar/timegrid/main.css'; */
-
-.fc .fc-toolbar-title {
+<style>
+/*.fc .fc-toolbar-title {
   font-size: 1.5em;
   color: var(--v-primary-base);
 }
 .fc .fc-event {
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-primary-base));
   color: #fff;
 }
 .fc .fc-event-time, .fc .fc-event-title {
   color: #fff;
+}*/
+
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: transparent;
+}
+
+th {
+  background-color: rgb(var(--v-theme-background));
+  color: rgb(var(--v-theme-text));
 }
 </style>
