@@ -115,7 +115,12 @@ const deleteUser = async (id) => {
 }
 
 const confirmDelete = (user) => {
-  deleteDialog.value.open(user)
+  const user2 = {
+    id: user.idInscription,
+    mail: user.mail
+  }
+
+  deleteDialog.value.open(user2)
 }
 
 const handleDelete = (idInscription) => {
