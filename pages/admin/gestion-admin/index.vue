@@ -20,6 +20,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-account-plus-outline"
+                    @click.prevent="openAddAdmin"
                   />
                 </v-col>
               </v-row>
@@ -109,6 +110,10 @@
         </v-col>
       </v-row>
     </div>
+    <PopUpAddAdmin
+      ref="addDialog"
+      @confirm-add="handleAdd"
+    />
     <PopUpEditAdmin
       ref="editDialog"
       @confirm-edit="handleEdit"
@@ -120,7 +125,6 @@
   </v-container>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
@@ -131,6 +135,7 @@ const adminLogged = ref(false)
 const admins = ref([])
 const deleteDialog = ref(null)
 const editDialog = ref(null)
+const addDialog = ref(null)
 const user = store.getUser
 
 const errorMessage = ref("")
@@ -226,6 +231,29 @@ const handleEdit = (admin) => {
   updateAdmin(admin)
 }
 
+const openAddAdmin = () => {
+  addDialog.value.open()
+}
+
+const handleAdd = async (admin) => {
+  try {
+    const result = await $fetch("/api/addAdmin", {
+      method: "POST",
+      body: admin
+    })
+
+    if (result.status === 200) {
+      fetchAdmin()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de l'ajout d'un admin"
+    issueMessage.value = error
+  }
+}
+
 onMounted(async () => {
   try {
     const response = await $fetch("/api/getPermAdmin", {
@@ -256,4 +284,3 @@ onMounted(async () => {
   }
 })
 </script>
-

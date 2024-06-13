@@ -74,18 +74,18 @@ CREATE TABLE IF NOT EXISTS InscriptionSeance (
 
 CREATE TABLE IF NOT EXISTS Admin (
   idAdmin INT PRIMARY KEY,
-  ReadListGrimpeur BOOLEAN NOT NULL,
-  ReadListSeance BOOLEAN NOT NULL,
-  ReadListAdmin BOOLEAN NOT NULL,
-  ReadListUtilisateur BOOLEAN NOT NULL,
-  UpdateListGrimpeur BOOLEAN NOT NULL,
-  UpdateListSeance BOOLEAN NOT NULL,
-  UpdateListAdmin BOOLEAN NOT NULL,
-  UpdateListUtilisateur BOOLEAN NOT NULL,
-  DeleteListGrimpeur BOOLEAN NOT NULL,
-  DeleteListSeance BOOLEAN NOT NULL,
-  DeleteListAdmin BOOLEAN NOT NULL,
-  DeleteListUtilisateur BOOLEAN NOT NULL,
+  ReadListGrimpeur BOOLEAN NOT NULL DEFAULT 0,
+  ReadListSeance BOOLEAN NOT NULL DEFAULT 0,
+  ReadListAdmin BOOLEAN NOT NULL DEFAULT 0,
+  ReadListUtilisateur BOOLEAN NOT NULL DEFAULT 0,
+  UpdateListGrimpeur BOOLEAN NOT NULL DEFAULT 0,
+  UpdateListSeance BOOLEAN NOT NULL DEFAULT 0,
+  UpdateListAdmin BOOLEAN NOT NULL DEFAULT 0,
+  UpdateListUtilisateur BOOLEAN NOT NULL DEFAULT 0,
+  DeleteListGrimpeur BOOLEAN NOT NULL DEFAULT 0,
+  DeleteListSeance BOOLEAN NOT NULL DEFAULT 0,
+  DeleteListAdmin BOOLEAN NOT NULL DEFAULT 0,
+  DeleteListUtilisateur BOOLEAN NOT NULL DEFAULT 0,
   FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
     ON DELETE CASCADE
     ON UPDATE CASCADE
