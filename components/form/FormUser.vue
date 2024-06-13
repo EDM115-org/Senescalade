@@ -221,7 +221,7 @@
           inline
         >
           <v-radio
-            label="Responsabilité Civile"
+            label="RC"
             value="RC"
           />
           <v-radio
@@ -266,7 +266,6 @@ const props = defineProps({
     required: true,
     default: ""
   }
-
 })
 
 const personne = ref({
@@ -290,7 +289,7 @@ const personne = ref({
   personneCourriel: "",
   numLicence: "",
   typeLicence: "",
-  assurance: "",
+  assurance: "B",
   optionSki: false,
   optionSlackline: false,
   optionTrail: false,

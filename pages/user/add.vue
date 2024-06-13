@@ -26,23 +26,42 @@
           <div class="d-flex justify-center">
             <v-date-input
               v-model="birthdate"
-              :allowed-dates="date => date < new Date()"
+              :allowed-dates="date => date < new Date(new Date().setHours(0, 0, 0, 0))"
               class="d-flex mx-auto"
               clearable
               icon="mdi-calendar-account-outline"
-              label="Date de naissance"
+              label="Date de naissance (MM/DD/YYYY)"
               prepend-icon=""
               prepend-inner-icon="mdi-calendar-account-outline"
               :max-width="mdAndUp ? '30em' : '100em'"
               @click:clear="birthdate = null"
             />
+            <v-btn
+              class="ml-2"
+              color="accent"
+              icon="mdi-tooltip-question-outline"
+              @click="displayBirthdateHelpText = !displayBirthdateHelpText"
+            />
           </div>
+          <p
+            v-if="displayBirthdateHelpText"
+            class="text-center"
+          >
+            Si vous écrivez la date au clavier, écrivez-la au format <strong>MM/DD/YYYY</strong> (mois/jour/année), puis appuyez sur <v-kbd>↩ Entrée</v-kbd>.<br>
+            Elle sera ensuite affichée au format <strong>DD/MM/YYYY</strong> (jour/mois/année), c'est normal.
+          </p>
+          <p
+            v-if="(birthdate && determineCategory(birthdate.toISOString().split('T')[0]) === -1) || displayBirthdateHelpText"
+            class="text-center mt-4"
+          >
+            Votre enfant doit avoir au moins 4 ans pour pouvoir grimper.
+          </p>
 
           <template #next="{ next }">
             <v-btn
-              :color="birthdate ? 'success' : 'error'"
-              :variant="birthdate ? 'elevated' : 'outlined'"
-              :disabled="!birthdate"
+              :color="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'success' : 'error'"
+              :variant="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'elevated' : 'outlined'"
+              :disabled="!birthdate || determineCategory(birthdate.toISOString().split('T')[0]) === -1"
               @click="next"
             />
           </template>
@@ -95,7 +114,7 @@
           @click:next="console.log('next')"
         >
           <FormUser
-            :birthdate="birthdate.toLocaleDateString('fr-FR').split('/').reverse().join('-')"
+            :birthdate="birthdate.toISOString().split('T')[0]"
             @submit:adduser="adduser($event)"
           />
 
@@ -137,6 +156,7 @@ const { mdAndUp } = useDisplay()
 const router = useRouter()
 
 const birthdate = ref(null)
+const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
 const finished = ref(false)
@@ -177,22 +197,33 @@ function daysOfTheCurrentWeek() {
 }
 
 function determineCategory(birthDate) {
-  const currentYear = new Date().getFullYear()
-  const birthYear = parseInt(birthDate.split("-")[0])
-  const age = currentYear - birthYear
+  const today = new Date()
+  const currentYear = today.getFullYear()
+  const birthYear = parseInt(birthDate.slice(0, 4))
+  const birthMonth = parseInt(birthDate.slice(5, 7))
 
-  if (age < 6) {
+  let ageAtEndOfYear = currentYear - birthYear
+
+  if (birthMonth > 6) {
+    ageAtEndOfYear -= 1
+  }
+
+  if (ageAtEndOfYear < 4) {
+    return -1
+  } else if (ageAtEndOfYear <= 8) {
     return "Babygrimpe"
-  } else if (age < 10) {
+  } else if (ageAtEndOfYear <= 10) {
     return "U10"
-  } else if (age < 12) {
+  } else if (ageAtEndOfYear <= 12) {
     return "U12"
-  } else if (age < 14) {
+  } else if (ageAtEndOfYear <= 14) {
     return "U14"
-  } else if (age < 16) {
+  } else if (ageAtEndOfYear <= 16) {
     return "U16"
-  } else if (age < 18) {
+  } else if (ageAtEndOfYear <= 18) {
     return "U18"
+  } else if (ageAtEndOfYear <= 20) {
+    return "U20"
   } else {
     return "Adultes"
   }
@@ -228,6 +259,6 @@ onMounted(async () => {
 
 <style scoped>
 .v-btn--disabled {
-  opacity: 1;
+  opacity: 1
 }
 </style>

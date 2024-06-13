@@ -4,7 +4,7 @@
       Vous êtes connecté {{ mail }}
     </h1>
     <NuxtLink
-      to="/user/adduser"
+      to="/user/add"
     >
       <v-btn
         color="accent"

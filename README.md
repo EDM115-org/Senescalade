@@ -78,10 +78,13 @@ docker push edm115/tab-magiques:latest
 **Utilisateur**
 
 - [ ] Inscription : date de naissance, planning, formulaire, redirection HelloAsso + champs obligatoires & warnings et désactiver le bouton tant que les champs ne sont pas remplis
+- [x] babygrimpe => - de 8 ans
+- [x] Date de naissance -> possibilité de l'écrire manuellement
+- [ ] Liste d'attente par créneau -> on peut sélectionner un créneau pour lequel on veut être en liste d'attente
 - [ ] Visualisation de son numéro de licence
 - [ ] Modifications d'informations
 - [ ] Affichage du créneau par user
-- [ ] Suppression de compte
+- [ ] Suppression de compte -> pas de suppression user quand on a payé + contacter tresorier@senescalade.bzh
 
 **Admin**
 
@@ -90,7 +93,7 @@ docker push edm115/tab-magiques:latest
 - [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
 - [ ] Ajout d'admins avec droits restreints
 - [ ] Modification de la BDD (GUI, insertion de requêtes custom ?)
-- [ ] Export d'un user en CSV
+- [ ] Export d'un user en CSV => nouveaux grimpeurs depuis le dernier export
 - [ ] PDF de la liste des inscrits par créneau
 - [ ] Gérer les résinscriptions
 
@@ -117,6 +120,7 @@ docker push edm115/tab-magiques:latest
 - [ ] Tests
 
 **Module Mail (nodemailer)**
+- [ ] https://github.com/maildev/maildev ?
 - [ ] Mail mdp oublié
 - [ ] Mail pour confirm son mail première connexion
 - [ ] Mail liste d'attente
