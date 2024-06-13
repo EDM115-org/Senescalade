@@ -82,11 +82,22 @@
             <v-calendar
               ref="calendar"
               :allowed-dates="daysOfTheCurrentWeek"
+              :events="calendarEvents"
+              :event-color="getEventColor"
               interval-format="fullTime24h"
               hide-header
               view-mode="week"
-            />
+              @click:event="showEventDetails"
+            >
+              <template #event="{ event }">
+                <div>
+                  <strong>{{ event.typeSeance }}</strong>
+                  <p>{{ event.heureDebutSeance }} - {{ event.heureFinSeance }}</p>
+                </div>
+              </template>
+            </v-calendar>
           </v-sheet>
+          {{ calendarEvents }}
 
           <template #next="{ next }">
             <v-btn
@@ -156,6 +167,7 @@ const { mdAndUp } = useDisplay()
 const router = useRouter()
 
 const birthdate = ref(null)
+const calendarEvents = ref([])
 const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
@@ -250,15 +262,64 @@ function dayToDayNumber(day) {
   }
 }
 
+function getEventColor(event) {
+  return event.nbPlacesRestantes > 0 ? "success" : "error"
+}
+
+function showEventDetails(event) {
+  alert(`Séance: ${event.typeSeance}\nNiveau: ${event.niveau}\nPlaces: ${event.nbPlaces}\nPlaces restantes: ${event.nbPlacesRestantes}\nProfesseur: ${event.professeur}`)
+}
+
 onMounted(async () => {
   const response = await $fetch("/api/fetchSeance")
 
   events.value = response.body
+
+  const startOfWeek = daysOfTheCurrentWeek()[0]
+
+  calendarEvents.value = events.value.map((event) => {
+    const eventDay = dayToDayNumber(event.jour)
+    const eventDate = new Date(startOfWeek)
+
+    eventDate.setDate(startOfWeek.getDate() + eventDay - 1)
+
+    return {
+      title: event.typeSeance,
+      start: new Date(`${eventDate.toISOString().split("T")[0]}T${event.heureDebutSeance}`),
+      end: new Date(`${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`),
+      ...event,
+      color: getEventColor(event),
+      description: event.niveau,
+    }
+  })
 })
 </script>
 
 <style scoped>
 .v-btn--disabled {
   opacity: 1;
+}
+
+.my-event {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  background-color: #1867c0;
+  color: #ffffff;
+  border: 1px solid #1867c0;
+  font-size: 12px;
+  padding: 3px;
+  cursor: pointer;
+  margin-bottom: 1px;
+  left: 4px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.my-event.with-time {
+  position: absolute;
+  right: 4px;
+  margin-right: 0px;
 }
 </style>

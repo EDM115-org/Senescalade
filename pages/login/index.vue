@@ -43,12 +43,10 @@ const issueMessage = ref("")
 const messageColor = ref("error")
 
 async function login(event) {
-  messageColor.value = "error"
-
   try {
     const result = await $fetch("/api/login", {
       method: "POST",
-      body: JSON.stringify(event),
+      body: JSON.stringify(event)
     })
 
     if (result.status === 200) {
@@ -60,10 +58,12 @@ async function login(event) {
         router.push("/user")
       }
     } else {
+      messageColor.value = "error"
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
     }
   } catch (error) {
+    messageColor.value = "error"
     errorMessage.value = "Erreur lors de la connexion"
     issueMessage.value = error
   }

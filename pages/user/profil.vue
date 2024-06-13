@@ -1,7 +1,7 @@
 <template>
   <v-container class="fillheight">
     <h1 class="text-center mt-5 mb-5">
-      Vous êtes connecté {{ mail }}
+      Vous êtes connecté {{ mail ?? "" }}
     </h1>
     <FormUpdatePassword />
     <v-row class="justify-center">
@@ -33,8 +33,9 @@ import { computed } from "vue"
 
 const store = useMainStore()
 const deleteDialog = ref(null)
-const mail = computed(() => store.getUser.mail)
+const mail = computed(() => store.getUser?.mail)
 const user = store.getUser
+const router = useRouter()
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -47,6 +48,7 @@ const deleteUser = async (id) => {
     })
 
     if (result.status === 200) {
+      store.logout()
       router.push("/")
     } else {
       errorMessage.value = result.body.error

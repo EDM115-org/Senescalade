@@ -55,7 +55,7 @@ const close = () => {
 }
 
 const confirmDelete = () => {
-  emit("confirm-delete", user.value.idInscription)
+  emit("confirm-delete", user.value.id)
   close()
 }
 
