@@ -20,6 +20,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-file-download-outline"
+                    @click="downloadCSV"
                   />
                 </v-col>
               </v-row>
@@ -98,11 +99,6 @@
                         icon="mdi-delete"
                       />
                       <v-btn
-                        color="success"
-                        class="mr-2"
-                        icon="mdi-file-download-outline"
-                      />
-                      <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
                         @click="viewGrimpeur(personne)"
@@ -179,5 +175,80 @@ onMounted(async () => {
 
 const viewGrimpeur = (personne) => {
   afficheGrimpeurDialog.value.open(personne)
+}
+
+const downloadCSV = () => {
+  const header = [
+    "action",
+    "nom",
+    "prenom",
+    "date de naissance",
+    "sexe",
+    "nationalite",
+    "adresse",
+    "adresse complement",
+    "code postal",
+    "ville",
+    "pays",
+    "tel fixe",
+    "tel mobile",
+    "courriel",
+    "courriel 2",
+    "pap nom",
+    "pap prenom",
+    "pap telephone",
+    "pap courriel",
+    "numero de licence",
+    "type licence",
+    "assurance",
+    "option ski",
+    "option slackline",
+    "option trail",
+    "option vtt",
+    "assurance complementaire",
+    "option protection agression"
+  ]
+
+  const rows = personnes.value.map((personne) => [
+    personne.action,
+    personne.nom,
+    personne.prenom,
+    new Date(personne.dateNaissance).toLocaleDateString("fr-FR"),
+    personne.sexe,
+    personne.nationalite,
+    personne.adresse,
+    personne.complementAdresse || "",
+    personne.codePostal,
+    personne.ville,
+    personne.pays,
+    personne.telephone || "",
+    personne.mobile || "",
+    "",
+    personne.courriel2,
+    personne.personneNom,
+    personne.personnePrenom,
+    personne.personneTelephone,
+    personne.personneCourriel,
+    personne.numLicence,
+    personne.typeLicence,
+    personne.assurance,
+    personne.optionSki ? "Oui" : "Non",
+    personne.optionSlackline ? "Oui" : "Non",
+    personne.optionTrail ? "Oui" : "Non",
+    personne.optionVTT ? "Oui" : "Non",
+    personne.optionAssurance ? "Oui" : "Non",
+    personne.assurance ? "Oui" : "Non",
+  ])
+
+  const csvContent = [ header, ...rows ].map((e) => e.join(";")).join("\n")
+
+  const blob = new Blob([ csvContent ], { type: "text/csv;charset=utf-8;" })
+  const link = document.createElement("a")
+
+  link.href = URL.createObjectURL(blob)
+  link.setAttribute("download", "grimpeurs.csv")
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 </script>
