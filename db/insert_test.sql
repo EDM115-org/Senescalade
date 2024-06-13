@@ -75,4 +75,4 @@ INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, Read
 VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
-VALUES (3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1);
+VALUES (3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);

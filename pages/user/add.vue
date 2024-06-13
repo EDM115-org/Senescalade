@@ -259,6 +259,6 @@ onMounted(async () => {
 
 <style scoped>
 .v-btn--disabled {
-  opacity: 1
+  opacity: 1;
 }
 </style>

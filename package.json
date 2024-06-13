@@ -79,7 +79,7 @@
     "dev-docker": "docker compose --profile dev up -d --wait",
     "generate": "nuxi generate",
     "i": "npm i --no-audit --no-fund",
-    "i-clean": "rimraf node_modules && npm i --no-audit --no-fund",
+    "i-clean": "rimraf package-lock.json node_modules && npm run i",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "preview": "nuxi preview",
