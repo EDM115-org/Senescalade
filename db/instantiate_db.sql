@@ -49,6 +49,8 @@ CREATE TABLE IF NOT EXISTS Personne (
   optionAssurance BOOLEAN NOT NULL,
   lInscription INT NOT NULL,
   isPaye BOOLEAN NOT NULL DEFAULT 0,
+  dateImport DATE,
+  isImport BOOLEAN NOT NULL DEFAULT 0,
   FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
