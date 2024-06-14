@@ -76,12 +76,14 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-calendar-edit-outline"
+                        size="small"
                         variant="elevated"
                         @click="editSeance(seance)"
                       />
                       <v-btn
                         color="error"
                         icon="mdi-calendar-remove-outline"
+                        size="small"
                         variant="elevated"
                         @click.prevent="confirmDelete(seance)"
                       />

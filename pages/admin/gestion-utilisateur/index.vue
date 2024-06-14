@@ -49,6 +49,7 @@
                       <v-btn
                         color="error"
                         icon="mdi-delete"
+                        size="small"
                         variant="elevated"
                         @click.prevent="confirmDelete(user)"
                       />

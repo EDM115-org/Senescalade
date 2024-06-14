@@ -92,18 +92,21 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-pencil"
+                        size="small"
                         variant="elevated"
                       />
                       <v-btn
                         color="error"
                         class="mr-2"
                         icon="mdi-delete"
+                        size="small"
                         variant="elevated"
                         @click.prevent="confirmDelete(personne)"
                       />
                       <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
+                        size="small"
                         variant="elevated"
                         @click="viewGrimpeur(personne)"
                       />
