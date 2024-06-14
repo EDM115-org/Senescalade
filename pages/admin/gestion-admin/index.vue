@@ -194,12 +194,12 @@ const deleteAdmin = async (id) => {
 }
 
 const confirmDelete = (admin) => {
-  const user = {
+  const user2 = {
     id: admin.idInscription,
     mail: admin.mail
   }
 
-  deleteDialog.value.open(user)
+  deleteDialog.value.open(user2)
 }
 
 const handleDelete = (admin) => {

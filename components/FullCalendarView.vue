@@ -21,6 +21,8 @@ import { useDisplay, useTheme } from "vuetify"
 const { mdAndUp } = useDisplay()
 const theme = useTheme()
 
+const emit = defineEmits([ "event-click" ])
+
 const calendarOptions = ref({
   allDaySlot: false,
   dayHeaderFormat: mdAndUp.value ? { weekday: "long" } : { weekday: "short" },
@@ -44,7 +46,8 @@ const calendarOptions = ref({
 const formattedEvents = ref([])
 
 function handleEventClick(clickInfo) {
-  alert(`Séance: ${clickInfo.event.title}\nNiveau: ${clickInfo.event.extendedProps.niveau}\nPlaces: ${clickInfo.event.extendedProps.nbPlaces}\nPlaces restantes: ${clickInfo.event.extendedProps.nbPlacesRestantes}\nProfesseur: ${clickInfo.event.extendedProps.professeur}`)
+  console.log(clickInfo)
+  emit("event-click", clickInfo)
 }
 
 watch(theme.name, () => {
