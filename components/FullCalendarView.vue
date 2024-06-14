@@ -26,11 +26,8 @@ const calendarOptions = ref({
   dayHeaderFormat: mdAndUp.value ? { weekday: "long" } : { weekday: "short" },
   dayMaxEvents: true,
   expandRows: true,
-  eventBackgroundColor: theme.current?.colors?.background ?? "#282A36",
   eventClick: handleEventClick,
-  eventBorderColor: "transparent",
   events: [],
-  eventTextColor: "#282A36",
   firstDay: 1,
   headerToolbar: false,
   height: "auto",
@@ -72,11 +69,14 @@ onMounted(async () => {
         nbPlacesRestantes: event.nbPlacesRestantes,
         professeur: event.professeur
       },
-      backgroundColor: event.nbPlacesRestantes === 0 ? "#FF5555" : "#50FA7B"
+      backgroundColor: event.nbPlacesRestantes === 0 ? theme.current.value.colors.error : theme.current.value.colors.success,
+      textColor: event.nbPlacesRestantes === 0 ? theme.computedThemes.value.light.colors.background : theme.computedThemes.value.light.colors.text
     }
   })
 
   calendarOptions.value.events = formattedEvents
+  calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"
+  calendarOptions.value.eventTextColor = theme.computedThemes.value.dark.colors.background
 })
 
 function daysOfTheCurrentWeek() {
@@ -131,6 +131,10 @@ function dayToDayNumber(day) {
 
 .fc .fc-timegrid-col.fc-day-today {
   background-color: transparent;
+}
+
+.fc .fc-timegrid-slot-minor {
+  border-top-style: solid;
 }
 
 th {

@@ -2,6 +2,10 @@
   $color-pack: false
 );
 
+:root {
+  --fc-border-color: rgb(var(--v-theme-text));
+}
+
 a {
   text-decoration: none;
   color: inherit;
