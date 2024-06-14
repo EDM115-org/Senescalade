@@ -13,7 +13,7 @@
           class="mt-4"
         >
           <p class="font-weight-medium my-2 mx-4">
-            {{ personne.prenom }} {{personne.nom}}
+            {{ personne.prenom }} {{ personne.nom }}
           </p>
         </v-card>
       </v-card-text>
