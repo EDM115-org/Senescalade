@@ -73,6 +73,20 @@
         />
       </v-col>
     </v-row>
+    <v-row v-if="!loginProps.inscription">
+      <v-col
+        cols="12"
+        class="d-flex justify-center pa-0 mt-1"
+      >
+        <v-btn
+          color="warning"
+          variant="elevated"
+          @click="$router.push('/login/forgotpassword')"
+        >
+          Mot de passe oublié ?
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
         cols="12"
@@ -82,6 +96,7 @@
           :disabled="v$.$invalid"
           color="accent"
           type="submit"
+          variant="elevated"
         >
           {{ loginProps.inscription ? "S'inscrire" : "Se connecter" }}
         </v-btn>
@@ -95,7 +110,7 @@ import bcrypt from "bcryptjs"
 import useVuelidate from "@vuelidate/core"
 
 import { createI18nValidators } from "~/assets/utils/i18n-validators"
-import { ref, reactive } from "vue"
+import { ref, reactive, computed } from "vue"
 import { useI18n } from "vue-i18n"
 
 const emit = defineEmits([ "submit:login", "submit:register" ])

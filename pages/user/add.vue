@@ -40,6 +40,7 @@
               class="ml-2"
               color="accent"
               icon="mdi-tooltip-question-outline"
+              variant="elevated"
               @click="displayBirthdateHelpText = !displayBirthdateHelpText"
             />
           </div>

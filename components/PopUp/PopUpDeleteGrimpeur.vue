@@ -5,15 +5,15 @@
     transition="dialog-bottom-transition"
   >
     <v-card>
-      <v-card-title>Suppression de cet utilisateur</v-card-title>
+      <v-card-title>Suppression de ce grimpeur</v-card-title>
       <v-card-text>
-        Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+        Êtes-vous sûr de vouloir supprimer ce grimpeur ?
         <v-card
-          v-if="user"
+          v-if="personne"
           class="mt-4"
         >
           <p class="font-weight-medium my-2 mx-4">
-            {{ user.mail }}
+            {{ personne.prenom }} {{ personne.nom }}
           </p>
         </v-card>
       </v-card-text>
@@ -41,12 +41,12 @@
 import { ref } from "vue"
 
 const isOpen = ref(false)
-const user = ref(null)
+const personne = ref(null)
 
 const emit = defineEmits([ "confirm-delete" ])
 
-const open = (userData) => {
-  user.value = userData
+const open = (personneData) => {
+  personne.value = personneData
   isOpen.value = true
 }
 
@@ -55,7 +55,7 @@ const close = () => {
 }
 
 const confirmDelete = () => {
-  emit("confirm-delete", user.value.id)
+  emit("confirm-delete", personne.value.id)
   close()
 }
 

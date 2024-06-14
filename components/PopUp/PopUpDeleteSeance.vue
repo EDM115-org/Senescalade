@@ -25,14 +25,14 @@
       <v-card-actions>
         <v-btn
           color="error"
-          text
+          variant="elevated"
           @click="close"
         >
           Non
         </v-btn>
         <v-btn
           color="accent"
-          text
+          variant="elevated"
           @click="confirmDelete"
         >
           Oui

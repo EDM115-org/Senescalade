@@ -244,7 +244,7 @@
           class="mb-10 mt-4"
           color="accent"
           type="submit"
-          large
+          variant="elevated"
         >
           Ajouter un grimpeur
         </v-btn>

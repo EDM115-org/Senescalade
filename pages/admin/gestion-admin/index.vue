@@ -19,6 +19,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-account-plus-outline"
+                    variant="elevated"
                     @click.prevent="openAddAdmin"
                   />
                 </v-col>
@@ -87,6 +88,7 @@
                           <v-btn
                             color="accent"
                             icon="mdi-pencil"
+                            variant="elevated"
                             :disabled="admin.idInscription === user.id"
                             @click.prevent="confirmEdit(admin)"
                           />
@@ -95,6 +97,7 @@
                           <v-btn
                             color="error"
                             icon="mdi-delete"
+                            variant="elevated"
                             :disabled="admin.idInscription === user.id"
                             @click.prevent="confirmDelete(admin)"
                           />
