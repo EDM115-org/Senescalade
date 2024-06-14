@@ -1,6 +1,8 @@
 <template>
   <v-container class="fillheight flex-column justify-center">
-    <h1 class="text-center mt-5 mb-5">Récupération du mot de passe</h1>
+    <h1 class="text-center mt-5 mb-5">
+      Récupération du mot de passe
+    </h1>
     <Error
       v-if="errorMessage"
       :issue="issueMessage"
@@ -72,22 +74,27 @@ async function submit() {
   }
 
   try {
-    const result = await $fetch("/api/forgotPassword", {
+    const result = await $fetch("/api/login", {
       method: "POST",
       body: JSON.stringify({ email: state.email })
     })
 
+    console.log(result)
+
     if (result.status === 200) {
-      errorMessage.value = "Email de récupération envoyé avec succès."
+      // Gérer la réponse en cas de succès
+      errorMessage.value = result.body.success
       messageColor.value = "success"
       issueMessage.value = ""
     } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
+      // Gérer la réponse en cas d'erreur
+      errorMessage.value = result.body.error || "Erreur inconnue"
+      issueMessage.value = result.body.message || ""
     }
   } catch (error) {
+    console.error("Erreur lors de l'appel à l'API:", error)
     errorMessage.value = "Erreur lors de l'envoi de l'email de récupération."
-    issueMessage.value = error
+    issueMessage.value = error.message || error
   }
 }
 
