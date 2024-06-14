@@ -3,7 +3,6 @@
     v-if="adminLogged"
     class="fillheight"
   >
-    <LayoutNavBarAdmin />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -120,6 +119,16 @@
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 import { useRouter } from "vue-router"
+
+definePageMeta({
+  pageTransition: {
+    name: "simple"
+  },
+  layout: "admin",
+  layoutTransition: {
+    name: "simple"
+  }
+})
 
 const store = useMainStore()
 const router = useRouter()
