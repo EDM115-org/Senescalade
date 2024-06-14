@@ -1,16 +1,20 @@
 <template>
   <v-container class="fillheight">
-    <h1 class="text-center mt-5 mb-5">
+    <h1 class="text-center my-4">
       Vous êtes connecté {{ mail ?? "" }}
     </h1>
     <FormUpdatePassword />
     <v-row class="justify-center">
       <v-col cols="auto">
+        <v-divider class="my-4" />
         <v-btn
           color="error"
-          icon="mdi-delete"
+          prepend-icon="mdi-delete"
+          variant="elevated"
           @click.prevent="confirmDelete(user)"
-        />
+        >
+          Supprimer mon compte
+        </v-btn>
       </v-col>
     </v-row>
     <PopUpDeleteUser

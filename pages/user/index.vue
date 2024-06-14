@@ -7,9 +7,9 @@
       to="/user/add"
     >
       <v-btn
-        color="accent"
+        color="secondary"
         class="mr-2"
-        large
+        variant="elevated"
       >
         Ajouter un grimpeur
       </v-btn>
@@ -18,8 +18,8 @@
       to="/user/profil"
     >
       <v-btn
-        color="accent"
-        large
+        color="secondary"
+        variant="elevated"
       >
         modifier son profil
       </v-btn>

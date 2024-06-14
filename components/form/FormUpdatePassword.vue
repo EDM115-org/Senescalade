@@ -90,6 +90,7 @@
           :disabled="v$.$invalid"
           color="accent"
           type="submit"
+          variant="elevated"
         >
           Modifier le mot de passe
         </v-btn>

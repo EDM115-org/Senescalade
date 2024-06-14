@@ -82,6 +82,7 @@
           :disabled="v$.$invalid"
           color="accent"
           type="submit"
+          variant="elevated"
         >
           {{ loginProps.inscription ? "S'inscrire" : "Se connecter" }}
         </v-btn>

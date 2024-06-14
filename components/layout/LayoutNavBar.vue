@@ -42,6 +42,7 @@
           class="mx-2"
           color="warning"
           text="Dev"
+          variant="outlined"
         />
       </NuxtLink>
     </v-app-bar-title>
@@ -49,6 +50,7 @@
     <v-btn
       :prepend-icon="accountIcon"
       :text="accountText"
+      variant="tonal"
       @click="handleConnect"
     />
     <v-btn

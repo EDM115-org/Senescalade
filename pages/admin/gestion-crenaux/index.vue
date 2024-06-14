@@ -20,6 +20,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-calendar-plus-outline"
+                    variant="elevated"
                     @click="editSeance(null)"
                   />
                 </v-col>
@@ -76,11 +77,13 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-calendar-edit-outline"
+                        variant="elevated"
                         @click="editSeance(seance)"
                       />
                       <v-btn
                         color="error"
                         icon="mdi-calendar-remove-outline"
+                        variant="elevated"
                         @click.prevent="confirmDelete(seance)"
                       />
                     </td>

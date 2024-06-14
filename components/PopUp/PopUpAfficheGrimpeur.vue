@@ -183,7 +183,7 @@
       <v-card-actions>
         <v-btn
           color="error"
-          text
+          variant="elevated"
           @click="close"
         >
           Fermer

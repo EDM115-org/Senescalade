@@ -50,6 +50,7 @@
                       <v-btn
                         color="error"
                         icon="mdi-delete"
+                        variant="elevated"
                         @click.prevent="confirmDelete(user)"
                       />
                     </td>

@@ -20,6 +20,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-file-download-outline"
+                    variant="elevated"
                     @click="downloadCSV"
                   />
                 </v-col>
@@ -92,16 +93,19 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-pencil"
+                        variant="elevated"
                       />
                       <v-btn
                         color="error"
                         class="mr-2"
                         icon="mdi-delete"
+                        variant="elevated"
                         @click.prevent="confirmDelete(personne)"
                       />
                       <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
+                        variant="elevated"
                         @click="viewGrimpeur(personne)"
                       />
                     </td>
