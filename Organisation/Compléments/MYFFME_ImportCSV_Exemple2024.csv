@@ -1,0 +1,5 @@
+action;nom;prenom;date de naissance;sexe;nationalite;adresse;adresse complement;code postal;ville;pays;tel fixe;tel mobile;courriel;courriel 2;pap nom;pap prenom;pap telephone;pap courriel;numero de licence;type licence;assurance;option ski;option slackline;option trail;option vtt;assurance complementaire;option protection agression
+C;LOPRA;Julien;31/08/1998;H;FR;4 boulevard Jean J'aurès;Hameau du Villard d'iles;69000;LYON;FR;02 45 85 63 45;06 74 32 16 99;arto@free.fr;coco@test.fr;DUPONT;Marie;01 52 96 85 01;dup@sfr.fr;;A;B++;OUI;OUI;NON;OUI;NON;NON
+C;BRO'NOU;Claire;01/09/2000;F;FR;3 rue du Prince;;75001;PARIS;FR;01 56 28 74 02;06 18 25 63 23;claire@gmail.com;tr2@gmail.com;ROCHE;René;06 52 36 25 85;renetrop@free.fr;;J;B;NON;NON;OUI;NON;NON;NON
+C;VALARO;Eic;25/03/2000;F;FR;5 rue du Blanc;;59000;LILLE;FR;01 01 01 01 01;06 06 06 06 06;valaro@yahoo.fr;;BARDET;Sylvie;02 56 98 41 41;emilie98@gmail.com;;J;B;NON;OUI;OUI;NON;NON;OUI
+R;TRAL;Delphine;03/01/1977;F;FR;39 rue charrel;Impasse des lilas;33000;BORDEAUX;FR;;06 96 25 85 47;delp38@free.fr;nico@sfr.fr;;;;;198635;A;B+;OUI;OUI;NON;OUI;IJ2;OUI
