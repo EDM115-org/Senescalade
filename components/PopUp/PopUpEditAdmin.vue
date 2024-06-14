@@ -114,7 +114,7 @@ const permissionNames = {
 }
 
 const open = (adminPermissions) => {
-  const { idInscription: id, mail, ...restPermissions } = adminPermissions
+  const { idInscription: id, ...restPermissions } = adminPermissions
 
   permissions.value = { ...restPermissions }
   idInscription.value = id
