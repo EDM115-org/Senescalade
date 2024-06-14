@@ -23,12 +23,14 @@
           </v-card-text>
           <v-card-actions>
             <v-btn
-              color="primary"
+              color="accent"
+              variant="elevated"
             >
               Modifier
             </v-btn>
             <v-btn
-              color="primary"
+              color="error"
+              variant="elevated"
               @click.prevent="confirmDelete(person)"
             >
               Supprimer

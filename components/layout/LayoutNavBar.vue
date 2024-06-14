@@ -42,6 +42,7 @@
           class="mx-2"
           color="warning"
           text="Dev"
+          variant="outlined"
         />
       </NuxtLink>
     </v-app-bar-title>
@@ -49,10 +50,11 @@
     <v-btn
       :prepend-icon="accountIcon"
       :text="accountText"
+      variant="tonal"
       @click="handleConnect"
     />
     <v-btn
-      icon="mdi-theme-light-dark"
+      :icon="iconTheme"
       @click="toggleTheme"
     />
   </v-app-bar>
@@ -73,6 +75,7 @@ const accountText = computed(() => (store.getUser ? "Déconnexion" : "Connexion"
 const connected = computed(() => store.getUser)
 const theme = ref(store.getTheme)
 const adminPage = computed(() => route.fullPath.includes("admin"))
+const iconTheme = computed(() => (vuetifyTheme.name.value === "light" ? "mdi-weather-night" : "mdi-weather-sunny"))
 
 const { smAndUp } = useDisplay()
 

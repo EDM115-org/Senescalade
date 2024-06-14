@@ -3,7 +3,6 @@
     v-if="adminLogged"
     class="fillheight"
   >
-    <LayoutNavBarAdmin />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -20,6 +19,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-account-plus-outline"
+                    variant="elevated"
                     @click.prevent="openAddAdmin"
                   />
                 </v-col>
@@ -88,6 +88,7 @@
                           <v-btn
                             color="accent"
                             icon="mdi-pencil"
+                            variant="elevated"
                             :disabled="admin.idInscription === user.id"
                             @click.prevent="confirmEdit(admin)"
                           />
@@ -96,6 +97,7 @@
                           <v-btn
                             color="error"
                             icon="mdi-delete"
+                            variant="elevated"
                             :disabled="admin.idInscription === user.id"
                             @click.prevent="confirmDelete(admin)"
                           />
@@ -128,6 +130,16 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
+
+definePageMeta({
+  pageTransition: {
+    name: "simple"
+  },
+  layout: "admin",
+  layoutTransition: {
+    name: "simple"
+  }
+})
 
 const store = useMainStore()
 const router = useRouter()

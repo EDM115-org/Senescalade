@@ -105,14 +105,14 @@
       <v-card-actions>
         <v-btn
           color="error"
-          text
+          variant="elevated"
           @click="close"
         >
           Annuler
         </v-btn>
         <v-btn
           color="accent"
-          text
+          variant="elevated"
           :disabled="v$.$invalid"
           @click="confirmAdd"
         >

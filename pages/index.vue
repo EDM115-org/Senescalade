@@ -18,8 +18,8 @@
               to="/register"
             >
               <v-btn
-                color="accent"
-                large
+                color="secondary"
+                variant="elevated"
               >
                 Inscription
               </v-btn>
@@ -30,8 +30,8 @@
               to="/login"
             >
               <v-btn
-                color="accent"
-                large
+                color="secondary"
+                variant="elevated"
               >
                 Connexion
               </v-btn>

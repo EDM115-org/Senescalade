@@ -21,6 +21,7 @@
         <v-btn
           color="secondary"
           type="submit"
+          variant="elevated"
           @click="$router.push('/register')"
         >
           S'inscrire

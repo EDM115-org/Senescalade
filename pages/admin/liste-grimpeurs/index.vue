@@ -3,7 +3,6 @@
     v-if="adminLogged"
     class="fillheight"
   >
-    <LayoutNavBarAdmin />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -20,6 +19,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-file-download-outline"
+                    variant="elevated"
                     @click="downloadCSV"
                   />
                 </v-col>
@@ -92,16 +92,22 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-pencil"
+                        size="small"
+                        variant="elevated"
                       />
                       <v-btn
                         color="error"
                         class="mr-2"
                         icon="mdi-delete"
+                        size="small"
+                        variant="elevated"
                         @click.prevent="confirmDelete(personne)"
                       />
                       <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
+                        size="small"
+                        variant="elevated"
                         @click="viewGrimpeur(personne)"
                       />
                     </td>
@@ -125,6 +131,16 @@
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 import { useRouter } from "vue-router"
+
+definePageMeta({
+  pageTransition: {
+    name: "simple"
+  },
+  layout: "admin",
+  layoutTransition: {
+    name: "simple"
+  }
+})
 
 const store = useMainStore()
 const router = useRouter()

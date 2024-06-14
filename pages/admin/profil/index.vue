@@ -3,7 +3,6 @@
     v-if="adminLogged"
     class="fillheight"
   >
-    <LayoutNavBarAdmin />
     <div>
       <h1 class="text-center mt-5 mb-5">
         Modifier le mot de passe
@@ -15,6 +14,16 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
+
+definePageMeta({
+  pageTransition: {
+    name: "simple"
+  },
+  layout: "admin",
+  layoutTransition: {
+    name: "simple"
+  }
+})
 
 const store = useMainStore()
 const router = useRouter()

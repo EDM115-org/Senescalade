@@ -3,7 +3,6 @@
     v-if="adminLogged"
     class="fillheight"
   >
-    <LayoutNavBarAdmin />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -20,6 +19,7 @@
                   <v-btn
                     color="success"
                     icon="mdi-calendar-plus-outline"
+                    variant="elevated"
                     @click="editSeance(null)"
                   />
                 </v-col>
@@ -76,11 +76,15 @@
                         color="accent"
                         class="mr-2"
                         icon="mdi-calendar-edit-outline"
+                        size="small"
+                        variant="elevated"
                         @click="editSeance(seance)"
                       />
                       <v-btn
                         color="error"
                         icon="mdi-calendar-remove-outline"
+                        size="small"
+                        variant="elevated"
                         @click.prevent="confirmDelete(seance)"
                       />
                     </td>
@@ -107,6 +111,16 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
+
+definePageMeta({
+  pageTransition: {
+    name: "simple"
+  },
+  layout: "admin",
+  layoutTransition: {
+    name: "simple"
+  }
+})
 
 const store = useMainStore()
 const router = useRouter()

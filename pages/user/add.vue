@@ -40,6 +40,7 @@
               class="ml-2"
               color="accent"
               icon="mdi-tooltip-question-outline"
+              variant="elevated"
               @click="displayBirthdateHelpText = !displayBirthdateHelpText"
             />
           </div>
@@ -77,33 +78,14 @@
           title="Étape 2"
           value="2"
         >
-          {{ events }}
-          <v-sheet>
-            <v-calendar
-              ref="calendar"
-              :allowed-dates="daysOfTheCurrentWeek"
-              :events="calendarEvents"
-              :event-color="getEventColor"
-              interval-format="fullTime24h"
-              hide-header
-              view-mode="week"
-              @click:event="showEventDetails"
-            >
-              <template #event="{ event }">
-                <div>
-                  <strong>{{ event.typeSeance }}</strong>
-                  <p>{{ event.heureDebutSeance }} - {{ event.heureFinSeance }}</p>
-                </div>
-              </template>
-            </v-calendar>
-          </v-sheet>
-          {{ calendarEvents }}
+          <FullCalendarView />
 
           <template #next="{ next }">
             <v-btn
+              :loading="isLoading"
               color="success"
               variant="elevated"
-              @click="next"
+              @click="nextLoadingClick(next)"
             />
           </template>
 
@@ -124,15 +106,26 @@
           value="3"
           @click:next="console.log('next')"
         >
-          <FormUser
-            :birthdate="birthdate.toISOString().split('T')[0]"
-            @submit:adduser="adduser($event)"
-          />
+          <Suspense>
+            <template #default>
+              <FormUser
+                :birthdate="birthdate.toISOString().split('T')[0]"
+                @submit:adduser="adduser($event)"
+              />
+            </template>
+            <template #fallback>
+              <v-skeleton-loader
+                class="mx-auto"
+                height="100%"
+                type="list-item-three-line"
+              />
+            </template>
+          </Suspense>
 
           <template #next="{ next }">
             <v-btn
               color="success"
-              text="Finish"
+              text="Ajouter un grimpeur"
               variant="elevated"
               @click="next"
             />
@@ -172,7 +165,22 @@ const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
 const finished = ref(false)
+const isLoading = ref(false)
 const issueMessage = ref("")
+
+function nextLoadingClick(callback) {
+  isLoading.value = true
+
+  if (typeof callback === "function") {
+    callback()
+  }
+
+  nextTick(() => {
+    setTimeout(() => {
+      isLoading.value = false
+    }, 3000)
+  })
+}
 
 async function adduser(event) {
   try {
