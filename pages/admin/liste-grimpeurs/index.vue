@@ -97,6 +97,7 @@
                         color="error"
                         class="mr-2"
                         icon="mdi-delete"
+                        @click.prevent="confirmDelete(personne)"
                       />
                       <v-btn
                         color="secondary"
@@ -113,6 +114,10 @@
       </v-row>
     </div>
     <PopUpAfficheGrimpeur ref="afficheGrimpeurDialog" />
+    <PopUpDeleteGrimpeur
+      ref="deleteDialog"
+      @confirm-delete="handleDelete"
+    />
   </v-container>
 </template>
 
@@ -126,6 +131,10 @@ const router = useRouter()
 const adminLogged = ref(false)
 const personnes = ref([])
 const afficheGrimpeurDialog = ref(null)
+const deleteDialog = ref(null)
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 const fetchPersonnes = async () => {
   try {
@@ -139,6 +148,39 @@ const fetchPersonnes = async () => {
   } catch (error) {
     console.error("Error fetching personnes:", error.message)
   }
+}
+
+const deleteGrimpeur = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteGrimpeur", {
+      method: "DELETE",
+      body: { idPersonne: id }
+    })
+
+    if (result.status === 200) {
+      fetchPersonnes()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
+    issueMessage.value = error
+  }
+}
+
+const confirmDelete = (personne) => {
+  const personne2 = {
+    id: personne.idPersonne,
+    nom: personne.nom,
+    prenom: personne.prenom
+  }
+
+  deleteDialog.value.open(personne2)
+}
+
+const handleDelete = (idPersonne) => {
+  deleteGrimpeur(idPersonne)
 }
 
 onMounted(async () => {

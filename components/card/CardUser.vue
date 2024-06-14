@@ -29,6 +29,7 @@
             </v-btn>
             <v-btn
               color="primary"
+              @click.prevent="confirmDelete(person)"
             >
               Supprimer
             </v-btn>
@@ -36,6 +37,10 @@
         </v-card>
       </v-col>
     </v-row>
+    <PopUpDeleteGrimpeur
+      ref="deleteDialog"
+      @confirm-delete="handleDelete"
+    />
   </v-container>
 </template>
 
@@ -46,6 +51,10 @@ import { ref, onMounted, computed } from "vue"
 const store = useMainStore()
 const persons = ref([])
 const role = ref(store.getUser.isAdmin)
+const deleteDialog = ref(null)
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 const fetchPersons = async () => {
   try {
@@ -55,6 +64,39 @@ const fetchPersons = async () => {
   } catch (error) {
     console.error("Error fetching persons:", error)
   }
+}
+
+const deleteGrimpeur = async (id) => {
+  try {
+    const result = await $fetch("/api/deleteGrimpeur", {
+      method: "DELETE",
+      body: { idPersonne: id }
+    })
+
+    if (result.status === 200) {
+      fetchPersons()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
+    issueMessage.value = error
+  }
+}
+
+const confirmDelete = (personne) => {
+  const personne2 = {
+    id: personne.idPersonne,
+    nom: personne.nom,
+    prenom: personne.prenom
+  }
+
+  deleteDialog.value.open(personne2)
+}
+
+const handleDelete = (idPersonne) => {
+  deleteGrimpeur(idPersonne)
 }
 
 onMounted(fetchPersons)
