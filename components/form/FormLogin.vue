@@ -79,8 +79,8 @@
         class="d-flex justify-center pa-0 mt-1"
       >
         <v-btn
-          text
-          small
+          color="warning"
+          variant="elevated"
           @click="$router.push('/login/forgotpassword')"
         >
           Mot de passe oublié ?

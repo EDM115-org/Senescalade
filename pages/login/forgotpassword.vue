@@ -31,8 +31,9 @@
         >
           <v-btn
             :disabled="v$.$invalid"
-            color="accent"
+            color="secondary"
             type="submit"
+            variant="elevated"
           >
             Envoyer
           </v-btn>
