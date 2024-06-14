@@ -54,7 +54,7 @@
       @click="handleConnect"
     />
     <v-btn
-      icon="mdi-theme-light-dark"
+      :icon="iconTheme"
       @click="toggleTheme"
     />
   </v-app-bar>
@@ -75,6 +75,7 @@ const accountText = computed(() => (store.getUser ? "Déconnexion" : "Connexion"
 const connected = computed(() => store.getUser)
 const theme = ref(store.getTheme)
 const adminPage = computed(() => route.fullPath.includes("admin"))
+const iconTheme = computed(() => (vuetifyTheme.name.value === "light" ? "mdi-weather-night" : "mdi-weather-sunny"))
 
 const { smAndUp } = useDisplay()
 
