@@ -54,6 +54,7 @@
       @click="handleConnect"
     />
     <v-btn
+      id="animateTheme"
       :icon="iconTheme"
       @click="toggleTheme"
     />
@@ -107,3 +108,18 @@ function handleConnect() {
   }
 }
 </script>
+
+<style scoped>
+#animateTheme:focus {
+  animation: spin 0.2s ease-in-out 2;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>

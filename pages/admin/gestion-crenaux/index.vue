@@ -24,6 +24,11 @@
                   />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col>
+                  <p>Nombre total de séances : {{ seanceCount }}</p>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
@@ -126,6 +131,7 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const seances = ref([])
+const seanceCount = ref(0)
 const deleteDialog = ref(null)
 const editDialog = ref(null)
 
@@ -159,6 +165,20 @@ const fetchSeance = async () => {
   }
 }
 
+const fetchSeanceCount = async () => {
+  try {
+    const result = await $fetch("/api/countSeance")
+
+    if (result.status === 200) {
+      seanceCount.value = result.body.seanceCount
+    } else {
+      console.error("Error fetching seance count:", result)
+    }
+  } catch (error) {
+    console.error("Error fetching seance count:", error)
+  }
+}
+
 const deleteSeance = async (id) => {
   try {
     const result = await $fetch("/api/deleteSeance", {
@@ -168,6 +188,7 @@ const deleteSeance = async (id) => {
 
     if (result.status === 200) {
       fetchSeance()
+      fetchSeanceCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -206,6 +227,7 @@ const createSeance = async (seance) => {
 
     if (result.status === 200) {
       fetchSeance()
+      fetchSeanceCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -262,6 +284,7 @@ onMounted(async () => {
     } else {
       adminLogged.value = true
       fetchSeance()
+      fetchSeanceCount()
     }
   } else {
     router.push("/login")

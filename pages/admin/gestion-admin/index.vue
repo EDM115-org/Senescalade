@@ -24,6 +24,11 @@
                   />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col>
+                  <p>Nombre total d'administrateurs : {{ adminCount }}</p>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
@@ -145,6 +150,7 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const admins = ref([])
+const adminCount = ref(0)
 const deleteDialog = ref(null)
 const editDialog = ref(null)
 const addDialog = ref(null)
@@ -164,6 +170,20 @@ const fetchAdmin = async () => {
     }
   } catch (error) {
     console.error("Error fetching admins:", error)
+  }
+}
+
+const fetchAdminCount = async () => {
+  try {
+    const result = await $fetch("/api/countAdmin")
+
+    if (result.status === 200) {
+      adminCount.value = result.body.adminCount
+    } else {
+      console.error("Error fetching admin count:", result)
+    }
+  } catch (error) {
+    console.error("Error fetching admin count:", error)
   }
 }
 
@@ -195,6 +215,7 @@ const deleteAdmin = async (id) => {
 
     if (result.status === 200) {
       fetchAdmin()
+      fetchAdminCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -256,6 +277,7 @@ const handleAdd = async (admin) => {
 
     if (result.status === 200) {
       fetchAdmin()
+      fetchAdminCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -290,6 +312,7 @@ onMounted(async () => {
     } else {
       adminLogged.value = true
       fetchAdmin()
+      fetchAdminCount()
     }
   } else {
     router.push("/login")
