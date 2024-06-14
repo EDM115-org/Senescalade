@@ -267,7 +267,7 @@ function getEventColor(event) {
 }
 
 function showEventDetails(event) {
-  alert(`Séance: ${event.typeSeance}\nNiveau: ${event.niveau}\nPlaces: ${event.nbPlaces}\nPlaces restantes: ${event.nbPlacesRestantes}\nProfesseur: ${event.professeur}`)
+  console.log(event)
 }
 
 onMounted(async () => {
