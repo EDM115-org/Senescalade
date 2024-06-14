@@ -9,6 +9,11 @@
           <v-card>
             <v-card-title>
               <h2>Gestion des utilisateurs</h2>
+              <v-row>
+                <v-col>
+                  <p>Nombre total d'utilisateurs : {{ userCount }}</p>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
@@ -87,6 +92,7 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const users = ref([])
+const userCount = ref(0)
 const deleteDialog = ref(null)
 
 const errorMessage = ref("")
@@ -106,6 +112,20 @@ const fetchInscription = async () => {
   }
 }
 
+const fetchUserCount = async () => {
+  try {
+    const result = await $fetch("/api/countUser")
+
+    if (result.status === 200) {
+      userCount.value = result.body.userCount
+    } else {
+      console.error("Error fetching user count:", result)
+    }
+  } catch (error) {
+    console.error("Error fetching user count:", error)
+  }
+}
+
 const deleteUser = async (id) => {
   try {
     const result = await $fetch("/api/deleteUser", {
@@ -115,6 +135,7 @@ const deleteUser = async (id) => {
 
     if (result.status === 200) {
       fetchInscription()
+      fetchUserCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -164,6 +185,7 @@ onMounted(async () => {
     } else {
       adminLogged.value = true
       fetchInscription()
+      fetchUserCount()
     }
   } else {
     router.push("/login")

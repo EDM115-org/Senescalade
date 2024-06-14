@@ -24,6 +24,11 @@
                   />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col>
+                  <p>Nombre total de grimpeurs : {{ personneCount }}</p>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-table>
@@ -146,6 +151,7 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const personnes = ref([])
+const personneCount = ref(0)
 const afficheGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
 
@@ -166,6 +172,20 @@ const fetchPersonnes = async () => {
   }
 }
 
+const fetchPersonneCount = async () => {
+  try {
+    const result = await $fetch("/api/countGrimpeur")
+
+    if (result.status === 200) {
+      personneCount.value = result.body.personneCount
+    } else {
+      console.error("Error fetching personne count:", result)
+    }
+  } catch (error) {
+    console.error("Error fetching personne count:", error)
+  }
+}
+
 const deleteGrimpeur = async (id) => {
   try {
     const result = await $fetch("/api/deleteGrimpeur", {
@@ -175,6 +195,7 @@ const deleteGrimpeur = async (id) => {
 
     if (result.status === 200) {
       fetchPersonnes()
+      fetchPersonneCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -225,6 +246,7 @@ onMounted(async () => {
     } else {
       adminLogged.value = true
       fetchPersonnes()
+      fetchPersonneCount()
     }
   } else {
     router.push("/login")
