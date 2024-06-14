@@ -15,7 +15,7 @@
 import frLocale from "@fullcalendar/core/locales/fr"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import FullCalendar from "@fullcalendar/vue3"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import { useDisplay, useTheme } from "vuetify"
 
 const { mdAndUp } = useDisplay()
@@ -41,10 +41,18 @@ const calendarOptions = ref({
   titleFormat: { year: "numeric", month: "long", day: "numeric" },
   weekends: true,
 })
+const formattedEvents = ref([])
 
 function handleEventClick(clickInfo) {
   alert(`Séance: ${clickInfo.event.title}\nNiveau: ${clickInfo.event.extendedProps.niveau}\nPlaces: ${clickInfo.event.extendedProps.nbPlaces}\nPlaces restantes: ${clickInfo.event.extendedProps.nbPlacesRestantes}\nProfesseur: ${clickInfo.event.extendedProps.professeur}`)
 }
+
+watch(theme.name, () => {
+  calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"
+  formattedEvents.value.forEach((event) => {
+    event.backgroundColor = event.extendedProps.nbPlacesRestantes === 0 ? theme.current.value.colors.error : theme.current.value.colors.success
+  })
+})
 
 onMounted(async () => {
   const response = await $fetch("/api/fetchSeance")
@@ -52,7 +60,7 @@ onMounted(async () => {
 
   const startOfWeek = daysOfTheCurrentWeek()[0]
 
-  const formattedEvents = events.map((event) => {
+  formattedEvents.value = events.map((event) => {
     const eventDay = dayToDayNumber(event.jour)
     const eventDate = new Date(startOfWeek)
 
@@ -74,7 +82,7 @@ onMounted(async () => {
     }
   })
 
-  calendarOptions.value.events = formattedEvents
+  calendarOptions.value.events = formattedEvents.value
   calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"
   calendarOptions.value.eventTextColor = theme.computedThemes.value.dark.colors.background
 })
@@ -117,18 +125,6 @@ function dayToDayNumber(day) {
 </script>
 
 <style>
-/*.fc .fc-toolbar-title {
-  font-size: 1.5em;
-  color: var(--v-primary-base);
-}
-.fc .fc-event {
-  background-color: rgb(var(--v-primary-base));
-  color: #fff;
-}
-.fc .fc-event-time, .fc .fc-event-title {
-  color: #fff;
-}*/
-
 .fc .fc-timegrid-col.fc-day-today {
   background-color: transparent;
 }
