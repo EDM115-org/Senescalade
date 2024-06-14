@@ -74,22 +74,22 @@ async function submit() {
   }
 
   try {
-    const result = await $fetch("/api/login", {
+    const response = await $fetch("/api/forgotPassword", {
       method: "POST",
       body: JSON.stringify({ email: state.email })
     })
 
-    console.log(result)
+    console.log(response)
 
-    if (result.status === 200) {
+    if (response.statusCode === 200) {
       // Gérer la réponse en cas de succès
-      errorMessage.value = result.body.success
       messageColor.value = "success"
+      errorMessage.value = response.body.success
       issueMessage.value = ""
     } else {
       // Gérer la réponse en cas d'erreur
-      errorMessage.value = result.body.error || "Erreur inconnue"
-      issueMessage.value = result.body.message || ""
+      errorMessage.value = response.body.error || "Erreur inconnue"
+      issueMessage.value = response.body.message || ""
     }
   } catch (error) {
     console.error("Erreur lors de l'appel à l'API:", error)

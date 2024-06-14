@@ -1,5 +1,7 @@
+// Import des fonctions nécessaires depuis H3
 import { defineEventHandler, readBody } from "h3"
 import nodemailer from "nodemailer"
+import mysql from "mysql2/promise"
 
 // Configuration de Nodemailer
 const transporter = nodemailer.createTransport({
@@ -12,28 +14,58 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+// Configuration de la connexion MySQL
+let connection = null
+
+try {
+  connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  })
+} catch (err) {
+  console.error("Failed to connect to the database:", err)
+  connection = null
+}
+
+// Définition de l'événement handler avec H3
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-
-  console.log("Requête reçue avec body:", body)
 
   const { email } = body
 
   if (!email) {
-    console.log("Email non fourni dans la requête")
-
     return {
       statusCode: 400,
       body: { error: "Le champ 'email' est requis" },
     }
   }
 
+  // Vérifier si l'email existe dans la base de données
   try {
-    // Simulation de l'envoi d'email réussi sans interaction avec une base de données
-    const resetLink = "http://localhost:3000/reset-password?token=abcd1234"
+    if (!connection) {
+      throw new Error("Connexion à la base de données non disponible")
+    }
 
-    console.log(`Lien de réinitialisation: ${resetLink}`)
+    const [ rows ] = await connection.execute(
+      "SELECT idInscription FROM Inscription WHERE mail = ?",
+      [ email ]
+    )
 
+    if (rows.length === 0) {
+      console.log("Aucun utilisateur trouvé avec cet email")
+
+      return {
+        statusCode: 404,
+        body: { error: "Aucun utilisateur trouvé avec cet email" },
+      }
+    }
+
+    // Email existe, générer le lien de réinitialisation
+    const resetLink = "http://localhost:8000/reset-password?token=abcd1234"
+
+    // Configurer les options d'email
     const mailOptions = {
       from: "\"Admin Team\" <admin@example.com>",
       to: email,
@@ -42,9 +74,8 @@ export default defineEventHandler(async (event) => {
       html: `<p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : <a href="${resetLink}">Réinitialiser le mot de passe</a></p>`
     }
 
-    console.log("Envoi de l'email...")
+    // Envoyer l'email
     await transporter.sendMail(mailOptions)
-    console.log("Email envoyé avec succès")
 
     return {
       statusCode: 200,
