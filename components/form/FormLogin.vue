@@ -73,7 +73,7 @@
         />
       </v-col>
     </v-row>
-    <v-row v-if="!loginProps.inscription">
+    <v-row v-if="!loginProps.inscription && loginProps.errors !== ''">
       <v-col
         cols="12"
         class="d-flex justify-center pa-0 mt-1"
@@ -116,6 +116,10 @@ import { useI18n } from "vue-i18n"
 const emit = defineEmits([ "submit:login", "submit:register" ])
 
 const loginProps = defineProps({
+  errors: {
+    type: String,
+    default: ""
+  },
   inscription: Boolean
 })
 
