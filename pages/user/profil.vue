@@ -7,13 +7,6 @@
     <v-row class="justify-center">
       <v-col cols="auto">
         <v-btn
-          color="accent"
-          icon="mdi-pencil"
-          @click.prevent="confirmEdit(user)"
-        />
-      </v-col>
-      <v-col cols="auto">
-        <v-btn
           color="error"
           icon="mdi-delete"
           @click.prevent="confirmDelete(user)"
