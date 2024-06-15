@@ -36,7 +36,6 @@
 
 <script setup>
 import { ref, computed } from "vue"
-import { DateTime } from "luxon"
 
 const isOpen = ref(false)
 const personne = ref({
@@ -72,7 +71,7 @@ const personne = ref({
 
 const formattedDateNaissance = computed(() => {
   return personne.value.dateNaissance
-    ? DateTime.fromISO(personne.value.dateNaissance).toLocaleString(DateTime.DATE_MED)
+    ? new Intl.DateTimeFormat("default", { year: "numeric", month: "short", day: "numeric" }).format(new Date(personne.value.dateNaissance))
     : "Aucun"
 })
 

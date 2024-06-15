@@ -111,7 +111,9 @@ function handleConnect() {
 
 <style scoped>
 #animateTheme:focus {
-  animation: spin 0.2s ease-in-out 2;
+  animation: spin 0.3s ease-in-out 0s 1,
+             spin 0.3s ease-in-out 0.5s 1,
+             spin 0.3s ease-in-out 1s 1;
 }
 
 @keyframes spin {
