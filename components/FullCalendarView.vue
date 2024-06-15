@@ -5,9 +5,21 @@
     >
       <template #eventContent="arg">
         <b>{{ arg.timeText }}</b>
-        <i>{{ arg.event.title }}</i>
+        <br>
+        {{ arg.event.title }} {{ arg.event.extendedProps.niveau ? `- ${arg.event.extendedProps.niveau}` : "" }}
       </template>
     </FullCalendar>
+    <v-tooltip
+      v-if="showTooltip"
+      v-model:open="showTooltip"
+      :activator="tooltipActivator"
+      location="top"
+      theme="light"
+    >
+      <template #default>
+        {{ tooltipContent }}
+      </template>
+    </v-tooltip>
   </div>
 </template>
 
@@ -23,12 +35,18 @@ const theme = useTheme()
 
 const emit = defineEmits([ "event-click" ])
 
+const showTooltip = ref(false)
+const tooltipContent = ref("")
+const tooltipActivator = ref(null)
+
 const calendarOptions = ref({
   allDaySlot: false,
   dayHeaderFormat: mdAndUp.value ? { weekday: "long" } : { weekday: "short" },
   dayMaxEvents: true,
   expandRows: true,
   eventClick: handleEventClick,
+  eventMouseEnter: handleEventMouseEnter,
+  eventMouseLeave: handleEventMouseLeave,
   events: [],
   firstDay: 1,
   headerToolbar: false,
@@ -46,8 +64,42 @@ const calendarOptions = ref({
 const formattedEvents = ref([])
 
 function handleEventClick(clickInfo) {
-  console.log(clickInfo)
-  emit("event-click", clickInfo)
+  emit("event-click", clickInfo.event)
+}
+
+function createTooltip(mouseEnterInfo) {
+  const event = mouseEnterInfo.event
+  const duration = minutesToTimeString(calculateDurationInMinutes(event.start, event.end))
+
+  tooltipContent.value = `Places restantes : ${event.extendedProps.nbPlacesRestantes}/${event.extendedProps.nbPlaces}, Durée: ${duration}`
+  tooltipActivator.value = mouseEnterInfo.el
+  showTooltip.value = true
+}
+
+function calculateDurationInMinutes(startTime, endTime) {
+  const start = new Date(startTime)
+  const end = new Date(endTime)
+
+  return (end - start) / (1000 * 60)
+}
+
+function minutesToTimeString(minutes) {
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+
+  return `${hours}h${mins < 10 ? "0" : ""}${mins}`
+}
+
+function handleEventMouseEnter(mouseEnterInfo) {
+  if (mouseEnterInfo.event.extendedProps.nbPlacesRestantes !== 0) {
+    mouseEnterInfo.el.style.cursor = "pointer"
+  }
+  createTooltip(mouseEnterInfo)
+}
+
+function handleEventMouseLeave(mouseLeaveInfo) {
+  mouseLeaveInfo.el.style.cursor = "default"
+  showTooltip.value = false
 }
 
 watch(theme.name, () => {
@@ -75,6 +127,7 @@ onMounted(async () => {
       start: `${eventDate.toISOString().split("T")[0]}T${event.heureDebutSeance}`,
       end: `${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`,
       extendedProps: {
+        jour: event.jour,
         niveau: event.niveau,
         nbPlaces: event.nbPlaces,
         nbPlacesRestantes: event.nbPlacesRestantes,

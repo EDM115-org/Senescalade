@@ -78,10 +78,31 @@
           title="Étape 2"
           value="2"
         >
-          <FullCalendarView />
+          <FullCalendarView
+            @event-click="showEventDetails"
+          />
+          <div v-if="selectedEvent">
+            <p
+              v-if="selectedEvent.extendedProps.nbPlacesRestantes > 0"
+              class="text-center mt-4"
+            >
+              Créneau sélectionné : <strong>{{ selectedEvent.title }} {{ selectedEvent.extendedProps.niveau ? `- ${selectedEvent.extendedProps.niveau}` : "" }}</strong>
+              <br>
+              Jour : <strong>{{ selectedEvent.extendedProps.jour }} de {{ selectedEvent.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }} à {{ selectedEvent.end.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }}</strong>
+              <br>
+              Nombre de places restantes : <strong>{{ selectedEvent.extendedProps.nbPlacesRestantes }}/{{ selectedEvent.extendedProps.nbPlaces }}</strong>
+            </p>
+            <p
+              v-else
+              class="text-center mt-4"
+            >
+              Ce créneau est complet.
+            </p>
+          </div>
 
           <template #next="{ next }">
             <v-btn
+              :disabled="choixCreneau === null"
               :loading="isLoading"
               color="success"
               variant="elevated"
@@ -153,7 +174,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import { useDisplay } from "vuetify"
 
 const { mdAndUp } = useDisplay()
@@ -161,12 +182,14 @@ const router = useRouter()
 
 const birthdate = ref(null)
 const calendarEvents = ref([])
+const choixCreneau = ref(null)
 const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
 const finished = ref(false)
 const isLoading = ref(false)
 const issueMessage = ref("")
+const selectedEvent = ref(null)
 
 function nextLoadingClick(callback) {
   isLoading.value = true
@@ -275,8 +298,18 @@ function getEventColor(event) {
 }
 
 function showEventDetails(event) {
-  console.log(event)
+  selectedEvent.value = event
 }
+
+watch(selectedEvent, (value) => {
+  if (value) {
+    if (value.extendedProps.nbPlacesRestantes > 0) {
+      choixCreneau.value = value.id
+    } else {
+      choixCreneau.value = null
+    }
+  }
+})
 
 onMounted(async () => {
   const response = await $fetch("/api/fetchSeance")
@@ -306,28 +339,5 @@ onMounted(async () => {
 <style scoped>
 .v-btn--disabled {
   opacity: 1;
-}
-
-.my-event {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 2px;
-  background-color: #1867c0;
-  color: #ffffff;
-  border: 1px solid #1867c0;
-  font-size: 12px;
-  padding: 3px;
-  cursor: pointer;
-  margin-bottom: 1px;
-  left: 4px;
-  margin-right: 8px;
-  position: relative;
-}
-
-.my-event.with-time {
-  position: absolute;
-  right: 4px;
-  margin-right: 0px;
 }
 </style>
