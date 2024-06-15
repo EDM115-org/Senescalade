@@ -52,9 +52,15 @@ async function login(event) {
     })
 
     if (result.status === 200) {
+      const response = await $fetch("/api/isUserAdmin", {
+        method: "POST",
+        body: JSON.stringify({ idCompte: result.body.user.id })
+      })
+
+      result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin }
       store.login(result.body.user, result.body.stayConnected)
 
-      if (result.body.user.isAdmin === 1) {
+      if (result.body.user.isAdmin === true) {
         router.push("/admin/dashboard")
       } else {
         router.push("/user")

@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Personne (
   isPaye BOOLEAN NOT NULL DEFAULT 0,
   dateImport DATE,
   isImport BOOLEAN NOT NULL DEFAULT 0,
-  FOREIGN KEY (lInscription) REFERENCES Inscription(idInscription)
+  FOREIGN KEY (lInscription) REFERENCES Compte(idCompte)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT check_action CHECK (action IN ('C', 'R')),
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Admin (
   DeleteListSeance BOOLEAN NOT NULL DEFAULT 0,
   DeleteListAdmin BOOLEAN NOT NULL DEFAULT 0,
   DeleteListUtilisateur BOOLEAN NOT NULL DEFAULT 0,
-  FOREIGN KEY (idAdmin) REFERENCES Inscription(idInscription)
+  FOREIGN KEY (idAdmin) REFERENCES Compte(idCompte)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );

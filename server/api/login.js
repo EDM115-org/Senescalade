@@ -37,9 +37,14 @@ export default defineEventHandler(async (event) => {
         const passwordMatch = await bcrypt.compare(password, user.password)
 
         if (passwordMatch) {
+          const adminQuery = "SELECT * FROM Admin WHERE idAdmin = ?"
+          const [ adminRows ] = await connection.execute(adminQuery, [ user.idCompte ])
+
+          const isAdmin = adminRows.length > 0
+
           return {
             status: 200,
-            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
+            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin: isAdmin }, stayConnected }
           }
         } else {
           return {

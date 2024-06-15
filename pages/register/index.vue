@@ -63,7 +63,7 @@ onMounted(() => {
   const user = store.getUser
 
   if (user) {
-    if (user.isAdmin === 1) {
+    if (user.isAdmin) {
       router.push("/admin/dashboard")
     } else {
       router.push("/user")

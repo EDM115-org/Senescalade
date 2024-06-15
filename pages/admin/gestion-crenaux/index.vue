@@ -279,7 +279,7 @@ onMounted(async () => {
   }
 
   if (user) {
-    if (user.isAdmin !== 1) {
+    if (!user.isAdmin) {
       router.push("/user")
     } else {
       adminLogged.value = true

@@ -135,7 +135,6 @@ const showPassword = ref(false)
 const admin = reactive({
   mail: "",
   password: "",
-  isAdmin: true,
   ReadListGrimpeur: false,
   ReadListSeance: false,
   ReadListAdmin: false,

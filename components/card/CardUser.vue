@@ -104,7 +104,7 @@ const handleDelete = (idPersonne) => {
 onMounted(fetchPersons)
 
 const displayedPersons = computed(() => {
-  return role.value === 1 ? persons.value : persons.value.filter((person) => person.lInscription === store.getUser.id)
+  return role.value ? persons.value : persons.value.filter((person) => person.lInscription === store.getUser.id)
 })
 
 const formatBirthDate = (dateString) => {
