@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "POST") {
     try {
-      const query = "INSERT INTO Inscription(mail, password, isAdmin) VALUES (?, ?, 0)"
+      const query = "INSERT INTO Compte(mail, password) VALUES (?, ?)"
 
       await connection.execute(query, [ mail, password ])
 

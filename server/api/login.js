@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "POST") {
     try {
-      const query = "SELECT * FROM Inscription WHERE mail = ?"
+      const query = "SELECT * FROM Compte WHERE mail = ?"
 
       const [ rows ] = await connection.execute(query, [ mail ])
 
@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
         if (passwordMatch) {
           return {
             status: 200,
-            body: { success: "Utilisateur connecté", user: { id: user.idInscription, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
+            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin: user.isAdmin }, stayConnected }
           }
         } else {
           return {

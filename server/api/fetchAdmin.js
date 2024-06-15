@@ -25,13 +25,10 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "GET") {
     try {
       const [ rows ] = await connection.execute(`
-        SELECT i.idInscription, i.mail, 
-               a.ReadListGrimpeur, a.ReadListSeance, a.ReadListAdmin, a.ReadListUtilisateur, 
-               a.UpdateListGrimpeur, a.UpdateListSeance, a.UpdateListAdmin, a.UpdateListUtilisateur,
-               a.DeleteListGrimpeur, a.DeleteListSeance, a.DeleteListAdmin, a.DeleteListUtilisateur
-        FROM Inscription i
-        LEFT JOIN Admin a ON i.idInscription = a.idAdmin
-        WHERE i.isAdmin = 1
+        SELECT c.idCompte, c.mail, a.ReadListGrimpeur, a.ReadListSeance, a.ReadListAdmin, a.ReadListUtilisateur, a.UpdateListGrimpeur, a.UpdateListSeance, a.UpdateListAdmin, a.UpdateListUtilisateur, a.DeleteListGrimpeur, a.DeleteListSeance, a.DeleteListAdmin, a.DeleteListUtilisateur
+        FROM Compte c
+        LEFT JOIN Admin a ON c.idCompte = a.idAdmin
+        WHERE a.idAdmin IS NOT NULL
       `)
 
       return {

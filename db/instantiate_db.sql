@@ -12,11 +12,10 @@ CREATE TABLE IF NOT EXISTS Seance (
   professeur CHAR(100)
 );
 
-CREATE TABLE IF NOT EXISTS Inscription (
-  idInscription INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Compte (
+  idCompte INT AUTO_INCREMENT PRIMARY KEY,
   mail VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  isAdmin BOOLEAN NOT NULL
+  password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Personne (
@@ -60,11 +59,11 @@ CREATE TABLE IF NOT EXISTS Personne (
   CONSTRAINT check_assurance CHECK (assurance IN ('RC', 'B', 'B+', 'B++'))
 );
 
-CREATE TABLE IF NOT EXISTS InscriptionSeance (
-  idInscription INT,
+CREATE TABLE IF NOT EXISTS PersonneSeance (
+  idPersonne INT,
   idSeance INT,
-  PRIMARY KEY (idInscription, idSeance),
-  FOREIGN KEY (idInscription) REFERENCES Inscription(idInscription)
+  PRIMARY KEY (idPersonne, idSeance),
+  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)

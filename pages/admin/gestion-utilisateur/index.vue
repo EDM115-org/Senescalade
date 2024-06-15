@@ -42,10 +42,10 @@
                 <tbody>
                   <tr
                     v-for="user in users"
-                    :key="user.idInscription"
+                    :key="user.idCompte"
                   >
                     <td class="text-center">
-                      {{ user.idInscription }}
+                      {{ user.idCompte }}
                     </td>
                     <td class="text-center">
                       {{ user.mail }}
@@ -98,9 +98,9 @@ const deleteDialog = ref(null)
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const fetchInscription = async () => {
+const fetchCompte = async () => {
   try {
-    const result = await $fetch("/api/fetchInscription")
+    const result = await $fetch("/api/fetchCompte")
 
     if (result.status === 200) {
       users.value = result.body
@@ -130,11 +130,11 @@ const deleteUser = async (id) => {
   try {
     const result = await $fetch("/api/deleteUser", {
       method: "DELETE",
-      body: { idInscription: id }
+      body: { idCompte: id }
     })
 
     if (result.status === 200) {
-      fetchInscription()
+      fetchCompte()
       fetchUserCount()
     } else {
       errorMessage.value = result.body.error
@@ -148,15 +148,15 @@ const deleteUser = async (id) => {
 
 const confirmDelete = (user) => {
   const user2 = {
-    id: user.idInscription,
+    id: user.idCompte,
     mail: user.mail
   }
 
   deleteDialog.value.open(user2)
 }
 
-const handleDelete = (idInscription) => {
-  deleteUser(idInscription)
+const handleDelete = (idCompte) => {
+  deleteUser(idCompte)
 }
 
 onMounted(async () => {
@@ -184,7 +184,7 @@ onMounted(async () => {
       router.push("/user")
     } else {
       adminLogged.value = true
-      fetchInscription()
+      fetchCompte()
       fetchUserCount()
     }
   } else {

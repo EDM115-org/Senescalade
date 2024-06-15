@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "GET") {
     try {
-      const [ rows ] = await connection.execute("SELECT * FROM Inscription WHERE isAdmin = 0")
+      const [ rows ] = await connection.execute("SELECT * FROM Compte c LEFT JOIN Admin a ON c.idCompte = a.idAdmin WHERE a.idAdmin IS NULL")
 
       return {
         status: 200,

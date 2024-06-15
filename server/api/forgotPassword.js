@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const [ rows ] = await connection.execute(
-      "SELECT idInscription FROM Inscription WHERE mail = ?",
+      "SELECT idCompte FROM Compte WHERE mail = ?",
       [ email ]
     )
 

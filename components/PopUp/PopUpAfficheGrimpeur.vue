@@ -107,7 +107,7 @@ const displayedFields = computed(() => {
     "Option Trail": personne.value.optionTrail ? "Oui" : "Non",
     "Option VTT": personne.value.optionVTT ? "Oui" : "Non",
     "Option Assurance": personne.value.optionAssurance ? "Oui" : "Non",
-    "Inscription": personne.value.lInscription,
+    "Compte": personne.value.lInscription,
     "Payé": personne.value.isPaye ? "Oui" : "Non",
   }
 })

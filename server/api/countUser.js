@@ -25,7 +25,10 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "GET") {
     try {
       const [ rows ] = await connection.execute(`
-        SELECT COUNT(*) as userCount FROM Inscription WHERE isAdmin = 0
+        SELECT COUNT(*) AS userCount
+        FROM Compte c
+        LEFT JOIN Admin a ON c.idCompte = a.idAdmin
+        WHERE a.idAdmin IS NULL
       `)
 
       return {

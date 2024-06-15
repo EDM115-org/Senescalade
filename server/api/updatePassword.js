@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         }
       }
 
-      const query = "SELECT * FROM Inscription WHERE idInscription = ?"
+      const query = "SELECT * FROM Compte WHERE idCompte = ?"
 
       const [ rows ] = await connection.execute(query, [ user.id ])
 
@@ -46,9 +46,9 @@ export default defineEventHandler(async (event) => {
 
         if (passwordMatch) {
           // Mettre à jour le mot de passe dans la base de données
-          const updateQuery = "UPDATE Inscription SET password = ? WHERE idInscription = ?"
+          const updateQuery = "UPDATE Compte SET password = ? WHERE idCompte = ?"
 
-          await connection.execute(updateQuery, [ newPassword, userFromDB.idInscription ])
+          await connection.execute(updateQuery, [ newPassword, userFromDB.idCompte ])
 
           return {
             status: 200,

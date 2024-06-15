@@ -104,6 +104,7 @@ docker push edm115/tab-magiques:latest
 - [ ] Envoi de mails
 - [X] Mieux gérer le store + cookies/local storage ?
 - [X] Routes -> Chargment direct du store à partir du stockage -> éviter d'avoir un user null
+- [ ] Simplifier les routes de l'API, `throw createError()` pour les erreurs à la place de return, et sécuriser les calls
 
 **Design**
 

@@ -57,15 +57,15 @@ INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, n
 VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 
-INSERT INTO Inscription(idInscription, mail, password, isAdmin)
-VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
+INSERT INTO Compte(idCompte, mail, password)
+VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
 
-INSERT INTO Inscription(idInscription, mail, password, isAdmin)
-VALUES (3, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS', 1);
+INSERT INTO Compte(idCompte, mail, password)
+VALUES (3, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
 -- admintestadmin
 
-INSERT INTO Inscription(idInscription, mail, password, isAdmin)
-VALUES (2, 'user@gmail.com', '$2a$10$PEU8uPfXaQ1rAqTvEFyeY./c5bn6fQjrU8dX7opt8goIiEthhjEMC', 0);
+INSERT INTO Compte(idCompte, mail, password)
+VALUES (2, 'user@gmail.com', '$2a$10$PEU8uPfXaQ1rAqTvEFyeY./c5bn6fQjrU8dX7opt8goIiEthhjEMC');
 -- usertestuser
 
 INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription)

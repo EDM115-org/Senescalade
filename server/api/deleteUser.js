@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "DELETE") {
     try {
       const body = await readBody(event)
-      const { idInscription } = body
+      const { idCompte } = body
 
-      const [ rows ] = await connection.execute("DELETE FROM Inscription WHERE idInscription = ?", [ idInscription ])
+      const [ rows ] = await connection.execute("DELETE FROM Compte WHERE idCompte = ?", [ idCompte ])
 
       return {
         status: 200,

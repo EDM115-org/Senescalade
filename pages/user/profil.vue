@@ -41,7 +41,7 @@ const deleteUser = async (id) => {
   try {
     const result = await $fetch("/api/deleteUser", {
       method: "DELETE",
-      body: { idInscription: id }
+      body: { idCompte: id }
     })
 
     if (result.status === 200) {

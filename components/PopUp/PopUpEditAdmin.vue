@@ -93,7 +93,7 @@ import { ref, computed } from "vue"
 
 const isOpen = ref(false)
 const permissions = ref(null)
-const idInscription = ref(null)
+const idCompte = ref(null)
 const valid = ref(true)
 
 const emit = defineEmits([ "confirm-edit" ])
@@ -114,10 +114,10 @@ const permissionNames = {
 }
 
 const open = (adminPermissions) => {
-  const { idInscription: id, ...restPermissions } = adminPermissions
+  const { idCompte: id, ...restPermissions } = adminPermissions
 
   permissions.value = { ...restPermissions }
-  idInscription.value = id
+  idCompte.value = id
   isOpen.value = true
 }
 
@@ -126,7 +126,7 @@ const close = () => {
 }
 
 const confirmEdit = () => {
-  emit("confirm-edit", { idInscription: idInscription.value, ...permissions.value })
+  emit("confirm-edit", { idCompte: idCompte.value, ...permissions.value })
   close()
 }
 

@@ -27,7 +27,6 @@ export default defineEventHandler(async (event) => {
   const {
     mail,
     password,
-    isAdmin,
     ReadListGrimpeur,
     ReadListSeance,
     ReadListAdmin,
@@ -47,13 +46,12 @@ export default defineEventHandler(async (event) => {
       // Commencer une transaction
       await connection.beginTransaction()
 
-      // Insérer dans la table Inscription
-      const [ inscriptionResult ] = await connection.execute(
-        "INSERT INTO Inscription (mail, password, isAdmin) VALUES (?, ?, ?)",
-        [ mail, password, isAdmin ]
+      const [ compteResult ] = await connection.execute(
+        "INSERT INTO Compte (mail, password) VALUES (?, ?)",
+        [ mail, password ]
       )
 
-      const idInscription = inscriptionResult.insertId
+      const idCompte = compteResult.insertId
 
       // Insérer dans la table Admin
       await connection.execute(
@@ -63,7 +61,7 @@ export default defineEventHandler(async (event) => {
           DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
-          idInscription,
+          idCompte,
           ReadListGrimpeur,
           ReadListSeance,
           ReadListAdmin,

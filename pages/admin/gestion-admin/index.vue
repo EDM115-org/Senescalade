@@ -63,10 +63,10 @@
                 <tbody>
                   <tr
                     v-for="admin in admins"
-                    :key="admin.idInscription"
+                    :key="admin.idCompte"
                   >
                     <td class="text-center">
-                      {{ admin.idInscription }}
+                      {{ admin.idCompte }}
                     </td>
                     <td class="text-center">
                       {{ admin.mail }}
@@ -94,7 +94,7 @@
                             color="accent"
                             icon="mdi-pencil"
                             variant="elevated"
-                            :disabled="admin.idInscription === user.id"
+                            :disabled="admin.idCompte === user.id"
                             @click.prevent="confirmEdit(admin)"
                           />
                         </v-col>
@@ -103,7 +103,7 @@
                             color="error"
                             icon="mdi-delete"
                             variant="elevated"
-                            :disabled="admin.idInscription === user.id"
+                            :disabled="admin.idCompte === user.id"
                             @click.prevent="confirmDelete(admin)"
                           />
                         </v-col>
@@ -210,7 +210,7 @@ const deleteAdmin = async (id) => {
   try {
     const result = await $fetch("/api/deleteUser", {
       method: "DELETE",
-      body: { idInscription: id }
+      body: { idCompte: id }
     })
 
     if (result.status === 200) {
@@ -228,7 +228,7 @@ const deleteAdmin = async (id) => {
 
 const confirmDelete = (admin) => {
   const user2 = {
-    id: admin.idInscription,
+    id: admin.idCompte,
     mail: admin.mail
   }
 

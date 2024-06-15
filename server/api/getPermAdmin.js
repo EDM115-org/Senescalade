@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
         }
       }
 
-      const query = "SELECT * FROM Inscription, Admin WHERE idInscription = idAdmin AND idAdmin = ?"
+      const query = "SELECT * FROM Compte c INNER JOIN Admin a ON c.idCompte = a.idAdmin WHERE a.idAdmin = ?"
 
       const [ rows ] = await connection.execute(query, [ user.id ])
 
