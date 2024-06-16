@@ -1,7 +1,7 @@
 <template>
   <v-container class="fillheight">
     <h1 class="text-center mt-5 mb-5">
-      Vous êtes connecté {{ mail }}
+      Espace utilisateur
     </h1>
     <NuxtLink
       to="/user/add"
@@ -27,12 +27,3 @@
     <CardUser />
   </v-container>
 </template>
-
-<script setup>
-import { useMainStore } from "~/store/main"
-import { computed } from "vue"
-
-const store = useMainStore()
-
-const mail = computed(() => store.getUser.mail)
-</script>

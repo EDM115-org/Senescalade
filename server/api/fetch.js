@@ -16,8 +16,6 @@ try {
 }
 
 export default defineEventHandler(async (event) => {
-  console.log("fetch.js", event.node.req.method, event.node.req.url)
-
   if (!connection) {
     return {
       status: 500,
