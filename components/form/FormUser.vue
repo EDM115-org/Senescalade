@@ -193,32 +193,37 @@
     <v-divider class="my-8" />
     <h2 class="my-4">
       Informations complémentaires
+      <v-btn
+        class="ml-2"
+        color="accent"
+        icon="mdi-tooltip-question-outline"
+        variant="elevated"
+        @click="displayOptionsHelpText = !displayOptionsHelpText"
+      />
     </h2>
+    <p
+      v-if="displayOptionsHelpText"
+      class="text-center mb-4"
+    >
+      L'assurance B (Base) est incluse par défaut, mais vous pouvez garder votre RC si vous le souhaitez (non recommandé).<br>
+      Les options sont facultatives et permettent d'assurer des sports complémentaires dans l'assurance souscrite. Non applicable si vous gardez votre RC.<br>
+      Découvrez le détail de ces assurances dans le
+      <NuxtLink
+        class="link-color"
+        to="https://www.montagne-escalade.com/site/BO/documents/2025-pack-assurance.pdf"
+        target="_blank"
+      >
+        document suivant
+      </NuxtLink>
+    </p>
     <v-row>
       <v-col
         cols="12"
         md="6"
       >
-        <v-combobox
-          v-model="selectedOptions"
-          :items="optionItems"
-          label="Options"
-          outlined
-          multiple
-          chips
-          clearable
-        />
-        <p color="error">
-          !! Option assurance => choix parmis plusieurs trucs. Aussi ajouter la référence des prix et les liens vers les PDF
-        </p>
-      </v-col>
-      <v-col
-        cols="12"
-        md="6"
-      >
+        <h4>Assurance</h4>
         <v-radio-group
           v-model="grimpeur.assurance"
-          label="Assurance"
           inline
         >
           <v-radio
@@ -230,29 +235,87 @@
             value="B"
           />
           <v-radio
-            label="B+"
+            label="B+ (3 €)"
             value="B+"
           />
           <v-radio
-            label="B++"
+            label="B++ (10 €)"
             value="B++"
           />
         </v-radio-group>
       </v-col>
       <v-col
         cols="12"
-        class="text-center"
+        md="6"
       >
-        <v-btn
-          class="mb-10 mt-4"
-          color="accent"
-          type="submit"
-          variant="elevated"
+        <h4>Assurance complémentaire (indemnités journalières)</h4>
+        <v-radio-group
+          v-model="grimpeur.optionAssurance"
+          inline
         >
-          Ajouter un grimpeur
-        </v-btn>
+          <v-radio
+            label="Non"
+            value="NON"
+          />
+          <v-radio
+            label="IJ1 (18 €)"
+            value="IJ1"
+          />
+          <v-radio
+            label="IJ2 (30 €)"
+            value="IJ2"
+          />
+          <v-radio
+            label="IJ3 (35 €)"
+            value="IJ3"
+          />
+        </v-radio-group>
+      </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <h4>Options</h4>
+        <v-checkbox
+          v-model="grimpeur.optionProtectionAgression"
+          density="compact"
+          label="Option Protection Agression (1,70 €)"
+        />
+        <v-checkbox
+          v-model="grimpeur.optionSki"
+          density="compact"
+          label="Option ski de piste (5 €)"
+        />
+        <v-checkbox
+          v-model="grimpeur.optionSlackline"
+          density="compact"
+          label="Option slackline/highline (5 €)"
+        />
+        <v-checkbox
+          v-model="grimpeur.optionTrail"
+          density="compact"
+          label="Option trail (10 €)"
+        />
+        <v-checkbox
+          v-model="grimpeur.optionVTT"
+          density="compact"
+          label="Option VTT (30 €)"
+        />
       </v-col>
     </v-row>
+    <v-col
+      cols="12"
+      class="text-center"
+    >
+      <v-btn
+        class="mb-10 mt-4"
+        color="accent"
+        type="submit"
+        variant="elevated"
+      >
+        Ajouter un grimpeur
+      </v-btn>
+    </v-col>
   </v-form>
 </template>
 
@@ -270,6 +333,7 @@ const props = defineProps({
 })
 
 const grimpeur = ref({})
+const displayOptionsHelpText = ref(false)
 
 const selectedOptions = ref([])
 let countries = []
@@ -560,19 +624,18 @@ onMounted(async () => {
     { title: "Zimbabwe", value: "ZW" }
   ]
 })
-
-const optionItems = [
-  { title: "Option Ski", value: "optionSki" },
-  { title: "Option Slackline", value: "optionSlackline" },
-  { title: "Option Trail", value: "optionTrail" },
-  { title: "Option VTT", value: "optionVTT" },
-  { title: "Option Assurance", value: "optionAssurance" },
-  { title: "Option Protection Agression", value: "optionProtectionAgression" }
-]
 </script>
 
 <style scoped>
 .input-field {
   max-width: 400px;
+}
+
+.link-color {
+  color: rgb(var(--v-theme-accent));
+  transition: color 0.3s;
+}
+.link-color:hover {
+  color: rgb(var(--v-theme-success));
 }
 </style>

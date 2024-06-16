@@ -128,11 +128,17 @@ docker push edm115/tab-magiques:latest
 - [ ] Mail de confirmation d'inscription à un crénaux
 - [ ] Mail modification mdp administration
 
-### Sources supplémentaires :
+### Infos supplémentaires :
 
-- https://nuxt.com/modules/auto-animate
-- https://nuxt.com/modules/test-utils
-- https://nuxt.com/modules/nuxt-mail
-- https://vite-pwa-org.netlify.app/frameworks/nuxt.html + https://vite-pwa-org.netlify.app/assets-generator/
-- Store : https://github.com/data-fair/processings/blob/e6cc8abc336853363e950e3e73c13939d7570eb2/ui/store/pinia.js
-- BDD : https://github.com/sidorares/node-mysql2 (base : https://github.com/mysqljs/mysql, image : https://hub.docker.com/_/mysql)
+> une licence est valable 1 an : du 1er Septembre au 31 août de l'année suivante ; la saison actuelle est du 1er septembre 2023 au 31 août 2024  
+  
+> Export CSV : Une ligne par adhérent, 100 lignes maximum par import.  
+  
+> Type License => FAMILLE = 3e licence ou plus du foyer ...  
+> c'est là que la logique devient complexe, on peut laisser ça à la main pour l'instant.  
+> La règle est même nom de famille et/ou même adresse de résidence. À partir de la 3e licence, le tarif famille peut s'appliquer.  
+> coût Famille < coût Jeune < coût Adulte  
+> donc pour optimiser, les 2 premières licences JEUNE doivent être crées en premier puis passer les licences ADULTES en FAMILLE si possible, puis les licences JEUNE restantes en FAMILLE. vous pouvez oublier la subtilité de la licence FAMILLE dans un premier temps.  
+>  
+> Pour la saison 2023-2024, JEUNE = age < 18 ans au 31 août 2024  <=> date de naissance >= 01/09/2006  
+> ADULTE = age >= 18 ans au 31 août 2024  <=> date de naissance < 01/09/2006
