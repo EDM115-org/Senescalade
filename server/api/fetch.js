@@ -16,6 +16,8 @@ try {
 }
 
 export default defineEventHandler(async (event) => {
+  console.log("fetch.js", event.node.req.method, event.node.req.url)
+
   if (!connection) {
     return {
       status: 500,
@@ -26,23 +28,38 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const { type } = query
 
-  if (event.node.req.method === "GET" || event.node.req.method === "POST") {
-    const body = await readBody(event)
-
+  if (event.node.req.method === "GET") {
     try {
       switch (type) {
         case "admin":
           return await fetchAdmin()
-        case "adminPerms":
-          return await fetchAdminPerms(body)
         case "compte":
           return await fetchCompte()
         case "grimpeur":
           return await fetchGrimpeur()
-        case "isCompteAdmin":
-          return await fetchIsCompteAdmin(body)
         case "seance":
           return await fetchSeance()
+        default:
+          return {
+            status: 400,
+            body: { error: "Type de récupération non pris en charge" },
+          }
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la récupération", message: err.message },
+      }
+    }
+  } else if (event.node.req.method === "POST") {
+    const body = await readBody(event)
+
+    try {
+      switch (type) {
+        case "adminPerms":
+          return await fetchAdminPerms(body)
+        case "isCompteAdmin":
+          return await fetchIsCompteAdmin(body)
         default:
           return {
             status: 400,
