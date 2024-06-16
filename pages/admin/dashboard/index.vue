@@ -36,7 +36,7 @@
               <v-icon size="56">
                 mdi-currency-eur-off
               </v-icon>
-              <h3>{{ nonPayersCount }}</h3>
+              <h3>{{ nonPayeCount }}</h3>
             </v-card-text>
           </v-card>
         </v-col>
@@ -63,11 +63,11 @@ const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
 const grimpeurCount = ref(0)
-const nonPayersCount = ref(0)
+const nonPayeCount = ref(0)
 
 const fetchGrimpeurCount = async () => {
   try {
-    const result = await $fetch("/api/countGrimpeur")
+    const result = await $fetch("/api/count?type=grimpeur")
 
     if (result.status === 200) {
       grimpeurCount.value = result.body.grimpeurCount
@@ -79,12 +79,12 @@ const fetchGrimpeurCount = async () => {
   }
 }
 
-const fetchNonPayersCount = async () => {
+const fetchNonPayeCount = async () => {
   try {
-    const result = await $fetch("/api/countNonPayer")
+    const result = await $fetch("/api/count?type=nonPaye")
 
     if (result.status === 200) {
-      nonPayersCount.value = result.body.nonPayersCount
+      nonPayeCount.value = result.body.nonPayeCount
     } else {
       console.error("Error fetching non-payers count:", result)
     }
@@ -102,7 +102,7 @@ onMounted(async () => {
     } else {
       adminLogged.value = true
       fetchGrimpeurCount()
-      fetchNonPayersCount()
+      fetchNonPayeCount()
     }
   } else {
     router.push("/login")

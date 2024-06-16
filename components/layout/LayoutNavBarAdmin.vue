@@ -35,7 +35,7 @@ function displayMenu() {
 const items = [{ text: "Dashboard", to: "/admin/dashboard" }]
 
 try {
-  const response = await $fetch("/api/getPermAdmin", {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
     body: JSON.stringify({ user })
   })

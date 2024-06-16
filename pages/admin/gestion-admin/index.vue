@@ -161,7 +161,7 @@ const issueMessage = ref("")
 
 const fetchAdmin = async () => {
   try {
-    const result = await $fetch("/api/fetchAdmin")
+    const result = await $fetch("/api/fetch?type=admin")
 
     if (result.status === 200) {
       admins.value = result.body
@@ -175,7 +175,7 @@ const fetchAdmin = async () => {
 
 const fetchAdminCount = async () => {
   try {
-    const result = await $fetch("/api/countAdmin")
+    const result = await $fetch("/api/count?type=admin")
 
     if (result.status === 200) {
       adminCount.value = result.body.adminCount
@@ -189,7 +189,7 @@ const fetchAdminCount = async () => {
 
 const updateAdmin = async (admin) => {
   try {
-    const result = await $fetch("/api/updateAdmin", {
+    const result = await $fetch("/api/update?type=admin", {
       method: "POST",
       body: admin,
     })
@@ -208,7 +208,7 @@ const updateAdmin = async (admin) => {
 
 const deleteAdmin = async (id) => {
   try {
-    const result = await $fetch("/api/deleteUser", {
+    const result = await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })
@@ -270,7 +270,7 @@ const openAddAdmin = () => {
 
 const handleAdd = async (admin) => {
   try {
-    const result = await $fetch("/api/addAdmin", {
+    const result = await $fetch("/api/add?type=admin", {
       method: "POST",
       body: admin
     })
@@ -290,7 +290,7 @@ const handleAdd = async (admin) => {
 
 onMounted(async () => {
   try {
-    const response = await $fetch("/api/getPermAdmin", {
+    const response = await $fetch("/api/fetch?type=adminPerms", {
       method: "POST",
       body: JSON.stringify({ user })
     })

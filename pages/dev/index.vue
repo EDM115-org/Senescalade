@@ -64,24 +64,8 @@
           text
         </v-btn>
         <v-divider class="my-4" />
-        <v-btn
-          color="accent"
-          large
-          @click="fetchDb"
-        >
-          Fetch DB
-        </v-btn>
-        <v-divider class="my-4" />
       </v-col>
     </v-row>
     <FullCalendarView />
   </div>
 </template>
-
-<script setup>
-async function fetchDb() {
-  const data = await $fetch("/api/db")
-
-  console.log(data)
-}
-</script>

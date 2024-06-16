@@ -160,7 +160,7 @@ const issueMessage = ref("")
 
 const fetchGrimpeurs = async () => {
   try {
-    const response = await $fetch("/api/fetchGrimpeur")
+    const response = await $fetch("/api/fetch?type=grimpeur")
 
     if (response) {
       grimpeurs.value = response.body
@@ -174,7 +174,7 @@ const fetchGrimpeurs = async () => {
 
 const fetchGrimpeurCount = async () => {
   try {
-    const result = await $fetch("/api/countGrimpeur")
+    const result = await $fetch("/api/count?type=grimpeur")
 
     if (result.status === 200) {
       grimpeurCount.value = result.body.grimpeurCount
@@ -188,7 +188,7 @@ const fetchGrimpeurCount = async () => {
 
 const deleteGrimpeur = async (id) => {
   try {
-    const result = await $fetch("/api/deleteGrimpeur", {
+    const result = await $fetch("/api/delete?type=grimpeur", {
       method: "DELETE",
       body: { idGrimpeur: id }
     })
@@ -224,7 +224,7 @@ onMounted(async () => {
   const user = store.getUser
 
   try {
-    const response = await $fetch("/api/getPermAdmin", {
+    const response = await $fetch("/api/fetch?type=adminPerms", {
       method: "POST",
       body: JSON.stringify({ user })
     })

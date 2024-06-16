@@ -153,7 +153,7 @@ const headers = [
 
 const fetchSeance = async () => {
   try {
-    const result = await $fetch("/api/fetchSeance")
+    const result = await $fetch("/api/fetch?type=seance")
 
     if (result.status === 200) {
       seances.value = result.body
@@ -167,7 +167,7 @@ const fetchSeance = async () => {
 
 const fetchSeanceCount = async () => {
   try {
-    const result = await $fetch("/api/countSeance")
+    const result = await $fetch("/api/count?type=seance")
 
     if (result.status === 200) {
       seanceCount.value = result.body.seanceCount
@@ -181,7 +181,7 @@ const fetchSeanceCount = async () => {
 
 const deleteSeance = async (id) => {
   try {
-    const result = await $fetch("/api/deleteSeance", {
+    const result = await $fetch("/api/delete?type=seance", {
       method: "DELETE",
       body: { idSeance: id },
     })
@@ -201,7 +201,7 @@ const deleteSeance = async (id) => {
 
 const updateSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/updateSeance", {
+    const result = await $fetch("/api/update?type=seance", {
       method: "POST",
       body: seance,
     })
@@ -220,7 +220,7 @@ const updateSeance = async (seance) => {
 
 const createSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/addSeance", {
+    const result = await $fetch("/api/add?type=seance", {
       method: "POST",
       body: seance,
     })
@@ -262,7 +262,7 @@ onMounted(async () => {
   const user = store.getUser
 
   try {
-    const response = await $fetch("/api/getPermAdmin", {
+    const response = await $fetch("/api/fetch?type=adminPerms", {
       method: "POST",
       body: JSON.stringify({ user }),
     })

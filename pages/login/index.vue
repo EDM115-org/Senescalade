@@ -53,7 +53,7 @@ async function login(event) {
     })
 
     if (result.status === 200) {
-      const response = await $fetch("/api/isUserAdmin", {
+      const response = await $fetch("/api/fetch?type=isCompteAdmin", {
         method: "POST",
         body: JSON.stringify({ idCompte: result.body.user.id })
       })

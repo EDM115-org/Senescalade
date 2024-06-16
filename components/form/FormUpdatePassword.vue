@@ -152,7 +152,7 @@ async function submit() {
   const hashedNewPassword = await bcrypt.hash(state.newPassword, salt)
 
   try {
-    const result = await $fetch("/api/updatePassword", {
+    const result = await $fetch("/api/update?type=password", {
       method: "POST",
       body: JSON.stringify({
         oldPassword: state.oldPassword,

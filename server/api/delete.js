@@ -1,0 +1,141 @@
+import mysql from "mysql2/promise"
+import { defineEventHandler, readBody, getQuery } from "h3"
+
+let connection = null
+
+try {
+  connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  })
+} catch (err) {
+  console.error("Failed to connect to the database:", err)
+  connection = null
+}
+
+export default defineEventHandler(async (event) => {
+  if (!connection) {
+    return {
+      status: 500,
+      body: { error: "Connexion à la base de données non disponible" },
+    }
+  }
+
+  const query = getQuery(event)
+  const { type } = query
+
+  if (event.node.req.method === "DELETE") {
+    const body = await readBody(event)
+
+    try {
+      switch (type) {
+        case "admin":
+          return await deleteAdmin(body)
+        case "compte":
+          return await deleteCompte(body)
+        case "grimpeur":
+          return await deleteGrimpeur(body)
+        case "seance":
+          return await deleteSeance(body)
+        default:
+          return {
+            status: 400,
+            body: { error: "Type de suppression non pris en charge" },
+          }
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la suppression", message: err.message },
+      }
+    }
+  } else {
+    return {
+      status: 405,
+      body: { error: "Méthode non autorisée" },
+    }
+  }
+})
+
+async function deleteAdmin(body) {
+  const { idAdmin } = body
+
+  try {
+    await connection.beginTransaction()
+    const [ rows ] = await connection.execute("DELETE FROM Admin WHERE idAdmin = ?", [ idAdmin ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}
+
+async function deleteCompte(body) {
+  const { idCompte } = body
+
+  try {
+    await connection.beginTransaction()
+    const [ rows ] = await connection.execute("DELETE FROM Compte WHERE idCompte = ?", [ idCompte ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}
+
+async function deleteGrimpeur(body) {
+  const { idGrimpeur } = body
+
+  try {
+    await connection.beginTransaction()
+    const [ rows ] = await connection.execute("DELETE FROM Grimpeur WHERE idGrimpeur = ?", [ idGrimpeur ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}
+
+async function deleteSeance(body) {
+  const { idSeance } = body
+
+  try {
+    await connection.beginTransaction()
+    await connection.execute("DELETE FROM InscriptionSeance WHERE idSeance = ?", [ idSeance ])
+    const [ rows ] = await connection.execute("DELETE FROM Seance WHERE idSeance = ?", [ idSeance ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}

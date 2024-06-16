@@ -100,7 +100,7 @@ const issueMessage = ref("")
 
 const fetchCompte = async () => {
   try {
-    const result = await $fetch("/api/fetchCompte")
+    const result = await $fetch("/api/fetch?type=compte")
 
     if (result.status === 200) {
       users.value = result.body
@@ -114,7 +114,7 @@ const fetchCompte = async () => {
 
 const fetchUserCount = async () => {
   try {
-    const result = await $fetch("/api/countUser")
+    const result = await $fetch("/api/count?type=compte")
 
     if (result.status === 200) {
       userCount.value = result.body.userCount
@@ -128,7 +128,7 @@ const fetchUserCount = async () => {
 
 const deleteUser = async (id) => {
   try {
-    const result = await $fetch("/api/deleteUser", {
+    const result = await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })
@@ -163,7 +163,7 @@ onMounted(async () => {
   const user = store.getUser
 
   try {
-    const response = await $fetch("/api/getPermAdmin", {
+    const response = await $fetch("/api/fetch?type=adminPerms", {
       method: "POST",
       body: JSON.stringify({ user }),
     })

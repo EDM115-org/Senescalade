@@ -110,7 +110,7 @@ watch(theme.name, () => {
 })
 
 onMounted(async () => {
-  const response = await $fetch("/api/fetchSeance")
+  const response = await $fetch("/api/fetch?type=seance")
   const events = response.body
 
   const startOfWeek = daysOfTheCurrentWeek()[0]

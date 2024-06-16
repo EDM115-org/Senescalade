@@ -239,7 +239,7 @@ function nextLoadingClick(callback) {
 
 async function adduser() {
   try {
-    const result = await $fetch("/api/addGrimpeur", {
+    const result = await $fetch("/api/add?type=grimpeur", {
       method: "POST",
       body: JSON.stringify(grimpeur),
     })
@@ -348,7 +348,7 @@ watch(birthdate, (value) => {
 })
 
 onMounted(async () => {
-  const response = await $fetch("/api/fetchSeance")
+  const response = await $fetch("/api/fetch?type=seance")
 
   events.value = response.body
 

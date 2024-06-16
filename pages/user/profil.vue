@@ -39,7 +39,7 @@ const issueMessage = ref("")
 
 const deleteUser = async (id) => {
   try {
-    const result = await $fetch("/api/deleteUser", {
+    const result = await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })

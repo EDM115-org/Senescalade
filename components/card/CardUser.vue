@@ -60,7 +60,7 @@ const issueMessage = ref("")
 
 const fetchGrimpeurs = async () => {
   try {
-    const data = await $fetch("/api/fetchGrimpeur")
+    const data = await $fetch("/api/fetch?type=grimpeur")
 
     grimpeurs.value = data.body
   } catch (error) {
@@ -70,7 +70,7 @@ const fetchGrimpeurs = async () => {
 
 const deleteGrimpeur = async (id) => {
   try {
-    const result = await $fetch("/api/deleteGrimpeur", {
+    const result = await $fetch("/api/delete?type=grimpeur", {
       method: "DELETE",
       body: { idGrimpeur: id }
     })
