@@ -72,20 +72,15 @@
     "build": "rimraf .output && nuxi build",
     "dev": "nuxi dev -p 8000",
     "dev-expose": "nuxi dev -p 8000 --host",
-    "dev-docker": "docker compose --profile dev up -d --wait",
+    "docker": "docker compose up -d --wait",
     "generate": "nuxi generate",
     "i": "npm i --no-audit --no-fund",
     "i-clean": "rimraf package-lock.json node_modules && npm run i",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "preview": "nuxi preview",
-    "prod-docker": "docker compose --profile prod up -d --wait",
     "start": "npm run build && cross-env PORT=8000 nuxi start",
-    "stop-dev-docker": "docker compose --profile dev stop",
-    "stop-prod-docker": "docker compose --profile prod stop",
-    "upgrade": "nuxi upgrade --force",
-    "zellij-dev": "export $(cat .env | xargs) && cross-env-shell DEV_SHELL=$(basename $SHELL) \"zellij --layout .zellij.dev.kdl && npm run stop-dev-docker\"",
-    "zellij-prod": "export $(cat .env | xargs) && cross-env-shell DEV_SHELL=$(basename $SHELL) \"zellij --layout .zellij.prod.kdl && npm run stop-prod-docker\""
+    "stop-docker": "docker compose stop"
   },
   "type": "module",
   "version": "1.0.0"

@@ -5,38 +5,16 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-    image: mysql:8.0.36
+    image: mysql:8.0.37
     network_mode: "host"
-    profiles:
-      - dev
-      - prod
-      - test-dev
     volumes:
       - db-data:/var/lib/mysql
+      - ./db/create_user.sql:/docker-entrypoint-initdb.d/0_create_user.sql
       - ./db/create_db.sql:/docker-entrypoint-initdb.d/1_create_db.sql
       - ./db/instantiate_db.sql:/docker-entrypoint-initdb.d/2_instantiate_db.sql
       - ./db/insert_test.sql:/docker-entrypoint-initdb.d/3_insert_test.sql
 
-  senescalade-dev:
-    build:
-      args:
-        NODE_ENV: development
-      context: .
-      dockerfile: ./Dockerfile
-    depends_on:
-      - db
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-    image: edm115/senescalade:dev
-    network_mode: "host"
-    profiles:
-      - test-dev
-
-  senescalade-prod:
+  senescalade:
     build:
       args:
         NODE_ENV: production
@@ -50,10 +28,8 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-    image: edm115/senescalade:prod
+    image: edm115/senescalade
     network_mode: "host"
-    profiles:
-      - prod
 
 volumes:
   db-data:

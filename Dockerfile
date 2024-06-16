@@ -23,4 +23,4 @@ RUN apk update && \
 
 EXPOSE 56860
 
-CMD ["node", "/app/verif_db.mjs", "&&", "node", "/app/.output/server/index.mjs"]
+CMD ["/bin/bash", "start.sh"]
