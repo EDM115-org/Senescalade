@@ -73,7 +73,7 @@
         />
       </v-col>
     </v-row>
-    <v-row v-if="!loginProps.inscription && loginProps.errors !== ''">
+    <v-row v-if="!loginProps.inscription && loginProps.errors !== '' && loginProps.messageColor !== 'success'">
       <v-col
         cols="12"
         class="d-flex justify-center pa-0 mt-1"
@@ -120,7 +120,11 @@ const loginProps = defineProps({
     type: String,
     default: ""
   },
-  inscription: Boolean
+  inscription: Boolean,
+  messageColor: {
+    type: String,
+    default: "error"
+  }
 })
 
 const showPassword = ref(false)

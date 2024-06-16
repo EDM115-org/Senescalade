@@ -11,6 +11,7 @@
     />
     <FormLogin
       :errors="errorMessage"
+      :message-color="messageColor"
       :inscription="false"
       @submit:login="login($event)"
     />
