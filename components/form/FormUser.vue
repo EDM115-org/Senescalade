@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="submit">
+  <v-form>
     <h2 class="my-4">
       Informations personnelles
     </h2>
@@ -9,7 +9,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.nom"
+          v-model="props.grimpeur.nom"
           label="Nom"
           required
           outlined
@@ -20,7 +20,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.prenom"
+          v-model="props.grimpeur.prenom"
           label="Prénom"
           required
           outlined
@@ -31,7 +31,7 @@
         md="6"
       >
         <v-radio-group
-          v-model="grimpeur.sexe"
+          v-model="props.grimpeur.sexe"
           label="Sexe"
           inline
         >
@@ -50,7 +50,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.telephone"
+          v-model="props.grimpeur.telephone"
           label="Téléphone"
           outlined
         />
@@ -60,7 +60,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.mobile"
+          v-model="props.grimpeur.mobile"
           label="Mobile"
           outlined
         />
@@ -70,7 +70,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.courriel2"
+          v-model="props.grimpeur.courriel2"
           label="Email secondaire"
           outlined
         />
@@ -85,7 +85,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.adresse"
+          v-model="props.grimpeur.adresse"
           label="Adresse"
           required
           outlined
@@ -96,7 +96,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.complementAdresse"
+          v-model="props.grimpeur.complementAdresse"
           label="Complément d'Adresse"
           outlined
         />
@@ -106,7 +106,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.codePostal"
+          v-model="props.grimpeur.codePostal"
           label="Code Postal"
           required
           outlined
@@ -117,7 +117,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.ville"
+          v-model="props.grimpeur.ville"
           label="Ville"
           required
           outlined
@@ -128,7 +128,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="grimpeur.pays"
+          v-model="props.grimpeur.pays"
           :items="countries"
           label="Pays"
         />
@@ -138,7 +138,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="grimpeur.nationalite"
+          v-model="props.grimpeur.nationalite"
           :items="countries"
           label="Nationalité"
         />
@@ -154,7 +154,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.personneNom"
+          v-model="props.grimpeur.personneNom"
           label="Nom"
           outlined
         />
@@ -164,7 +164,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.personnePrenom"
+          v-model="props.grimpeur.personnePrenom"
           label="Prénom"
           outlined
         />
@@ -174,7 +174,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.personneTelephone"
+          v-model="props.grimpeur.personneTelephone"
           label="Téléphone"
           outlined
         />
@@ -184,7 +184,7 @@
         md="6"
       >
         <v-text-field
-          v-model="grimpeur.personneCourriel"
+          v-model="props.grimpeur.personneCourriel"
           label="Email"
           outlined
         />
@@ -223,7 +223,7 @@
       >
         <h4>Assurance</h4>
         <v-radio-group
-          v-model="grimpeur.assurance"
+          v-model="props.grimpeur.assurance"
           inline
         >
           <v-radio
@@ -250,7 +250,7 @@
       >
         <h4>Assurance complémentaire (indemnités journalières)</h4>
         <v-radio-group
-          v-model="grimpeur.optionAssurance"
+          v-model="props.grimpeur.optionAssurance"
           inline
         >
           <v-radio
@@ -277,111 +277,57 @@
       >
         <h4>Options</h4>
         <v-checkbox
-          v-model="grimpeur.optionProtectionAgression"
+          v-model="props.grimpeur.optionProtectionAgression"
           density="compact"
           label="Option Protection Agression (1,70 €)"
         />
         <v-checkbox
-          v-model="grimpeur.optionSki"
+          v-model="props.grimpeur.optionSki"
           density="compact"
           label="Option ski de piste (5 €)"
         />
         <v-checkbox
-          v-model="grimpeur.optionSlackline"
+          v-model="props.grimpeur.optionSlackline"
           density="compact"
           label="Option slackline/highline (5 €)"
         />
         <v-checkbox
-          v-model="grimpeur.optionTrail"
+          v-model="props.grimpeur.optionTrail"
           density="compact"
           label="Option trail (10 €)"
         />
         <v-checkbox
-          v-model="grimpeur.optionVTT"
+          v-model="props.grimpeur.optionVTT"
           density="compact"
           label="Option VTT (30 €)"
         />
       </v-col>
     </v-row>
-    <v-col
-      cols="12"
-      class="text-center"
-    >
-      <v-btn
-        class="mb-10 mt-4"
-        color="accent"
-        type="submit"
-        variant="elevated"
-      >
-        Ajouter un grimpeur
-      </v-btn>
-    </v-col>
   </v-form>
 </template>
 
 <script setup>
-import { useMainStore } from "~/store/main"
 import { onMounted, ref, watch } from "vue"
 
-const store = useMainStore()
-const props = defineProps({
-  birthdate: {
-    type: String,
-    required: true,
-    default: ""
-  }
-})
-
-const grimpeur = ref({})
 const displayOptionsHelpText = ref(false)
 
 const selectedOptions = ref([])
 let countries = []
 
-const emit = defineEmits([ "submit:adduser" ])
+const props = defineProps({
+  grimpeur: {
+    type: Object,
+    required: true,
+  }
+})
 
 watch(selectedOptions, (newVal) => {
   newVal.forEach((option) => {
-    grimpeur.value[option.value] = true
+    props.grimpeur.value[option.value] = true
   })
 })
 
-function submit() {
-  emit("submit:adduser", grimpeur.value)
-}
-
 onMounted(async () => {
-  grimpeur.value = {
-    action: "C",
-    nom: "",
-    prenom: "",
-    dateNaissance: props.birthdate,
-    sexe: "",
-    nationalite: "FR",
-    adresse: "",
-    complementAdresse: "",
-    codePostal: "",
-    ville: "",
-    pays: "FR",
-    telephone: "",
-    mobile: "",
-    courriel2: "",
-    personneNom: "",
-    personnePrenom: "",
-    personneTelephone: "",
-    personneCourriel: "",
-    numLicence: "",
-    typeLicence: "",
-    assurance: "B",
-    optionSki: false,
-    optionSlackline: false,
-    optionTrail: false,
-    optionVTT: false,
-    optionAssurance: "NON",
-    optionProtectionAgression: false,
-    fkCompte: store.getUser.id
-  }
-
   countries = [
     { title: "Afghanistan", value: "AF" },
     { title: "Afrique du Sud", value: "ZA" },

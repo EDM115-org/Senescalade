@@ -91,6 +91,7 @@ export default createConfigForNuxt(
       "curly": [ "error", "all" ],
       "@typescript-eslint/no-unused-vars": [ "warn" ],
       "vue/multi-word-component-names": "off",
+      "vue/no-mutating-props": "off",
     }
   }
 )

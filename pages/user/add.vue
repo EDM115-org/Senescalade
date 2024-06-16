@@ -130,8 +130,7 @@
           <Suspense>
             <template #default>
               <FormUser
-                :birthdate="birthdate.toISOString().split('T')[0]"
-                @submit:adduser="adduser($event)"
+                :grimpeur="grimpeur"
               />
             </template>
             <template #fallback>
@@ -148,7 +147,7 @@
               color="success"
               text="Ajouter un grimpeur"
               variant="elevated"
-              @click="next"
+              @click="adduser"
             />
           </template>
 
@@ -174,9 +173,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue"
+import { useMainStore } from "~/store/main"
+import { onMounted, reactive, ref, watch } from "vue"
 import { useDisplay } from "vuetify"
 
+const store = useMainStore()
 const { mdAndUp } = useDisplay()
 const router = useRouter()
 
@@ -190,6 +191,37 @@ const finished = ref(false)
 const isLoading = ref(false)
 const issueMessage = ref("")
 const selectedEvent = ref(null)
+
+const grimpeur = reactive({
+  action: "C",
+  nom: "",
+  prenom: "",
+  dateNaissance: birthdate.value?.toISOString().split("T")[0] ?? "",
+  sexe: "",
+  nationalite: "FR",
+  adresse: "",
+  complementAdresse: "",
+  codePostal: "",
+  ville: "",
+  pays: "FR",
+  telephone: "",
+  mobile: "",
+  courriel2: "",
+  personneNom: "",
+  personnePrenom: "",
+  personneTelephone: "",
+  personneCourriel: "",
+  numLicence: "",
+  typeLicence: "",
+  assurance: "B",
+  optionSki: false,
+  optionSlackline: false,
+  optionTrail: false,
+  optionVTT: false,
+  optionAssurance: "NON",
+  optionProtectionAgression: false,
+  fkCompte: store.getUser.id
+})
 
 function nextLoadingClick(callback) {
   isLoading.value = true
@@ -205,11 +237,11 @@ function nextLoadingClick(callback) {
   })
 }
 
-async function adduser(event) {
+async function adduser() {
   try {
     const result = await $fetch("/api/addGrimpeur", {
       method: "POST",
-      body: JSON.stringify(event),
+      body: JSON.stringify(grimpeur),
     })
 
     if (result.status === 200) {
@@ -309,6 +341,10 @@ watch(selectedEvent, (value) => {
       choixCreneau.value = null
     }
   }
+})
+
+watch(birthdate, (value) => {
+  grimpeur.dateNaissance = value?.toISOString().split("T")[0] ?? ""
 })
 
 onMounted(async () => {
