@@ -38,7 +38,7 @@
     "cross-env": "7.0.3",
     "eslint": "9.5.0",
     "eslint-plugin-vue": "9.26.0",
-    "nuxt": "3.12.1",
+    "nuxt": "3.12.2",
     "pinia": "2.1.7",
     "rimraf": "5.0.7",
     "sass": "1.77.5",
