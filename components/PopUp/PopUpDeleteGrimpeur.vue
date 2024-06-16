@@ -9,11 +9,11 @@
       <v-card-text>
         Êtes-vous sûr de vouloir supprimer ce grimpeur ?
         <v-card
-          v-if="personne"
+          v-if="grimpeur"
           class="mt-4"
         >
           <p class="font-weight-medium my-2 mx-4">
-            {{ personne.prenom }} {{ personne.nom }}
+            {{ grimpeur.prenom }} {{ grimpeur.nom }}
           </p>
         </v-card>
       </v-card-text>
@@ -41,12 +41,12 @@
 import { ref } from "vue"
 
 const isOpen = ref(false)
-const personne = ref(null)
+const grimpeur = ref(null)
 
 const emit = defineEmits([ "confirm-delete" ])
 
-const open = (personneData) => {
-  personne.value = personneData
+const open = (grimpeurData) => {
+  grimpeur.value = grimpeurData
   isOpen.value = true
 }
 
@@ -55,7 +55,7 @@ const close = () => {
 }
 
 const confirmDelete = () => {
-  emit("confirm-delete", personne.value.id)
+  emit("confirm-delete", grimpeur.value.id)
   close()
 }
 

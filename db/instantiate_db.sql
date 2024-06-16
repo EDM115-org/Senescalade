@@ -2,14 +2,14 @@ USE sae;
 
 CREATE TABLE IF NOT EXISTS Seance (
   idSeance INT AUTO_INCREMENT PRIMARY KEY,
-  jour CHAR(50) NOT NULL,
+  jour VARCHAR(50) NOT NULL,
   heureDebutSeance TIME NOT NULL,
   heureFinSeance TIME NOT NULL,
-  typeSeance CHAR(100) NOT NULL,
-  niveau CHAR(100),
+  typeSeance VARCHAR(100) NOT NULL,
+  niveau VARCHAR(100),
   nbPlaces INT NOT NULL,
   nbPlacesRestantes INT NOT NULL,
-  professeur CHAR(100)
+  professeur VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS Compte (
@@ -18,52 +18,55 @@ CREATE TABLE IF NOT EXISTS Compte (
   password VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Personne (
-  idPersonne INT AUTO_INCREMENT PRIMARY KEY,
-  action CHAR(1) NOT NULL,
+CREATE TABLE IF NOT EXISTS Grimpeur (
+  idGrimpeur INT AUTO_INCREMENT PRIMARY KEY,
+  action CHAR(1) NOT NULL DEFAULT 'C',
   nom VARCHAR(100) NOT NULL,
   prenom VARCHAR(100) NOT NULL,
   dateNaissance DATE NOT NULL,
   sexe CHAR(1) NOT NULL,
-  nationalite CHAR(2) NOT NULL,
+  nationalite CHAR(2) NOT NULL DEFAULT 'FR',
   adresse VARCHAR(255) NOT NULL,
   complementAdresse VARCHAR(255),
   codePostal VARCHAR(5) NOT NULL,
   ville VARCHAR(100) NOT NULL,
-  pays CHAR(2) NOT NULL,
-  telephone VARCHAR(10),
-  mobile VARCHAR(10),
+  pays CHAR(2) NOT NULL DEFAULT 'FR',
+  telephone VARCHAR(15),
+  mobile VARCHAR(15),
   courriel2 VARCHAR(100),
   personneNom VARCHAR(100),
   personnePrenom VARCHAR(100),
   personneTelephone VARCHAR(15),
   personneCourriel VARCHAR(100),
   numLicence VARCHAR(6),
-  typeLicence CHAR(1),
-  assurance CHAR(3) NOT NULL,
-  optionSki BOOLEAN NOT NULL,
-  optionSlackline BOOLEAN NOT NULL,
-  optionTrail BOOLEAN NOT NULL,
-  optionVTT BOOLEAN NOT NULL,
-  optionAssurance BOOLEAN NOT NULL,
-  lInscription INT NOT NULL,
-  isPaye BOOLEAN NOT NULL DEFAULT 0,
-  dateImport DATE,
-  isImport BOOLEAN NOT NULL DEFAULT 0,
-  FOREIGN KEY (lInscription) REFERENCES Compte(idCompte)
+  typeLicence VARCHAR(1),
+  assurance VARCHAR(3) NOT NULL DEFAULT 'B',
+  optionSki BOOLEAN NOT NULL DEFAULT 0,
+  optionSlackline BOOLEAN NOT NULL DEFAULT 0,
+  optionTrail BOOLEAN NOT NULL DEFAULT 0,
+  optionVTT BOOLEAN NOT NULL DEFAULT 0,
+  optionAssurance VARCHAR(3) NOT NULL DEFAULT 'NON',
+  optionProtectionAgression BOOLEAN DEFAULT 0,
+  fkCompte INT NOT NULL,
+  aPaye BOOLEAN NOT NULL DEFAULT 0,
+  dateExport DATE,
+  isExported BOOLEAN NOT NULL DEFAULT 0,
+  FOREIGN KEY (fkCompte) REFERENCES Compte(idCompte)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT check_action CHECK (action IN ('C', 'R')),
   CONSTRAINT check_sexe CHECK (sexe IN ('H', 'F')),
   CONSTRAINT check_type_licence CHECK (typeLicence IN ('', 'J', 'A', 'F')),
-  CONSTRAINT check_assurance CHECK (assurance IN ('RC', 'B', 'B+', 'B++'))
+  CONSTRAINT check_assurance CHECK (assurance IN ('RC', 'B', 'B+', 'B++')),
+  CONSTRAINT check_option_assurance CHECK (optionAssurance IN ('NON', 'IJ1', 'IJ2', 'IJ3'))
 );
 
-CREATE TABLE IF NOT EXISTS PersonneSeance (
-  idPersonne INT,
+CREATE TABLE IF NOT EXISTS GrimpeurSeance (
+  idGrimpeur INT,
   idSeance INT,
-  PRIMARY KEY (idPersonne, idSeance),
-  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
+  PRIMARY KEY (idGrimpeur, idSeance),
+  UNIQUE (idGrimpeur),
+  FOREIGN KEY (idGrimpeur) REFERENCES Grimpeur(idGrimpeur)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (idSeance) REFERENCES Seance(idSeance)
@@ -92,7 +95,7 @@ CREATE TABLE IF NOT EXISTS Admin (
 
 DELIMITER //
 CREATE TRIGGER IF NOT EXISTS check_date_naissance
-BEFORE INSERT ON Personne
+BEFORE INSERT ON Grimpeur
 FOR EACH ROW
 BEGIN
   IF NEW.dateNaissance > NOW() THEN

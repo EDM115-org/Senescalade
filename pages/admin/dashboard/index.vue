@@ -30,7 +30,7 @@
         >
           <v-card>
             <v-card-title class="text-center">
-              Personnes n'ayant pas payé
+              Grimpeurs n'ayant pas payé
             </v-card-title>
             <v-card-text class="text-center">
               <v-icon size="56">
@@ -70,7 +70,7 @@ const fetchGrimpeurCount = async () => {
     const result = await $fetch("/api/countGrimpeur")
 
     if (result.status === 200) {
-      grimpeurCount.value = result.body.personneCount
+      grimpeurCount.value = result.body.grimpeurCount
     } else {
       console.error("Error fetching grimpeur count:", result)
     }
@@ -81,7 +81,7 @@ const fetchGrimpeurCount = async () => {
 
 const fetchNonPayersCount = async () => {
   try {
-    const result = await $fetch("/api/countNonPayers")
+    const result = await $fetch("/api/countNonPayer")
 
     if (result.status === 200) {
       nonPayersCount.value = result.body.nonPayersCount

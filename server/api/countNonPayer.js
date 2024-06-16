@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "GET") {
     try {
       const [ rows ] = await connection.execute(`
-        SELECT COUNT(*) as nonPayersCount FROM Personne WHERE isPaye = 0
+        SELECT COUNT(*) as nonPayersCount FROM Grimpeur WHERE aPaye = 0
       `)
 
       return {

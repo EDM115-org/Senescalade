@@ -9,7 +9,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.nom"
+          v-model="grimpeur.nom"
           label="Nom"
           required
           outlined
@@ -20,7 +20,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.prenom"
+          v-model="grimpeur.prenom"
           label="Prénom"
           required
           outlined
@@ -31,7 +31,7 @@
         md="6"
       >
         <v-radio-group
-          v-model="personne.sexe"
+          v-model="grimpeur.sexe"
           label="Sexe"
           inline
         >
@@ -50,7 +50,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.telephone"
+          v-model="grimpeur.telephone"
           label="Téléphone"
           outlined
         />
@@ -60,7 +60,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.mobile"
+          v-model="grimpeur.mobile"
           label="Mobile"
           outlined
         />
@@ -70,7 +70,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.courriel2"
+          v-model="grimpeur.courriel2"
           label="Email secondaire"
           outlined
         />
@@ -85,7 +85,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.adresse"
+          v-model="grimpeur.adresse"
           label="Adresse"
           required
           outlined
@@ -96,7 +96,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.complementAdresse"
+          v-model="grimpeur.complementAdresse"
           label="Complément d'Adresse"
           outlined
         />
@@ -106,7 +106,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.codePostal"
+          v-model="grimpeur.codePostal"
           label="Code Postal"
           required
           outlined
@@ -117,7 +117,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.ville"
+          v-model="grimpeur.ville"
           label="Ville"
           required
           outlined
@@ -128,7 +128,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="personne.pays"
+          v-model="grimpeur.pays"
           :items="countries"
           label="Pays"
         />
@@ -138,7 +138,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="personne.nationalite"
+          v-model="grimpeur.nationalite"
           :items="countries"
           label="Nationalité"
         />
@@ -154,7 +154,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.personneNom"
+          v-model="grimpeur.personneNom"
           label="Nom"
           outlined
         />
@@ -164,7 +164,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.personnePrenom"
+          v-model="grimpeur.personnePrenom"
           label="Prénom"
           outlined
         />
@@ -174,7 +174,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.personneTelephone"
+          v-model="grimpeur.personneTelephone"
           label="Téléphone"
           outlined
         />
@@ -184,7 +184,7 @@
         md="6"
       >
         <v-text-field
-          v-model="personne.personneCourriel"
+          v-model="grimpeur.personneCourriel"
           label="Email"
           outlined
         />
@@ -208,13 +208,16 @@
           chips
           clearable
         />
+        <p color="error">
+          !! Option assurance => choix parmis plusieurs trucs. Aussi ajouter la référence des prix et les liens vers les PDF
+        </p>
       </v-col>
       <v-col
         cols="12"
         md="6"
       >
         <v-radio-group
-          v-model="personne.assurance"
+          v-model="grimpeur.assurance"
           label="Assurance"
           inline
         >
@@ -266,7 +269,7 @@ const props = defineProps({
   }
 })
 
-const personne = ref({})
+const grimpeur = ref({})
 
 const selectedOptions = ref([])
 let countries = []
@@ -275,16 +278,16 @@ const emit = defineEmits([ "submit:adduser" ])
 
 watch(selectedOptions, (newVal) => {
   newVal.forEach((option) => {
-    personne.value[option.value] = true
+    grimpeur.value[option.value] = true
   })
 })
 
 function submit() {
-  emit("submit:adduser", personne.value)
+  emit("submit:adduser", grimpeur.value)
 }
 
 onMounted(async () => {
-  personne.value = {
+  grimpeur.value = {
     action: "C",
     nom: "",
     prenom: "",
@@ -310,8 +313,9 @@ onMounted(async () => {
     optionSlackline: false,
     optionTrail: false,
     optionVTT: false,
-    optionAssurance: false,
-    lInscription: store.getUser.id
+    optionAssurance: "NON",
+    optionProtectionAgression: false,
+    fkCompte: store.getUser.id
   }
 
   countries = [
@@ -562,7 +566,8 @@ const optionItems = [
   { title: "Option Slackline", value: "optionSlackline" },
   { title: "Option Trail", value: "optionTrail" },
   { title: "Option VTT", value: "optionVTT" },
-  { title: "Option Assurance", value: "optionAssurance" }
+  { title: "Option Assurance", value: "optionAssurance" },
+  { title: "Option Protection Agression", value: "optionProtectionAgression" }
 ]
 </script>
 

@@ -38,7 +38,7 @@
 import { ref, computed } from "vue"
 
 const isOpen = ref(false)
-const personne = ref({
+const grimpeur = ref({
   action: "",
   nom: "",
   prenom: "",
@@ -64,14 +64,15 @@ const personne = ref({
   optionSlackline: false,
   optionTrail: false,
   optionVTT: false,
-  optionAssurance: false,
-  lInscription: 0,
-  isPaye: false,
+  optionAssurance: "",
+  optionProtectionAgression: false,
+  fkCompte: 0,
+  aPaye: false,
 })
 
 const formattedDateNaissance = computed(() => {
-  return personne.value.dateNaissance
-    ? new Intl.DateTimeFormat("default", { year: "numeric", month: "short", day: "numeric" }).format(new Date(personne.value.dateNaissance))
+  return grimpeur.value.dateNaissance
+    ? new Intl.DateTimeFormat("default", { year: "numeric", month: "short", day: "numeric" }).format(new Date(grimpeur.value.dateNaissance))
     : "Aucun"
 })
 
@@ -81,39 +82,40 @@ const formatValue = (value) => {
 
 const displayedFields = computed(() => {
   return {
-    "Action": personne.value.action,
-    "Nom": personne.value.nom,
-    "Prénom": personne.value.prenom,
+    "Action": grimpeur.value.action,
+    "Nom": grimpeur.value.nom,
+    "Prénom": grimpeur.value.prenom,
     "Date de Naissance": formattedDateNaissance.value,
-    "Sexe": personne.value.sexe,
-    "Nationalité": personne.value.nationalite,
-    "Adresse": personne.value.adresse,
-    "Complément d'adresse": personne.value.complementAdresse,
-    "Code Postal": personne.value.codePostal,
-    "Ville": personne.value.ville,
-    "Pays": personne.value.pays,
-    "Téléphone": personne.value.telephone,
-    "Mobile": personne.value.mobile,
-    "Courriel": personne.value.courriel2,
-    "Nom de la personne à contacter": personne.value.personneNom,
-    "Prénom de la personne à contacter": personne.value.personnePrenom,
-    "Téléphone de la personne à contacter": personne.value.personneTelephone,
-    "Courriel de la personne à contacter": personne.value.personneCourriel,
-    "Numéro de Licence": personne.value.numLicence,
-    "Type de Licence": personne.value.typeLicence,
-    "Assurance": personne.value.assurance,
-    "Option Ski": personne.value.optionSki ? "Oui" : "Non",
-    "Option Slackline": personne.value.optionSlackline ? "Oui" : "Non",
-    "Option Trail": personne.value.optionTrail ? "Oui" : "Non",
-    "Option VTT": personne.value.optionVTT ? "Oui" : "Non",
-    "Option Assurance": personne.value.optionAssurance ? "Oui" : "Non",
-    "Compte": personne.value.lInscription,
-    "Payé": personne.value.isPaye ? "Oui" : "Non",
+    "Sexe": grimpeur.value.sexe,
+    "Nationalité": grimpeur.value.nationalite,
+    "Adresse": grimpeur.value.adresse,
+    "Complément d'adresse": grimpeur.value.complementAdresse,
+    "Code Postal": grimpeur.value.codePostal,
+    "Ville": grimpeur.value.ville,
+    "Pays": grimpeur.value.pays,
+    "Téléphone": grimpeur.value.telephone,
+    "Mobile": grimpeur.value.mobile,
+    "Courriel": grimpeur.value.courriel2,
+    "Nom de la personne à contacter": grimpeur.value.personneNom,
+    "Prénom de la personne à contacter": grimpeur.value.personnePrenom,
+    "Téléphone de la personne à contacter": grimpeur.value.personneTelephone,
+    "Courriel de la personne à contacter": grimpeur.value.personneCourriel,
+    "Numéro de Licence": grimpeur.value.numLicence,
+    "Type de Licence": grimpeur.value.typeLicence,
+    "Assurance": grimpeur.value.assurance,
+    "Option Ski": grimpeur.value.optionSki ? "Oui" : "Non",
+    "Option Slackline": grimpeur.value.optionSlackline ? "Oui" : "Non",
+    "Option Trail": grimpeur.value.optionTrail ? "Oui" : "Non",
+    "Option VTT": grimpeur.value.optionVTT ? "Oui" : "Non",
+    "Option Assurance": grimpeur.value.optionAssurance,
+    "Option Protection Agression": grimpeur.value.optionProtectionAgression ? "Oui" : "Non",
+    "Compte": grimpeur.value.fkCompte,
+    "Payé": grimpeur.value.aPaye ? "Oui" : "Non",
   }
 })
 
-const open = (personneData) => {
-  personne.value = { ...personneData }
+const open = (grimpeurData) => {
+  grimpeur.value = { ...grimpeurData }
   isOpen.value = true
 }
 

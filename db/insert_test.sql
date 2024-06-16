@@ -68,8 +68,8 @@ INSERT INTO Compte(idCompte, mail, password)
 VALUES (2, 'user@gmail.com', '$2a$10$PEU8uPfXaQ1rAqTvEFyeY./c5bn6fQjrU8dX7opt8goIiEthhjEMC');
 -- usertestuser
 
-INSERT INTO Personne(action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription)
-VALUES ('C', 'DUPONT', 'Jean', '1999-01-01', 'H', 'FR', '1 rue de la Paix', '', '75000', 'Paris', 'FR', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 'RC', 0, 0, 0, 0, 0, 2);
+INSERT INTO Grimpeur(nom, prenom, dateNaissance, sexe, adresse, complementAdresse, codePostal, ville, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, fkCompte)
+VALUES ('DUPONT', 'Jean', '1999-01-01', 'H', '1 rue de la Paix', '', '75000', 'Paris', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 2);
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
 VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);

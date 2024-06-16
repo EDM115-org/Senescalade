@@ -2,24 +2,24 @@
   <v-container fluid>
     <v-row justify="center">
       <v-col
-        v-for="person in displayedPersons"
-        :key="person.idPersonne"
+        v-for="grimpeur in displayedGrimpeurs"
+        :key="grimpeur.idGrimpeur"
         cols="12"
         md="6"
         lg="4"
       >
-        <v-card class="person-card">
-          <v-card-title>{{ person.prenom }} {{ person.nom }}</v-card-title>
-          <v-card-subtitle>{{ person.ville }}, {{ person.pays }}</v-card-subtitle>
+        <v-card class="grimpeur-card">
+          <v-card-title>{{ grimpeur.prenom }} {{ grimpeur.nom }}</v-card-title>
+          <v-card-subtitle>{{ grimpeur.ville }}, {{ grimpeur.pays }}</v-card-subtitle>
           <v-card-text>
-            <p><strong>Date de Naissance:</strong> {{ formatBirthDate(person.dateNaissance) }}</p>
-            <p><strong>Sexe:</strong> {{ person.sexe === 'H' ? 'Homme' : 'Femme' }}</p>
-            <p><strong>Nationalité:</strong> {{ person.nationalite }}</p>
-            <p><strong>Téléphone:</strong> {{ person.telephone || 'N/A' }}</p>
-            <p><strong>Mobile:</strong> {{ person.mobile || 'N/A' }}</p>
-            <p><strong>Adresse:</strong> {{ person.adresse }}</p>
-            <p><strong>Code Postal:</strong> {{ person.codePostal }}</p>
-            <p><strong>Courriel:</strong> {{ person.courriel2 || 'N/A' }}</p>
+            <p><strong>Date de Naissance:</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
+            <p><strong>Sexe:</strong> {{ grimpeur.sexe === 'H' ? 'Homme' : 'Femme' }}</p>
+            <p><strong>Nationalité:</strong> {{ grimpeur.nationalite }}</p>
+            <p><strong>Téléphone:</strong> {{ grimpeur.telephone || 'N/A' }}</p>
+            <p><strong>Mobile:</strong> {{ grimpeur.mobile || 'N/A' }}</p>
+            <p><strong>Adresse:</strong> {{ grimpeur.adresse }}</p>
+            <p><strong>Code Postal:</strong> {{ grimpeur.codePostal }}</p>
+            <p><strong>Courriel:</strong> {{ grimpeur.courriel2 || 'N/A' }}</p>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -31,7 +31,7 @@
             <v-btn
               color="error"
               variant="elevated"
-              @click.prevent="confirmDelete(person)"
+              @click.prevent="confirmDelete(grimpeur)"
             >
               Supprimer
             </v-btn>
@@ -51,20 +51,20 @@ import { useMainStore } from "~/store/main"
 import { ref, onMounted, computed } from "vue"
 
 const store = useMainStore()
-const persons = ref([])
+const grimpeurs = ref([])
 const role = ref(store.getUser.isAdmin)
 const deleteDialog = ref(null)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const fetchPersons = async () => {
+const fetchGrimpeurs = async () => {
   try {
     const data = await $fetch("/api/fetchGrimpeur")
 
-    persons.value = data.body
+    grimpeurs.value = data.body
   } catch (error) {
-    console.error("Error fetching persons:", error)
+    console.error("Error fetching grimpeurs:", error)
   }
 }
 
@@ -72,11 +72,11 @@ const deleteGrimpeur = async (id) => {
   try {
     const result = await $fetch("/api/deleteGrimpeur", {
       method: "DELETE",
-      body: { idPersonne: id }
+      body: { idGrimpeur: id }
     })
 
     if (result.status === 200) {
-      fetchPersons()
+      fetchGrimpeurs()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -87,24 +87,24 @@ const deleteGrimpeur = async (id) => {
   }
 }
 
-const confirmDelete = (personne) => {
-  const personne2 = {
-    id: personne.idPersonne,
-    nom: personne.nom,
-    prenom: personne.prenom
+const confirmDelete = (grimpeur) => {
+  const grimpeur2 = {
+    id: grimpeur.idGrimpeur,
+    nom: grimpeur.nom,
+    prenom: grimpeur.prenom
   }
 
-  deleteDialog.value.open(personne2)
+  deleteDialog.value.open(grimpeur2)
 }
 
-const handleDelete = (idPersonne) => {
-  deleteGrimpeur(idPersonne)
+const handleDelete = (idGrimpeur) => {
+  deleteGrimpeur(idGrimpeur)
 }
 
-onMounted(fetchPersons)
+onMounted(fetchGrimpeurs)
 
-const displayedPersons = computed(() => {
-  return role.value ? persons.value : persons.value.filter((person) => person.lInscription === store.getUser.id)
+const displayedGrimpeurs = computed(() => {
+  return role.value ? grimpeurs.value : grimpeurs.value.filter((grimpeur) => grimpeur.fkCompte === store.getUser.id)
 })
 
 const formatBirthDate = (dateString) => {
@@ -113,7 +113,7 @@ const formatBirthDate = (dateString) => {
 </script>
 
 <style scoped>
-.person-card {
+.grimpeur-card {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px;
@@ -121,7 +121,7 @@ const formatBirthDate = (dateString) => {
   transition: box-shadow 0.3s ease;
 }
 
-.person-card:hover {
+.grimpeur-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 

@@ -25,12 +25,12 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "GET") {
     try {
       const [ rows ] = await connection.execute(`
-        SELECT COUNT(*) as personneCount FROM Personne
+        SELECT COUNT(*) as grimpeurCount FROM Grimpeur
       `)
 
       return {
         status: 200,
-        body: { personneCount: rows[0].personneCount },
+        body: { grimpeurCount: rows[0].grimpeurCount },
       }
     } catch (err) {
       return {

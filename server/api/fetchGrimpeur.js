@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "GET") {
     try {
-      const [ rows ] = await connection.execute("SELECT * FROM Personne")
+      const [ rows ] = await connection.execute("SELECT * FROM Grimpeur")
 
       return {
         status: 200,

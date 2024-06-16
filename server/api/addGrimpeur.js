@@ -49,7 +49,8 @@ export default defineEventHandler(async (event) => {
     optionTrail,
     optionVTT,
     optionAssurance,
-    lInscription,
+    optionProtectionAgression,
+    fkCompte,
   } = body
 
   const params = [
@@ -79,19 +80,20 @@ export default defineEventHandler(async (event) => {
     optionTrail,
     optionVTT,
     optionAssurance,
-    lInscription,
+    optionProtectionAgression,
+    fkCompte,
   ].map((param) => (param !== undefined ? param : null))
 
 
   if (event.node.req.method === "POST") {
     try {
       const query = `
-        INSERT INTO Personne (
+        INSERT INTO Grimpeur (
           action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse,
           codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom,
           personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki,
-          optionSlackline, optionTrail, optionVTT, optionAssurance, lInscription
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `
 
       await connection.execute(query, params)

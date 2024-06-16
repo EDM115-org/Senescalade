@@ -26,7 +26,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <p>Nombre total de grimpeurs : {{ personneCount }}</p>
+                  <p>Nombre total de grimpeurs : {{ grimpeurCount }}</p>
                 </v-col>
               </v-row>
             </v-card-title>
@@ -65,32 +65,32 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="personne in personnes"
-                    :key="personne.idPersonne"
+                    v-for="grimpeur in grimpeurs"
+                    :key="grimpeur.idGrimpeur"
                   >
                     <td class="text-center">
-                      {{ personne.nom }}
+                      {{ grimpeur.nom }}
                     </td>
                     <td class="text-center">
-                      {{ personne.prenom }}
+                      {{ grimpeur.prenom }}
                     </td>
                     <td class="text-center">
-                      {{ personne.sexe }}
+                      {{ grimpeur.sexe }}
                     </td>
                     <td class="text-center">
-                      {{ personne.telephone }}
+                      {{ grimpeur.telephone }}
                     </td>
                     <td class="text-center">
-                      {{ personne.mobile }}
+                      {{ grimpeur.mobile }}
                     </td>
                     <td class="text-center">
-                      {{ personne.courriel2 }}
+                      {{ grimpeur.courriel2 }}
                     </td>
                     <td class="text-center">
-                      {{ personne.numLicence }}
+                      {{ grimpeur.numLicence }}
                     </td>
                     <td class="text-center">
-                      {{ personne.isPaye ? 'Oui' : 'Non' }}
+                      {{ grimpeur.aPaye ? 'Oui' : 'Non' }}
                     </td>
                     <td class="d-flex justify-center align-center text-center">
                       <v-btn
@@ -106,14 +106,14 @@
                         icon="mdi-delete"
                         size="small"
                         variant="elevated"
-                        @click.prevent="confirmDelete(personne)"
+                        @click.prevent="confirmDelete(grimpeur)"
                       />
                       <v-btn
                         color="secondary"
                         icon="mdi-dots-horizontal-circle-outline"
                         size="small"
                         variant="elevated"
-                        @click="viewGrimpeur(personne)"
+                        @click="viewGrimpeur(grimpeur)"
                       />
                     </td>
                   </tr>
@@ -150,39 +150,39 @@ definePageMeta({
 const store = useMainStore()
 const router = useRouter()
 const adminLogged = ref(false)
-const personnes = ref([])
-const personneCount = ref(0)
+const grimpeurs = ref([])
+const grimpeurCount = ref(0)
 const afficheGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const fetchPersonnes = async () => {
+const fetchGrimpeurs = async () => {
   try {
     const response = await $fetch("/api/fetchGrimpeur")
 
     if (response) {
-      personnes.value = response.body
+      grimpeurs.value = response.body
     } else {
-      console.error("Error fetching personnes:", response.statusText)
+      console.error("Error fetching grimpeurs:", response.statusText)
     }
   } catch (error) {
-    console.error("Error fetching personnes:", error.message)
+    console.error("Error fetching grimpeurs:", error.message)
   }
 }
 
-const fetchPersonneCount = async () => {
+const fetchGrimpeurCount = async () => {
   try {
     const result = await $fetch("/api/countGrimpeur")
 
     if (result.status === 200) {
-      personneCount.value = result.body.personneCount
+      grimpeurCount.value = result.body.grimpeurCount
     } else {
-      console.error("Error fetching personne count:", result)
+      console.error("Error fetching grimpeur count:", result)
     }
   } catch (error) {
-    console.error("Error fetching personne count:", error)
+    console.error("Error fetching grimpeur count:", error)
   }
 }
 
@@ -190,12 +190,12 @@ const deleteGrimpeur = async (id) => {
   try {
     const result = await $fetch("/api/deleteGrimpeur", {
       method: "DELETE",
-      body: { idPersonne: id }
+      body: { idGrimpeur: id }
     })
 
     if (result.status === 200) {
-      fetchPersonnes()
-      fetchPersonneCount()
+      fetchGrimpeurs()
+      fetchGrimpeurCount()
     } else {
       errorMessage.value = result.body.error
       issueMessage.value = result.body.message ?? ""
@@ -206,18 +206,18 @@ const deleteGrimpeur = async (id) => {
   }
 }
 
-const confirmDelete = (personne) => {
-  const personne2 = {
-    id: personne.idPersonne,
-    nom: personne.nom,
-    prenom: personne.prenom
+const confirmDelete = (grimpeur) => {
+  const grimpeur2 = {
+    id: grimpeur.idGrimpeur,
+    nom: grimpeur.nom,
+    prenom: grimpeur.prenom
   }
 
-  deleteDialog.value.open(personne2)
+  deleteDialog.value.open(grimpeur2)
 }
 
-const handleDelete = (idPersonne) => {
-  deleteGrimpeur(idPersonne)
+const handleDelete = (idGrimpeur) => {
+  deleteGrimpeur(idGrimpeur)
 }
 
 onMounted(async () => {
@@ -245,16 +245,16 @@ onMounted(async () => {
       router.push("/user")
     } else {
       adminLogged.value = true
-      fetchPersonnes()
-      fetchPersonneCount()
+      fetchGrimpeurs()
+      fetchGrimpeurCount()
     }
   } else {
     router.push("/login")
   }
 })
 
-const viewGrimpeur = (personne) => {
-  afficheGrimpeurDialog.value.open(personne)
+const viewGrimpeur = (grimpeur) => {
+  afficheGrimpeurDialog.value.open(grimpeur)
 }
 
 const downloadCSV = () => {
@@ -289,35 +289,36 @@ const downloadCSV = () => {
     "option protection agression"
   ]
 
-  const rows = personnes.value.map((personne) => [
-    personne.action,
-    personne.nom,
-    personne.prenom,
-    new Date(personne.dateNaissance).toLocaleDateString("fr-FR"),
-    personne.sexe,
-    personne.nationalite,
-    personne.adresse,
-    personne.complementAdresse || "",
-    personne.codePostal,
-    personne.ville,
-    personne.pays,
-    personne.telephone || "",
-    personne.mobile || "",
+  const rows = grimpeurs.value.map((grimpeur) => [
+    grimpeur.action,
+    grimpeur.nom,
+    grimpeur.prenom,
+    new Date(grimpeur.dateNaissance).toLocaleDateString("fr-FR"),
+    grimpeur.sexe,
+    grimpeur.nationalite,
+    grimpeur.adresse,
+    grimpeur.complementAdresse || "",
+    grimpeur.codePostal,
+    grimpeur.ville,
+    grimpeur.pays,
+    grimpeur.telephone || "",
+    grimpeur.mobile || "",
+    // faire une jointure avec Compte
     "",
-    personne.courriel2,
-    personne.personneNom,
-    personne.personnePrenom,
-    personne.personneTelephone,
-    personne.personneCourriel,
-    personne.numLicence,
-    personne.typeLicence,
-    personne.assurance,
-    personne.optionSki ? "Oui" : "Non",
-    personne.optionSlackline ? "Oui" : "Non",
-    personne.optionTrail ? "Oui" : "Non",
-    personne.optionVTT ? "Oui" : "Non",
-    personne.optionAssurance ? "Oui" : "Non",
-    personne.assurance ? "Oui" : "Non",
+    grimpeur.courriel2,
+    grimpeur.personneNom,
+    grimpeur.personnePrenom,
+    grimpeur.personneTelephone,
+    grimpeur.personneCourriel,
+    grimpeur.numLicence,
+    grimpeur.typeLicence,
+    grimpeur.assurance,
+    grimpeur.optionSki ? "Oui" : "Non",
+    grimpeur.optionSlackline ? "Oui" : "Non",
+    grimpeur.optionTrail ? "Oui" : "Non",
+    grimpeur.optionVTT ? "Oui" : "Non",
+    grimpeur.optionAssurance,
+    grimpeur.optionProtectionAgression ? "Oui" : "Non"
   ])
 
   const csvContent = [ header, ...rows ].map((e) => e.join(";")).join("\n")
