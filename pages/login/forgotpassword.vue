@@ -79,8 +79,6 @@ async function submit() {
       body: JSON.stringify({ email: state.email })
     })
 
-    console.log(response)
-
     if (response.statusCode === 200) {
       // Gérer la réponse en cas de succès
       messageColor.value = "success"

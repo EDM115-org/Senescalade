@@ -151,6 +151,7 @@ async function addGrimpeur(body) {
     optionAssurance,
     optionProtectionAgression,
     fkCompte,
+    idSeance
   } = body
 
   const params = [
@@ -181,7 +182,7 @@ async function addGrimpeur(body) {
     optionVTT,
     optionAssurance,
     optionProtectionAgression,
-    fkCompte,
+    fkCompte
   ].map((param) => (param !== undefined ? param : null))
 
   try {
@@ -196,7 +197,23 @@ async function addGrimpeur(body) {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
 
-    await connection.execute(query, params)
+    const [ grimpeurResult ] = await connection.execute(query, params)
+    const idGrimpeur = grimpeurResult.insertId
+    const [ seanceResult ] = await connection.execute(
+      "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
+      [ idSeance ]
+    )
+    const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
+
+    await connection.execute(
+      "UPDATE Seance SET nbPlacesRestantes = ? WHERE idSeance = ?",
+      [ nbPlacesRestantes - 1, idSeance ]
+    )
+
+    await connection.execute(
+      "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance) VALUES (?, ?)",
+      [ idGrimpeur, idSeance ]
+    )
 
     await connection.commit()
 

@@ -12,14 +12,17 @@
           <v-card-title>{{ grimpeur.prenom }} {{ grimpeur.nom }}</v-card-title>
           <v-card-subtitle>{{ grimpeur.ville }}, {{ grimpeur.pays }}</v-card-subtitle>
           <v-card-text>
-            <p><strong>Date de Naissance:</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
-            <p><strong>Sexe:</strong> {{ grimpeur.sexe === 'H' ? 'Homme' : 'Femme' }}</p>
-            <p><strong>Nationalité:</strong> {{ grimpeur.nationalite }}</p>
-            <p><strong>Téléphone:</strong> {{ grimpeur.telephone || 'N/A' }}</p>
-            <p><strong>Mobile:</strong> {{ grimpeur.mobile || 'N/A' }}</p>
-            <p><strong>Adresse:</strong> {{ grimpeur.adresse }}</p>
-            <p><strong>Code Postal:</strong> {{ grimpeur.codePostal }}</p>
-            <p><strong>Courriel:</strong> {{ grimpeur.courriel2 || 'N/A' }}</p>
+            <p><strong>Date de Naissance :</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
+            <p><strong>Sexe :</strong> {{ grimpeur.sexe === "H" ? "Homme" : "Femme" }}</p>
+            <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
+            <p><strong>Code Postal :</strong> {{ grimpeur.codePostal }}</p>
+            <p><strong>Statut du paiement :</strong> {{ grimpeur.aPaye === 1 ? "Confirmé" : "Non confirmé" }}</p>
+            <p><strong>Numéro de Licence :</strong> {{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</p>
+            <p v-if="grimpeur.seance">
+              <strong>Séance selectionnée :</strong>
+              {{ grimpeur.seance.typeSeance }} {{ grimpeur.seance.niveau ? `- ${grimpeur.seance.niveau}` : "" }}<br>
+              {{ grimpeur.seance.jour }} de {{ grimpeur.seance.heureDebutSeance }} à {{ grimpeur.seance.heureFinSeance }}
+            </p>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -58,7 +61,7 @@ const deleteDialog = ref(null)
 const errorMessage = ref("")
 const issueMessage = ref("")
 
-const fetchGrimpeurs = async () => {
+async function fetchGrimpeurs() {
   try {
     const data = await $fetch("/api/fetch?type=grimpeur")
 
@@ -101,14 +104,41 @@ const handleDelete = (idGrimpeur) => {
   deleteGrimpeur(idGrimpeur)
 }
 
-onMounted(fetchGrimpeurs)
+onMounted(async () => {
+  await fetchGrimpeurs()
+
+  for (const grimpeur in grimpeurs.value) {
+    try {
+      const result = await $fetch("/api/fetch?type=grimpeurSeance", {
+        method: "POST",
+        body: JSON.stringify({
+          idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
+        })
+      })
+
+      if (result.status === 200) {
+        const response = await $fetch("/api/fetch?type=seance")
+
+        if (response.status === 200) {
+          grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance]
+        } else {
+          console.error("Error fetching seance:", response)
+        }
+      } else {
+        console.error("Error fetching grimpeur seance:", result)
+      }
+    } catch (error) {
+      console.error("Error fetching grimpeur seance : ", error)
+    }
+  }
+})
 
 const displayedGrimpeurs = computed(() => {
   return role.value ? grimpeurs.value : grimpeurs.value.filter((grimpeur) => grimpeur.fkCompte === store.getUser.id)
 })
 
 const formatBirthDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString()
+  return new Date(dateString).toLocaleDateString("fr-FR")
 }
 </script>
 

@@ -54,8 +54,6 @@ export default defineEventHandler(async (event) => {
     )
 
     if (rows.length === 0) {
-      console.log("Aucun utilisateur trouvé avec cet email")
-
       return {
         statusCode: 404,
         body: { error: "Aucun utilisateur trouvé avec cet email" },

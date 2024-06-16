@@ -35,10 +35,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 
 const isOpen = ref(false)
 const grimpeur = ref({
+  idGrimpeur: null,
   action: "",
   nom: "",
   prenom: "",
@@ -68,6 +69,7 @@ const grimpeur = ref({
   optionProtectionAgression: false,
   fkCompte: 0,
   aPaye: false,
+  idSeance: null
 })
 
 const formattedDateNaissance = computed(() => {
@@ -111,11 +113,30 @@ const displayedFields = computed(() => {
     "Option Protection Agression": grimpeur.value.optionProtectionAgression ? "Oui" : "Non",
     "Compte": grimpeur.value.fkCompte,
     "Payé": grimpeur.value.aPaye ? "Oui" : "Non",
+    "ID Séance": grimpeur.value.idSeance
   }
 })
 
-const open = (grimpeurData) => {
+const open = async (grimpeurData) => {
   grimpeur.value = { ...grimpeurData }
+
+  try {
+    const result = await $fetch("/api/fetch?type=grimpeurSeance", {
+      method: "POST",
+      body: JSON.stringify({
+        idGrimpeur: grimpeur.value.idGrimpeur
+      })
+    })
+
+    if (result.status === 200) {
+      grimpeur.value.idSeance = result.body.idSeance
+    } else {
+      console.error("Error fetching grimpeur seance:", result)
+    }
+  } catch (error) {
+    console.error("Error fetching grimpeur seance:", result)
+  }
+
   isOpen.value = true
 }
 

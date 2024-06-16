@@ -220,7 +220,8 @@ const grimpeur = reactive({
   optionVTT: false,
   optionAssurance: "NON",
   optionProtectionAgression: false,
-  fkCompte: store.getUser.id
+  fkCompte: store.getUser.id,
+  idSeance: choixCreneau,
 })
 
 function nextLoadingClick(callback) {
@@ -336,7 +337,7 @@ function showEventDetails(event) {
 watch(selectedEvent, (value) => {
   if (value) {
     if (value.extendedProps.nbPlacesRestantes > 0) {
-      choixCreneau.value = value.id
+      choixCreneau.value = parseInt(value.id)
     } else {
       choixCreneau.value = null
     }

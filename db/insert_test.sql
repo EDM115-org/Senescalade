@@ -21,7 +21,7 @@ INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, n
 VALUES ('Mercredi', '17:00:00', '19:30:00', 'Jeunes', 'Compétition', 10, 0, 'Pierre');
 
 INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
-VALUES ('Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 20, 'Pierre');
+VALUES ('Mercredi', '19:30:00', '21:30:00', 'Adultes', '', 20, 1, 'Pierre');
 
 INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
 VALUES ('Jeudi', '17:30:00', '19:00:00', 'Jeunes', 'U16', 10, 10, 'Pierre');

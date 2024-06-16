@@ -92,11 +92,11 @@ async function countGrimpeur() {
 }
 
 async function countNonPaye() {
-  const [ rows ] = await connection.execute("SELECT COUNT(*) as nonPayersCount FROM Grimpeur WHERE aPaye = 0")
+  const [ rows ] = await connection.execute("SELECT COUNT(*) as nonPayeCount FROM Grimpeur WHERE aPaye = 0")
 
   return {
     status: 200,
-    body: { nonPayersCount: rows[0].nonPayersCount },
+    body: { nonPayeCount: rows[0].nonPayeCount },
   }
 }
 

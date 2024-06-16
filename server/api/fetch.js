@@ -58,6 +58,8 @@ export default defineEventHandler(async (event) => {
           return await fetchAdminPerms(body)
         case "isCompteAdmin":
           return await fetchIsCompteAdmin(body)
+        case "grimpeurSeance":
+          return await fetchGrimpeurSeance(body)
         default:
           return {
             status: 400,
@@ -139,6 +141,32 @@ async function fetchGrimpeur() {
   return {
     status: 200,
     body: rows,
+  }
+}
+
+async function fetchGrimpeurSeance(body) {
+  const { idGrimpeur } = body
+
+  if (!idGrimpeur) {
+    return {
+      status: 400,
+      body: { error: "idGrimpeur non fourni" },
+    }
+  }
+
+  const query = "SELECT idSeance FROM GrimpeurSeance WHERE idGrimpeur = ?"
+  const [ rows ] = await connection.execute(query, [ idGrimpeur ])
+
+  if (rows.length > 0) {
+    return {
+      status: 200,
+      body: rows[0]
+    }
+  } else {
+    return {
+      status: 404,
+      body: { error: "Aucune séance trouvée pour le grimpeur donné" },
+    }
   }
 }
 
