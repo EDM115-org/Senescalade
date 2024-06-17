@@ -70,47 +70,72 @@ async function handleMailRequest(body) {
     }
   }
 
-  // Générer un code aléatoire à envoyer par email
-  const code = generateRandomCode()
-
-  // Enregistrer le code dans la base de données pour l'utilisateur
+  // Vérifier si l'email existe dans la base de données
   try {
-    await connection.execute(
-      "UPDATE Compte SET code = ? WHERE mail = ?",
-      [ code, email ]
+    const [ rows ] = await connection.execute(
+      "SELECT idCompte FROM Compte WHERE mail = ?",
+      [ email ]
     )
+
+    if (rows.length === 0) {
+      return {
+        statusCode: 404,
+        body: { error: "Aucun utilisateur trouvé avec cet email" },
+      }
+    }
+
+    // Générer un code aléatoire à envoyer par email
+    const code = generateRandomCode()
+
+    // Enregistrer le code dans la base de données pour l'utilisateur
+    try {
+      await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
+        code,
+        email,
+      ])
+    } catch (error) {
+      console.error(
+        "Erreur lors de la mise à jour du code dans la base de données:",
+        error
+      )
+
+      return {
+        statusCode: 500,
+        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
+      }
+    }
+
+    // Configurer les options d'email
+    const mailOptions = {
+      from: "\"Admin Team\" <admin@example.com>",
+      to: email,
+      subject: "Code de vérification pour réinitialisation de mot de passe",
+      text: `Votre code de vérification est : ${code}`,
+      html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
+    }
+
+    // Envoyer l'email
+    try {
+      await transporter.sendMail(mailOptions)
+
+      return {
+        statusCode: 200,
+        body: { success: "Email de récupération envoyé avec succès" },
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de l'email de récupération:", error)
+
+      return {
+        statusCode: 500,
+        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
+      }
+    }
   } catch (error) {
-    console.error("Erreur lors de la mise à jour du code dans la base de données:", error)
+    console.error("Erreur lors de la vérification de l'email dans la base de données:", error)
 
     return {
       statusCode: 500,
-      body: { error: "Erreur lors de l'envoi de l'email de récupération" },
-    }
-  }
-
-  // Configurer les options d'email
-  const mailOptions = {
-    from: "\"Admin Team\" <admin@example.com>",
-    to: email,
-    subject: "Code de vérification pour réinitialisation de mot de passe",
-    text: `Votre code de vérification est : ${code}`,
-    html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
-  }
-
-  // Envoyer l'email
-  try {
-    await transporter.sendMail(mailOptions)
-
-    return {
-      statusCode: 200,
-      body: { success: "Email de récupération envoyé avec succès" },
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'envoi de l'email de récupération:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de l'envoi de l'email de récupération" },
+      body: { error: "Erreur lors de la vérification de l'email dans la base de données" },
     }
   }
 }
