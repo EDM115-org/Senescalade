@@ -101,8 +101,8 @@ onMounted(async () => {
       router.push("/user")
     } else {
       adminLogged.value = true
-      fetchGrimpeurCount()
-      fetchNonPayeCount()
+      await fetchGrimpeurCount()
+      await fetchNonPayeCount()
     }
   } else {
     router.push("/login")

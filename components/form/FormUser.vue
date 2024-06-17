@@ -327,6 +327,7 @@ watch(selectedOptions, (newVal) => {
   })
 })
 
+// skipcq: JS-0116
 onMounted(async () => {
   countries = [
     { title: "Afghanistan", value: "AF" },
