@@ -14,12 +14,14 @@
         class="flex items-center"
       >
         <v-img
-          src="~/public/images/salamandre.png"
+          src="/images/salamandre.png"
           alt="Senescalade"
+          :draggable="false"
           min-height="40"
           max-height="40"
           min-width="40"
           max-width="40"
+          style="filter: invert(1);"
         />
       </NuxtLink>
       <v-btn

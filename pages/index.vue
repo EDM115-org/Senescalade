@@ -10,7 +10,24 @@
       <v-col
         align="center"
       >
-        Bienvenue sur le site d'inscription de Senescalade
+        <v-img
+          :draggable="false"
+          class="mb-4"
+          max-height="200"
+          max-width="200"
+          rounded="xl"
+          src="/images/logo-black-red.png"
+        />
+        Bienvenue sur le site d'inscription de Senescalade<br>
+        Ici vous pourrez vous inscrire à l'association, choisir un créneau, payer en ligne, récupérer votre licence et bien plus encore.<br>
+        Cliquez sur le bouton d'aide pour en savoir plus.
+        <v-btn
+          class="ml-2"
+          color="accent"
+          icon="mdi-tooltip-question-outline"
+          variant="elevated"
+          @click="displayOptionsHelpText = !displayOptionsHelpText"
+        />
         <v-divider class="my-4" />
         <v-row>
           <v-col>
@@ -38,6 +55,18 @@
             </NuxtLink>
           </v-col>
         </v-row>
+        <v-divider
+          v-if="displayOptionsHelpText"
+          class="my-4"
+        />
+        <p
+          v-if="displayOptionsHelpText"
+          class="text-center mb-4 my-4"
+        >
+          Pour vous inscrire, cliquez sur le bouton "Inscription" et suivez les instructions.<br>
+          Pour vous connecter, cliquez sur le bouton "Connexion" et saisissez vos identifiants.<br>
+          Si vous avez des questions, n'hésitez pas à nous contacter à l'adresse suivante : <a href="mailto:" />
+        </p>
       </v-col>
     </v-row>
   </v-container>
@@ -46,10 +75,12 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 
 const store = useMainStore()
 const router = useRouter()
+
+const displayOptionsHelpText = ref(false)
 
 onMounted(() => {
   const user = store.getUser

@@ -58,8 +58,12 @@ export default defineEventHandler(async (event) => {
       switch (type) {
         case "adminPerms":
           return await fetchAdminPerms(body)
+        case "compte":
+          return await fetchComptePost(body)
         case "isCompteAdmin":
           return await fetchIsCompteAdmin(body)
+        case "grimpeur":
+          return await fetchGrimpeurPost(body)
         case "grimpeurSeance":
           return await fetchGrimpeurSeance(body)
         default:
@@ -137,6 +141,25 @@ async function fetchCompte() {
   }
 }
 
+async function fetchComptePost(body) {
+  const { idCompte } = body
+
+  const query = "SELECT * FROM Compte WHERE idCompte = ?"
+  const [ rows ] = await connection.execute(query, [ idCompte ])
+
+  if (rows.length > 0) {
+    return {
+      status: 200,
+      body: rows,
+    }
+  } else {
+    return {
+      status: 404,
+      body: { error: "Aucun compte trouvé pour l'id donné" },
+    }
+  }
+}
+
 async function fetchGrimpeur(id) {
   let rows = []
 
@@ -149,6 +172,25 @@ async function fetchGrimpeur(id) {
   return {
     status: 200,
     body: rows[0],
+  }
+}
+
+async function fetchGrimpeurPost(body) {
+  const { idGrimpeur } = body
+
+  const query = "SELECT * FROM Grimpeur WHERE idGrimpeur = ?"
+  const [ rows ] = await connection.execute(query, [ idGrimpeur ])
+
+  if (rows.length > 0) {
+    return {
+      status: 200,
+      body: rows,
+    }
+  } else {
+    return {
+      status: 404,
+      body: { error: "Aucun grimpeur trouvé pour l'id donné" },
+    }
   }
 }
 

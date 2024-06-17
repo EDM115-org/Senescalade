@@ -16,7 +16,7 @@ useHead({
     { name: "viewport", content: "width=device-width, initial-scale=1" },
     { name: "description", content: "Senescalade" }
   ],
-  link: [{ rel: "icon", type: "image/ico", href: "/favicon.ico" }]
+  link: [{ rel: "icon", type: "image/png", href: "/images/logo-black-red.png" }]
 })
 </script>
 
