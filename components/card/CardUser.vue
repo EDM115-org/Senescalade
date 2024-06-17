@@ -107,7 +107,7 @@ const handleDelete = (idGrimpeur) => {
 onMounted(async () => {
   await fetchGrimpeurs()
 
-  for (const grimpeur in grimpeurs.value) {
+  for (const grimpeur in Object.keys(grimpeurs.value)) {
     try {
       const result = await $fetch("/api/fetch?type=grimpeurSeance", {
         method: "POST",
