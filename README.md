@@ -48,18 +48,18 @@ npm run dev
 ### Build du Dockerfile
 
 ```bash
-docker build -t tab-magiques .
-docker run -d --env-file ./.env -p 56860:56860 --name tab-magiques tab-magiques
-docker start tab-magiques
-docker logs tab-magiques
-docker stop tab-magiques
+docker build -t senescalade .
+docker run -d --env-file ./.env -p 56860:56860 --name senescalade senescalade
+docker start senescalade
+docker logs senescalade
+docker stop senescalade
 ```
 
 Publish :
 
 ```bash
-docker tag tab-magiques edm115/tab-magiques:latest
-docker push edm115/tab-magiques:latest
+docker tag senescalade edm115/senescalade:latest
+docker push edm115/senescalade:latest
 ```
 
 ## Code
