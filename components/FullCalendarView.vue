@@ -34,6 +34,12 @@ const { mdAndUp } = useDisplay()
 const theme = useTheme()
 
 const emit = defineEmits([ "event-click" ])
+const props = defineProps({
+  birthdate: {
+    type: String,
+    default: ""
+  }
+})
 
 const showTooltip = ref(false)
 const tooltipContent = ref("")
@@ -102,6 +108,37 @@ function handleEventMouseLeave(mouseLeaveInfo) {
   showTooltip.value = false
 }
 
+function determineCategory(birthDate) {
+  const today = new Date()
+  const currentYear = today.getFullYear()
+  const birthYear = parseInt(birthDate.slice(0, 4))
+  const birthMonth = parseInt(birthDate.slice(5, 7))
+
+  let ageAtEndOfYear = currentYear - birthYear
+
+  if (birthMonth > 6) {
+    ageAtEndOfYear -= 1
+  }
+
+  if (ageAtEndOfYear < 4) {
+    return [ null, null ]
+  } else if (ageAtEndOfYear <= 8) {
+    return [ "Babygrimpe", null ]
+  } else if (ageAtEndOfYear <= 10) {
+    return [ null, "U10" ]
+  } else if (ageAtEndOfYear <= 12) {
+    return [ null, "U12" ]
+  } else if (ageAtEndOfYear <= 14) {
+    return [ null, "U14" ]
+  } else if (ageAtEndOfYear <= 16) {
+    return [ null, "U16" ]
+  } else if (ageAtEndOfYear <= 18) {
+    return [ null, "U18" ]
+  } else {
+    return [ "Adultes", null ]
+  }
+}
+
 watch(theme.name, () => {
   calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"
   formattedEvents.value.forEach((event) => {
@@ -116,6 +153,24 @@ onMounted(async () => {
   const startOfWeek = daysOfTheCurrentWeek()[0]
 
   formattedEvents.value = events.map((event) => {
+    if (props.birthdate !== "") {
+      const [ type, niveau ] = determineCategory(props.birthdate)
+
+      if (type === null && niveau === null) {
+        return
+      }
+
+      if (type !== null) {
+        if (event.typeSeance !== type) {
+          return
+        }
+      } else {
+        if (event.niveau !== niveau) {
+          return
+        }
+      }
+    }
+
     const eventDay = dayToDayNumber(event.jour)
     const eventDate = new Date(startOfWeek)
 
@@ -137,6 +192,7 @@ onMounted(async () => {
       textColor: event.nbPlacesRestantes === 0 ? theme.computedThemes.value.light.colors.background : theme.computedThemes.value.light.colors.text
     }
   })
+  formattedEvents.value = formattedEvents.value.filter((event) => event !== undefined)
 
   calendarOptions.value.events = formattedEvents.value
   calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"

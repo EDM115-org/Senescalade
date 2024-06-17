@@ -79,6 +79,7 @@
           value="2"
         >
           <FullCalendarView
+            :birthdate="birthdate.toISOString().split('T')[0]"
             @event-click="showEventDetails"
           />
           <div v-if="selectedEvent">
@@ -298,8 +299,6 @@ function determineCategory(birthDate) {
     return "U16"
   } else if (ageAtEndOfYear <= 18) {
     return "U18"
-  } else if (ageAtEndOfYear <= 20) {
-    return "U20"
   } else {
     return "Adultes"
   }
