@@ -5,14 +5,15 @@ import mysql from "mysql2/promise"
 
 // Configuration de Nodemailer
 const transporter = nodemailer.createTransport({
-  host: "maildev",
-  port: 1025,
-  secure: false,
+  service: "gmail",
   auth: {
-    user: "",
-    pass: "",
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
   },
 })
+
+console.log("GMAIL_USER:", process.env.GMAIL_USER)
+console.log("GMAIL_PASS:", process.env.GMAIL_PASS ? "***" : "Not set")
 
 // Configuration de la connexion MySQL
 let connection = null
