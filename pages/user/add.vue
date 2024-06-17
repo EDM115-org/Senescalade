@@ -240,6 +240,7 @@ function nextLoadingClick(callback) {
 
 async function adduser() {
   try {
+    grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
     const result = await $fetch("/api/add?type=grimpeur", {
       method: "POST",
       body: JSON.stringify(grimpeur),

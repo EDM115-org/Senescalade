@@ -81,7 +81,8 @@ docker push edm115/tab-magiques:latest
 - [x] babygrimpe => - de 8 ans
 - [x] Date de naissance -> possibilité de l'écrire manuellement
 - [ ] Liste d'attente par créneau -> on peut sélectionner un créneau pour lequel on veut être en liste d'attente
-- [ ] Visualisation de son numéro de licence
+- [ ] !!!! modification de grimpeur : si file d'attente, on a juste a confirmer et update GrimpeurSeance.isFileDAttente = 0
+- [x] Visualisation de son numéro de licence
 - [ ] Modifications d'informations
 - [ ] Affichage du créneau par user
 - [ ] Suppression de compte -> pas de suppression user quand on a payé + contacter tresorier@senescalade.bzh
@@ -123,9 +124,7 @@ docker push edm115/tab-magiques:latest
 **Module Mail (nodemailer)**
 - [ ] https://github.com/maildev/maildev ?
 - [ ] Mail mdp oublié
-- [ ] Mail pour confirm son mail première connexion
 - [ ] Mail liste d'attente
-- [ ] Mail de confirmation d'inscription à un crénaux
 - [ ] Mail modification mdp administration
 
 ### Infos supplémentaires :
