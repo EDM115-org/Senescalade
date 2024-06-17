@@ -17,7 +17,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <PopUpDeleteUser
+    <PopupDeleteUser
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />

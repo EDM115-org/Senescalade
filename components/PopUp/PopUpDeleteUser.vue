@@ -5,9 +5,16 @@
     transition="dialog-bottom-transition"
   >
     <v-card>
-      <v-card-title>Suppression de cet utilisateur</v-card-title>
+      <v-card-title>Suppression du compte</v-card-title>
       <v-card-text>
-        Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+        Êtes-vous sûr de vouloir supprimer ce compte ?<br>
+        Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés.<br>
+        Note : il est recommandé d'envoyer un mail à <NuxtLink
+          class="link-color"
+          to="mailto:tresorier@senescalade.com"
+        >
+          tresorier@senescalade.com
+        </NuxtLink> en précisant l'adresse email du compte et la raison de la suppression.
         <v-card
           v-if="user"
           class="mt-4"

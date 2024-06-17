@@ -577,12 +577,4 @@ onMounted(async () => {
 .input-field {
   max-width: 400px;
 }
-
-.link-color {
-  color: rgb(var(--v-theme-accent));
-  transition: color 0.3s;
-}
-.link-color:hover {
-  color: rgb(var(--v-theme-success));
-}
 </style>

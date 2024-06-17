@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center">
       <v-col
-        v-for="grimpeur in displayedGrimpeurs"
+        v-for="grimpeur in grimpeurs"
         :key="grimpeur.idGrimpeur"
         cols="12"
         md="6"
@@ -26,40 +26,51 @@
           </v-card-text>
           <v-card-actions>
             <v-btn
-              color="accent"
-              variant="elevated"
-            >
-              Modifier
-            </v-btn>
-            <v-btn
               color="error"
+              icon="mdi-delete-outline"
               variant="elevated"
-              @click.prevent="confirmDelete(grimpeur)"
-            >
-              Supprimer
-            </v-btn>
+              @click.prevent="deleteDialog = true"
+            />
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <PopUpDeleteGrimpeur
-      ref="deleteDialog"
-      @confirm-delete="handleDelete"
-    />
+    <v-dialog
+      v-model="deleteDialog"
+      max-width="600px"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-card-title>Suppression de ce grimpeur</v-card-title>
+        <v-card-text>
+          Pour supprimer un grimpeur, veuillez envoyer un mail à <NuxtLink
+            class="link-color"
+            to="mailto:tresorier@senescalade.com"
+          >
+            tresorier@senescalade.com
+          </NuxtLink> en précisant le nom et prénom du grimpeur à supprimer.
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            color="error"
+            variant="elevated"
+            @click="deleteDialog = false"
+          >
+            Fermer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { ref, onMounted, computed } from "vue"
+import { ref, onMounted } from "vue"
 
 const store = useMainStore()
 const grimpeurs = ref([])
-const role = ref(store.getUser.isAdmin)
-const deleteDialog = ref(null)
-
-const errorMessage = ref("")
-const issueMessage = ref("")
+const deleteDialog = ref(false)
 
 async function fetchGrimpeurs() {
   try {
@@ -69,39 +80,6 @@ async function fetchGrimpeurs() {
   } catch (error) {
     console.error("Error fetching grimpeurs:", error)
   }
-}
-
-const deleteGrimpeur = async (id) => {
-  try {
-    const result = await $fetch("/api/delete?type=grimpeur", {
-      method: "DELETE",
-      body: { idGrimpeur: id }
-    })
-
-    if (result.status === 200) {
-      fetchGrimpeurs()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
-  } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
-  }
-}
-
-const confirmDelete = (grimpeur) => {
-  const grimpeur2 = {
-    id: grimpeur.idGrimpeur,
-    nom: grimpeur.nom,
-    prenom: grimpeur.prenom
-  }
-
-  deleteDialog.value.open(grimpeur2)
-}
-
-const handleDelete = (idGrimpeur) => {
-  deleteGrimpeur(idGrimpeur)
 }
 
 onMounted(async () => {
@@ -135,28 +113,12 @@ onMounted(async () => {
   }
 })
 
-const displayedGrimpeurs = computed(() => {
-  return role.value ? grimpeurs.value : grimpeurs.value.filter((grimpeur) => grimpeur.fkCompte === store.getUser.id)
-})
-
 const formatBirthDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("fr-FR")
 }
 </script>
 
 <style scoped>
-.grimpeur-card {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
-  padding: 15px;
-  transition: box-shadow 0.3s ease;
-}
-
-.grimpeur-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
 .v-row {
   margin-top: 20px;
 }

@@ -59,3 +59,11 @@ input:-webkit-autofill:active {
 .v-btn:hover {
   transform: scale(1.05);
 }
+
+.link-color {
+  color: rgb(var(--v-theme-accent));
+  transition: color 0.3s;
+}
+.link-color:hover {
+  color: rgb(var(--v-theme-success));
+}
