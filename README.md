@@ -124,24 +124,24 @@ docker push edm115/senescalade:latest
 
 | Priorité | Tâche | État |
 | :---: | :---: | :---: |
-| **S** | Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement) | ❌ |
-| **S** | API : sécurisation et `throw createError()` | ❌ |
-| **S** | vuelidate dans l'inscription et tous les formulaires + désactiver les boutons | ❌ |
-| **S** | export des grimpeurs d'un créneau en pdf | ❌ |
-| **S** | appels à `Error.vue` là où il faut | ❌ |
-| **S** | vérifier la liste d'attente + reprise d'inscription (jump to paiement) | ❌ |
-| **S** | admin : modifier un utilisateur (+ lock d'infos) | ❌ |
-| A | vérifier que les modifs de la BDD sont tous fonctionnels | ❌ |
-| A | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) | ❌ |
-| A | droits des admins | ❌ |
-| A | réinscriptions | ❌ |
-| A | mails : création de compte et modification mdp | ❌ |
-| A | instructions claires dans le readme | ❌ |
-| B | compléter le dashboard | ❌ |
-| B | nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...) | ❌ |
-| B | v-skeleton-loader | ❌ |
-| C | clean les couleurs et images | ❌ |
-| C | responsive | ❌ |
+| **S** | Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement) | ❌ (L) |
+| **S** | API : sécurisation et `throw createError()` | ❌ (L) |
+| **S** | vuelidate dans l'inscription et tous les formulaires + désactiver les boutons | ❌ (L) |
+| **S** | export des grimpeurs d'un créneau en pdf | ❌ (A) |
+| **S** | appels à `Error.vue` là où il faut | ❌ (L) |
+| **S** | vérifier la liste d'attente + reprise d'inscription (jump to paiement) | ❌ (L/A) |
+| **S** | admin : modifier un utilisateur (+ lock d'infos) | ❌ (C/A) |
+| A | vérifier que les modifs de la BDD sont tous fonctionnels | ❌ (C) |
+| A | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) | ❌ (A) |
+| A | droits des admins | ❌ (C) |
+| A | réinscriptions | ❌ (C/A/L) |
+| A | mails : création de compte et modification mdp | ❌ (C) |
+| A | instructions claires dans le readme | ❌ (L) |
+| B | compléter le dashboard | ❌ (C/A) |
+| B | nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...) | ❌ (L) |
+| B | v-skeleton-loader | ❌ (L) |
+| C | clean les couleurs et images | ❌ (L) |
+| C | responsive | ❌ (L) |
 
 ### Infos supplémentaires :
 
