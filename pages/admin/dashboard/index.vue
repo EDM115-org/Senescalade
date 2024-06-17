@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    v-if="adminLogged"
-    class="fillheight"
-  >
+  <v-container class="fillheight">
     <div>
       <h1 class="text-center mt-5 mb-5">
         Dashboard
@@ -61,7 +58,6 @@ definePageMeta({
 
 const store = useMainStore()
 const router = useRouter()
-const adminLogged = ref(false)
 const grimpeurCount = ref(0)
 const nonPayeCount = ref(0)
 
@@ -100,7 +96,6 @@ onMounted(async () => {
     if (!user.isAdmin) {
       router.push("/user")
     } else {
-      adminLogged.value = true
       await fetchGrimpeurCount()
       await fetchNonPayeCount()
     }

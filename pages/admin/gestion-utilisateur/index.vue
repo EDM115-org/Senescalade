@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    v-if="adminLogged"
-    class="fillheight"
-  >
+  <v-container class="fillheight">
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -90,7 +87,6 @@ definePageMeta({
 
 const store = useMainStore()
 const router = useRouter()
-const adminLogged = ref(false)
 const users = ref([])
 const userCount = ref(0)
 const deleteDialog = ref(null)
@@ -162,28 +158,27 @@ const handleDelete = (idCompte) => {
 onMounted(async () => {
   const user = store.getUser
 
-  try {
-    const response = await $fetch("/api/fetch?type=adminPerms", {
-      method: "POST",
-      body: JSON.stringify({ user }),
-    })
-
-    if (response) {
-      if (response.body[0].ReadListUtilisateur !== 1) {
-        router.push("/admin/dashboard")
-      }
-    } else {
-      console.error("Error getPermAdmin:", response.statusText)
-    }
-  } catch (error) {
-    console.error("Error getPermAdmin:", error.message)
-  }
-
   if (user) {
     if (!user.isAdmin) {
       router.push("/user")
     } else {
-      adminLogged.value = true
+      try {
+        const response = await $fetch("/api/fetch?type=adminPerms", {
+          method: "POST",
+          body: JSON.stringify({ user }),
+        })
+
+        if (response) {
+          if (response.body[0].ReadListUtilisateur !== 1) {
+            router.push("/admin/dashboard")
+          }
+        } else {
+          console.error("Error getPermAdmin:", response.statusText)
+        }
+      } catch (error) {
+        console.error("Error getPermAdmin:", error.message)
+      }
+
       fetchCompte()
       fetchUserCount()
     }

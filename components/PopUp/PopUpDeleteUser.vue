@@ -9,7 +9,7 @@
       <v-card-text>
         Êtes-vous sûr de vouloir supprimer ce compte ?<br>
         Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés.<br>
-        Note : il est recommandé d'envoyer un mail à <NuxtLink
+        Note : il est recommandé d'envoyer à la place un mail à <NuxtLink
           class="link-color"
           to="mailto:tresorier@senescalade.com"
         >
