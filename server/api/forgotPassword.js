@@ -2,7 +2,6 @@ import { defineEventHandler, readBody, getQuery } from "h3"
 import nodemailer from "nodemailer"
 import mysql from "mysql2/promise"
 
-// Configuration de Nodemailer
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -11,7 +10,6 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-// Configuration de la connexion MySQL
 let connection = null
 
 try {
@@ -70,7 +68,6 @@ async function handleMailRequest(body) {
     }
   }
 
-  // Vérifier si l'email existe dans la base de données
   try {
     const [ rows ] = await connection.execute(
       "SELECT idCompte FROM Compte WHERE mail = ?",
@@ -84,10 +81,8 @@ async function handleMailRequest(body) {
       }
     }
 
-    // Générer un code aléatoire à envoyer par email
     const code = generateRandomCode()
 
-    // Enregistrer le code dans la base de données pour l'utilisateur
     try {
       await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
         code,
@@ -105,16 +100,14 @@ async function handleMailRequest(body) {
       }
     }
 
-    // Configurer les options d'email
     const mailOptions = {
-      from: "\"Admin Team\" <admin@example.com>",
+      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: "Code de vérification pour réinitialisation de mot de passe",
+      subject: `Réinitialisation du mot de passe : ${code}`,
       text: `Votre code de vérification est : ${code}`,
       html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
     }
 
-    // Envoyer l'email
     try {
       await transporter.sendMail(mailOptions)
 
@@ -150,7 +143,6 @@ async function handleCodeRequest(body) {
     }
   }
 
-  // Vérifier si le code correspond à celui stocké dans la base de données pour l'utilisateur
   try {
     const [ rows ] = await connection.execute(
       "SELECT idCompte FROM Compte WHERE mail = ? AND code = ?",
@@ -164,7 +156,6 @@ async function handleCodeRequest(body) {
       }
     }
 
-    // Réinitialiser le code dans la base de données
     await connection.execute(
       "UPDATE Compte SET code = '0' WHERE mail = ?",
       [ email ]
@@ -194,7 +185,6 @@ async function handlePasswordRequest(body) {
     }
   }
 
-  // Réinitialiser le mot de passe dans la base de données
   try {
     await connection.execute(
       "UPDATE Compte SET password = ? WHERE mail = ?",
@@ -216,7 +206,6 @@ async function handlePasswordRequest(body) {
 }
 
 function generateRandomCode() {
-  // Générer un code aléatoire de 6 chiffres
   const min = 100000
   const max = 999999
 

@@ -165,7 +165,6 @@ const messageColor = ref("error")
 const showPassword = ref(false)
 const step = ref(1)
 
-// Step 1: Email
 const initialStateMail = {
   email: ""
 }
@@ -175,7 +174,6 @@ const rulesMail = {
 }
 const mail$ = useVuelidate(rulesMail, stateMail)
 
-// Step 2: Code
 const initialStateCode = {
   code: ""
 }
@@ -185,7 +183,6 @@ const rulesCode = {
 }
 const code$ = useVuelidate(rulesCode, stateCode)
 
-// Step 3: Password
 const { t } = useI18n()
 const { sameAs } = createI18nValidators(t)
 
@@ -309,17 +306,17 @@ async function submitPassword() {
 
 
 <style scoped>
-  .fillheight {
-    height: 100vh;
-  }
+.fillheight {
+  height: 100vh;
+}
 
-  .input-field {
-    width: 100%;
-    max-width: 400px;
-  }
+.input-field {
+  width: 100%;
+  max-width: 400px;
+}
 
-  .text-center {
-    text-align: center;
-  }
+.text-center {
+  text-align: center;
+}
 </style>
 

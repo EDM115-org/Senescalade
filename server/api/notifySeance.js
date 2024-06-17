@@ -3,12 +3,10 @@ import mysql from "mysql2/promise"
 import { defineEventHandler, readBody } from "h3"
 
 const transporter = nodemailer.createTransport({
-  host: "maildev",
-  port: 1025,
-  secure: false,
+  service: "gmail",
   auth: {
-    user: "",
-    pass: "",
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
   },
 })
 
@@ -56,9 +54,9 @@ export default defineEventHandler(async (event) => {
     }
 
     const mailOptions = {
-      from: "\"Admin Team\" <admin@example.com>",
+      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: "Senescalade - Séance disponible",
+      subject: "Senescalade : Séance disponible",
       text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
       html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
     }
