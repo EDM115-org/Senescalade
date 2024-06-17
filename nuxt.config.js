@@ -57,8 +57,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxtjs/google-fonts",
     "@nuxtjs/i18n",
-    "@pinia/nuxt",
-    "@vite-pwa/nuxt"
+    "@pinia/nuxt"
   ],
   nitro: {
     esbuild: {
@@ -75,36 +74,6 @@ export default defineNuxtConfig({
       src: "~/plugins/store"
     }
   ],
-  pwa: {
-    devOptions: {
-      enabled: true,
-      suppressWarnings: true,
-      type: "module"
-    },
-    includeAssets: [ "favicon.ico", "apple-touch-icon.jpg" ],
-    manifest: {
-      name: "Senescalade",
-      short_name: "Senescalade",
-      description: "La webapp pour s'inscrire à l'association Senescalade",
-      theme_color: "#020613",
-      lang: "fr",
-      icons: [
-        {
-          src: "/pwa-192.jpeg",
-          sizes: "192x192",
-          type: "image/jpg"
-        },
-        {
-          src: "/pwa-192.jpeg",
-          sizes: "512x512",
-          type: "image/jpg"
-        }
-      ]
-    },
-    workbox: {
-      navigateFallback: "/",
-    }
-  },
   ssr: false,
   telemetry: false,
   vite: {

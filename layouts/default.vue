@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <NuxtPwaManifest />
       <LayoutNavBar />
       <NuxtPage />
     </v-main>
@@ -14,10 +13,9 @@ useHead({
   meta: [
     { charset: "utf-8" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { name: "description", content: "Senescalade" },
-    { name: "theme-color", content: "#020613" }
+    { name: "description", content: "Senescalade" }
   ],
-  link: [{ rel: "icon", type: "image/ico", href: "/favicon.ico" }, { rel: "apple-touch-icon", href: "/apple-touch-icon.jpg" }]
+  link: [{ rel: "icon", type: "image/ico", href: "/favicon.ico" }]
 })
 </script>
 
