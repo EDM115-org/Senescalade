@@ -109,9 +109,7 @@ async function deleteGrimpeur(body) {
     await connection.beginTransaction()
     const result = await fetch("/api/fetch?type=grimpeurSeance", {
       method: "POST",
-      body: JSON.stringify({
-        idGrimpeur: idGrimpeur
-      })
+      body: JSON.stringify({ idGrimpeur })
     })
 
     if (result.status === 200) {
@@ -184,9 +182,7 @@ async function deleteGrimpeurSeance(body) {
 
     const result = await fetch("/api/fetch?type=grimpeurSeance", {
       method: "POST",
-      body: JSON.stringify({
-        idGrimpeur: idGrimpeur
-      })
+      body: JSON.stringify({ idGrimpeur })
     })
 
     if (result.status === 200) {

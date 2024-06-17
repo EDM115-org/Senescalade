@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
 
           return {
             status: 200,
-            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin: isAdmin }, stayConnected }
+            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin }, stayConnected }
           }
         } else {
           return {
