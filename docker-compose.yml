@@ -3,7 +3,8 @@ services:
     env_file:
       - .env
     image: mysql:8.0.37
-    network_mode: "host"
+    ports:
+      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
       - ./db/create_user.sql:/docker-entrypoint-initdb.d/0_create_user.sql
@@ -27,7 +28,8 @@ services:
     env_file:
       - .env
     image: edm115/senescalade
-    network_mode: "host"
+    ports:
+      - "80:56860"
 
 volumes:
   db-data:

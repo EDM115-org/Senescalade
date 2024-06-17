@@ -71,15 +71,16 @@
     "build": "rimraf .output && nuxi build",
     "dev": "nuxi dev -p 8000",
     "dev-expose": "nuxi dev -p 8000 --host",
-    "docker": "docker compose build --no-cache && docker compose up -d --force-recreate --remove-orphans --wait",
+    "docker-restart": "docker compose restart senescalade",
+    "docker-start": "docker compose build --no-cache && docker compose up -d --force-recreate --remove-orphans --wait",
+    "docker-stop": "docker compose stop",
     "generate": "nuxi generate",
     "i": "npm i --no-audit --no-fund",
     "i-clean": "rimraf package-lock.json node_modules && npm run i",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "preview": "nuxi preview",
-    "start": "npm run build && cross-env PORT=8000 nuxi start",
-    "stop-docker": "docker compose stop"
+    "start": "npm run build && cross-env PORT=8000 nuxi start"
   },
   "type": "module",
   "version": "1.0.0"

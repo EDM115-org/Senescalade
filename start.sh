@@ -1,4 +1,4 @@
 #!/bin/sh
 . /app/.env
 echo "Senescalade - Démarrage du serveur..."
-node /app/.output/server/index.mjs
+/app/wait-for-it.sh db:3306 --timeout=0 --strict -- node /app/.output/server/index.mjs

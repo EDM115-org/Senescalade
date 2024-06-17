@@ -13,7 +13,7 @@ Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](http
 Prérequis :
 
 - Node.js 20
-- MySQL 8.0.35
+- MySQL 8.0 (8.0.37)
 - Docker
 - Docker Compose
 
@@ -21,38 +21,74 @@ Prérequis :
 
 ```bash
 git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
-npm i
-npm run prod-docker
+npm run i
+npm run docker-start
 ```
 
-### Développement (Windows)
+Accessible à http://localhost/ (port 80 on prod, port 56860 on dev)
+
+> [!CAUTION]  
+> MySQL est lent à démarrer. Normalement la webapp est sensée attendre que le service MySQL démarre, mais si ce n'est pas le cas, utilisez les commandes suivantes :
+
+```bash
+docker compose logs  # vérifiez la mention "[Note] [Entrypoint]: MySQL init process done. Ready for start up."
+npm run docker-restart
+```
+
+Pour arrêter :
+
+```bash
+npm run docker-stop
+```
+
+### Développement
+
+```bash
+git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
+```
+
+#### Windows
 
 Ouvrir le MySQL Shell
 
 ```sql
 \sql
 \connect root@localhost
-CREATE USER 'sae'@'localhost' IDENTIFIED BY 'Senescalade!56';
-CREATE DATABASE IF NOT EXISTS sae;
+\source "C:\Path\To\Tab-Magiques\db\create_user.sql"
+\source "C:\Path\To\Tab-Magiques\db\create_db.sql"
 \source "C:\Path\To\Tab-Magiques\db\instantiate_db.sql"
+\source "C:\Path\To\Tab-Magiques\db\insert_test.sql"
 ```
 
-Puis dans un powershell
+#### Linux
 
 ```bash
-git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
-npm i
+mysql -u root -p < /path/to/Tab-Magiques/db/create_user.sql
+mysql -u root -p < /path/to/Tab-Magiques/db/create_db.sql
+mysql -u root -p < /path/to/Tab-Magiques/db/instantiate_db.sql
+mysql -u root -p < /path/to/Tab-Magiques/db/insert_test.sql
+```
+
+Puis dans un terminal
+
+```bash
+npm run i
 npm run dev
 ```
 
 ### Build du Dockerfile
 
+Build :
+
 ```bash
 docker build -t senescalade .
 docker run -d --env-file ./.env -p 56860:56860 --name senescalade senescalade
+```
+
+Run :
+
+```bash
 docker start senescalade
-docker logs senescalade
-docker stop senescalade
 ```
 
 Publish :
