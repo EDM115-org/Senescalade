@@ -107,28 +107,30 @@ const handleDelete = (idGrimpeur) => {
 onMounted(async () => {
   await fetchGrimpeurs()
 
-  for (const grimpeur in Object.keys(grimpeurs.value)) {
-    try {
-      const result = await $fetch("/api/fetch?type=grimpeurSeance", {
-        method: "POST",
-        body: JSON.stringify({
-          idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
+  for (const grimpeur in grimpeurs.value) {
+    if (Object.prototype.hasOwnProperty.call(grimpeurs.value, grimpeur)) {
+      try {
+        const result = await $fetch("/api/fetch?type=grimpeurSeance", {
+          method: "POST",
+          body: JSON.stringify({
+            idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
+          })
         })
-      })
 
-      if (result.status === 200) {
-        const response = await $fetch("/api/fetch?type=seance")
+        if (result.status === 200) {
+          const response = await $fetch("/api/fetch?type=seance")
 
-        if (response.status === 200) {
-          grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance]
+          if (response.status === 200) {
+            grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance]
+          } else {
+            console.error("Error fetching seance:", response)
+          }
         } else {
-          console.error("Error fetching seance:", response)
+          console.error("Error fetching grimpeur seance:", result)
         }
-      } else {
-        console.error("Error fetching grimpeur seance:", result)
+      } catch (error) {
+        console.error("Error fetching grimpeur seance : ", error)
       }
-    } catch (error) {
-      console.error("Error fetching grimpeur seance : ", error)
     }
   }
 })
