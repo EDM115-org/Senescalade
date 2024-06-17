@@ -157,16 +157,16 @@ onMounted(async () => {
       const [ type, niveau ] = determineCategory(props.birthdate)
 
       if (type === null && niveau === null) {
-        return
+        return null
       }
 
       if (type !== null) {
         if (event.typeSeance !== type) {
-          return
+          return null
         }
       } else {
         if (event.niveau !== niveau) {
-          return
+          return null
         }
       }
     }
@@ -192,7 +192,7 @@ onMounted(async () => {
       textColor: event.nbPlacesRestantes === 0 ? theme.computedThemes.value.light.colors.background : theme.computedThemes.value.light.colors.text
     }
   })
-  formattedEvents.value = formattedEvents.value.filter((event) => event !== undefined)
+  formattedEvents.value = formattedEvents.value.filter((event) => event !== undefined && event !== null)
 
   if (formattedEvents.value.every((event) => event.extendedProps.nbPlacesRestantes === 0)) {
     emit("no-events-left")
