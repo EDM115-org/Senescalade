@@ -191,8 +191,7 @@ onMounted(async () => {
       backgroundColor: event.nbPlacesRestantes === 0 ? theme.current.value.colors.error : theme.current.value.colors.success,
       textColor: event.nbPlacesRestantes === 0 ? theme.computedThemes.value.light.colors.background : theme.computedThemes.value.light.colors.text
     }
-  })
-  formattedEvents.value = formattedEvents.value.filter((event) => event !== undefined && event !== null)
+  }).filter((event) => event !== undefined && event !== null)
 
   if (formattedEvents.value.every((event) => event.extendedProps.nbPlacesRestantes === 0)) {
     emit("no-events-left")
