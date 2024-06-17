@@ -92,9 +92,9 @@ docker push edm115/tab-magiques:latest
 
 - [ ] Dashboard (nombre de grimpeur, nombre non payé, nombre en liste d'attente)
 - [X] Visibilité des inscriptions (qui a payé ou non, ...)
-- [X] Modification des informations des utilisateurs (ajout de license, un lock ?)
-- [X] Ajout d'admins avec droits restreints
-- [X] Modification de la BDD (les boutons sont tous fonctionnel)
+- [ ] Modification des informations des utilisateurs (ajout de license, un lock ?)
+- [ ] Ajout d'admins avec droits restreints
+- [ ] Modification de la BDD (les boutons sont tous fonctionnel)
 - [ ] Export d'un user en CSV => nouveaux grimpeurs depuis le dernier export
 - [ ] PDF de la liste des inscrits par créneau
 - [ ] Gérer les résinscriptions
