@@ -1,3 +1,4 @@
+// skipcq: JS-C1003
 import * as validators from "@vuelidate/validators"
 
 export function createI18nValidators(t) {
