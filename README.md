@@ -77,11 +77,12 @@ docker push edm115/tab-magiques:latest
 
 **Utilisateur**
 
-- [ ] Inscription : date de naissance, planning, formulaire, redirection HelloAsso + champs obligatoires & warnings et désactiver le bouton tant que les champs ne sont pas remplis
+- [ ] Inscription : date de naissance, planning, formulaire + champs obligatoires & warnings et désactiver le bouton tant que les champs ne sont pas remplis
 - [x] babygrimpe => - de 8 ans
 - [x] Date de naissance -> possibilité de l'écrire manuellement
 - [ ] Liste d'attente par créneau -> on peut sélectionner un créneau pour lequel on veut être en liste d'attente
 - [ ] !!!! modification de grimpeur : si file d'attente, on a juste a confirmer et update GrimpeurSeance.isFileDAttente = 0
+- [ ] Paiement : sauf file d'attente, quand on revient d'ue file d'aattente tout doit être pré complété et renvoyer à la section paiement
 - [x] Visualisation de son numéro de licence
 - [ ] Modifications d'informations
 - [ ] Affichage du créneau par user

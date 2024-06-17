@@ -127,8 +127,9 @@
         </v-stepper-vertical-item>
 
         <v-stepper-vertical-item
+          :color="step > 2 ? 'success' : 'accent'"
+          :complete="step > 2"
           bg-color="transparent"
-          color="accent"
           subtitle="Informations personnelles"
           title="Étape 3"
           value="3"
@@ -150,6 +151,54 @@
 
           <template #next="{ next }">
             <v-btn
+              color="success"
+              text="Ajouter un grimpeur"
+              variant="elevated"
+              @click="nextLoadingClick(next)"
+            />
+          </template>
+
+          <template #prev="{ prev }">
+            <v-btn
+              color="accent"
+              variant="outlined"
+              @click="prev"
+            />
+          </template>
+        </v-stepper-vertical-item>
+
+        <v-stepper-vertical-item
+          bg-color="transparent"
+          color="accent"
+          subtitle="Paiement"
+          title="Étape 4"
+          value="4"
+        >
+          <h2 class="text-center">
+            Vous devez payer {{ calculatePrice() }}€ pour l'inscription de votre grimpeur.
+          </h2>
+          <p class="text-center">
+            Si vous faites de la compétition, ajoutez 40€ au prix ci-dessus.<br>
+            Si vous pensez bénéficier du tarif solidaire (RSA, chômage, étudiant.e.s), retirez 40€ au prix ci-dessus.<br>
+            Remplissez le formulaire HelloAsso ci-dessous, indiquez le prix final dans le champ "Montant Libre" et suivez les instructions.
+          </p>
+          <iframe
+            allowtransparency="true"
+            frameborder="0"
+            class="my-4"
+            scrolling="auto"
+            src="https://www.helloasso.com/associations/senescalade/boutiques/paiements-en-ligne/widget"
+            style="height: 800px; width: 100%; border: none;"
+          />
+          <v-checkbox
+            v-model="aPaye"
+            class="mx-auto"
+            label="Je confirme avoir payé le montant indiqué ci-dessus"
+          />
+
+          <template #next>
+            <v-btn
+              :disabled="!aPaye"
               color="success"
               text="Ajouter un grimpeur"
               variant="elevated"
@@ -179,6 +228,7 @@ const store = useMainStore()
 const { mdAndUp } = useDisplay()
 const router = useRouter()
 
+const aPaye = ref(false)
 const birthdate = ref(null)
 const calendarEvents = ref([])
 const choixCreneau = ref(null)
@@ -271,6 +321,46 @@ function daysOfTheCurrentWeek() {
   }
 
   return days
+}
+
+function calculatePrice() {
+  let price = determineCategory(grimpeur.dateNaissance) === "Babygrimpe" ? 95 : 140
+
+  if (grimpeur.assurance === "B+") {
+    price += 3
+  } else if (grimpeur.assurance === "B++") {
+    price += 10
+  }
+
+  if (grimpeur.optionSki) {
+    price += 5
+  }
+
+  if (grimpeur.optionSlackline) {
+    price += 5
+  }
+
+  if (grimpeur.optionTrail) {
+    price += 10
+  }
+
+  if (grimpeur.optionVTT) {
+    price += 30
+  }
+
+  if (grimpeur.optionProtectionAgression) {
+    price += 1.70
+  }
+
+  if (grimpeur.optionAssurance === "IJ1") {
+    price += 18
+  } else if (grimpeur.optionAssurance === "IJ2") {
+    price += 30
+  } else if (grimpeur.optionAssurance === "IJ3") {
+    price += 35
+  }
+
+  return price
 }
 
 function determineCategory(birthDate) {
