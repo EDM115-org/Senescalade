@@ -5,7 +5,7 @@ import mysql from "mysql2/promise"
 
 // Configuration de Nodemailer
 const transporter = nodemailer.createTransport({
-  host: "localhost",
+  host: "maildev",
   port: 1025,
   secure: false,
   auth: {

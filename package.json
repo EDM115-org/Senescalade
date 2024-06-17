@@ -71,7 +71,7 @@
     "build": "rimraf .output && nuxi build",
     "dev": "nuxi dev -p 8000",
     "dev-expose": "nuxi dev -p 8000 --host",
-    "docker": "docker compose up -d --wait",
+    "docker": "docker compose build --no-cache && docker compose up -d --force-recreate --remove-orphans --wait",
     "generate": "nuxi generate",
     "i": "npm i --no-audit --no-fund",
     "i-clean": "rimraf package-lock.json node_modules && npm run i",

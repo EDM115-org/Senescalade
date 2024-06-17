@@ -3,7 +3,7 @@ import mysql from "mysql2/promise"
 import { defineEventHandler, readBody } from "h3"
 
 const transporter = nodemailer.createTransport({
-  host: "localhost",
+  host: "maildev",
   port: 1025,
   secure: false,
   auth: {
