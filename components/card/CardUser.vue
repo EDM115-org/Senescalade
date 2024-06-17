@@ -63,7 +63,7 @@ const issueMessage = ref("")
 
 async function fetchGrimpeurs() {
   try {
-    const data = await $fetch("/api/fetch?type=grimpeur&id=" + store.getUser.id)
+    const data = await $fetch(`/api/fetch?type=grimpeur&id=${store.getUser.id}`)
 
     grimpeurs.value = data.body
   } catch (error) {
