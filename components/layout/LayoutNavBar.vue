@@ -2,10 +2,9 @@
   <v-app-bar
     class="px-8"
     color="secondary"
-    dense
+    elevation="6"
     floating
     :rounded="adminPage ? 'none' : 'b-xl'"
-    scroll-behavior="elevate"
   >
     <template #prepend>
       <NuxtLink
@@ -36,16 +35,6 @@
         class="text-h6"
       >
         Senescalade
-      </NuxtLink>
-      <NuxtLink
-        to="/dev"
-      >
-        <v-btn
-          class="mx-2"
-          color="warning"
-          text="Dev"
-          variant="outlined"
-        />
       </NuxtLink>
     </v-app-bar-title>
     <v-spacer />
