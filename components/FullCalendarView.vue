@@ -11,8 +11,8 @@
     </FullCalendar>
     <v-tooltip
       v-if="showTooltip"
-      v-model:open="showTooltip"
       :activator="tooltipActivator"
+      model-value="showTooltip"
       location="top"
       theme="light"
     >
