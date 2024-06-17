@@ -21,13 +21,17 @@ Prérequis :
 ```env
 DB_HOST=localhost
 DB_USER=sae
-DB_PASSWORD=UserPassword
+DB_PASSWORD="UserPassword"
 DB_NAME=sae
 DB_PORT=3306
 DEV_PORT=8000
-MYSQL_ROOT_PASSWORD=SomethingStrong
+GMAIL_USER="adresse-email@gmail.com"
+GMAIL_PASS="abcd efgh ijkl mnop"
+MYSQL_ROOT_PASSWORD="SomethingStrong"
 PORT=56860
 ```
+
+`GMAIL_PASS` : Mot de passe d'application spécifique, voir https://nodemailer.com/usage/using-gmail/ et https://support.google.com/accounts/answer/185833
 
 ### Production (Docker)
 
