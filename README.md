@@ -124,8 +124,8 @@ docker push edm115/senescalade:latest
 
 **Module Mail (nodemailer)**
 
-- [ ] https://github.com/maildev/maildev ?
-- [ ] Mail mdp oublié
+- [X] https://github.com/maildev/maildev ?
+- [X] Mail mdp oublié
 - [ ] Mail liste d'attente
 - [ ] Mail modification mdp administration
 
