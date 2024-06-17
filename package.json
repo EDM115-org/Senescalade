@@ -41,7 +41,7 @@
     "nuxt": "3.12.2",
     "pinia": "2.1.7",
     "rimraf": "5.0.7",
-    "sass": "1.77.5",
+    "sass": "1.77.6",
     "sass-loader": "14.2.1",
     "vite-plugin-vuetify": "2.0.3"
   },
