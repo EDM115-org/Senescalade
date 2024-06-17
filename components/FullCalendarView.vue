@@ -33,7 +33,7 @@ import { useDisplay, useTheme } from "vuetify"
 const { mdAndUp } = useDisplay()
 const theme = useTheme()
 
-const emit = defineEmits([ "event-click" ])
+const emit = defineEmits([ "event-click", "no-events-left" ])
 const props = defineProps({
   birthdate: {
     type: String,
@@ -193,6 +193,10 @@ onMounted(async () => {
     }
   })
   formattedEvents.value = formattedEvents.value.filter((event) => event !== undefined)
+
+  if (formattedEvents.value.every((event) => event.extendedProps.nbPlacesRestantes === 0)) {
+    emit("no-events-left")
+  }
 
   calendarOptions.value.events = formattedEvents.value
   calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"

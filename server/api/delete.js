@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise"
 import { defineEventHandler, readBody, getQuery } from "h3"
+import { fetch } from "ofetch"
 
 let connection = null
 
@@ -37,6 +38,8 @@ export default defineEventHandler(async (event) => {
           return await deleteCompte(body)
         case "grimpeur":
           return await deleteGrimpeur(body)
+        case "grimpeurSeance":
+          return await deleteGrimpeurSeance(body)
         case "seance":
           return await deleteSeance(body)
         default:
@@ -104,7 +107,141 @@ async function deleteGrimpeur(body) {
 
   try {
     await connection.beginTransaction()
+    const result = await fetch("/api/fetch?type=grimpeurSeance", {
+      method: "POST",
+      body: JSON.stringify({
+        idGrimpeur: idGrimpeur
+      })
+    })
+
+    if (result.status === 200) {
+      const response = await fetch("/api/fetch?type=seance")
+
+      if (response.status === 200) {
+        const seance = response.body[result.body.idSeance]
+
+        if (seance.nbPlacesRestantes === 0) {
+          const grimpeurSeanceResponse = await fetch("/api/fetch?type=grimpeurSeance")
+
+          if (grimpeurSeanceResponse.status === 200) {
+            const grimpeurSeances = await grimpeurSeanceResponse.json()
+
+            for (const grimpeurSeance of grimpeurSeances) {
+              if (grimpeurSeance.isFileDAttente) {
+                const grimpeurResponse = await fetch("/api/fetch?type=grimpeur", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    idGrimpeur: grimpeurSeance.idGrimpeur
+                  })
+                })
+
+                if (grimpeurResponse.status === 200) {
+                  const compteResponse = await fetch("/api/fetch?type=compte", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      idCompte: grimpeurResponse.body.fkCompte
+                    })
+                  })
+
+                  if (compteResponse.status === 200) {
+                    await fetch("/api/notifySeance", {
+                      method: "POST",
+                      body: JSON.stringify({
+                        email: compteResponse.body.mail
+                      })
+                    })
+                  }
+                }
+              }
+            }
+          }
+
+          await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
+        }
+      }
+    }
+
     const [ rows ] = await connection.execute("DELETE FROM Grimpeur WHERE idGrimpeur = ?", [ idGrimpeur ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}
+
+async function deleteGrimpeurSeance(body) {
+  const { idGrimpeur } = body
+
+  try {
+    await connection.beginTransaction()
+
+    const result = await fetch("/api/fetch?type=grimpeurSeance", {
+      method: "POST",
+      body: JSON.stringify({
+        idGrimpeur: idGrimpeur
+      })
+    })
+
+    if (result.status === 200) {
+      const seanceId = result.body.idSeance
+
+      const response = await fetch("/api/fetch?type=seance")
+
+      if (response.status === 200) {
+        const seance = response.body[seanceId]
+
+        if (seance.nbPlacesRestantes === 0) {
+          const grimpeurSeanceResponse = await fetch("/api/fetch?type=grimpeurSeance")
+
+          if (grimpeurSeanceResponse.status === 200) {
+            const grimpeurSeances = await grimpeurSeanceResponse.json()
+
+            for (const grimpeurSeance of grimpeurSeances) {
+              if (grimpeurSeance.isFileDAttente) {
+                const grimpeurResponse = await fetch("/api/fetch?type=grimpeur", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    idGrimpeur: grimpeurSeance.idGrimpeur
+                  })
+                })
+
+                if (grimpeurResponse.status === 200) {
+                  const compteResponse = await fetch("/api/fetch?type=compte", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      idCompte: grimpeurResponse.body.fkCompte
+                    })
+                  })
+
+                  if (compteResponse.status === 200) {
+                    await fetch("/api/notifySeance", {
+                      method: "POST",
+                      body: JSON.stringify({
+                        email: compteResponse.body.mail
+                      })
+                    })
+                  }
+                }
+              }
+            }
+          }
+
+          await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
+        }
+      }
+    }
+
+    const [ rows ] = await connection.execute(
+      "DELETE FROM GrimpeurSeance WHERE idGrimpeur = ?",
+      [ idGrimpeur ]
+    )
 
     await connection.commit()
 

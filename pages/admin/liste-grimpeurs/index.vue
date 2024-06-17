@@ -50,13 +50,10 @@
                       Mobile
                     </th>
                     <th class="text-center">
-                      Courriel
-                    </th>
-                    <th class="text-center">
                       Numéro de Licence
                     </th>
                     <th class="text-center">
-                      Payé
+                      A payé
                     </th>
                     <th class="text-center">
                       Actions
@@ -84,9 +81,6 @@
                       {{ grimpeur.mobile }}
                     </td>
                     <td class="text-center">
-                      {{ grimpeur.courriel2 }}
-                    </td>
-                    <td class="text-center">
                       {{ grimpeur.numLicence }}
                     </td>
                     <td class="text-center">
@@ -99,6 +93,14 @@
                         icon="mdi-pencil"
                         size="small"
                         variant="elevated"
+                      />
+                      <v-btn
+                        color="warning"
+                        class="mr-2"
+                        icon="mdi-calendar-remove-outline"
+                        size="small"
+                        variant="elevated"
+                        @click.prevent="confirmDeleteSeance(grimpeur)"
                       />
                       <v-btn
                         color="error"
@@ -129,6 +131,10 @@
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />
+    <PopUpDeleteGrimpeurSeance
+      ref="deleteDialogSeance"
+      @confirm-delete="handleDeleteSeance"
+    />
   </v-container>
 </template>
 
@@ -154,6 +160,7 @@ const grimpeurs = ref([])
 const grimpeurCount = ref(0)
 const afficheGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
+const deleteDialogSeance = ref(null)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -206,6 +213,26 @@ const deleteGrimpeur = async (id) => {
   }
 }
 
+const deleteGrimpeurSeance = async (id) => {
+  try {
+    const result = await $fetch("/api/delete?type=grimpeurSeance", {
+      method: "DELETE",
+      body: { idGrimpeur: id }
+    })
+
+    if (result.status === 200) {
+      fetchGrimpeurs()
+      fetchGrimpeurCount()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
+    issueMessage.value = error
+  }
+}
+
 const confirmDelete = (grimpeur) => {
   const grimpeur2 = {
     id: grimpeur.idGrimpeur,
@@ -216,8 +243,22 @@ const confirmDelete = (grimpeur) => {
   deleteDialog.value.open(grimpeur2)
 }
 
+const confirmDeleteSeance = (grimpeur) => {
+  const grimpeur2 = {
+    id: grimpeur.idGrimpeur,
+    nom: grimpeur.nom,
+    prenom: grimpeur.prenom
+  }
+
+  deleteDialogSeance.value.open(grimpeur2)
+}
+
 const handleDelete = (idGrimpeur) => {
   deleteGrimpeur(idGrimpeur)
+}
+
+const handleDeleteSeance = (idGrimpeur) => {
+  deleteGrimpeurSeance(idGrimpeur)
 }
 
 onMounted(async () => {

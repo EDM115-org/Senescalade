@@ -35,6 +35,8 @@ export default defineEventHandler(async (event) => {
           return await fetchCompte()
         case "grimpeur":
           return await fetchGrimpeur(id)
+        case "grimpeurSeance":
+          return await fetchGrimpeurSeance()
         case "seance":
           return await fetchSeance()
         default:
@@ -152,21 +154,30 @@ async function fetchGrimpeur(id) {
 
 async function fetchGrimpeurSeance(body) {
   const { idGrimpeur } = body
+  let rows = []
 
   if (!idGrimpeur) {
-    return {
-      status: 400,
-      body: { error: "idGrimpeur non fourni" },
-    }
+    const query = "SELECT * FROM GrimpeurSeance"
+
+    rows = await connection.execute(query)
+  } else {
+    const query = "SELECT idSeance FROM GrimpeurSeance WHERE idGrimpeur = ?"
+
+    rows = await connection.execute(query, [ idGrimpeur ])
   }
 
-  const query = "SELECT idSeance FROM GrimpeurSeance WHERE idGrimpeur = ?"
-  const [ rows ] = await connection.execute(query, [ idGrimpeur ])
 
   if (rows.length > 0) {
-    return {
-      status: 200,
-      body: rows[0]
+    if (rows.length === 1) {
+      return {
+        status: 200,
+        body: rows[0]
+      }
+    } else {
+      return {
+        status: 200,
+        body: rows
+      }
     }
   } else {
     return {

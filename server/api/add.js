@@ -151,7 +151,8 @@ async function addGrimpeur(body) {
     optionAssurance,
     optionProtectionAgression,
     fkCompte,
-    idSeance
+    idSeance,
+    isFileDAttente
   } = body
 
   const params = [
@@ -199,21 +200,29 @@ async function addGrimpeur(body) {
 
     const [ grimpeurResult ] = await connection.execute(query, params)
     const idGrimpeur = grimpeurResult.insertId
-    const [ seanceResult ] = await connection.execute(
-      "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
-      [ idSeance ]
-    )
-    const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
 
-    await connection.execute(
-      "UPDATE Seance SET nbPlacesRestantes = ? WHERE idSeance = ?",
-      [ nbPlacesRestantes - 1, idSeance ]
-    )
+    if (isFileDAttente === undefined) {
+      const [ seanceResult ] = await connection.execute(
+        "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
+        [ idSeance ]
+      )
+      const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
 
-    await connection.execute(
-      "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance) VALUES (?, ?)",
-      [ idGrimpeur, idSeance ]
-    )
+      await connection.execute(
+        "UPDATE Seance SET nbPlacesRestantes = ? WHERE idSeance = ?",
+        [ nbPlacesRestantes - 1, idSeance ]
+      )
+
+      await connection.execute(
+        "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance) VALUES (?, ?)",
+        [ idGrimpeur, idSeance ]
+      )
+    } else {
+      await connection.execute(
+        "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance, isFileDAttente) VALUES (?, ?, ?)",
+        [ idGrimpeur, idSeance, isFileDAttente ]
+      )
+    }
 
     await connection.commit()
 

@@ -81,24 +81,30 @@
           <FullCalendarView
             :birthdate="birthdate.toISOString().split('T')[0]"
             @event-click="showEventDetails"
+            @no-events-left="handleNoEventsLeft"
           />
           <div v-if="selectedEvent">
-            <p
-              v-if="selectedEvent.extendedProps.nbPlacesRestantes > 0"
-              class="text-center mt-4"
-            >
+            <p class="text-center mt-4">
               Créneau sélectionné : <strong>{{ selectedEvent.title }} {{ selectedEvent.extendedProps.niveau ? `- ${selectedEvent.extendedProps.niveau}` : "" }}</strong>
               <br>
               Jour : <strong>{{ selectedEvent.extendedProps.jour }} de {{ selectedEvent.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }} à {{ selectedEvent.end.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }}</strong>
               <br>
               Nombre de places restantes : <strong>{{ selectedEvent.extendedProps.nbPlacesRestantes }}/{{ selectedEvent.extendedProps.nbPlaces }}</strong>
             </p>
-            <p
-              v-else
-              class="text-center mt-4"
-            >
-              Ce créneau est complet.
+          </div>
+          <div v-if="noEventsLeft">
+            <p class="text-center mt-4 mx-4">
+              Tous les créneaux sont complets.<br>
+              Vous pouvez selectionner un des créneaux complets, et vous serez mis sur liste d'attente. Nous vous enverrons un email si une place se libère, de manière à ce que vous puissiez vous inscrire.<br>
+              Si cela ne vous convient pas, annulez l'inscription du grimpeur en cliquant sur le bouton ci-dessous.
             </p>
+            <v-btn
+              class="d-flex mx-auto mt-4"
+              color="error"
+              text="Annuler l'inscription"
+              variant="elevated"
+              @click="$router.push('/user')"
+            />
           </div>
 
           <template #next="{ next }">
@@ -126,7 +132,6 @@
           subtitle="Informations personnelles"
           title="Étape 3"
           value="3"
-          @click:next="console.log('next')"
         >
           <Suspense>
             <template #default>
@@ -154,17 +159,9 @@
 
           <template #prev="{ prev }">
             <v-btn
-              v-if="!finished"
               color="accent"
               variant="outlined"
               @click="prev"
-            />
-
-            <v-btn
-              v-else
-              text="Reset"
-              variant="outlined"
-              @click="console.log('reset')"
             />
           </template>
         </v-stepper-vertical-item>
@@ -188,10 +185,11 @@ const choixCreneau = ref(null)
 const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
-const finished = ref(false)
 const isLoading = ref(false)
 const issueMessage = ref("")
 const selectedEvent = ref(null)
+const noEventsLeft = ref(false)
+const isFileDattente = ref(false)
 
 const grimpeur = reactive({
   action: "C",
@@ -223,6 +221,7 @@ const grimpeur = reactive({
   optionProtectionAgression: false,
   fkCompte: store.getUser.id,
   idSeance: choixCreneau,
+  isFileDAttente: isFileDattente
 })
 
 function nextLoadingClick(callback) {
@@ -333,12 +332,16 @@ function showEventDetails(event) {
   selectedEvent.value = event
 }
 
+function handleNoEventsLeft() {
+  noEventsLeft.value = true
+}
+
 watch(selectedEvent, (value) => {
   if (value) {
-    if (value.extendedProps.nbPlacesRestantes > 0) {
-      choixCreneau.value = parseInt(value.id)
-    } else {
-      choixCreneau.value = null
+    choixCreneau.value = parseInt(value.id)
+
+    if (value.extendedProps.nbPlacesRestantes === 0) {
+      isFileDattente.value = true
     }
   }
 })

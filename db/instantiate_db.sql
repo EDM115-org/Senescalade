@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS Grimpeur (
 CREATE TABLE IF NOT EXISTS GrimpeurSeance (
   idGrimpeur INT,
   idSeance INT,
+  isFileDAttente BOOLEAN NOT NULL DEFAULT 0,
   PRIMARY KEY (idGrimpeur, idSeance),
   UNIQUE (idGrimpeur),
   FOREIGN KEY (idGrimpeur) REFERENCES Grimpeur(idGrimpeur)
