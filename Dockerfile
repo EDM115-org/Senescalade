@@ -7,8 +7,9 @@ LABEL org.opencontainers.image.source="https://github.com/EDM115-org/Tab-Magique
 LABEL org.opencontainers.image.title="Tab Magiques"
 LABEL org.opencontainers.image.url="https://github.com/EDM115-org/Tab-Magiques.git"
 
+ARG PORT=56860
+ENV PORT=${PORT}
 ENV NODE_ENV=development
-ENV PORT 56860
 
 WORKDIR /app/
 
@@ -21,7 +22,7 @@ RUN apk update && \
   npm ci --no-audit --no-fund && \
   npm run build
 
-EXPOSE 56860
+EXPOSE ${PORT}
 ENV NODE_ENV=production
 
 CMD ["/bin/bash", "start.sh"]

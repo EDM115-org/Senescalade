@@ -35,6 +35,7 @@
     "@pinia/nuxt": "0.5.1",
     "@stylistic/eslint-plugin": "2.2.1",
     "cross-env": "7.0.3",
+    "dotenv-cli": "7.4.2",
     "eslint": "9.5.0",
     "eslint-plugin-vue": "9.26.0",
     "nuxt": "3.12.2",
@@ -67,10 +68,13 @@
     "url": "git+https://github.com/EDM115-org/Tab-Magiques.git"
   },
   "scripts": {
+    "_dev": "nuxi dev -p $DEV_PORT",
+    "_dev-expose": "nuxi dev -p $DEV_PORT --host",
+    "_start": "cross-env PORT=$DEV_PORT nuxi start",
     "analyze": "rimraf .output && nuxi analyze",
     "build": "rimraf .output && nuxi build",
-    "dev": "nuxi dev -p 8000",
-    "dev-expose": "nuxi dev -p 8000 --host",
+    "dev": "dotenv -- npm run _dev",
+    "dev-expose": "dotenv -- npm run _dev-expose",
     "docker-restart": "docker compose restart senescalade",
     "docker-start": "docker compose build --no-cache && docker compose up -d --force-recreate --remove-orphans --wait",
     "docker-stop": "docker compose stop",
@@ -80,7 +84,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "preview": "nuxi preview",
-    "start": "npm run build && cross-env PORT=8000 nuxi start"
+    "start": "npm run build && dotenv -- npm run _start"
   },
   "type": "module",
   "version": "1.0.0"

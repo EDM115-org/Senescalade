@@ -16,6 +16,18 @@ Prérequis :
 - MySQL 8.0 (8.0.37)
 - Docker
 - Docker Compose
+- Un fichier `.env` à la racine du projet, avec la structure suivante :
+
+```env
+DB_HOST=localhost
+DB_USER=sae
+DB_PASSWORD=UserPassword
+DB_NAME=sae
+DB_PORT=3306
+DEV_PORT=8000
+MYSQL_ROOT_PASSWORD=SomethingStrong
+PORT=56860
+```
 
 ### Production (Docker)
 
@@ -76,13 +88,15 @@ npm run i
 npm run dev
 ```
 
+Accessible à http://localhost:8000/
+
 ### Build du Dockerfile
 
 Build :
 
 ```bash
 docker build -t senescalade .
-docker run -d --env-file ./.env -p 56860:56860 --name senescalade senescalade
+docker run -d --env-file ./.env -p 80:56860 --name senescalade senescalade
 ```
 
 Run :
