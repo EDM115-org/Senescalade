@@ -1,6 +1,6 @@
 version = 1
 
-exclude_patterns = [".nuxt/**", ".output/**", "node_modules/**"]
+exclude_patterns = [".nuxt/**", ".output/**", "node_modules/**", "wait-for-it.sh"]
 
 [[analyzers]]
 name = "docker"
