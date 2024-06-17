@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const query = getQuery(event)
-  const { type } = query
+  const { type, id } = query
 
   if (event.node.req.method === "GET") {
     try {
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
         case "compte":
           return await fetchCompte()
         case "grimpeur":
-          return await fetchGrimpeur()
+          return await fetchGrimpeur(id)
         case "seance":
           return await fetchSeance()
         default:
@@ -135,12 +135,18 @@ async function fetchCompte() {
   }
 }
 
-async function fetchGrimpeur() {
-  const [ rows ] = await connection.execute("SELECT * FROM Grimpeur")
+async function fetchGrimpeur(id) {
+  let rows = []
+
+  if (id === undefined) {
+    rows = await connection.execute("SELECT * FROM Grimpeur")
+  } else {
+    rows = await connection.execute("SELECT * FROM Grimpeur WHERE fkCompte = ?", [ id ])
+  }
 
   return {
     status: 200,
-    body: rows,
+    body: rows[0],
   }
 }
 
