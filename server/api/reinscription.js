@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
     } catch (err) {
       return {
         status: 500,
-        body: { error: "Erreur durant le comptage", message: err.message },
+        body: { error: err.message },
       }
     }
   } else {
@@ -57,6 +57,15 @@ export default defineEventHandler(async (event) => {
 
   async function updateReinscription(body) {
     const { dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription } = body
+
+    // Validation des dates
+    if (new Date(dateReinscriptionIsInscrit) >= new Date(dateReinscriptionEveryone)) {
+      return {
+        status: 400,
+        body: { error: "La date de réinscription pour les inscrits doit être avant la date de réinscription pour tous." },
+      }
+    }
+
     const query = "UPDATE Reinscription SET dateReinscriptionIsInscrit = ?, dateReinscriptionEveryone = ?, dateFinReinscription = ?"
     const [ results ] = await connection.execute(query, [ dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription ])
 
