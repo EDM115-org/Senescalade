@@ -29,6 +29,7 @@
                       Email
                     </th>
                     <th
+                      v-if="isPermDelete"
                       class="text-center"
                       style="width: 34%;"
                     >
@@ -47,7 +48,10 @@
                     <td class="text-center">
                       {{ user.mail }}
                     </td>
-                    <td class="d-flex justify-center align-center text-center">
+                    <td
+                      v-if="isPermDelete"
+                      class="d-flex justify-center align-center text-center"
+                    >
                       <v-btn
                         color="error"
                         icon="mdi-delete"
@@ -86,13 +90,38 @@ definePageMeta({
 })
 
 const store = useMainStore()
+const user = store.getUser
 const router = useRouter()
 const users = ref([])
 const userCount = ref(0)
 const deleteDialog = ref(null)
 
+const isPermDelete = ref(false)
+const isPermEdit = ref(false)
+
 const errorMessage = ref("")
 const issueMessage = ref("")
+
+try {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
+    method: "POST",
+    body: JSON.stringify({ user })
+  })
+
+  if (response) {
+    if (response.body[0].UpdateListUtilisateur === 1) {
+      isPermEdit.value = true
+    }
+
+    if (response.body[0].DeleteListUtilisateur === 1) {
+      isPermDelete.value = true
+    }
+  } else {
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
 
 const fetchCompte = async () => {
   try {
