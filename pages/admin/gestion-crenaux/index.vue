@@ -224,20 +224,15 @@ const deleteSeance = async (id) => {
 
 const updateSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/update?type=seance", {
+    await $fetch("/api/update?type=seance", {
       method: "POST",
       body: seance
     })
 
-    if (result.status === 200) {
-      fetchSeance()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchSeance()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la modification de la séance"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

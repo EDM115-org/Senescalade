@@ -257,20 +257,15 @@ const deleteGrimpeurSeance = async (id) => {
 
 const updateGrimpeur = async (grimpeur) => {
   try {
-    const result = await $fetch("/api/update?type=grimpeur", {
+    await $fetch("/api/update?type=grimpeur", {
       method: "POST",
       body: grimpeur
     })
 
-    if (result.status === 200) {
-      fetchGrimpeurs()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchGrimpeurs()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la modification du grimpeur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -374,15 +369,12 @@ const downloadCSV = async () => {
 
 const resetIsExported = async () => {
   try {
-    const response = await $fetch("/api/update?type=grimpeurIsExported", {
+    await $fetch("/api/update?type=grimpeurIsExported", {
       method: "PUT"
     })
-
-    if (response.status !== 200) {
-      throw new Error("Erreur lors de la réinitialisation des exports")
-    }
   } catch (error) {
-    console.error("Erreur lors de la réinitialisation des exports:", error)
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 </script>

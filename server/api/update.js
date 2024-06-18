@@ -30,44 +30,30 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
 
-    try {
-      switch (type) {
-        case "admin":
-          return await updateAdmin(body)
-        case "grimpeur":
-          return await updateGrimpeur(body)
-        case "password":
-          return await updatePassword(body)
-        case "seance":
-          return await updateSeance(body)
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de mise à jour non pris en charge" }
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message }
-      }
+    switch (type) {
+      case "admin":
+        return await updateAdmin(body)
+      case "grimpeur":
+        return await updateGrimpeur(body)
+      case "password":
+        return await updatePassword(body)
+      case "seance":
+        return await updateSeance(body)
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de mise à jour non pris en charge"
+        })
     }
   } else if (event.node.req.method === "PUT") {
-    try {
-      switch (type) {
-        case "grimpeurIsExported":
-          return await updateGrimpeurIsExported()
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de mise à jour non pris en charge" }
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message }
-      }
+    switch (type) {
+      case "grimpeurIsExported":
+        return await updateGrimpeurIsExported()
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de mise à jour non pris en charge"
+        })
     }
   } else {
     throw createError({
@@ -94,7 +80,11 @@ async function updateAdmin(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de l'administrateur",
+      statusMessage: err
+    })
   }
 }
 
@@ -115,7 +105,11 @@ async function updateGrimpeur(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour du grimpeur",
+      statusMessage: err
+    })
   }
 }
 
@@ -123,53 +117,47 @@ async function updatePassword(body) {
   const { oldPassword, newPassword, user } = body
 
   if (!user) {
-    return {
+    throw createError({
       status: 401,
-      body: { error: "Utilisateur non connecté" }
-    }
+      message: "Utilisateur non connecté"
+    })
   }
 
-  try {
-    await connection.beginTransaction()
+  await connection.beginTransaction()
 
-    const query = "SELECT * FROM Compte WHERE idCompte = ?"
-    const [ rows ] = await connection.execute(query, [ user.id ])
+  const query = "SELECT * FROM Compte WHERE idCompte = ?"
+  const [ rows ] = await connection.execute(query, [ user.id ])
 
-    if (rows.length > 0) {
-      const userFromDB = rows[0]
-      const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
+  if (rows.length > 0) {
+    const userFromDB = rows[0]
+    const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
 
-      if (passwordMatch) {
-        const updateQuery = "UPDATE Compte SET password = ? WHERE idCompte = ?"
+    if (passwordMatch) {
+      const updateQuery = "UPDATE Compte SET password = ? WHERE idCompte = ?"
 
-        await connection.execute(updateQuery, [ newPassword, userFromDB.idCompte ])
+      await connection.execute(updateQuery, [ newPassword, userFromDB.idCompte ])
 
-        await connection.commit()
+      await connection.commit()
 
-        return {
-          status: 200,
-          body: { success: "Mot de passe mis à jour" }
-        }
-      } else {
-        await connection.rollback()
-
-        return {
-          status: 401,
-          body: { error: "Ancien mot de passe invalide" }
-        }
+      return {
+        status: 200,
+        body: { success: "Mot de passe mis à jour" }
       }
     } else {
       await connection.rollback()
 
-      return {
-        status: 404,
-        body: { error: "L'utilisateur n'existe pas" }
-      }
+      throw createError({
+        status: 401,
+        message: "Ancien mot de passe invalide"
+      })
     }
-  } catch (err) {
+  } else {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 404,
+      message: "L'utilisateur n'existe pas"
+    })
   }
 }
 
@@ -190,7 +178,11 @@ async function updateSeance(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de la séance",
+      statusMessage: err
+    })
   }
 }
 
@@ -209,6 +201,10 @@ async function updateGrimpeurIsExported() {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de l'état exporté du grimpeur",
+      statusMessage: err
+    })
   }
 }

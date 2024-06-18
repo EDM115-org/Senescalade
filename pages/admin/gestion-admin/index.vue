@@ -206,20 +206,15 @@ const fetchAdminCount = async () => {
 
 const updateAdmin = async (admin) => {
   try {
-    const result = await $fetch("/api/update?type=admin", {
+    await $fetch("/api/update?type=admin", {
       method: "POST",
       body: admin
     })
 
-    if (result.status === 200) {
-      fetchAdmin()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchAdmin()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la modification "
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
