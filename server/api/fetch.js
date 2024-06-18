@@ -212,16 +212,9 @@ async function fetchGrimpeurSeance(body) {
 
 
   if (rows.length > 0) {
-    if (rows.length === 1) {
-      return {
-        status: 200,
-        body: rows[0]
-      }
-    } else {
-      return {
-        status: 200,
-        body: rows
-      }
+    return {
+      status: 200,
+      body: rows[0]
     }
   } else {
     return {

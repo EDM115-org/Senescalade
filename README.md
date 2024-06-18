@@ -37,7 +37,7 @@ DB_USER=sae
 DB_PASSWORD="UserPassword"
 DB_NAME=sae
 DB_PORT=3306
-DEV_PORT=8000
+DEV_PORT=56860
 GMAIL_USER="adresse-email@gmail.com"
 GMAIL_PASS="abcd efgh ijkl mnop"
 MYSQL_ROOT_PASSWORD="SomethingStrong"
@@ -56,7 +56,7 @@ npm run docker-start
 
 Accessible à http://localhost/ (port 80 on prod, port 56860 on dev)
 
-> [!CAUTION]  
+> [!CAUTION]
 > MySQL est lent à démarrer. Normalement la webapp est sensée attendre que le service MySQL démarre, mais si ce n'est pas le cas, utilisez les commandes suivantes :
 
 ```bash
@@ -135,36 +135,36 @@ docker push edm115/senescalade:latest
 
 ## Tier list des choses à faire
 
-| Priorité | Tâche | État |
-| :---: | :---: | :---: |
-| **S** | Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement) | ❌ (L) |
-| **S** | API : sécurisation et `throw createError()` | ❌ (L) |
-| **S** | vuelidate dans l'inscription et tous les formulaires + désactiver les boutons | ❌ (L) |
-| **S** | export des grimpeurs d'un créneau en pdf | ❌ (A) |
-| **S** | appels à `Error.vue` là où il faut | ❌ (L) |
-| **S** | vérifier la liste d'attente + reprise d'inscription (jump to paiement) | ❌ (L/A) |
-| **S** | admin : modifier un utilisateur (+ lock d'infos) | ❌ (C/A) |
-| A | vérifier que les modifs de la BDD sont tous fonctionnels | ❌ (C) |
-| A | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) | ❌ (A) |
-| A | droits des admins | ❌ (C) |
-| A | réinscriptions | ❌ (C/A/L) |
-| A | mails : création de compte et modification mdp | ❌ (C) |
-| A | instructions claires dans le readme | ❌ (L) |
-| B | compléter le dashboard | ❌ (C/A) |
-| B | nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...) | ❌ (L) |
-| B | v-skeleton-loader | ❌ (L) |
-| C | clean les couleurs et images | ❌ (L) |
-| C | responsive | ❌ (L) |
+|  Priorité  |                                                     Tâche                                                     |   État   |
+| :---------: | :-------------------------------------------------------------------------------------------------------------: | :--------: |
+| **S** |                   Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement)                   |   ❌ (L)   |
+| **S** |                                 API : sécurisation et `throw createError()`                                 |   ❌ (L)   |
+| **S** |                 vuelidate dans l'inscription et tous les formulaires + désactiver les boutons                 |   ❌ (L)   |
+| **S** |                                    export des grimpeurs d'un créneau en pdf                                    |   ❌ (A)   |
+| **S** |                                     appels à `Error.vue` là où il faut                                     |   ❌ (L)   |
+| **S** |                     vérifier la liste d'attente + reprise d'inscription (jump to paiement)                     |  ❌ (L/A)  |
+| **S** |                                admin : modifier un utilisateur (+ lock d'infos)                                |  ❌ (C/A)  |
+|      A      |                            vérifier que les modifs de la BDD sont tous fonctionnels                            |   ❌ (C)   |
+|      A      | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) |   ❌ (A)   |
+|      A      |                                                droits des admins                                                |   ❌ (C)   |
+|      A      |                                                 réinscriptions                                                 | ❌ (C/A/L) |
+|      A      |                                 mails : création de compte et modification mdp                                 |   ❌ (C)   |
+|      A      |                                       instructions claires dans le readme                                       |   ❌ (L)   |
+|      B      |                                             compléter le dashboard                                             |  ❌ (C/A)  |
+|      B      |            nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...)            |   ❌ (L)   |
+|      B      |                                                v-skeleton-loader                                                |   ❌ (L)   |
+|      C      |                                          clean les couleurs et images                                          |   ❌ (L)   |
+|      C      |                                                   responsive                                                   |   ❌ (L)   |
 
 ### Infos supplémentaires :
 
 > une licence est valable 1 an : du 1er Septembre au 31 août de l'année suivante ; la saison actuelle est du 1er septembre 2023 au 31 août 2024
 
-> Type License => FAMILLE = 3e licence ou plus du foyer ...  
-> c'est là que la logique devient complexe, on peut laisser ça à la main pour l'instant.  
-> La règle est même nom de famille et/ou même adresse de résidence. À partir de la 3e licence, le tarif famille peut s'appliquer.  
-> coût Famille < coût Jeune < coût Adulte  
-> donc pour optimiser, les 2 premières licences JEUNE doivent être crées en premier puis passer les licences ADULTES en FAMILLE si possible, puis les licences JEUNE restantes en FAMILLE. vous pouvez oublier la subtilité de la licence FAMILLE dans un premier temps.  
->  
-> Pour la saison 2023-2024, JEUNE = age < 18 ans au 31 août 2024  <=> date de naissance >= 01/09/2006  
+> Type License => FAMILLE = 3e licence ou plus du foyer ...
+> c'est là que la logique devient complexe, on peut laisser ça à la main pour l'instant.
+> La règle est même nom de famille et/ou même adresse de résidence. À partir de la 3e licence, le tarif famille peut s'appliquer.
+> coût Famille < coût Jeune < coût Adulte
+> donc pour optimiser, les 2 premières licences JEUNE doivent être crées en premier puis passer les licences ADULTES en FAMILLE si possible, puis les licences JEUNE restantes en FAMILLE. vous pouvez oublier la subtilité de la licence FAMILLE dans un premier temps.
+>
+> Pour la saison 2023-2024, JEUNE = age < 18 ans au 31 août 2024  <=> date de naissance >= 01/09/2006
 > ADULTE = age >= 18 ans au 31 août 2024  <=> date de naissance < 01/09/2006

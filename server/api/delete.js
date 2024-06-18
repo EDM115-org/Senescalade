@@ -1,8 +1,9 @@
 import mysql from "mysql2/promise"
 import { defineEventHandler, readBody, getQuery } from "h3"
-import { fetch } from "ofetch"
+import { ofetch } from "ofetch"
 
 let connection = null
+const base_url = `http://localhost:${process.env.DEV_PORT}`
 
 try {
   connection = await mysql.createConnection({
@@ -107,26 +108,24 @@ async function deleteGrimpeur(body) {
 
   try {
     await connection.beginTransaction()
-    const result = await fetch("/api/fetch?type=grimpeurSeance", {
+    const result = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
       method: "POST",
       body: JSON.stringify({ idGrimpeur })
     })
 
     if (result.status === 200) {
-      const response = await fetch("/api/fetch?type=seance")
+      const response = await ofetch(`${base_url}/api/fetch?type=seance`)
 
       if (response.status === 200) {
-        const seance = response.body[result.body.idSeance]
+        const seance = response.body
 
         if (seance.nbPlacesRestantes === 0) {
-          const grimpeurSeanceResponse = await fetch("/api/fetch?type=grimpeurSeance")
+          const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
 
           if (grimpeurSeanceResponse.status === 200) {
-            const grimpeurSeances = await grimpeurSeanceResponse.json()
-
-            for (const grimpeurSeance of grimpeurSeances) {
+            for (const grimpeurSeance of grimpeurSeanceResponse.body) {
               if (grimpeurSeance.isFileDAttente) {
-                const grimpeurResponse = await fetch("/api/fetch?type=grimpeur", {
+                const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
                   method: "POST",
                   body: JSON.stringify({
                     idGrimpeur: grimpeurSeance.idGrimpeur
@@ -134,7 +133,7 @@ async function deleteGrimpeur(body) {
                 })
 
                 if (grimpeurResponse.status === 200) {
-                  const compteResponse = await fetch("/api/fetch?type=compte", {
+                  const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
                     method: "POST",
                     body: JSON.stringify({
                       idCompte: grimpeurResponse.body.fkCompte
@@ -142,7 +141,7 @@ async function deleteGrimpeur(body) {
                   })
 
                   if (compteResponse.status === 200) {
-                    await fetch("/api/notifySeance", {
+                    await ofetch(`${base_url}/api/notifySeance`, {
                       method: "POST",
                       body: JSON.stringify({
                         email: compteResponse.body.mail
@@ -180,7 +179,7 @@ async function deleteGrimpeurSeance(body) {
   try {
     await connection.beginTransaction()
 
-    const result = await fetch("/api/fetch?type=grimpeurSeance", {
+    const result = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
       method: "POST",
       body: JSON.stringify({ idGrimpeur })
     })
@@ -188,20 +187,20 @@ async function deleteGrimpeurSeance(body) {
     if (result.status === 200) {
       const seanceId = result.body.idSeance
 
-      const response = await fetch("/api/fetch?type=seance")
+      const response = await ofetch(`${base_url}/api/fetch?type=seance`)
 
       if (response.status === 200) {
-        const seance = response.body[seanceId]
+        const seance = response.body.find((seance) => seance.idSeance === seanceId)
 
         if (seance.nbPlacesRestantes === 0) {
-          const grimpeurSeanceResponse = await fetch("/api/fetch?type=grimpeurSeance")
+          const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
 
           if (grimpeurSeanceResponse.status === 200) {
             const grimpeurSeances = await grimpeurSeanceResponse.json()
 
             for (const grimpeurSeance of grimpeurSeances) {
               if (grimpeurSeance.isFileDAttente) {
-                const grimpeurResponse = await fetch("/api/fetch?type=grimpeur", {
+                const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
                   method: "POST",
                   body: JSON.stringify({
                     idGrimpeur: grimpeurSeance.idGrimpeur
@@ -209,7 +208,7 @@ async function deleteGrimpeurSeance(body) {
                 })
 
                 if (grimpeurResponse.status === 200) {
-                  const compteResponse = await fetch("/api/fetch?type=compte", {
+                  const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
                     method: "POST",
                     body: JSON.stringify({
                       idCompte: grimpeurResponse.body.fkCompte
@@ -217,7 +216,7 @@ async function deleteGrimpeurSeance(body) {
                   })
 
                   if (compteResponse.status === 200) {
-                    await fetch("/api/notifySeance", {
+                    await ofetch(`${base_url}/api/notifySeance`, {
                       method: "POST",
                       body: JSON.stringify({
                         email: compteResponse.body.mail
