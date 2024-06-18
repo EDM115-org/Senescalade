@@ -66,10 +66,7 @@ async function updateAdmin(body) {
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute(
-      "UPDATE Admin SET ReadListGrimpeur = ?, ReadListSeance = ?, ReadListAdmin = ?, ReadListUtilisateur = ?, UpdateListGrimpeur = ?, UpdateListSeance = ?, UpdateListAdmin = ?, UpdateListUtilisateur = ?, DeleteListGrimpeur = ?, DeleteListSeance = ?, DeleteListAdmin = ?, DeleteListUtilisateur = ? WHERE idAdmin = ?",
-      [ ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, idCompte ]
-    )
+    const [ rows ] = await connection.execute("UPDATE Admin SET ReadListGrimpeur = ?, ReadListSeance = ?, ReadListAdmin = ?, ReadListUtilisateur = ?, UpdateListGrimpeur = ?, UpdateListSeance = ?, UpdateListAdmin = ?, UpdateListUtilisateur = ?, DeleteListGrimpeur = ?, DeleteListSeance = ?, DeleteListAdmin = ?, DeleteListUtilisateur = ? WHERE idAdmin = ?", [ ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, idCompte ])
 
     await connection.commit()
 
@@ -85,55 +82,12 @@ async function updateAdmin(body) {
 }
 
 async function updateGrimpeur(body) {
-  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte } = body
-
-  const params = [
-    action,
-    nom,
-    prenom,
-    dateNaissance,
-    sexe,
-    nationalite,
-    adresse,
-    complementAdresse,
-    codePostal,
-    ville,
-    pays,
-    telephone,
-    mobile,
-    courriel2,
-    personneNom,
-    personnePrenom,
-    personneTelephone,
-    personneCourriel,
-    numLicence,
-    typeLicence,
-    assurance,
-    optionSki,
-    optionSlackline,
-    optionTrail,
-    optionVTT,
-    optionAssurance,
-    optionProtectionAgression,
-    fkCompte,
-    idGrimpeur
-  ].map((param) => (param !== undefined ? param : null))
+  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported } = body
 
   try {
     await connection.beginTransaction()
 
-    const query = `
-      UPDATE Grimpeur SET 
-        action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, 
-        adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, 
-        telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, 
-        personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, 
-        assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, 
-        optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?
-      WHERE idGrimpeur = ?
-    `
-
-    const [ rows ] = await connection.execute(query, params)
+    const [ rows ] = await connection.execute("UPDATE Grimpeur SET action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?, aPaye = ?, dateExport = ?, isExported = ? WHERE idGrimpeur = ?", [ action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported, idGrimpeur ])
 
     await connection.commit()
 
@@ -208,10 +162,7 @@ async function updateSeance(body) {
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute(
-      "UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?",
-      [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ]
-    )
+    const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
 
     await connection.commit()
 

@@ -90,6 +90,7 @@
                         icon="mdi-pencil"
                         size="small"
                         variant="elevated"
+                        @click.prevent="editGrimpeur(grimpeur)"
                       />
                       <v-btn
                         color="warning"
@@ -132,6 +133,10 @@
       ref="deleteDialogSeance"
       @confirm-delete="handleDeleteSeance"
     />
+    <PopUpEditGrimpeur
+      ref="editGrimpeurDialog"
+      @confirm-edit="handleEdit"
+    />
   </v-container>
 </template>
 
@@ -155,6 +160,7 @@ const router = useRouter()
 const grimpeurs = ref([])
 const grimpeurCount = ref(0)
 const afficheGrimpeurDialog = ref(null)
+const editGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
 const deleteDialogSeance = ref(null)
 
@@ -229,6 +235,25 @@ const deleteGrimpeurSeance = async (id) => {
   }
 }
 
+const updateGrimpeur = async (grimpeur) => {
+  try {
+    const result = await $fetch("/api/update?type=grimpeur", {
+      method: "POST",
+      body: grimpeur
+    })
+
+    if (result.status === 200) {
+      fetchGrimpeurs()
+    } else {
+      errorMessage.value = result.body.error
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la modification du grimpeur"
+    issueMessage.value = error
+  }
+}
+
 const confirmDelete = (grimpeur) => {
   const grimpeur2 = {
     id: grimpeur.idGrimpeur,
@@ -249,12 +274,20 @@ const confirmDeleteSeance = (grimpeur) => {
   deleteDialogSeance.value.open(grimpeur2)
 }
 
+const editGrimpeur = (grimpeur) => {
+  editGrimpeurDialog.value.open(grimpeur)
+}
+
 const handleDelete = (idGrimpeur) => {
   deleteGrimpeur(idGrimpeur)
 }
 
 const handleDeleteSeance = (idGrimpeur) => {
   deleteGrimpeurSeance(idGrimpeur)
+}
+
+const handleEdit = (grimpeur) => {
+  updateGrimpeur(grimpeur)
 }
 
 onMounted(async () => {
