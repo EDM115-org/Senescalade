@@ -49,12 +49,10 @@
                 <v-radio
                   label="Homme"
                   value="H"
-                  :checked="grimpeur.sexe === 'H'"
                 />
                 <v-radio
                   label="Femme"
                   value="F"
-                  :checked="grimpeur.sexe === 'F'"
                 />
               </v-radio-group>
             </v-col>
