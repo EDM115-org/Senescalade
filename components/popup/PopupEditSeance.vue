@@ -48,7 +48,6 @@
           <v-text-field
             v-model="seance.niveau"
             label="Niveau"
-            :rules="[rules.required]"
           />
           <v-text-field
             v-model="seance.professeur"
