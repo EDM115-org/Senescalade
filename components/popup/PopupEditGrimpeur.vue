@@ -430,7 +430,7 @@ const valid = ref(false)
 const emit = defineEmits([ "confirm-edit" ])
 
 const rules = {
-  required: (value) => !!value || "Requis",
+  required: (value) => Boolean(value) || "Requis",
   codePostal: (value) => (/^[0-9]{5}$/).test(value) || "Code postal invalide",
 }
 
