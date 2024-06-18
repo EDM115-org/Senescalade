@@ -151,9 +151,13 @@ async function addGrimpeur(body) {
     optionAssurance,
     optionProtectionAgression,
     fkCompte,
-    idSeance,
-    isFileDAttente
+    idSeance
   } = body
+  let isFileDAttente = body.isFileDAttente
+
+  if (isFileDAttente === undefined || isFileDAttente === null) {
+    isFileDAttente = false
+  }
 
   const params = [
     action,
@@ -201,11 +205,12 @@ async function addGrimpeur(body) {
     const [ grimpeurResult ] = await connection.execute(query, params)
     const idGrimpeur = grimpeurResult.insertId
 
-    if (isFileDAttente === undefined || isFileDAttente === null || isFileDAttente === false, isFileDAttente === 0) {
+    if (isFileDAttente === false) {
       const [ seanceResult ] = await connection.execute(
         "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
         [ idSeance ]
       )
+
       const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
 
       await connection.execute(
