@@ -1,6 +1,11 @@
 <template>
-  <v-container class="fillheight">
-    <h1 class="text-center mt-5 mb-5">
+  <v-container
+    v-if="loading"
+    class="fillheight"
+  >
+    <h1
+      class="text-center mt-5 mb-5"
+    >
       Espace utilisateur
     </h1>
     <NuxtLink
@@ -27,3 +32,36 @@
     <CardUser />
   </v-container>
 </template>
+
+<script setup>
+import { ref, onMounted } from "vue"
+import { useMainStore } from "~/store/main"
+
+const store = useMainStore()
+const router = useRouter()
+const user = store.getUser
+
+const loading = ref(false)
+
+onMounted(async () => {
+  if (user) {
+    try {
+      const response = await $fetch("/api/fetch?type=mailIsVerified", {
+        method: "POST",
+        body: JSON.stringify({ mail: user.mail })
+      })
+
+      if (response.body.isMailVerified === 1) {
+        router.push("/user")
+        loading.value = true
+      } else {
+        return router.push("/login/MailVerify")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
+    return router.push("/login")
+  }
+})
+</script>
