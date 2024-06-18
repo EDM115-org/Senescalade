@@ -312,7 +312,7 @@ async function fetchGrimpeursForSeance(body) {
 
 async function exportGrimpeursToCSV() {
   try {
-    const [ rows ] = await connection.execute("SELECT * FROM Grimpeur")
+    const [ rows ] = await connection.execute("SELECT * FROM Grimpeur WHERE isExported = 0")
 
     if (!rows || rows.length === 0) {
       return {
@@ -322,7 +322,6 @@ async function exportGrimpeursToCSV() {
     }
 
     const header = [
-      "idGrimpeur",
       "nom",
       "prenom",
       "dateNaissance",
@@ -352,7 +351,6 @@ async function exportGrimpeursToCSV() {
     ]
 
     const data = rows.map((row) => [
-      row.idGrimpeur,
       row.nom,
       row.prenom,
       new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
@@ -390,6 +388,12 @@ async function exportGrimpeursToCSV() {
 
       chunks.push(csvContent)
     }
+
+    const idsToUpdate = rows.map((row) => row.idGrimpeur)
+
+    const updateQuery = `UPDATE Grimpeur SET isExported = 1 WHERE idGrimpeur IN (${idsToUpdate.join(",")})`
+
+    await connection.execute(updateQuery)
 
     return {
       status: 200,

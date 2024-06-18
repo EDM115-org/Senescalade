@@ -14,10 +14,18 @@
                   class="d-flex justify-sm-end"
                 >
                   <v-btn
+                    class="mr-2"
                     color="success"
                     icon="mdi-file-download-outline"
                     variant="elevated"
                     @click="downloadCSV"
+                  />
+                  <v-btn
+                    v-col
+                    color="success"
+                    icon="mdi-refresh"
+                    variant="elevated"
+                    @click="resetIsExported"
                   />
                 </v-col>
               </v-row>
@@ -367,7 +375,7 @@ const downloadCSV = async () => {
     }
 
     csvContents.forEach((csvData, index) => {
-      const blob = new Blob([csvData], { type: "text/csv" })
+      const blob = new Blob([ csvData ], { type: "text/csv" })
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
 
@@ -380,6 +388,20 @@ const downloadCSV = async () => {
     })
   } catch (error) {
     console.error("Erreur lors du téléchargement du CSV:", error)
+  }
+}
+
+const resetIsExported = async () => {
+  try {
+    const response = await $fetch("/api/update?type=grimpeurIsExported", {
+      method: "PUT"
+    })
+
+    if (response.status !== 200) {
+      throw new Error("Erreur lors de la réinitialisation des exports")
+    }
+  } catch (error) {
+    console.error("Erreur lors de la réinitialisation des exports:", error)
   }
 }
 </script>
