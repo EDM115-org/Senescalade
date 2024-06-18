@@ -62,31 +62,15 @@ const grimpeurCount = ref(0)
 const nonPayeCount = ref(0)
 
 const fetchGrimpeurCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=grimpeur")
+  const result = await $fetch("/api/count?type=grimpeur")
 
-    if (result.status === 200) {
-      grimpeurCount.value = result.body.grimpeurCount
-    } else {
-      console.error("Error fetching grimpeur count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching grimpeur count:", error)
-  }
+  grimpeurCount.value = result.body.grimpeurCount
 }
 
 const fetchNonPayeCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=nonPaye")
+  const result = await $fetch("/api/count?type=nonPaye")
 
-    if (result.status === 200) {
-      nonPayeCount.value = result.body.nonPayeCount
-    } else {
-      console.error("Error fetching non-payers count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching non-payers count:", error)
-  }
+  nonPayeCount.value = result.body.nonPayeCount
 }
 
 onMounted(async () => {

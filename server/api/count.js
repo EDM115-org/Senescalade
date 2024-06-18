@@ -27,29 +27,22 @@ export default defineEventHandler(async (event) => {
   const { type } = query
 
   if (event.node.req.method === "GET") {
-    try {
-      switch (type) {
-        case "admin":
-          return await countAdmin()
-        case "compte":
-          return await countCompte()
-        case "grimpeur":
-          return await countGrimpeur()
-        case "nonPaye":
-          return await countNonPaye()
-        case "seance":
-          return await countSeance()
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de comptage non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant le comptage", message: err.message },
-      }
+    switch (type) {
+      case "admin":
+        return await countAdmin()
+      case "compte":
+        return await countCompte()
+      case "grimpeur":
+        return await countGrimpeur()
+      case "nonPaye":
+        return await countNonPaye()
+      case "seance":
+        return await countSeance()
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de comptage non pris en charge"
+        })
     }
   } else {
     throw createError({
@@ -64,7 +57,7 @@ async function countAdmin() {
 
   return {
     status: 200,
-    body: { adminCount: rows[0].adminCount },
+    body: { adminCount: rows[0].adminCount }
   }
 }
 
@@ -78,7 +71,7 @@ async function countCompte() {
 
   return {
     status: 200,
-    body: { userCount: rows[0].userCount },
+    body: { userCount: rows[0].userCount }
   }
 }
 
@@ -87,7 +80,7 @@ async function countGrimpeur() {
 
   return {
     status: 200,
-    body: { grimpeurCount: rows[0].grimpeurCount },
+    body: { grimpeurCount: rows[0].grimpeurCount }
   }
 }
 
@@ -96,7 +89,7 @@ async function countNonPaye() {
 
   return {
     status: 200,
-    body: { nonPayeCount: rows[0].nonPayeCount },
+    body: { nonPayeCount: rows[0].nonPayeCount }
   }
 }
 
@@ -105,6 +98,6 @@ async function countSeance() {
 
   return {
     status: 200,
-    body: { seanceCount: rows[0].seanceCount },
+    body: { seanceCount: rows[0].seanceCount }
   }
 }

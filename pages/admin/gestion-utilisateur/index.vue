@@ -138,17 +138,9 @@ const fetchCompte = async () => {
 }
 
 const fetchUserCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=compte")
+  const result = await $fetch("/api/count?type=compte")
 
-    if (result.status === 200) {
-      userCount.value = result.body.userCount
-    } else {
-      console.error("Error fetching user count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching user count:", error)
-  }
+  userCount.value = result.body.userCount
 }
 
 const deleteUser = async (id) => {

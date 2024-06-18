@@ -203,17 +203,9 @@ const fetchAdmin = async () => {
 }
 
 const fetchAdminCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=admin")
+  const result = await $fetch("/api/count?type=admin")
 
-    if (result.status === 200) {
-      adminCount.value = result.body.adminCount
-    } else {
-      console.error("Error fetching admin count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching admin count:", error)
-  }
+  adminCount.value = result.body.adminCount
 }
 
 const updateAdmin = async (admin) => {

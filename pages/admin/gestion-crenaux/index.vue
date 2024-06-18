@@ -206,17 +206,9 @@ const fetchSeance = async () => {
 }
 
 const fetchSeanceCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=seance")
+  const result = await $fetch("/api/count?type=seance")
 
-    if (result.status === 200) {
-      seanceCount.value = result.body.seanceCount
-    } else {
-      console.error("Error fetching seance count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching seance count:", error)
-  }
+  seanceCount.value = result.body.seanceCount
 }
 
 const deleteSeance = async (id) => {
