@@ -229,21 +229,16 @@ const updateAdmin = async (admin) => {
 
 const deleteAdmin = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=compte", {
+    await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })
 
-    if (result.status === 200) {
-      fetchAdmin()
-      fetchAdminCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchAdmin()
+    fetchAdminCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

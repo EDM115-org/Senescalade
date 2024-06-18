@@ -231,41 +231,31 @@ const fetchGrimpeurCount = async () => {
 
 const deleteGrimpeur = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=grimpeur", {
+    await $fetch("/api/delete?type=grimpeur", {
       method: "DELETE",
       body: { idGrimpeur: id }
     })
 
-    if (result.status === 200) {
-      fetchGrimpeurs()
-      fetchGrimpeurCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchGrimpeurs()
+    fetchGrimpeurCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
 const deleteGrimpeurSeance = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=grimpeurSeance", {
+    await $fetch("/api/delete?type=grimpeurSeance", {
       method: "DELETE",
       body: { idGrimpeur: id }
     })
 
-    if (result.status === 200) {
-      fetchGrimpeurs()
-      fetchGrimpeurCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchGrimpeurs()
+    fetchGrimpeurCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

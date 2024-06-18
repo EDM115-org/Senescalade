@@ -31,29 +31,22 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "DELETE") {
     const body = await readBody(event)
 
-    try {
-      switch (type) {
-        case "admin":
-          return await deleteAdmin(body)
-        case "compte":
-          return await deleteCompte(body)
-        case "grimpeur":
-          return await deleteGrimpeur(body)
-        case "grimpeurSeance":
-          return await deleteGrimpeurSeance(body)
-        case "seance":
-          return await deleteSeance(body)
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de suppression non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la suppression", message: err.message },
-      }
+    switch (type) {
+      case "admin":
+        return await deleteAdmin(body)
+      case "compte":
+        return await deleteCompte(body)
+      case "grimpeur":
+        return await deleteGrimpeur(body)
+      case "grimpeurSeance":
+        return await deleteGrimpeurSeance(body)
+      case "seance":
+        return await deleteSeance(body)
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de suppression non pris en charge"
+        })
     }
   } else {
     throw createError({
@@ -79,7 +72,11 @@ async function deleteAdmin(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Échec de la suppression de l'administrateur",
+      statusMessage: err
+    })
   }
 }
 
@@ -99,7 +96,11 @@ async function deleteCompte(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Échec de la suppression du compte",
+      statusMessage: err
+    })
   }
 }
 
@@ -108,54 +109,43 @@ async function deleteGrimpeur(body) {
 
   try {
     await connection.beginTransaction()
-    const result = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
+    await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
       method: "POST",
       body: JSON.stringify({ idGrimpeur })
     })
 
-    if (result.status === 200) {
-      const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    const seance = response.body
 
-      if (response.status === 200) {
-        const seance = response.body
+    if (seance.nbPlacesRestantes === 0) {
+      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
 
-        if (seance.nbPlacesRestantes === 0) {
-          const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
+      for (const grimpeurSeance of grimpeurSeanceResponse.body) {
+        if (grimpeurSeance.isFileDAttente) {
+          const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
+            method: "POST",
+            body: JSON.stringify({
+              idGrimpeur: grimpeurSeance.idGrimpeur
+            })
+          })
 
-          if (grimpeurSeanceResponse.status === 200) {
-            for (const grimpeurSeance of grimpeurSeanceResponse.body) {
-              if (grimpeurSeance.isFileDAttente) {
-                const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
-                  method: "POST",
-                  body: JSON.stringify({
-                    idGrimpeur: grimpeurSeance.idGrimpeur
-                  })
-                })
+          const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
+            method: "POST",
+            body: JSON.stringify({
+              idCompte: grimpeurResponse.body.fkCompte
+            })
+          })
 
-                if (grimpeurResponse.status === 200) {
-                  const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                      idCompte: grimpeurResponse.body.fkCompte
-                    })
-                  })
-
-                  if (compteResponse.status === 200) {
-                    await ofetch(`${base_url}/api/notifySeance`, {
-                      method: "POST",
-                      body: JSON.stringify({
-                        email: compteResponse.body.mail
-                      })
-                    })
-                  }
-                }
-              }
-            }
-          }
-
-          await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
+          await ofetch(`${base_url}/api/notifySeance`, {
+            method: "POST",
+            body: JSON.stringify({
+              email: compteResponse.body.mail
+            })
+          })
         }
       }
+
+      await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
     }
 
     const [ rows ] = await connection.execute("DELETE FROM Grimpeur WHERE idGrimpeur = ?", [ idGrimpeur ])
@@ -169,7 +159,11 @@ async function deleteGrimpeur(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Échec de la suppression du grimpeur",
+      statusMessage: err
+    })
   }
 }
 
@@ -184,53 +178,39 @@ async function deleteGrimpeurSeance(body) {
       body: JSON.stringify({ idGrimpeur })
     })
 
-    if (result.status === 200) {
-      const seanceId = result.body[0].idSeance
+    const seanceId = result.body[0].idSeance
+    const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    const seance = response.body.find((seance) => seance.idSeance === seanceId)
 
-      const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    if (seance.nbPlacesRestantes === 0) {
+      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
 
-      if (response.status === 200) {
-        const seance = response.body.find((seance) => seance.idSeance === seanceId)
+      for (const grimpeurSeance of grimpeurSeanceResponse) {
+        if (grimpeurSeance.isFileDAttente) {
+          const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
+            method: "POST",
+            body: JSON.stringify({
+              idGrimpeur: grimpeurSeance.idGrimpeur
+            })
+          })
 
-        if (seance.nbPlacesRestantes === 0) {
-          const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
+          const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
+            method: "POST",
+            body: JSON.stringify({
+              idCompte: grimpeurResponse.body.fkCompte
+            })
+          })
 
-          if (grimpeurSeanceResponse.status === 200) {
-            const grimpeurSeances = await grimpeurSeanceResponse.json()
-
-            for (const grimpeurSeance of grimpeurSeances) {
-              if (grimpeurSeance.isFileDAttente) {
-                const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
-                  method: "POST",
-                  body: JSON.stringify({
-                    idGrimpeur: grimpeurSeance.idGrimpeur
-                  })
-                })
-
-                if (grimpeurResponse.status === 200) {
-                  const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                      idCompte: grimpeurResponse.body.fkCompte
-                    })
-                  })
-
-                  if (compteResponse.status === 200) {
-                    await ofetch(`${base_url}/api/notifySeance`, {
-                      method: "POST",
-                      body: JSON.stringify({
-                        email: compteResponse.body.mail
-                      })
-                    })
-                  }
-                }
-              }
-            }
-          }
-
-          await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
+          await ofetch(`${base_url}/api/notifySeance`, {
+            method: "POST",
+            body: JSON.stringify({
+              email: compteResponse.body.mail
+            })
+          })
         }
       }
+
+      await connection.execute("UPDATE Seance SET nbPlacesRestantes = 1 WHERE idSeance = ?", [ seance.idSeance ])
     }
 
     const [ rows ] = await connection.execute(
@@ -247,7 +227,11 @@ async function deleteGrimpeurSeance(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Échec de la suppression de la relation entre le grimpeur et la séance",
+      statusMessage: err
+    })
   }
 }
 
@@ -262,11 +246,15 @@ async function deleteSeance(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows
     }
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Échec de la suppression de la séance",
+      statusMessage: err
+    })
   }
 }
