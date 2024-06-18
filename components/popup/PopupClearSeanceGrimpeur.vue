@@ -9,7 +9,7 @@
         Confirmation
       </v-card-title>
       <v-card-text>
-        Êtes-vous sûr de vouloir vider toutes les inscriptions aux séances ?
+        Lorsque vous confirmez, toutes les inscriptions des grimpeurs aux séances seront supprimées, les anciens grimpeurs passeront en statut de renouvellement, et la variable de paiement sera réinitialisée.
       </v-card-text>
       <v-card-actions>
         <v-btn

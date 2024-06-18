@@ -1,6 +1,6 @@
 USE sae;
 
-INSERT INTO Reinscription(dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription, inscritionOpen)
+INSERT INTO Reinscription(dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription, inscriptionOpen)
 VALUES ('2024-06-18', '2024-06-25', '2024-06-30', 1);
 
 INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)

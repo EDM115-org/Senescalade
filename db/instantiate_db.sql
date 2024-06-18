@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS Grimpeur (
   optionProtectionAgression BOOLEAN DEFAULT 0,
   fkCompte INT NOT NULL,
   aPaye BOOLEAN NOT NULL DEFAULT 0,
-  dateExport DATE,
   isExported BOOLEAN NOT NULL DEFAULT 0,
   FOREIGN KEY (fkCompte) REFERENCES Compte(idCompte)
     ON DELETE CASCADE

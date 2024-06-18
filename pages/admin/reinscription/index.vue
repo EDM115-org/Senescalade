@@ -69,7 +69,7 @@
         class="d-flex justify-center"
       >
         <v-checkbox
-          v-model="openForm.inscritionOpen"
+          v-model="openForm.inscriptionOpen"
           label="Ouvrir la réinscription"
           @change="submitOpenForm"
         />
@@ -85,7 +85,7 @@
           color="error"
           @click="openClearPopup"
         >
-          Vider les inscriptions aux séances
+          Lancer la réinscription
         </v-btn>
       </v-col>
     </v-row>
@@ -117,7 +117,7 @@ const datesForm = ref({
 })
 
 const openForm = ref({
-  inscritionOpen: false
+  inscriptionOpen: false
 })
 
 const clearDialog = ref(null)
@@ -128,14 +128,17 @@ const issueMessage = ref("")
 onMounted(async () => {
   try {
     const response = await $fetch("/api/fetch?type=reinscription")
-
     const reinscriptions = response.body
 
     datesForm.value.dateReinscriptionIsInscrit = new Date(reinscriptions.dateReinscriptionIsInscrit)
     datesForm.value.dateReinscriptionEveryone = new Date(reinscriptions.dateReinscriptionEveryone)
     datesForm.value.dateFinReinscription = new Date(reinscriptions.dateFinReinscription)
 
-    if (reinscriptions.inscritionOpen === 1) { openForm.value.inscritionOpen = true } else { openForm.value.inscritionOpen = false }
+    if (reinscriptions.inscriptionOpen === 1) {
+      openForm.value.inscriptionOpen = true
+    } else {
+      openForm.value.inscriptionOpen = false
+    }
   } catch (error) {
     messageColor.value = "error"
     errorMessage.value = error.data.message
@@ -169,7 +172,7 @@ async function submitOpenForm() {
     const response = await $fetch("/api/reinscription?type=open", {
       method: "POST",
       body: JSON.stringify({
-        inscritionOpen: openForm.value.inscritionOpen
+        inscriptionOpen: openForm.value.inscriptionOpen
       })
     })
 

@@ -73,9 +73,9 @@ async function updateReinscription(body) {
 }
 
 async function openReinscription(body) {
-  const { inscritionOpen } = body
-  const query = "UPDATE Reinscription SET inscritionOpen = ?"
-  const [ results ] = await connection.execute(query, [ inscritionOpen ])
+  const { inscriptionOpen } = body
+  const query = "UPDATE Reinscription SET inscriptionOpen = ?"
+  const [ results ] = await connection.execute(query, [ inscriptionOpen ])
 
   if (results.affectedRows === 0) {
     throw createError({
@@ -110,6 +110,20 @@ async function clearReinscription() {
   `
 
   await connection.execute(deleteQuery)
+
+  const seanceQuery = `
+    UPDATE Seance
+    SET nbPlacesRestantes = nbPlaces
+  `
+
+  await connection.execute(seanceQuery)
+
+  const grimpeurQuery = `
+    UPDATE Grimpeur
+    SET aPaye = 0, isExported = 0
+  `
+
+  await connection.execute(grimpeurQuery)
 
   return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }
 }
