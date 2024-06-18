@@ -1,5 +1,8 @@
 <template>
-  <v-container class="fillheight">
+  <v-container
+    v-if="loading"
+    class="fillheight"
+  >
     <h1 class="text-center my-4">
       Ajouter un grimpeur
     </h1>
@@ -226,6 +229,7 @@ import { onMounted, reactive, ref, watch } from "vue"
 import { useDisplay } from "vuetify"
 
 const store = useMainStore()
+const user = store.getUser
 const { mdAndUp } = useDisplay()
 const router = useRouter()
 
@@ -241,6 +245,7 @@ const issueMessage = ref("")
 const selectedEvent = ref(null)
 const noEventsLeft = ref(false)
 const isFileDattente = ref(false)
+const loading = ref(false)
 
 const grimpeur = reactive({
   action: "C",
@@ -443,6 +448,26 @@ watch(birthdate, (value) => {
 })
 
 onMounted(async () => {
+  if (user) {
+    try {
+      const response = await $fetch("/api/fetch?type=mailIsVerified", {
+        method: "POST",
+        body: JSON.stringify({ mail: user.mail })
+      })
+
+      if (response.body.mailIsVerified === 1) {
+        router.push("/user")
+        loading.value = true
+      } else {
+        return router.push("/login/MailVerify")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
+    return router.push("/login")
+  }
+
   const response = await $fetch("/api/fetch?type=seance")
 
   events.value = response.body

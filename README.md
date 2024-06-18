@@ -145,12 +145,12 @@ docker push edm115/senescalade:latest
 | **S** |                                    export des grimpeurs d'un créneau en pdf                                    |   ✅ (A)   |
 | **S** |                                     appels à `Error.vue` là où il faut                                     |   ❌ (L)   |
 | **S** |                     vérifier la liste d'attente + reprise d'inscription (jump to paiement)                     |  ❌ (L/A)  |
-| **S** |                                admin : modifier un utilisateur (+ lock d'infos)                                |  ❌ (C/A)  |
-|      A      |                            vérifier que les modifs de la BDD sont tous fonctionnels                            |   ❌ (C)   |
-|      A      | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) |   ❌ (A)   |
+| **S** |                                admin : modifier un utilisateur (+ lock d'infos)                                | ✅ (C/A) |
+|      A      |                            vérifier que les modifs de la BDD sont tous fonctionnels                            |  ✅ (C)  |
+|      A      | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) |  ✅ (A)  |
 |      A      |                                                droits des admins                                                |  ✅ (C)  |
 |      A      |                                                 réinscriptions                                                 | ❌ (C/A/L) |
-|      A      |                                 mails : création de compte et modification mdp                                 |   ❌ (C)   |
+|      A      |                                           mails : création de compte                                           |  ✅ (C)  |
 |      A      |                                       instructions claires dans le readme                                       |   ❌ (L)   |
 |      B      |                                             compléter le dashboard                                             |  ❌ (C/A)  |
 |      B      |            nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...)            |   ❌ (L)   |

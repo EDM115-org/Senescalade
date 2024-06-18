@@ -1,5 +1,8 @@
 <template>
-  <v-container class="fillheight">
+  <v-container
+    v-if="loading"
+    class="fillheight"
+  >
     <h1 class="text-center my-4">
       Vous êtes connecté {{ mail ?? "" }}
     </h1>
@@ -34,8 +37,30 @@ const mail = computed(() => store.getUser?.mail)
 const user = store.getUser
 const router = useRouter()
 
+const loading = ref(false)
 const errorMessage = ref("")
 const issueMessage = ref("")
+
+onMounted(async () => {
+  if (user) {
+    try {
+      const response = await $fetch("/api/fetch?type=mailIsVerified", {
+        method: "POST",
+        body: JSON.stringify({ mail: user.mail })
+      })
+
+      if (response.body.mailIsVerified === 1) {
+        loading.value = true
+      } else {
+        return router.push("/login/MailVerify")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
+    return router.push("/login")
+  }
+})
 
 const deleteUser = async (id) => {
   try {

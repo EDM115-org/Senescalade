@@ -52,6 +52,23 @@ export default defineEventHandler(async (event) => {
         body: { error: "Erreur durant la mise à jour", message: err.message },
       }
     }
+  } else if (event.node.req.method === "PUT") {
+    try {
+      switch (type) {
+        case "grimpeurIsExported":
+          return await updateGrimpeurIsExported()
+        default:
+          return {
+            status: 400,
+            body: { error: "Type de mise à jour non pris en charge" },
+          }
+      }
+    } catch (err) {
+      return {
+        status: 500,
+        body: { error: "Erreur durant la mise à jour", message: err.message },
+      }
+    }
   } else {
     return {
       status: 405,
@@ -163,6 +180,25 @@ async function updateSeance(body) {
     await connection.beginTransaction()
 
     const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows,
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw err
+  }
+}
+
+async function updateGrimpeurIsExported() {
+  try {
+    await connection.beginTransaction()
+
+    const [ rows ] = await connection.execute("UPDATE Grimpeur SET isExported = 0 WHERE isExported = 1")
 
     await connection.commit()
 
