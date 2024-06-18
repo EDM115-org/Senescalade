@@ -379,10 +379,6 @@ const downloadCSV = async () => {
         throw new Error("Format de réponse inattendu")
       }
 
-    csvContents.forEach((csvData, index) => {
-      const blob = new Blob([ csvData ], { type: "text/csv" })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
       csvContents.forEach((csvData, index) => {
         const blob = new Blob([ csvData ], { type: "text/csv" })
         const url = window.URL.createObjectURL(blob)
