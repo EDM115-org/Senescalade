@@ -117,7 +117,7 @@ definePageMeta({
 const datesForm = ref({
   dateReinscriptionIsInscrit: new Date(),
   dateReinscriptionEveryone: new Date(),
-  dateFinReinscription: new Date(),
+  dateFinReinscription: new Date()
 })
 
 const openForm = ref({

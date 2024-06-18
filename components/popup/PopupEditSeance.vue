@@ -91,7 +91,7 @@ const seance = ref({
   niveau: "",
   nbPlaces: 0,
   nbPlacesRestantes: 0,
-  professeur: "",
+  professeur: ""
 })
 
 const valid = ref(false)
@@ -111,7 +111,7 @@ const rules = {
         )
   ),
 
-  nbPlacesRestantes: (value) => (value >= 0 && value <= seance.value.nbPlaces) || "Nombre de places restantes invalide",
+  nbPlacesRestantes: (value) => (value >= 0 && value <= seance.value.nbPlaces) || "Nombre de places restantes invalide"
 }
 
 const jours = [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" ]

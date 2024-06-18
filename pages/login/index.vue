@@ -76,7 +76,7 @@ async function login(event) {
             await $fetch("/api/mailVerify?type=mail", {
               method: "POST",
               body: JSON.stringify({
-                email: result.body.user.mail,
+                email: result.body.user.mail
               })
             })
 

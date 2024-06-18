@@ -125,7 +125,7 @@ async function resendVerificationMail() {
     const response = await $fetch("/api/mailVerify?type=mail", {
       method: "POST",
       body: JSON.stringify({
-        email: user.mail,
+        email: user.mail
       })
     })
 

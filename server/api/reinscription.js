@@ -8,7 +8,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Échec de connexion à la base de données : ", err)
@@ -39,13 +39,13 @@ export default defineEventHandler(async (event) => {
         default:
           return {
             status: 400,
-            body: { error: "Type de comptage non pris en charge" },
+            body: { error: "Type de comptage non pris en charge" }
           }
       }
     } catch (err) {
       return {
         status: 500,
-        body: { error: err.message },
+        body: { error: err.message }
       }
     }
   } else {
@@ -62,7 +62,7 @@ export default defineEventHandler(async (event) => {
     if (new Date(dateReinscriptionIsInscrit) >= new Date(dateReinscriptionEveryone)) {
       return {
         status: 400,
-        body: { error: "La date de réinscription pour les inscrits doit être avant la date de réinscription pour tous." },
+        body: { error: "La date de réinscription pour les inscrits doit être avant la date de réinscription pour tous." }
       }
     }
 
@@ -72,7 +72,7 @@ export default defineEventHandler(async (event) => {
     if (results.affectedRows === 0) {
       return {
         status: 404,
-        body: { error: "Aucun enregistrement trouvé" },
+        body: { error: "Aucun enregistrement trouvé" }
       }
     }
 
@@ -87,7 +87,7 @@ export default defineEventHandler(async (event) => {
     if (results.affectedRows === 0) {
       return {
         status: 404,
-        body: { error: "Aucun enregistrement trouvé" },
+        body: { error: "Aucun enregistrement trouvé" }
       }
     }
 
@@ -110,7 +110,7 @@ export default defineEventHandler(async (event) => {
       if (updateResults.affectedRows === 0) {
         return {
           status: 404,
-          body: { error: "Aucun grimpeur mis à jour" },
+          body: { error: "Aucun grimpeur mis à jour" }
         }
       }
 
@@ -127,7 +127,7 @@ export default defineEventHandler(async (event) => {
 
       return {
         status: 500,
-        body: { error: "Erreur lors de la mise à jour des actions et de la suppression des inscriptions" },
+        body: { error: "Erreur lors de la mise à jour des actions et de la suppression des inscriptions" }
       }
     }
   }

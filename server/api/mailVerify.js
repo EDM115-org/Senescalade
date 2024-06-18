@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
+    pass: process.env.GMAIL_PASS
+  }
 })
 
 let connection = null
@@ -17,7 +17,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Échec de connexion à la base de données : ", err)
@@ -46,13 +46,13 @@ export default defineEventHandler(async (event) => {
         default:
           return {
             statusCode: 400,
-            body: { error: "Type de requête non pris en charge" },
+            body: { error: "Type de requête non pris en charge" }
           }
       }
     } catch (err) {
       return {
         statusCode: 500,
-        body: { error: "Erreur durant la requête", message: err.message },
+        body: { error: "Erreur durant la requête", message: err.message }
       }
     }
   } else {
@@ -69,7 +69,7 @@ async function handleMailRequest(body) {
   if (!email) {
     return {
       statusCode: 400,
-      body: { error: "Le champ 'email' est requis" },
+      body: { error: "Le champ 'email' est requis" }
     }
   }
 
@@ -82,7 +82,7 @@ async function handleMailRequest(body) {
     if (rows.length === 0) {
       return {
         statusCode: 404,
-        body: { error: "Aucun utilisateur trouvé avec cet email" },
+        body: { error: "Aucun utilisateur trouvé avec cet email" }
       }
     }
 
@@ -91,7 +91,7 @@ async function handleMailRequest(body) {
     try {
       await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
         code,
-        email,
+        email
       ])
     } catch (error) {
       console.error(
@@ -101,7 +101,7 @@ async function handleMailRequest(body) {
 
       return {
         statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
+        body: { error: "Erreur lors de l'envoi de l'email de récupération" }
       }
     }
 
@@ -110,7 +110,7 @@ async function handleMailRequest(body) {
       to: email,
       subject: "Vérification de votre email",
       text: `Votre code de vérification est: ${code}`,
-      html: `<p>Votre code de vérification est: <strong>${code}</strong></p>`,
+      html: `<p>Votre code de vérification est: <strong>${code}</strong></p>`
     }
 
     try {
@@ -118,14 +118,14 @@ async function handleMailRequest(body) {
 
       return {
         statusCode: 200,
-        body: { success: "Email de récupération envoyé avec succès" },
+        body: { success: "Email de récupération envoyé avec succès" }
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi de l'email de récupération:", error)
 
       return {
         statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
+        body: { error: "Erreur lors de l'envoi de l'email de récupération" }
       }
     }
   } catch (error) {
@@ -133,7 +133,7 @@ async function handleMailRequest(body) {
 
     return {
       statusCode: 500,
-      body: { error: "Erreur lors de la vérification de l'email dans la base de données" },
+      body: { error: "Erreur lors de la vérification de l'email dans la base de données" }
     }
   }
 }
@@ -144,7 +144,7 @@ async function handleCodeRequest(body) {
   if (!email || !code) {
     return {
       statusCode: 400,
-      body: { error: "Le mail ou le code n'a pas été fourni" },
+      body: { error: "Le mail ou le code n'a pas été fourni" }
     }
   }
 
@@ -157,7 +157,7 @@ async function handleCodeRequest(body) {
     if (rows.length === 0) {
       return {
         statusCode: 404,
-        body: { error: "Aucun compte trouvé pour cet email" },
+        body: { error: "Aucun compte trouvé pour cet email" }
       }
     }
 
@@ -166,14 +166,14 @@ async function handleCodeRequest(body) {
     if (dbCode === "0") {
       return {
         statusCode: 400,
-        body: { error: "Aucun code de vérification n'a été généré" },
+        body: { error: "Aucun code de vérification n'a été généré" }
       }
     }
 
     if (dbCode !== code) {
       return {
         statusCode: 404,
-        body: { error: "Code incorrect ou expiré" },
+        body: { error: "Code incorrect ou expiré" }
       }
     }
 
@@ -184,14 +184,14 @@ async function handleCodeRequest(body) {
 
     return {
       statusCode: 200,
-      body: { success: "Code vérifié avec succès, email vérifié" },
+      body: { success: "Code vérifié avec succès, email vérifié" }
     }
   } catch (error) {
     console.error("Erreur lors de la vérification du code:", error)
 
     return {
       statusCode: 500,
-      body: { error: "Erreur lors de la vérification du code" },
+      body: { error: "Erreur lors de la vérification du code" }
     }
   }
 }

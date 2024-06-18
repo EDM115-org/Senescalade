@@ -28,7 +28,7 @@ export default createConfigForNuxt(
       "@stylistic/arrow-spacing": [ "error", { before: true, after: true }],
       "@stylistic/block-spacing": [ "error", "always" ],
       "@stylistic/brace-style": [ "error", "1tbs", { allowSingleLine: true }],
-      "@stylistic/comma-dangle": [ "error", "only-multiline" ],
+      "@stylistic/comma-dangle": [ "error", "never" ],
       "@stylistic/comma-spacing": [ "error", { before: false, after: true }],
       "@stylistic/comma-style": [ "error", "last" ],
       "@stylistic/computed-property-spacing": [ "error", "never" ],
@@ -91,7 +91,7 @@ export default createConfigForNuxt(
       "curly": [ "error", "all" ],
       "@typescript-eslint/no-unused-vars": [ "warn" ],
       "vue/multi-word-component-names": "off",
-      "vue/no-mutating-props": "off",
+      "vue/no-mutating-props": "off"
     }
   }
 )

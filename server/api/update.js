@@ -9,7 +9,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Erreur de connexion à la base de données:", err)
@@ -43,13 +43,13 @@ export default defineEventHandler(async (event) => {
         default:
           return {
             status: 400,
-            body: { error: "Type de mise à jour non pris en charge" },
+            body: { error: "Type de mise à jour non pris en charge" }
           }
       }
     } catch (err) {
       return {
         status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message },
+        body: { error: "Erreur durant la mise à jour", message: err.message }
       }
     }
   } else if (event.node.req.method === "PUT") {
@@ -60,13 +60,13 @@ export default defineEventHandler(async (event) => {
         default:
           return {
             status: 400,
-            body: { error: "Type de mise à jour non pris en charge" },
+            body: { error: "Type de mise à jour non pris en charge" }
           }
       }
     } catch (err) {
       return {
         status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message },
+        body: { error: "Erreur durant la mise à jour", message: err.message }
       }
     }
   } else {
@@ -125,7 +125,7 @@ async function updatePassword(body) {
   if (!user) {
     return {
       status: 401,
-      body: { error: "Utilisateur non connecté" },
+      body: { error: "Utilisateur non connecté" }
     }
   }
 
@@ -148,14 +148,14 @@ async function updatePassword(body) {
 
         return {
           status: 200,
-          body: { success: "Mot de passe mis à jour" },
+          body: { success: "Mot de passe mis à jour" }
         }
       } else {
         await connection.rollback()
 
         return {
           status: 401,
-          body: { error: "Ancien mot de passe invalide" },
+          body: { error: "Ancien mot de passe invalide" }
         }
       }
     } else {
@@ -163,7 +163,7 @@ async function updatePassword(body) {
 
       return {
         status: 404,
-        body: { error: "L'utilisateur n'existe pas" },
+        body: { error: "L'utilisateur n'existe pas" }
       }
     }
   } catch (err) {

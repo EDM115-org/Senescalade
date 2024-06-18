@@ -188,7 +188,7 @@ const { sameAs } = createI18nValidators(t)
 
 const initialStatePassword = {
   newPassword: "",
-  confirmPassword: "",
+  confirmPassword: ""
 }
 const statePassword = reactive({ ...initialStatePassword })
 

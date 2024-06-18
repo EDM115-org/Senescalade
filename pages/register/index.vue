@@ -44,7 +44,7 @@ async function register(event) {
   try {
     await $fetch("/api/register", {
       method: "POST",
-      body: JSON.stringify(event),
+      body: JSON.stringify(event)
     })
 
     router.push("/login?inscription=success")

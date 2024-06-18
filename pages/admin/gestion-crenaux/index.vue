@@ -164,7 +164,7 @@ const headers = [
   { text: "Places", width: "10%" },
   { text: "Places restantes", width: "10%" },
   { text: "Professeur", width: "15%" },
-  { text: "Actions", width: "15%" },
+  { text: "Actions", width: "15%" }
 ]
 
 try {
@@ -211,7 +211,7 @@ const deleteSeance = async (id) => {
   try {
     await $fetch("/api/delete?type=seance", {
       method: "DELETE",
-      body: { idSeance: id },
+      body: { idSeance: id }
     })
 
     fetchSeance()
@@ -226,7 +226,7 @@ const updateSeance = async (seance) => {
   try {
     const result = await $fetch("/api/update?type=seance", {
       method: "POST",
-      body: seance,
+      body: seance
     })
 
     if (result.status === 200) {
@@ -245,7 +245,7 @@ const createSeance = async (seance) => {
   try {
     await $fetch("/api/add?type=seance", {
       method: "POST",
-      body: seance,
+      body: seance
     })
 
     fetchSeance()
@@ -289,7 +289,7 @@ const exportGrimpeursPDF = async (idSeance) => {
       typeSeance: grimpeurs.typeSeance,
       heureDebutSeance: grimpeurs.heureDebutSeance,
       heureFinSeance: grimpeurs.heureFinSeance,
-      nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes,
+      nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes
     }
 
     generatePDF(grimpeurs, seanceDetails)
@@ -336,7 +336,7 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user }),
+          body: JSON.stringify({ user })
         })
 
         if (response.body.ReadListSeance !== 1) {

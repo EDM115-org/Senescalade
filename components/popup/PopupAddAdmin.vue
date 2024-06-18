@@ -146,7 +146,7 @@ const admin = reactive({
   DeleteListGrimpeur: false,
   DeleteListSeance: false,
   DeleteListAdmin: false,
-  DeleteListUtilisateur: false,
+  DeleteListUtilisateur: false
 })
 
 const rules = {

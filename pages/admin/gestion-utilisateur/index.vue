@@ -177,7 +177,7 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user }),
+          body: JSON.stringify({ user })
         })
 
         if (response.body.ReadListUtilisateur !== 1) {

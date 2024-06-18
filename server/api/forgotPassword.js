@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
+    pass: process.env.GMAIL_PASS
+  }
 })
 
 let connection = null
@@ -17,7 +17,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Échec de connexion à la base de données : ", err)
@@ -100,7 +100,7 @@ async function handleMailRequest(body) {
     to: email,
     subject: `Réinitialisation du mot de passe : ${code}`,
     text: `Votre code de vérification est : ${code}`,
-    html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
+    html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`
   }
 
   try {
@@ -108,7 +108,7 @@ async function handleMailRequest(body) {
 
     return {
       statusCode: 200,
-      body: { success: "Email de récupération envoyé avec succès" },
+      body: { success: "Email de récupération envoyé avec succès" }
     }
   } catch (error) {
     throw createError({
@@ -164,7 +164,7 @@ async function handleCodeRequest(body) {
 
   return {
     statusCode: 200,
-    body: { success: "Code vérifié avec succès, email vérifié" },
+    body: { success: "Code vérifié avec succès, email vérifié" }
   }
 }
 
@@ -187,7 +187,7 @@ async function handlePasswordRequest(body) {
 
     return {
       statusCode: 200,
-      body: { success: "Mot de passe réinitialisé avec succès" },
+      body: { success: "Mot de passe réinitialisé avec succès" }
     }
   } catch (error) {
     throw createError({

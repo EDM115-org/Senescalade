@@ -10,7 +10,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Échec de connexion à la base de données : ", err)
@@ -222,7 +222,7 @@ async function deleteGrimpeurSeance(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows
     }
   } catch (err) {
     await connection.rollback()

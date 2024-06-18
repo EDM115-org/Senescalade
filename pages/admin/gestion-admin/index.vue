@@ -208,7 +208,7 @@ const updateAdmin = async (admin) => {
   try {
     const result = await $fetch("/api/update?type=admin", {
       method: "POST",
-      body: admin,
+      body: admin
     })
 
     if (result.status === 200) {
@@ -264,7 +264,7 @@ const adminPermissions = (admin) => {
     "Suppression Grimpeur": admin.DeleteListGrimpeur,
     "Suppression Seance": admin.DeleteListSeance,
     "Suppression Admin": admin.DeleteListAdmin,
-    "Suppression Utilisateur": admin.DeleteListUtilisateur,
+    "Suppression Utilisateur": admin.DeleteListUtilisateur
   }
 }
 

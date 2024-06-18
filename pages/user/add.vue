@@ -299,7 +299,7 @@ async function adduser() {
     grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
     await $fetch("/api/add?type=grimpeur", {
       method: "POST",
-      body: JSON.stringify(grimpeur),
+      body: JSON.stringify(grimpeur)
     })
 
     router.push("/user")
@@ -481,7 +481,7 @@ onMounted(async () => {
       end: new Date(`${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`),
       ...event,
       color: getEventColor(event),
-      description: event.niveau,
+      description: event.niveau
     }
   })
 })

@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     pageTransition: { name: "page", mode: "out-in" }
   },
   build: {
-    transpile: [ "vuetify" ],
+    transpile: [ "vuetify" ]
   },
   css: [ "~/assets/styles/main.scss" ],
   devtools: {

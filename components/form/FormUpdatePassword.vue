@@ -124,7 +124,7 @@ const togglePasswordVisibility = () => {
 const initialState = {
   oldPassword: "",
   newPassword: "",
-  confirmPassword: "",
+  confirmPassword: ""
 }
 
 const state = reactive({ ...initialState })

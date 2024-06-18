@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
+    pass: process.env.GMAIL_PASS
+  }
 })
 
 let connection = null
@@ -17,7 +17,7 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Échec de connexion à la base de données : ", err)
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     if (!email) {
       return {
         statusCode: 400,
-        body: { error: "Le champ 'email' est requis" },
+        body: { error: "Le champ 'email' est requis" }
       }
     }
 
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
       if (rows.length === 0) {
         return {
           statusCode: 404,
-          body: { error: "Aucun utilisateur trouvé avec cet email" },
+          body: { error: "Aucun utilisateur trouvé avec cet email" }
         }
       }
 
@@ -69,20 +69,20 @@ export default defineEventHandler(async (event) => {
 
       return {
         statusCode: 200,
-        body: { success: "Email de séance envoyé avec succès" },
+        body: { success: "Email de séance envoyé avec succès" }
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi de l'email de séance:", error)
 
       return {
         statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de séance", message: error.message },
+        body: { error: "Erreur lors de l'envoi de l'email de séance", message: error.message }
       }
     }
   } else {
     return {
       statusCode: 405,
-      body: { error: "Méthode non autorisée" },
+      body: { error: "Méthode non autorisée" }
     }
   }
 })
