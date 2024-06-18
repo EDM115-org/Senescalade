@@ -146,7 +146,7 @@ docker push edm115/senescalade:latest
 | **S** |                                admin : modifier un utilisateur (+ lock d'infos)                                |  ❌ (C/A)  |
 |      A      |                            vérifier que les modifs de la BDD sont tous fonctionnels                            |   ❌ (C)   |
 |      A      | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) |   ❌ (A)   |
-|      A      |                                                droits des admins                                                |   ❌ (C)   |
+|      A      |                                                droits des admins                                                |  ✅ (C)  |
 |      A      |                                                 réinscriptions                                                 | ❌ (C/A/L) |
 |      A      |                                 mails : création de compte et modification mdp                                 |   ❌ (C)   |
 |      A      |                                       instructions claires dans le readme                                       |   ❌ (L)   |

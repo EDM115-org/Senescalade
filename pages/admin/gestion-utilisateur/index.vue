@@ -39,14 +39,14 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="user in users"
-                    :key="user.idCompte"
+                    v-for="theUser in users"
+                    :key="theUser.idCompte"
                   >
                     <td class="text-center">
-                      {{ user.idCompte }}
+                      {{ theUser.idCompte }}
                     </td>
                     <td class="text-center">
-                      {{ user.mail }}
+                      {{ theUser.mail }}
                     </td>
                     <td
                       v-if="isPermDelete"
@@ -57,7 +57,7 @@
                         icon="mdi-delete"
                         size="small"
                         variant="elevated"
-                        @click.prevent="confirmDelete(user)"
+                        @click.prevent="confirmDelete(theUser)"
                       />
                     </td>
                   </tr>
