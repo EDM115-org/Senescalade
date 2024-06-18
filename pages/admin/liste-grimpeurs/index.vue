@@ -360,16 +360,24 @@ const downloadCSV = async () => {
       throw new Error("Erreur lors du téléchargement du CSV")
     }
 
-    const csvData = response.body
-    const blob = new Blob([ csvData ], { type: "text/csv" })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
+    const csvContents = response.body
 
-    a.href = url
-    a.download = "grimpeurs.csv"
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
+    if (!Array.isArray(csvContents)) {
+      throw new Error("Format de réponse inattendu")
+    }
+
+    csvContents.forEach((csvData, index) => {
+      const blob = new Blob([csvData], { type: "text/csv" })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+
+      a.href = url
+      a.download = `grimpeurs_part_${index + 1}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    })
   } catch (error) {
     console.error("Erreur lors du téléchargement du CSV:", error)
   }

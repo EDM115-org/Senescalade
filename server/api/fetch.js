@@ -289,7 +289,6 @@ async function fetchGrimpeursForSeance(body) {
   }
 }
 
-
 async function exportGrimpeursToCSV() {
   try {
     const [ rows ] = await connection.execute("SELECT * FROM Grimpeur")
@@ -361,11 +360,19 @@ async function exportGrimpeursToCSV() {
       row.optionProtectionAgression ? "Oui" : "Non"
     ])
 
-    const csvContent = [ header, ...data ].map((row) => row.join(";")).join("\n")
+    const chunkSize = 100
+    const chunks = []
+
+    for (let i = 0; i < data.length; i += chunkSize) {
+      const chunk = data.slice(i, i + chunkSize)
+      const csvContent = [ header, ...chunk ].map((row) => row.join(";")).join("\n")
+
+      chunks.push(csvContent)
+    }
 
     return {
       status: 200,
-      body: csvContent
+      body: chunks
     }
   } catch (error) {
     return {
@@ -374,3 +381,4 @@ async function exportGrimpeursToCSV() {
     }
   }
 }
+
