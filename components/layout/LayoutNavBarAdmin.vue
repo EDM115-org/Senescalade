@@ -57,7 +57,7 @@ try {
       items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
     }
 
-    if (response.body[0].AccessReinscription === 1) {
+    if (response.body.AccessReinscription === 1) {
       items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
     }
   } else {
