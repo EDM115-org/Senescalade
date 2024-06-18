@@ -243,7 +243,17 @@ async function addGrimpeur(body) {
 }
 
 async function addSeance(body) {
-  const { jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
+  const { jour, heureDebutSeance, heureFinSeance, typeSeance, nbPlaces, nbPlacesRestantes } = body
+  let niveau = body.niveau
+  let professeur = body.professeur
+
+  if (niveau === undefined) {
+    niveau = null
+  }
+
+  if (professeur === undefined) {
+    professeur = null
+  }
 
   try {
     await connection.beginTransaction()

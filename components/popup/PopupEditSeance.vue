@@ -53,7 +53,6 @@
           <v-text-field
             v-model="seance.professeur"
             label="Professeur"
-            :rules="[rules.required]"
           />
         </v-form>
       </v-card-text>
