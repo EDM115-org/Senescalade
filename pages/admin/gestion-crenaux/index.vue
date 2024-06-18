@@ -300,11 +300,11 @@ const exportGrimpeursPDF = async (idSeance) => {
     if (result.status === 200) {
       const grimpeurs = result.body
       const seanceDetails = {
-        jour: grimpeurs[0].jour,
-        typeSeance: grimpeurs[0].typeSeance,
-        heureDebutSeance: grimpeurs[0].heureDebutSeance,
-        heureFinSeance: grimpeurs[0].heureFinSeance,
-        nbPlaces: grimpeurs[0].nbPlaces - grimpeurs[0].nbPlacesRestantes,
+        jour: grimpeurs.jour,
+        typeSeance: grimpeurs.typeSeance,
+        heureDebutSeance: grimpeurs.heureDebutSeance,
+        heureFinSeance: grimpeurs.heureFinSeance,
+        nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes,
       }
 
       generatePDF(grimpeurs, seanceDetails)

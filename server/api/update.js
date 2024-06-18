@@ -89,7 +89,7 @@ async function updateAdmin(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()
@@ -110,7 +110,7 @@ async function updateGrimpeur(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()
@@ -185,7 +185,7 @@ async function updateSeance(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()
@@ -204,7 +204,7 @@ async function updateGrimpeurIsExported() {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()

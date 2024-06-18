@@ -218,8 +218,6 @@ async function fetchGrimpeurSeance(body) {
     rows = await connection.execute(query, [ idGrimpeur ])
   }
 
-  console.log("🚀 ~ fetchGrimpeurSeance ~ rows:", rows)
-
   if (rows.length > 0) {
     return {
       status: 200,
@@ -242,7 +240,7 @@ async function fetchIsCompteAdmin(body) {
 
   return {
     status: 200,
-    body: { isAdmin },
+    body: { isAdmin }
   }
 }
 
@@ -255,7 +253,7 @@ async function fetchMailIsVerified(body) {
   if (rows.length > 0) {
     return {
       status: 200,
-      body: rows[0],
+      body: rows[0]
     }
   } else {
     return {
@@ -297,7 +295,7 @@ async function fetchGrimpeursForSeance(body) {
     if (rows.length > 0) {
       return {
         status: 200,
-        body: rows,
+        body: rows[0]
       }
     } else {
       return {
