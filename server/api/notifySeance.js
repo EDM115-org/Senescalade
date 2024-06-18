@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer"
 import mysql from "mysql2/promise"
-import { defineEventHandler, readBody } from "h3"
+import { createError, defineEventHandler, readBody } from "h3"
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -25,54 +25,64 @@ try {
 }
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-
-  const { email } = body
-
-  if (!email) {
-    return {
-      statusCode: 400,
-      body: { error: "Le champ 'email' est requis" },
-    }
+  if (!connection) {
+    throw createError({
+      status: 500,
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
-  try {
-    if (!connection) {
-      throw new Error("Connexion à la base de données non disponible")
-    }
+  if (event.node.req.method === "POST") {
+    const body = await readBody(event)
 
-    const [ rows ] = await connection.execute(
-      "SELECT idCompte FROM Compte WHERE mail = ?",
-      [ email ]
-    )
+    const { email } = body
 
-    if (rows.length === 0) {
+    if (!email) {
       return {
-        statusCode: 404,
-        body: { error: "Aucun utilisateur trouvé avec cet email" },
+        statusCode: 400,
+        body: { error: "Le champ 'email' est requis" },
       }
     }
 
-    const mailOptions = {
-      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Senescalade : Séance disponible",
-      text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
-      html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
+    try {
+      const [ rows ] = await connection.execute(
+        "SELECT idCompte FROM Compte WHERE mail = ?",
+        [ email ]
+      )
+
+      if (rows.length === 0) {
+        return {
+          statusCode: 404,
+          body: { error: "Aucun utilisateur trouvé avec cet email" },
+        }
+      }
+
+      const mailOptions = {
+        from: `"Senescalade" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Senescalade : Séance disponible",
+        text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
+        html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
+      }
+
+      await transporter.sendMail(mailOptions)
+
+      return {
+        statusCode: 200,
+        body: { success: "Email de séance envoyé avec succès" },
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de l'email de séance:", error)
+
+      return {
+        statusCode: 500,
+        body: { error: "Erreur lors de l'envoi de l'email de séance", message: error.message },
+      }
     }
-
-    await transporter.sendMail(mailOptions)
-
+  } else {
     return {
-      statusCode: 200,
-      body: { success: "Email de séance envoyé avec succès" },
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'envoi de l'email de séance:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de l'envoi de l'email de séance", message: error.message },
+      statusCode: 405,
+      body: { error: "Méthode non autorisée" },
     }
   }
 })

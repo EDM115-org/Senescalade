@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody, getQuery } from "h3"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
 import nodemailer from "nodemailer"
 import mysql from "mysql2/promise"
 
@@ -26,35 +26,42 @@ try {
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
-      statusCode: 500,
-      body: { error: "Connexion à la base de données non disponible" },
-    }
+    throw createError({
+      status: 500,
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
-  const body = await readBody(event)
-  const query = getQuery(event)
-  const { type } = query
+  if (event.node.req.method === "POST") {
+    const body = await readBody(event)
+    const query = getQuery(event)
+    const { type } = query
 
-  try {
-    switch (type) {
-      case "mail":
-        return await handleMailRequest(body)
-      case "code":
-        return await handleCodeRequest(body)
-      case "password":
-        return await handlePasswordRequest(body)
-      default:
-        return {
-          statusCode: 400,
-          body: { error: "Type de requête non pris en charge" },
-        }
+    try {
+      switch (type) {
+        case "mail":
+          return await handleMailRequest(body)
+        case "code":
+          return await handleCodeRequest(body)
+        case "password":
+          return await handlePasswordRequest(body)
+        default:
+          return {
+            statusCode: 400,
+            body: { error: "Type de requête non pris en charge" },
+          }
+      }
+    } catch (err) {
+      return {
+        statusCode: 500,
+        body: { error: "Erreur durant la requête", message: err.message },
+      }
     }
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: { error: "Erreur durant la requête", message: err.message },
-    }
+  } else {
+    throw createError({
+      status: 405,
+      message: "Méthode non autorisée"
+    })
   }
 })
 
