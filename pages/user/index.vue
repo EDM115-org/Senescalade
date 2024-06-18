@@ -51,8 +51,7 @@ onMounted(async () => {
         body: JSON.stringify({ mail: user.mail })
       })
 
-      if (response.body.isMailVerified === 1) {
-        router.push("/user")
+      if (response.body.mailIsVerified === 1) {
         loading.value = true
       } else {
         return router.push("/login/MailVerify")
