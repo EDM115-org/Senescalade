@@ -72,14 +72,14 @@
         class="d-flex justify-center"
       >
         <v-checkbox
-          v-model="openForm.inscritionOpen"
+          v-model="openForm.inscriptionOpen"
           label="Ouvrir la réinscription"
           @change="submitOpenForm"
         />
       </v-col>
     </v-row>
 
-    <!-- Bouton pour vider les inscriptions aux séances avec confirmation -->
+    <!-- Bouton pour lancer la réinscription -->
     <v-row>
       <v-col
         cols="12"
@@ -89,7 +89,7 @@
           color="error"
           @click="openClearPopup"
         >
-          Vider les inscriptions aux séances
+          Lancer la réinscription
         </v-btn>
       </v-col>
     </v-row>
@@ -121,7 +121,7 @@ const datesForm = ref({
 })
 
 const openForm = ref({
-  inscritionOpen: false,
+  inscriptionOpen: false,
 })
 
 const clearDialog = ref(null)
@@ -143,9 +143,7 @@ onMounted(async () => {
       datesForm.value.dateReinscriptionEveryone = new Date(reinscriptions.dateReinscriptionEveryone)
       datesForm.value.dateFinReinscription = new Date(reinscriptions.dateFinReinscription)
 
-      if (reinscriptions.inscritionOpen === 1) { openForm.value.inscritionOpen = true } else { openForm.value.inscritionOpen = false }
-
-      console.log(reinscriptions.inscritionOpen)
+      if (reinscriptions.inscriptionOpen === 1) { openForm.value.inscriptionOpen = true } else { openForm.value.inscriptionOpen = false }
     } else {
       messageColor.value = "error"
       errorMessage.value = response.body.error || "Erreur lors de la récupération des réinscriptions."
@@ -194,7 +192,7 @@ async function submitOpenForm() {
     const response = await $fetch("/api/reinscription?type=open", {
       method: "POST",
       body: JSON.stringify({
-        inscritionOpen: openForm.value.inscritionOpen
+        inscriptionOpen: openForm.value.inscriptionOpen
       })
     })
 
@@ -215,12 +213,12 @@ async function submitOpenForm() {
   }
 }
 
-// Ouvrir la popup de confirmation pour vider les inscriptions aux séances
+// Ouvrir la popup pour lancer la réinscription
 function openClearPopup() {
   clearDialog.value.open()
 }
 
-// Vider les inscriptions aux séances
+// Faire les modifications nécessaires pour lancer la réinscription
 async function clearReinscriptions() {
   try {
     const response = await $fetch("/api/reinscription?type=clear", {
