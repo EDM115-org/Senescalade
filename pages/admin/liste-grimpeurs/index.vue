@@ -85,6 +85,7 @@
                     </td>
                     <td class="d-flex justify-center align-center text-center">
                       <v-btn
+                        v-if="isPermEdit"
                         color="accent"
                         class="mr-2"
                         icon="mdi-pencil"
@@ -93,6 +94,7 @@
                         @click.prevent="editGrimpeur(grimpeur)"
                       />
                       <v-btn
+                        v-if="isPermDelete"
                         color="warning"
                         class="mr-2"
                         icon="mdi-calendar-remove-outline"
@@ -101,6 +103,7 @@
                         @click.prevent="confirmDeleteSeance(grimpeur)"
                       />
                       <v-btn
+                        v-if="isPermDelete"
                         color="error"
                         class="mr-2"
                         icon="mdi-delete"
@@ -156,6 +159,7 @@ definePageMeta({
 })
 
 const store = useMainStore()
+const user = store.getUser
 const router = useRouter()
 const grimpeurs = ref([])
 const grimpeurCount = ref(0)
@@ -164,8 +168,32 @@ const editGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
 const deleteDialogSeance = ref(null)
 
+const isPermDelete = ref(false)
+const isPermEdit = ref(false)
+
 const errorMessage = ref("")
 const issueMessage = ref("")
+
+try {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
+    method: "POST",
+    body: JSON.stringify({ user })
+  })
+
+  if (response) {
+    if (response.body[0].UpdateListGrimpeur === 1) {
+      isPermEdit.value = true
+    }
+
+    if (response.body[0].DeleteListGrimpeur === 1) {
+      isPermDelete.value = true
+    }
+  } else {
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
 
 const fetchGrimpeurs = async () => {
   try {
@@ -291,8 +319,6 @@ const handleEdit = (grimpeur) => {
 }
 
 onMounted(async () => {
-  const user = store.getUser
-
   if (user) {
     if (!user.isAdmin) {
       router.push("/user")

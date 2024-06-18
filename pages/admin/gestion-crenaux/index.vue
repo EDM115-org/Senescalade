@@ -75,6 +75,7 @@
                     </td>
                     <td class="d-flex justify-center align-center text-center">
                       <v-btn
+                        v-if="isPermEdit"
                         color="accent"
                         class="mr-2"
                         icon="mdi-calendar-edit-outline"
@@ -83,6 +84,7 @@
                         @click="editSeance(seance)"
                       />
                       <v-btn
+                        v-if="isPermDelete"
                         color="error"
                         class="mr-2"
                         icon="mdi-calendar-remove-outline"
@@ -134,11 +136,15 @@ definePageMeta({
 })
 
 const store = useMainStore()
+const user = store.getUser
 const router = useRouter()
 const seances = ref([])
 const seanceCount = ref(0)
 const deleteDialog = ref(null)
 const editDialog = ref(null)
+
+const isPermDelete = ref(false)
+const isPermEdit = ref(false)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -155,6 +161,27 @@ const headers = [
   { text: "Professeur", width: "15%" },
   { text: "Actions", width: "15%" },
 ]
+
+try {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
+    method: "POST",
+    body: JSON.stringify({ user })
+  })
+
+  if (response) {
+    if (response.body[0].UpdateListSeance === 1) {
+      isPermEdit.value = true
+    }
+
+    if (response.body[0].DeleteListSeance === 1) {
+      isPermDelete.value = true
+    }
+  } else {
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
 
 const fetchSeance = async () => {
   try {

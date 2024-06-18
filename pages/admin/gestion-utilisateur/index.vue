@@ -29,6 +29,7 @@
                       Email
                     </th>
                     <th
+                      v-if="isPermDelete"
                       class="text-center"
                       style="width: 34%;"
                     >
@@ -38,22 +39,25 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="user in users"
-                    :key="user.idCompte"
+                    v-for="theUser in users"
+                    :key="theUser.idCompte"
                   >
                     <td class="text-center">
-                      {{ user.idCompte }}
+                      {{ theUser.idCompte }}
                     </td>
                     <td class="text-center">
-                      {{ user.mail }}
+                      {{ theUser.mail }}
                     </td>
-                    <td class="d-flex justify-center align-center text-center">
+                    <td
+                      v-if="isPermDelete"
+                      class="d-flex justify-center align-center text-center"
+                    >
                       <v-btn
                         color="error"
                         icon="mdi-delete"
                         size="small"
                         variant="elevated"
-                        @click.prevent="confirmDelete(user)"
+                        @click.prevent="confirmDelete(theUser)"
                       />
                     </td>
                   </tr>
@@ -86,13 +90,38 @@ definePageMeta({
 })
 
 const store = useMainStore()
+const user = store.getUser
 const router = useRouter()
 const users = ref([])
 const userCount = ref(0)
 const deleteDialog = ref(null)
 
+const isPermDelete = ref(false)
+const isPermEdit = ref(false)
+
 const errorMessage = ref("")
 const issueMessage = ref("")
+
+try {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
+    method: "POST",
+    body: JSON.stringify({ user })
+  })
+
+  if (response) {
+    if (response.body[0].UpdateListUtilisateur === 1) {
+      isPermEdit.value = true
+    }
+
+    if (response.body[0].DeleteListUtilisateur === 1) {
+      isPermDelete.value = true
+    }
+  } else {
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
 
 const fetchCompte = async () => {
   try {

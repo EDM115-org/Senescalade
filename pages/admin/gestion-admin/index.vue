@@ -50,6 +50,7 @@
                       Permissions
                     </th>
                     <th
+                      v-if="isPermEdit || isPermDelete"
                       class="text-center"
                       style="width: 10%;"
                     >
@@ -84,9 +85,14 @@
                         </v-col>
                       </v-row>
                     </td>
-                    <td>
+                    <td
+                      v-if="isPermEdit || isPermDelete"
+                    >
                       <v-row class="justify-center">
-                        <v-col cols="auto">
+                        <v-col
+                          v-if="isPermEdit"
+                          cols="auto"
+                        >
                           <v-btn
                             color="accent"
                             icon="mdi-pencil"
@@ -95,7 +101,10 @@
                             @click.prevent="confirmEdit(admin)"
                           />
                         </v-col>
-                        <v-col cols="auto">
+                        <v-col
+                          v-if="isPermDelete"
+                          cols="auto"
+                        >
                           <v-btn
                             color="error"
                             icon="mdi-delete"
@@ -152,8 +161,32 @@ const editDialog = ref(null)
 const addDialog = ref(null)
 const user = store.getUser
 
+const isPermDelete = ref(false)
+const isPermEdit = ref(false)
+
 const errorMessage = ref("")
 const issueMessage = ref("")
+
+try {
+  const response = await $fetch("/api/fetch?type=adminPerms", {
+    method: "POST",
+    body: JSON.stringify({ user })
+  })
+
+  if (response) {
+    if (response.body[0].UpdateListAdmin === 1) {
+      isPermEdit.value = true
+    }
+
+    if (response.body[0].DeleteListAdmin === 1) {
+      isPermDelete.value = true
+    }
+  } else {
+    console.error("Error getPermAdmin:", response.statusText)
+  }
+} catch (error) {
+  console.error("Error getPermAdmin:", error.message)
+}
 
 const fetchAdmin = async () => {
   try {

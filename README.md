@@ -140,13 +140,13 @@ docker push edm115/senescalade:latest
 | **S** |                   Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement)                   |   ❌ (L)   |
 | **S** |                                 API : sécurisation et `throw createError()`                                 |   ❌ (L)   |
 | **S** |                 vuelidate dans l'inscription et tous les formulaires + désactiver les boutons                 |   ❌ (L)   |
-| **S** |                                    export des grimpeurs d'un créneau en pdf                                    |   ❌ (A)   |
+| **S** |                                    export des grimpeurs d'un créneau en pdf                                    |   ✅ (A)   |
 | **S** |                                     appels à `Error.vue` là où il faut                                     |   ❌ (L)   |
 | **S** |                     vérifier la liste d'attente + reprise d'inscription (jump to paiement)                     |  ❌ (L/A)  |
 | **S** |                                admin : modifier un utilisateur (+ lock d'infos)                                |  ❌ (C/A)  |
 |      A      |                            vérifier que les modifs de la BDD sont tous fonctionnels                            |   ❌ (C)   |
 |      A      | export CSV : 100 lignes max par fichier, utiliser la date de dernier export (à reset à chaque réinscription) |   ❌ (A)   |
-|      A      |                                                droits des admins                                                |   ❌ (C)   |
+|      A      |                                                droits des admins                                                |  ✅ (C)  |
 |      A      |                                                 réinscriptions                                                 | ❌ (C/A/L) |
 |      A      |                                 mails : création de compte et modification mdp                                 |   ❌ (C)   |
 |      A      |                                       instructions claires dans le readme                                       |   ❌ (L)   |
