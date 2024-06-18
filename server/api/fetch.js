@@ -62,6 +62,8 @@ export default defineEventHandler(async (event) => {
           return await fetchComptePost(body)
         case "isCompteAdmin":
           return await fetchIsCompteAdmin(body)
+        case "mailIsVerified":
+          return await fetchMailIsVerified(body)
         case "grimpeur":
           return await fetchGrimpeurPost(body)
         case "grimpeurSeance":
@@ -234,6 +236,25 @@ async function fetchIsCompteAdmin(body) {
   return {
     status: 200,
     body: { isAdmin },
+  }
+}
+
+async function fetchMailIsVerified(body) {
+  const { mail } = body
+
+  const query = "SELECT mailIsVerified FROM Compte WHERE mail = ?"
+  const [ rows ] = await connection.execute(query, [ mail ])
+
+  if (rows.length > 0) {
+    return {
+      status: 200,
+      body: rows[0],
+    }
+  } else {
+    return {
+      status: 404,
+      body: { error: "Aucun compte trouvé pour le mail donné" },
+    }
   }
 }
 

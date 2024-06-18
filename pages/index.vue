@@ -108,14 +108,27 @@ const router = useRouter()
 
 const displayOptionsHelpText = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   const user = store.getUser
 
   if (user) {
     if (user.isAdmin) {
       router.push("/admin/dashboard")
     } else {
-      router.push("/user")
+      try {
+        const response = await $fetch("/api/fetch?type=mailIsVerified", {
+          method: "POST",
+          body: JSON.stringify({ mail: user.mail })
+        })
+
+        if (response.body.isMailVerified === 1) {
+          router.push("/user")
+        } else {
+          router.push("/login/MailVerify")
+        }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 })

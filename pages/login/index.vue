@@ -64,7 +64,41 @@ async function login(event) {
       if (result.body.user.isAdmin === true) {
         router.push("/admin/dashboard")
       } else {
-        router.push("/user")
+        try {
+          const response = await $fetch("/api/fetch?type=mailIsVerified", {
+            method: "POST",
+            body: JSON.stringify({ mail: result.body.user.mail })
+          })
+
+          if (response.body.isMailVerified === 1) {
+            router.push("/user")
+          } else {
+            try {
+              const response = await $fetch("/api/mailVerify?type=mail", {
+                method: "POST",
+                body: JSON.stringify({
+                  email: result.body.user.mail,
+                })
+              })
+
+              if (response.statusCode === 200) {
+                router.push("/login/MailVerify")
+              } else {
+                messageColor.value = "error"
+                errorMessage.value = response.body.error || "Erreur inconnue"
+                issueMessage.value = response.body.message || ""
+              }
+            } catch (error) {
+              console.error("Erreur lors de l'appel à l'API:", error)
+              errorMessage.value = "Erreur lors de l'envoi du mail de vérification"
+              issueMessage.value = error.message || error
+            }
+          }
+        } catch (error) {
+          messageColor.value = "error"
+          errorMessage.value = "Erreur lors de la connexion"
+          issueMessage.value = error
+        }
       }
     } else {
       messageColor.value = "error"
@@ -78,14 +112,29 @@ async function login(event) {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   const user = store.getUser
 
   if (user) {
     if (user.isAdmin === 1) {
       router.push("/admin/dashboard")
     } else {
-      router.push("/user")
+      try {
+        const response = await $fetch("/api/fetch?type=mailIsVerified", {
+          method: "POST",
+          body: JSON.stringify({ mail: user.mail })
+        })
+
+        if (response.body.isMailVerified === 1) {
+          router.push("/user")
+        } else {
+          router.push("/login/MailVerify")
+        }
+      } catch (error) {
+        messageColor.value = "error"
+        errorMessage.value = "Erreur lors de la connexion"
+        issueMessage.value = error
+      }
     }
   }
 
