@@ -114,15 +114,15 @@
         </v-col>
       </v-row>
     </div>
-    <PopupAddAdmin
+    <PopUpAddAdmin
       ref="addDialog"
       @confirm-add="handleAdd"
     />
-    <PopupEditAdmin
+    <PopUpEditAdmin
       ref="editDialog"
       @confirm-edit="handleEdit"
     />
-    <PopupDeleteUser
+    <PopUpDeleteUser
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />

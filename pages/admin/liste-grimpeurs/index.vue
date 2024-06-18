@@ -123,12 +123,12 @@
         </v-col>
       </v-row>
     </div>
-    <PopupAfficheGrimpeur ref="afficheGrimpeurDialog" />
-    <PopupDeleteGrimpeur
+    <PopUpAfficheGrimpeur ref="afficheGrimpeurDialog" />
+    <PopUpDeleteGrimpeur
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />
-    <PopupDeleteGrimpeurSeance
+    <PopUpDeleteGrimpeurSeance
       ref="deleteDialogSeance"
       @confirm-delete="handleDeleteSeance"
     />

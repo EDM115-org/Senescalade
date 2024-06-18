@@ -98,11 +98,11 @@
         </v-col>
       </v-row>
     </div>
-    <PopupDeleteSeance
+    <PopUpDeleteSeance
       ref="deleteDialog"
       @confirm-delete="handleDelete"
     />
-    <PopupEditSeance
+    <PopUpEditSeance
       ref="editDialog"
       @confirm-add="handleSeance($event, false)"
       @confirm-edit="handleSeance($event, true)"
