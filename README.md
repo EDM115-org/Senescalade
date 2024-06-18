@@ -154,9 +154,9 @@ docker push edm115/senescalade:latest
 |      A      |                                       instructions claires dans le readme                                       |   ❌ (L)   |
 |      B      |                                             compléter le dashboard                                             |  ❌ (C/A)  |
 |      B      |            nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...)            |   ❌ (L)   |
-|      B      |                                                v-skeleton-loader                                                |   ❌ (L)   |
+|      B      |                                                v-skeleton-loader                                                |  ✅ (L)  |
 |      C      |                                          clean les couleurs et images                                          |   ❌ (L)   |
-|      C      |                                                   responsive                                                   |   ❌ (L)   |
+|      C      |                                                   responsive                                                   |  ✅ (L)  |
 
 ### Infos supplémentaires :
 
