@@ -35,10 +35,11 @@ export default defineEventHandler(async (event) => {
         body: { success: "Utilisateur inscrit" }
       }
     } catch (err) {
-      return {
+      throw createError({
         status: 500,
-        body: { error: "Erreur durant l'inscription de l'utilisateur", message: err }
-      }
+        message: "Erreur durant l'inscription de l'utilisateur",
+        statusMessage: err
+      })
     }
   } else {
     throw createError({
