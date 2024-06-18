@@ -185,7 +185,7 @@ async function deleteGrimpeurSeance(body) {
     })
 
     if (result.status === 200) {
-      const seanceId = result.body.idSeance
+      const seanceId = result.body[0].idSeance
 
       const response = await ofetch(`${base_url}/api/fetch?type=seance`)
 

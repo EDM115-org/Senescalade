@@ -201,7 +201,7 @@ async function addGrimpeur(body) {
     const [ grimpeurResult ] = await connection.execute(query, params)
     const idGrimpeur = grimpeurResult.insertId
 
-    if (isFileDAttente === undefined) {
+    if (isFileDAttente === undefined || isFileDAttente === null || isFileDAttente === false, isFileDAttente === 0) {
       const [ seanceResult ] = await connection.execute(
         "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
         [ idSeance ]
