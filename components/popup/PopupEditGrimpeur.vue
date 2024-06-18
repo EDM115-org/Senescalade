@@ -256,19 +256,6 @@
             <h2 class="my-4">
               Informations complémentaires
             </h2>
-            <p
-              v-if="displayOptionsHelpText"
-              class="text-center mb-4"
-            >
-              L'assurance B (Base) est incluse par défaut, mais vous pouvez garder votre RC si vous le souhaitez (non recommandé).<br>
-              Les options sont facultatives et permettent d'assurer des sports complémentaires dans l'assurance souscrite. Non applicable si vous gardez votre RC.<br>
-              Découvrez le détail de ces assurances dans le
-              <a
-                class="link-color"
-                href="https://www.montagne-escalade.com/site/BO/documents/2025-pack-assurance.pdf"
-                target="_blank"
-              >document suivant</a>.
-            </p>
 
             <v-row>
               <v-col
@@ -446,8 +433,6 @@ const open = (grimpeurData) => {
   }
   isOpen.value = true
 }
-
-const displayOptionsHelpText = ref(false)
 
 const countries = [
   { title: "Afghanistan", value: "AF" },
