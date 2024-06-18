@@ -91,9 +91,17 @@ CREATE TABLE IF NOT EXISTS Admin (
   DeleteListSeance BOOLEAN NOT NULL DEFAULT 0,
   DeleteListAdmin BOOLEAN NOT NULL DEFAULT 0,
   DeleteListUtilisateur BOOLEAN NOT NULL DEFAULT 0,
+  AccessReinscription BOOLEAN NOT NULL DEFAULT 0,
   FOREIGN KEY (idAdmin) REFERENCES Compte(idCompte)
     ON DELETE CASCADE
     ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Reinscription (
+  dateReinscriptionIsInscrit DATE,
+  dateReinscriptionEveryone DATE,
+  dateFinReinscription DATE,
+  inscritionOpen BOOLEAN NOT NULL DEFAULT 0
 );
 
 DELIMITER //

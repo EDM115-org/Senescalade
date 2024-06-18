@@ -41,6 +41,8 @@ export default defineEventHandler(async (event) => {
           return await fetchSeance()
         case "csv":
           return await exportGrimpeursToCSV()
+        case "reinscription":
+          return await fetchReinscription()
         default:
           return {
             status: 400,
@@ -403,3 +405,27 @@ async function exportGrimpeursToCSV() {
   }
 }
 
+async function fetchReinscription() {
+  try {
+    const [ rows ] = await connection.execute("SELECT * FROM Reinscription")
+
+    if (rows.length > 0) {
+      return {
+        status: 200,
+        body: rows,
+      }
+    } else {
+      return {
+        status: 404,
+        body: { error: "Aucune réinscription trouvée" },
+      }
+    }
+  } catch (err) {
+    console.error("Erreur lors de la récupération des réinscriptions:", err)
+
+    return {
+      status: 500,
+      body: { error: "Erreur lors de la récupération des réinscriptions", message: err.message },
+    }
+  }
+}

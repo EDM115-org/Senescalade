@@ -367,7 +367,7 @@ const downloadCSV = async () => {
     }
 
     csvContents.forEach((csvData, index) => {
-      const blob = new Blob([csvData], { type: "text/csv" })
+      const blob = new Blob([ csvData ], { type: "text/csv" })
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
 

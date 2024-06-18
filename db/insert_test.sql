@@ -1,5 +1,8 @@
 USE sae;
 
+INSERT INTO Reinscription(dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription, inscritionOpen)
+VALUES ('2021-06-01', '2021-06-01', '2021-06-30', 1);
+
 INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
 VALUES ('Lundi', '17:30:00', '19:00:00', 'Jeunes', 'U14', 10, 10, 'Pierre');
 
@@ -61,5 +64,5 @@ INSERT INTO Compte(idCompte, mail, password)
 VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
 -- admintestadmin
 
-INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
-VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, AccessReinscription)
+VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
