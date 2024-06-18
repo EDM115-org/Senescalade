@@ -74,7 +74,7 @@ async function deleteAdmin(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()
@@ -94,7 +94,7 @@ async function deleteCompte(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()
@@ -164,7 +164,7 @@ async function deleteGrimpeur(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()

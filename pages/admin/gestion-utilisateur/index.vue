@@ -109,11 +109,11 @@ try {
   })
 
   if (response) {
-    if (response.body[0].UpdateListUtilisateur === 1) {
+    if (response.body.UpdateListUtilisateur === 1) {
       isPermEdit.value = true
     }
 
-    if (response.body[0].DeleteListUtilisateur === 1) {
+    if (response.body.DeleteListUtilisateur === 1) {
       isPermDelete.value = true
     }
   } else {
@@ -198,7 +198,7 @@ onMounted(async () => {
         })
 
         if (response) {
-          if (response.body[0].ReadListUtilisateur !== 1) {
+          if (response.body.ReadListUtilisateur !== 1) {
             router.push("/admin/dashboard")
           }
         } else {

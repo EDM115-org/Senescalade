@@ -169,11 +169,11 @@ try {
   })
 
   if (response) {
-    if (response.body[0].UpdateListSeance === 1) {
+    if (response.body.UpdateListSeance === 1) {
       isPermEdit.value = true
     }
 
-    if (response.body[0].DeleteListSeance === 1) {
+    if (response.body.DeleteListSeance === 1) {
       isPermDelete.value = true
     }
   } else {
@@ -358,7 +358,7 @@ onMounted(async () => {
         })
 
         if (response) {
-          if (response.body[0].ReadListSeance !== 1) {
+          if (response.body.ReadListSeance !== 1) {
             router.push("/admin/dashboard")
           }
         } else {

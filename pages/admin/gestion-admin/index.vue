@@ -174,11 +174,11 @@ try {
   })
 
   if (response) {
-    if (response.body[0].UpdateListAdmin === 1) {
+    if (response.body.UpdateListAdmin === 1) {
       isPermEdit.value = true
     }
 
-    if (response.body[0].DeleteListAdmin === 1) {
+    if (response.body.DeleteListAdmin === 1) {
       isPermDelete.value = true
     }
   } else {
@@ -329,7 +329,7 @@ onMounted(async () => {
         })
 
         if (response) {
-          if (response.body[0].ReadListAdmin !== 1) {
+          if (response.body.ReadListAdmin !== 1) {
             router.push("/admin/dashboard")
           }
         } else {

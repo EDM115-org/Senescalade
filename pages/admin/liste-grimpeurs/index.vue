@@ -181,11 +181,11 @@ try {
   })
 
   if (response) {
-    if (response.body[0].UpdateListGrimpeur === 1) {
+    if (response.body.UpdateListGrimpeur === 1) {
       isPermEdit.value = true
     }
 
-    if (response.body[0].DeleteListGrimpeur === 1) {
+    if (response.body.DeleteListGrimpeur === 1) {
       isPermDelete.value = true
     }
   } else {
@@ -330,7 +330,7 @@ onMounted(async () => {
         })
 
         if (response) {
-          if (response.body[0].ReadListGrimpeur !== 1) {
+          if (response.body.ReadListGrimpeur !== 1) {
             router.push("/admin/dashboard")
           }
         } else {

@@ -102,7 +102,7 @@ async function fetchAdmin() {
 
   return {
     status: 200,
-    body: rows,
+    body: rows[0]
   }
 }
 
@@ -122,7 +122,7 @@ async function fetchAdminPerms(body) {
   if (rows.length > 0) {
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } else {
     return {
@@ -199,8 +199,12 @@ async function fetchGrimpeurPost(body) {
 }
 
 async function fetchGrimpeurSeance(body) {
-  const { idGrimpeur } = body
   let rows = []
+  let idGrimpeur = null
+
+  if (body !== undefined) {
+    idGrimpeur = body.idGrimpeur
+  }
 
   if (!idGrimpeur) {
     const query = "SELECT * FROM GrimpeurSeance"
@@ -212,6 +216,7 @@ async function fetchGrimpeurSeance(body) {
     rows = await connection.execute(query, [ idGrimpeur ])
   }
 
+  console.log("🚀 ~ fetchGrimpeurSeance ~ rows:", rows)
 
   if (rows.length > 0) {
     return {
