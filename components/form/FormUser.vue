@@ -212,6 +212,7 @@
         class="link-color"
         to="https://www.montagne-escalade.com/site/BO/documents/2025-pack-assurance.pdf"
         target="_blank"
+        rel="noopener noreferrer"
       >
         document suivant
       </NuxtLink>

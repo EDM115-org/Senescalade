@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
 import mysql from "mysql2/promise"
 
-import { defineEventHandler, readBody } from "h3"
+import { createError, defineEventHandler, readBody } from "h3"
 
 let connection = null
 
@@ -18,56 +18,49 @@ try {
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
+    throw createError({
       status: 500,
-      body: { error: "Connexion à la base de données non disponible" }
-    }
+      message: "Connexion à la base de données non disponible"
+    })
   }
   const body = await readBody(event)
   const { mail, password, stayConnected } = body
 
   if (event.node.req.method === "POST") {
-    try {
-      const query = "SELECT * FROM Compte WHERE mail = ?"
+    const query = "SELECT * FROM Compte WHERE mail = ?"
 
-      const [ rows ] = await connection.execute(query, [ mail ])
+    const [ rows ] = await connection.execute(query, [ mail ])
 
-      if (rows.length > 0) {
-        const user = rows[0]
-        const passwordMatch = await bcrypt.compare(password, user.password)
+    if (rows.length > 0) {
+      const user = rows[0]
+      const passwordMatch = await bcrypt.compare(password, user.password)
 
-        if (passwordMatch) {
-          const adminQuery = "SELECT * FROM Admin WHERE idAdmin = ?"
-          const [ adminRows ] = await connection.execute(adminQuery, [ user.idCompte ])
+      if (passwordMatch) {
+        const adminQuery = "SELECT * FROM Admin WHERE idAdmin = ?"
+        const [ adminRows ] = await connection.execute(adminQuery, [ user.idCompte ])
 
-          const isAdmin = adminRows.length > 0
+        const isAdmin = adminRows.length > 0
 
-          return {
-            status: 200,
-            body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin }, stayConnected }
-          }
-        } else {
-          return {
-            status: 401,
-            body: { error: "Mot de passe invalide" }
-          }
+        return {
+          status: 200,
+          body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin }, stayConnected }
         }
       } else {
-        return {
+        throw createError({
           status: 401,
-          body: { error: "L'utilisateur n'existe pas" }
-        }
+          message: "Mot de passe invalide"
+        })
       }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la connexion", message: err }
-      }
+    } else {
+      throw createError({
+        status: 401,
+        message: "L'utilisateur n'existe pas"
+      })
     }
   } else {
-    return {
+    throw createError({
       status: 405,
-      body: { error: "Méthode non autorisée" }
-    }
+      message: "Méthode non autorisée"
+    })
   }
 })

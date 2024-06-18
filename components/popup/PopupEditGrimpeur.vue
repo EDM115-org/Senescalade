@@ -225,13 +225,14 @@
             L'assurance B (Base) est incluse par défaut, mais vous pouvez garder votre RC si vous le souhaitez (non recommandé).<br>
             Les options sont facultatives et permettent d'assurer des sports complémentaires dans l'assurance souscrite. Non applicable si vous gardez votre RC.<br>
             Découvrez le détail de ces assurances dans le
-            <a
+            <NuxtLink
               class="link-color"
-              href="https://www.montagne-escalade.com/site/BO/documents/2025-pack-assurance.pdf"
+              to="https://www.montagne-escalade.com/site/BO/documents/2025-pack-assurance.pdf"
               target="_blank"
+              rel="noopener noreferrer"
             >
               document suivant
-            </a>.
+            </NuxtLink>.
           </p>
           <v-row>
             <v-col

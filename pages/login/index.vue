@@ -52,63 +52,57 @@ async function login(event) {
       body: JSON.stringify(event)
     })
 
-    if (result.status === 200) {
-      const response = await $fetch("/api/fetch?type=isCompteAdmin", {
-        method: "POST",
-        body: JSON.stringify({ idCompte: result.body.user.id })
-      })
+    const response = await $fetch("/api/fetch?type=isCompteAdmin", {
+      method: "POST",
+      body: JSON.stringify({ idCompte: result.body.user.id })
+    })
 
-      result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin }
-      store.login(result.body.user, result.body.stayConnected)
+    result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin }
+    store.login(result.body.user, result.body.stayConnected)
 
-      if (result.body.user.isAdmin === true) {
-        router.push("/admin/dashboard")
-      } else {
-        try {
-          const response = await $fetch("/api/fetch?type=mailIsVerified", {
-            method: "POST",
-            body: JSON.stringify({ mail: result.body.user.mail })
-          })
-
-          if (response.body.mailIsVerified === 1) {
-            router.push("/user")
-          } else {
-            try {
-              const response = await $fetch("/api/mailVerify?type=mail", {
-                method: "POST",
-                body: JSON.stringify({
-                  email: result.body.user.mail,
-                })
-              })
-
-              if (response.statusCode === 200) {
-                router.push("/login/MailVerify")
-              } else {
-                messageColor.value = "error"
-                errorMessage.value = response.body.error || "Erreur inconnue"
-                issueMessage.value = response.body.message || ""
-              }
-            } catch (error) {
-              console.error("Erreur lors de l'appel à l'API:", error)
-              errorMessage.value = "Erreur lors de l'envoi du mail de vérification"
-              issueMessage.value = error.message || error
-            }
-          }
-        } catch (error) {
-          messageColor.value = "error"
-          errorMessage.value = "Erreur lors de la connexion"
-          issueMessage.value = error
-        }
-      }
+    if (result.body.user.isAdmin === true) {
+      router.push("/admin/dashboard")
     } else {
-      messageColor.value = "error"
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
+      try {
+        const response = await $fetch("/api/fetch?type=mailIsVerified", {
+          method: "POST",
+          body: JSON.stringify({ mail: result.body.user.mail })
+        })
+
+        if (response.body.mailIsVerified === 1) {
+          router.push("/user")
+        } else {
+          try {
+            const response = await $fetch("/api/mailVerify?type=mail", {
+              method: "POST",
+              body: JSON.stringify({
+                email: result.body.user.mail,
+              })
+            })
+
+            if (response.statusCode === 200) {
+              router.push("/login/MailVerify")
+            } else {
+              messageColor.value = "error"
+              errorMessage.value = response.body.error || "Erreur inconnue"
+              issueMessage.value = response.body.message || ""
+            }
+          } catch (error) {
+            console.error("Erreur lors de l'appel à l'API:", error)
+            errorMessage.value = "Erreur lors de l'envoi du mail de vérification"
+            issueMessage.value = error.message || error
+          }
+        }
+      } catch (error) {
+        messageColor.value = "error"
+        errorMessage.value = "Erreur lors de la connexion"
+        issueMessage.value = error
+      }
     }
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = "Erreur lors de la connexion"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
