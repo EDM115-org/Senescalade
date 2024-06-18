@@ -267,7 +267,7 @@ async function addSeance(body) {
 
     return {
       status: 200,
-      body: rows,
+      body: rows[0]
     }
   } catch (err) {
     await connection.rollback()

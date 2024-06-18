@@ -456,7 +456,6 @@ onMounted(async () => {
       })
 
       if (response.body.mailIsVerified === 1) {
-        router.push("/user")
         loading.value = true
       } else {
         return router.push("/login/MailVerify")

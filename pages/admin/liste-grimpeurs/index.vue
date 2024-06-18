@@ -1,132 +1,142 @@
 <template>
   <v-container class="fillheight">
-    <div>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              <v-row>
-                <v-col>
-                  <h2>Gestion des grimpeurs</h2>
-                </v-col>
-                <v-spacer />
-                <v-col
-                  class="d-flex justify-sm-end"
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <v-row>
+              <v-col>
+                <h2>Gestion des grimpeurs</h2>
+              </v-col>
+              <v-spacer />
+              <v-col
+                class="d-flex justify-sm-end"
+              >
+                <v-btn
+                  class="mr-2"
+                  color="success"
+                  icon="mdi-file-download-outline"
+                  variant="elevated"
+                  @click="downloadCSV"
+                />
+                <v-btn
+                  v-col
+                  color="success"
+                  icon="mdi-refresh"
+                  variant="elevated"
+                  @click="resetIsExported"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <p>Nombre total de grimpeurs : {{ grimpeurCount }}</p>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-skeleton-loader
+              v-if="loading"
+              type="heading, table-tbody"
+            />
+            <v-table v-else>
+              <thead>
+                <tr>
+                  <th class="text-center">
+                    Nom
+                  </th>
+                  <th class="text-center">
+                    Prénom
+                  </th>
+                  <th class="text-center">
+                    Sexe
+                  </th>
+                  <th class="text-center">
+                    Téléphone
+                  </th>
+                  <th class="text-center">
+                    Mobile
+                  </th>
+                  <th class="text-center">
+                    Numéro de Licence
+                  </th>
+                  <th class="text-center">
+                    A payé
+                  </th>
+                  <th class="text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="grimpeur in grimpeurs"
+                  :key="grimpeur.idGrimpeur"
                 >
-                  <v-btn
-                    color="success"
-                    icon="mdi-file-download-outline"
-                    variant="elevated"
-                    @click="downloadCSV"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <p>Nombre total de grimpeurs : {{ grimpeurCount }}</p>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text>
-              <v-table>
-                <thead>
-                  <tr>
-                    <th class="text-center">
-                      Nom
-                    </th>
-                    <th class="text-center">
-                      Prénom
-                    </th>
-                    <th class="text-center">
-                      Sexe
-                    </th>
-                    <th class="text-center">
-                      Téléphone
-                    </th>
-                    <th class="text-center">
-                      Mobile
-                    </th>
-                    <th class="text-center">
-                      Numéro de Licence
-                    </th>
-                    <th class="text-center">
-                      A payé
-                    </th>
-                    <th class="text-center">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="grimpeur in grimpeurs"
-                    :key="grimpeur.idGrimpeur"
-                  >
-                    <td class="text-center">
-                      {{ grimpeur.nom }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.prenom }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.sexe }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.telephone }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.mobile }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.numLicence }}
-                    </td>
-                    <td class="text-center">
-                      {{ grimpeur.aPaye ? 'Oui' : 'Non' }}
-                    </td>
-                    <td class="d-flex justify-center align-center text-center">
-                      <v-btn
-                        v-if="isPermEdit"
-                        color="accent"
-                        class="mr-2"
-                        icon="mdi-pencil"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="editGrimpeur(grimpeur)"
-                      />
-                      <v-btn
-                        v-if="isPermDelete"
-                        color="warning"
-                        class="mr-2"
-                        icon="mdi-calendar-remove-outline"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="confirmDeleteSeance(grimpeur)"
-                      />
-                      <v-btn
-                        v-if="isPermDelete"
-                        color="error"
-                        class="mr-2"
-                        icon="mdi-delete"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="confirmDelete(grimpeur)"
-                      />
-                      <v-btn
-                        color="secondary"
-                        icon="mdi-dots-horizontal-circle-outline"
-                        size="small"
-                        variant="elevated"
-                        @click="viewGrimpeur(grimpeur)"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                  <td class="text-center">
+                    {{ grimpeur.nom }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.prenom }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.sexe }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.telephone }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.mobile }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.numLicence }}
+                  </td>
+                  <td class="text-center">
+                    {{ grimpeur.aPaye ? 'Oui' : 'Non' }}
+                  </td>
+                  <td class="d-flex justify-center align-center text-center">
+                    <v-btn
+                      v-if="isPermEdit"
+                      color="accent"
+                      class="mr-2"
+                      icon="mdi-pencil"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="editGrimpeur(grimpeur)"
+                    />
+                    <v-btn
+                      v-if="isPermDelete"
+                      color="warning"
+                      class="mr-2"
+                      icon="mdi-calendar-remove-outline"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="confirmDeleteSeance(grimpeur)"
+                    />
+                    <v-btn
+                      v-if="isPermDelete"
+                      color="error"
+                      class="mr-2"
+                      icon="mdi-delete"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="confirmDelete(grimpeur)"
+                    />
+                    <v-btn
+                      color="secondary"
+                      icon="mdi-dots-horizontal-circle-outline"
+                      size="small"
+                      variant="elevated"
+                      @click="viewGrimpeur(grimpeur)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <PopupAfficheGrimpeur ref="afficheGrimpeurDialog" />
     <PopupDeleteGrimpeur
       ref="deleteDialog"
@@ -164,6 +174,7 @@ const router = useRouter()
 const grimpeurs = ref([])
 const grimpeurCount = ref(0)
 const afficheGrimpeurDialog = ref(null)
+const loading = ref(false)
 const editGrimpeurDialog = ref(null)
 const deleteDialog = ref(null)
 const deleteDialogSeance = ref(null)
@@ -181,11 +192,11 @@ try {
   })
 
   if (response) {
-    if (response.body[0].UpdateListGrimpeur === 1) {
+    if (response.body.UpdateListGrimpeur === 1) {
       isPermEdit.value = true
     }
 
-    if (response.body[0].DeleteListGrimpeur === 1) {
+    if (response.body.DeleteListGrimpeur === 1) {
       isPermDelete.value = true
     }
   } else {
@@ -196,6 +207,7 @@ try {
 }
 
 const fetchGrimpeurs = async () => {
+  loading.value = true
   try {
     const response = await $fetch("/api/fetch?type=grimpeur")
 
@@ -206,6 +218,8 @@ const fetchGrimpeurs = async () => {
     }
   } catch (error) {
     console.error("Error fetching grimpeurs:", error.message)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -330,7 +344,7 @@ onMounted(async () => {
         })
 
         if (response) {
-          if (response.body[0].ReadListGrimpeur !== 1) {
+          if (response.body.ReadListGrimpeur !== 1) {
             router.push("/admin/dashboard")
           }
         } else {
@@ -358,28 +372,46 @@ const downloadCSV = async () => {
 
     if (response.status !== 200) {
       throw new Error("Erreur lors du téléchargement du CSV")
-    }
+    } else {
+      const csvContents = response.body
 
-    const csvContents = response.body
-
-    if (!Array.isArray(csvContents)) {
-      throw new Error("Format de réponse inattendu")
-    }
+      if (!Array.isArray(csvContents)) {
+        throw new Error("Format de réponse inattendu")
+      }
 
     csvContents.forEach((csvData, index) => {
       const blob = new Blob([ csvData ], { type: "text/csv" })
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
+      csvContents.forEach((csvData, index) => {
+        const blob = new Blob([ csvData ], { type: "text/csv" })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
 
-      a.href = url
-      a.download = `grimpeurs_part_${index + 1}.csv`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
-    })
+        a.href = url
+        a.download = `grimpeurs_part_${index + 1}.csv`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      })
+    }
   } catch (error) {
     console.error("Erreur lors du téléchargement du CSV:", error)
+  }
+}
+
+const resetIsExported = async () => {
+  try {
+    const response = await $fetch("/api/update?type=grimpeurIsExported", {
+      method: "PUT"
+    })
+
+    if (response.status !== 200) {
+      throw new Error("Erreur lors de la réinitialisation des exports")
+    }
+  } catch (error) {
+    console.error("Erreur lors de la réinitialisation des exports:", error)
   }
 }
 </script>

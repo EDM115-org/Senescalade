@@ -60,8 +60,8 @@ INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, n
 VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 
-INSERT INTO Compte(idCompte, mail, password)
-VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
+INSERT INTO Compte(idCompte, mail, mailIsVerified, password)
+VALUES (1, 'admin@gmail.com', 1, '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
 -- admintestadmin
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, AccessReinscription)

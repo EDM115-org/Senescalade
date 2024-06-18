@@ -41,19 +41,19 @@ try {
   })
 
   if (response) {
-    if (response.body[0].ReadListGrimpeur === 1) {
+    if (response.body.ReadListGrimpeur === 1) {
       items.push({ text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" })
     }
 
-    if (response.body[0].ReadListSeance === 1) {
+    if (response.body.ReadListSeance === 1) {
       items.push({ text: "Gestion des crénaux", to: "/admin/gestion-crenaux" })
     }
 
-    if (response.body[0].ReadListAdmin === 1) {
+    if (response.body.ReadListAdmin === 1) {
       items.push({ text: "Gestion admin", to: "/admin/gestion-admin" })
     }
 
-    if (response.body[0].ReadListUtilisateur === 1) {
+    if (response.body.ReadListUtilisateur === 1) {
       items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
     }
 
