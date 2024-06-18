@@ -42,8 +42,6 @@ export default defineEventHandler(async (event) => {
         return await handleMailRequest(body)
       case "code":
         return await handleCodeRequest(body)
-      case "password":
-        return await handlePasswordRequest(body)
       default:
         return {
           statusCode: 400,
@@ -103,9 +101,9 @@ async function handleMailRequest(body) {
     const mailOptions = {
       from: `"Senescalade" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: `Réinitialisation du mot de passe : ${code}`,
-      text: `Votre code de vérification est : ${code}`,
-      html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
+      subject: "Vérification de votre email",
+      text: `Votre code de vérification est: ${code}`,
+      html: `<p>Votre code de vérification est: <strong>${code}</strong></p>`,
     }
 
     try {
@@ -139,12 +137,11 @@ async function handleCodeRequest(body) {
   if (!email || !code) {
     return {
       statusCode: 400,
-      body: { error: "Les champs 'email' et 'code' sont requis" },
+      body: { error: "Le mail ou le code n'a pas été fourni" },
     }
   }
 
   try {
-    // Récupérer le code en base de données
     const [ rows ] = await connection.execute(
       "SELECT idCompte, code FROM Compte WHERE mail = ?",
       [ email ]
@@ -159,7 +156,6 @@ async function handleCodeRequest(body) {
 
     const dbCode = rows[0].code
 
-    // Vérifier si le code en base de données est égal à 0
     if (dbCode === "0") {
       return {
         statusCode: 400,
@@ -167,7 +163,6 @@ async function handleCodeRequest(body) {
       }
     }
 
-    // Vérifier si le code correspond
     if (dbCode !== code) {
       return {
         statusCode: 404,
@@ -175,7 +170,6 @@ async function handleCodeRequest(body) {
       }
     }
 
-    // Mettre à jour la base de données
     await connection.execute(
       "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
       [ email ]
@@ -195,36 +189,6 @@ async function handleCodeRequest(body) {
   }
 }
 
-
-async function handlePasswordRequest(body) {
-  const { email, password } = body
-
-  if (!email || !password) {
-    return {
-      statusCode: 400,
-      body: { error: "Les champs 'email' et 'password' sont requis" },
-    }
-  }
-
-  try {
-    await connection.execute(
-      "UPDATE Compte SET password = ? WHERE mail = ?",
-      [ password, email ]
-    )
-
-    return {
-      statusCode: 200,
-      body: { success: "Mot de passe réinitialisé avec succès" },
-    }
-  } catch (error) {
-    console.error("Erreur lors de la réinitialisation du mot de passe:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la réinitialisation du mot de passe" },
-    }
-  }
-}
 
 function generateRandomCode() {
   const min = 100000
