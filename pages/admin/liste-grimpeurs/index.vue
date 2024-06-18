@@ -352,79 +352,34 @@ const viewGrimpeur = (grimpeur) => {
   afficheGrimpeurDialog.value.open(grimpeur)
 }
 
-const downloadCSV = () => {
-  const header = [
-    "action",
-    "nom",
-    "prenom",
-    "date de naissance",
-    "sexe",
-    "nationalite",
-    "adresse",
-    "adresse complement",
-    "code postal",
-    "ville",
-    "pays",
-    "tel fixe",
-    "tel mobile",
-    "courriel",
-    "courriel 2",
-    "pap nom",
-    "pap prenom",
-    "pap telephone",
-    "pap courriel",
-    "numero de licence",
-    "type licence",
-    "assurance",
-    "option ski",
-    "option slackline",
-    "option trail",
-    "option vtt",
-    "assurance complementaire",
-    "option protection agression"
-  ]
+const downloadCSV = async () => {
+  try {
+    const response = await $fetch("/api/fetch?type=csv")
 
-  const rows = grimpeurs.value.map((grimpeur) => [
-    grimpeur.action,
-    grimpeur.nom,
-    grimpeur.prenom,
-    new Date(grimpeur.dateNaissance).toLocaleDateString("fr-FR"),
-    grimpeur.sexe,
-    grimpeur.nationalite,
-    grimpeur.adresse,
-    grimpeur.complementAdresse || "",
-    grimpeur.codePostal,
-    grimpeur.ville,
-    grimpeur.pays,
-    grimpeur.telephone || "",
-    grimpeur.mobile || "",
-    // faire une jointure avec Compte
-    "",
-    grimpeur.courriel2,
-    grimpeur.personneNom,
-    grimpeur.personnePrenom,
-    grimpeur.personneTelephone,
-    grimpeur.personneCourriel,
-    grimpeur.numLicence,
-    grimpeur.typeLicence,
-    grimpeur.assurance,
-    grimpeur.optionSki ? "Oui" : "Non",
-    grimpeur.optionSlackline ? "Oui" : "Non",
-    grimpeur.optionTrail ? "Oui" : "Non",
-    grimpeur.optionVTT ? "Oui" : "Non",
-    grimpeur.optionAssurance,
-    grimpeur.optionProtectionAgression ? "Oui" : "Non"
-  ])
+    if (response.status !== 200) {
+      throw new Error("Erreur lors du téléchargement du CSV")
+    }
 
-  const csvContent = [ header, ...rows ].map((e) => e.join(";")).join("\n")
+    const csvContents = response.body
 
-  const blob = new Blob([ csvContent ], { type: "text/csv;charset=utf-8;" })
-  const link = document.createElement("a")
+    if (!Array.isArray(csvContents)) {
+      throw new Error("Format de réponse inattendu")
+    }
 
-  link.href = URL.createObjectURL(blob)
-  link.setAttribute("download", "grimpeurs.csv")
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+    csvContents.forEach((csvData, index) => {
+      const blob = new Blob([csvData], { type: "text/csv" })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+
+      a.href = url
+      a.download = `grimpeurs_part_${index + 1}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    })
+  } catch (error) {
+    console.error("Erreur lors du téléchargement du CSV:", error)
+  }
 }
 </script>

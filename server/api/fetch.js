@@ -39,6 +39,8 @@ export default defineEventHandler(async (event) => {
           return await fetchGrimpeurSeance()
         case "seance":
           return await fetchSeance()
+        case "csv":
+          return await exportGrimpeursToCSV()
         default:
           return {
             status: 400,
@@ -304,6 +306,99 @@ async function fetchGrimpeursForSeance(body) {
     return {
       status: 500,
       body: { error: "Erreur lors de la récupération des grimpeurs pour la séance", message: err.message },
+    }
+  }
+}
+
+async function exportGrimpeursToCSV() {
+  try {
+    const [ rows ] = await connection.execute("SELECT * FROM Grimpeur")
+
+    if (!rows || rows.length === 0) {
+      return {
+        status: 404,
+        body: { error: "Aucun grimpeur trouvé" },
+      }
+    }
+
+    const header = [
+      "idGrimpeur",
+      "nom",
+      "prenom",
+      "dateNaissance",
+      "sexe",
+      "nationalite",
+      "adresse",
+      "complementAdresse",
+      "codePostal",
+      "ville",
+      "pays",
+      "telephone",
+      "mobile",
+      "courriel2",
+      "personneNom",
+      "personnePrenom",
+      "personneTelephone",
+      "personneCourriel",
+      "numLicence",
+      "typeLicence",
+      "assurance",
+      "optionSki",
+      "optionSlackline",
+      "optionTrail",
+      "optionVTT",
+      "optionAssurance",
+      "optionProtectionAgression"
+    ]
+
+    const data = rows.map((row) => [
+      row.idGrimpeur,
+      row.nom,
+      row.prenom,
+      new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
+      row.sexe,
+      row.nationalite,
+      row.adresse,
+      row.complementAdresse || "",
+      row.codePostal,
+      row.ville,
+      row.pays,
+      row.telephone || "",
+      row.mobile || "",
+      row.courriel2 || "",
+      row.personneNom || "",
+      row.personnePrenom || "",
+      row.personneTelephone || "",
+      row.personneCourriel || "",
+      row.numLicence || "",
+      row.typeLicence,
+      row.assurance,
+      row.optionSki ? "Oui" : "Non",
+      row.optionSlackline ? "Oui" : "Non",
+      row.optionTrail ? "Oui" : "Non",
+      row.optionVTT ? "Oui" : "Non",
+      row.optionAssurance,
+      row.optionProtectionAgression ? "Oui" : "Non"
+    ])
+
+    const chunkSize = 100
+    const chunks = []
+
+    for (let i = 0; i < data.length; i += chunkSize) {
+      const chunk = data.slice(i, i + chunkSize)
+      const csvContent = [ header, ...chunk ].map((row) => row.join(";")).join("\n")
+
+      chunks.push(csvContent)
+    }
+
+    return {
+      status: 200,
+      body: chunks
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      body: { error: "Erreur durant la récupération des données", message: error.message },
     }
   }
 }
