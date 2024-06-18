@@ -27,6 +27,7 @@
             <v-date-input
               v-model="birthdate"
               :allowed-dates="date => date < new Date(new Date().setHours(0, 0, 0, 0))"
+              color="success"
               class="d-flex mx-auto"
               clearable
               icon="mdi-calendar-account-outline"
