@@ -1,8 +1,10 @@
 import mysql from "mysql2/promise"
 import bcrypt from "bcryptjs"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
+import { ofetch } from "ofetch"
 
 let connection = null
+const base_url = `http://localhost:${process.env.DEV_PORT}`
 
 try {
   connection = await mysql.createConnection({
@@ -167,13 +169,49 @@ async function updateSeance(body) {
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
+    const [ seanceRows ] = await connection.execute("SELECT * FROM Seance WHERE idSeance = ?", [ idSeance ])
+    const seance = seanceRows[0]
+
+    if (!seance) {
+      throw createError({
+        status: 404,
+        message: "Séance non trouvée"
+      })
+    }
+
+    if (seance.nbPlacesRestantes === 0 && seance.nbPlacesRestantes !== nbPlacesRestantes) {
+      const [ grimpeurSeanceRows ] = await connection.execute("SELECT idGrimpeur FROM GrimpeurSeance WHERE idSeance = ? AND isFileDAttente = 1", [ idSeance ])
+
+      for (const grimpeurSeance of grimpeurSeanceRows) {
+        const [ grimpeurRows ] = await connection.execute("SELECT * FROM Grimpeur WHERE idGrimpeur = ?", [ grimpeurSeance.idGrimpeur ])
+        const grimpeur = grimpeurRows[0]
+
+        if (grimpeur) {
+          const [ compteRows ] = await connection.execute("SELECT * FROM Compte WHERE idCompte = ?", [ grimpeur.fkCompte ])
+          const compte = compteRows[0]
+
+          if (compte) {
+            await ofetch(`${base_url}/api/notifySeance`, {
+              method: "POST",
+              body: JSON.stringify({
+                email: compte.mail
+              })
+            })
+          }
+        }
+      }
+    }
+
+    const [ updateRows ] = await connection.execute(
+      "UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?",
+      [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ]
+    )
 
     await connection.commit()
 
     return {
       status: 200,
-      body: rows[0]
+      body: updateRows[0]
     }
   } catch (err) {
     await connection.rollback()
