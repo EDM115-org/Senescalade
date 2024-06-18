@@ -56,6 +56,10 @@ try {
     if (response.body.ReadListUtilisateur === 1) {
       items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
     }
+
+    if (response.body[0].AccessReinscription === 1) {
+      items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
+    }
   } else {
     console.error("Error getPermAdmin:", response.statusText)
   }

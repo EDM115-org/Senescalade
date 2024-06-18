@@ -68,7 +68,7 @@
 import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
 import { required, numeric, minLength, maxLength } from "@vuelidate/validators"
-import { ref, reactive } from "vue"
+import { ref, reactive, onMounted } from "vue"
 
 const store = useMainStore()
 const user = store.user
@@ -145,4 +145,31 @@ async function resendVerificationMail() {
     issueMessage.value = error.message || error
   }
 }
+
+onMounted(async () => {
+  const user = store.getUser
+
+  if (user) {
+    if (user.isAdmin === 1) {
+      router.push("/admin/dashboard")
+    } else {
+      try {
+        const response = await $fetch("/api/fetch?type=mailIsVerified", {
+          method: "POST",
+          body: JSON.stringify({ mail: user.mail })
+        })
+
+        if (response.body.mailIsVerified === 1) {
+          router.push("/user")
+        }
+      } catch (error) {
+        messageColor.value = "error"
+        errorMessage.value = "Erreur lors de la connexion"
+        issueMessage.value = error
+      }
+    }
+  } else {
+    router.push("/login")
+  }
+})
 </script>

@@ -28,7 +28,11 @@
               </v-row>
             </v-card-title>
             <v-card-text>
-              <v-table>
+              <v-skeleton-loader
+                v-if="loading"
+                type="heading, table-tbody"
+              />
+              <v-table v-else>
                 <thead>
                   <tr>
                     <th
@@ -138,6 +142,7 @@ definePageMeta({
 const store = useMainStore()
 const user = store.getUser
 const router = useRouter()
+const loading = ref(false)
 const seances = ref([])
 const seanceCount = ref(0)
 const deleteDialog = ref(null)
@@ -184,6 +189,7 @@ try {
 }
 
 const fetchSeance = async () => {
+  loading.value = true
   try {
     const result = await $fetch("/api/fetch?type=seance")
 
@@ -194,6 +200,8 @@ const fetchSeance = async () => {
     }
   } catch (error) {
     console.error("Error fetching seances: ", error)
+  } finally {
+    loading.value = false
   }
 }
 
