@@ -84,10 +84,18 @@
                       />
                       <v-btn
                         color="error"
+                        class="mr-2"
                         icon="mdi-calendar-remove-outline"
                         size="small"
                         variant="elevated"
                         @click.prevent="confirmDelete(seance)"
+                      />
+                      <v-btn
+                        color="secondary"
+                        icon="mdi-file-pdf-box"
+                        size="small"
+                        variant="elevated"
+                        @click.prevent="exportGrimpeursPDF(seance.idSeance)"
                       />
                     </td>
                   </tr>
@@ -113,6 +121,7 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
+import { jsPDF } from "jspdf"
 
 definePageMeta({
   pageTransition: {
@@ -253,6 +262,60 @@ const handleSeance = (seance, edit) => {
     createSeance(seance)
   }
 }
+
+const exportGrimpeursPDF = async (idSeance) => {
+  try {
+    const result = await $fetch("/api/fetch?type=grimpeursForSeance", {
+      method: "POST",
+      body: { idSeance },
+    })
+
+    if (result.status === 200) {
+      const grimpeurs = result.body
+      const seanceDetails = {
+        jour: grimpeurs[0].jour,
+        typeSeance: grimpeurs[0].typeSeance,
+        heureDebutSeance: grimpeurs[0].heureDebutSeance,
+        heureFinSeance: grimpeurs[0].heureFinSeance,
+        nbPlaces: grimpeurs[0].nbPlaces - grimpeurs[0].nbPlacesRestantes,
+      }
+
+      generatePDF(grimpeurs, seanceDetails)
+    } else {
+      errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
+      issueMessage.value = result.body.message ?? ""
+    }
+  } catch (error) {
+    errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
+    issueMessage.value = error
+  }
+}
+
+const generatePDF = (grimpeurs, seanceDetails) => {
+  const doc = new jsPDF()
+
+  doc.setTextColor(40)
+  doc.setFontSize(16)
+  doc.setFont("helvetica", "normal")
+
+  doc.text(`Liste des grimpeurs inscrits à la séance du ${seanceDetails.jour} de ${seanceDetails.heureDebutSeance} à ${seanceDetails.heureFinSeance}`, 15, 15)
+
+  doc.setFontSize(12)
+  doc.text(`Type de séance : ${seanceDetails.typeSeance}`, 15, 25)
+  doc.text(`Nombre de grimpeurs : ${seanceDetails.nbPlaces}`, 15, 30)
+
+  doc.setLineWidth(0.2)
+  doc.line(15, 35, 195, 35)
+
+  grimpeurs.forEach((grimpeur, index) => {
+    const yPos = 45 + (index * 10)
+
+    doc.text(`${grimpeur.nom} ${grimpeur.prenom}`, 20, yPos)
+  })
+
+  doc.save("grimpeurs_seance.pdf")
+}
+
 
 onMounted(async () => {
   const user = store.getUser

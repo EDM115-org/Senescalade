@@ -66,6 +66,8 @@ export default defineEventHandler(async (event) => {
           return await fetchGrimpeurPost(body)
         case "grimpeurSeance":
           return await fetchGrimpeurSeance(body)
+        case "grimpeursForSeance":
+          return await fetchGrimpeursForSeance(body)
         default:
           return {
             status: 400,
@@ -250,3 +252,45 @@ async function fetchSeance() {
     body: rows,
   }
 }
+
+async function fetchGrimpeursForSeance(body) {
+  const { idSeance } = body
+
+  if (!idSeance) {
+    return {
+      status: 400,
+      body: { error: "L'ID de la séance est requis" },
+    }
+  }
+
+  try {
+    const [ rows ] = await connection.execute(
+      `SELECT g.idGrimpeur, g.nom, g.prenom, s.jour, s.typeSeance, s.heureDebutSeance, s.heureFinSeance, s.nbPlaces, s.nbPlacesRestantes
+       FROM Grimpeur g
+       INNER JOIN GrimpeurSeance gs ON g.idGrimpeur = gs.idGrimpeur
+       INNER JOIN Seance s ON gs.idSeance = s.idSeance
+       WHERE gs.idSeance = ?`,
+      [ idSeance ]
+    )
+
+    if (rows.length > 0) {
+      return {
+        status: 200,
+        body: rows,
+      }
+    } else {
+      return {
+        status: 404,
+        body: { error: "Aucun grimpeur trouvé pour cette séance" },
+      }
+    }
+  } catch (err) {
+    console.error("Erreur lors de la récupération des grimpeurs pour la séance:", err)
+
+    return {
+      status: 500,
+      body: { error: "Erreur lors de la récupération des grimpeurs pour la séance", message: err.message },
+    }
+  }
+}
+
