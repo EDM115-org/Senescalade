@@ -256,7 +256,6 @@ async function deleteSeance(body) {
 
   try {
     await connection.beginTransaction()
-    await connection.execute("DELETE FROM InscriptionSeance WHERE idSeance = ?", [ idSeance ])
     const [ rows ] = await connection.execute("DELETE FROM Seance WHERE idSeance = ?", [ idSeance ])
 
     await connection.commit()
