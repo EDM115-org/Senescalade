@@ -1,147 +1,108 @@
 <template>
   <v-container class="fillheight">
-    <div>
-      <h1 class="text-center mt-5 mb-5">
-        Réinscription
-      </h1>
+    <h1 class="text-center mt-5 mb-5">
+      Réinscription
+    </h1>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+      :color="messageColor"
+    />
 
-      <!-- Formulaire pour modifier les dates de réinscription -->
-      <v-form @submit.prevent="submitDatesForm">
-        <v-row>
-          <v-col cols="4">
-            <p class="text-center">
-              Date de réinscription pour les inscrits
-            </p>
-            <v-date-picker
-              v-model="datesForm.dateReinscriptionIsInscrit"
-              label="Date de réinscription pour les inscrits"
-              required
-            />
-          </v-col>
-          <v-col cols="4">
-            <p class="text-center">
-              Date de réinscription pour tous
-            </p>
-            <v-date-picker
-              v-model="datesForm.dateReinscriptionEveryone"
-              label="Date de réinscription pour tous"
-              required
-            />
-          </v-col>
-          <v-col cols="4">
-            <p class="text-center">
-              Date de fin de réinscription
-            </p>
-            <v-date-picker
-              v-model="datesForm.dateFinReinscription"
-              label="Date de fin de réinscription"
-              required
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            class="text-center"
-          >
-            <v-btn
-              color="primary"
-              type="submit"
-            >
-              Modifier les dates
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-form>
-
-      <!-- Formulaire pour changer l'état de réinscription (ouvert/fermé) -->
-      <v-form @submit.prevent="submitOpenForm">
-        <v-row>
-          <v-col cols="12">
-            <v-checkbox
-              v-model="openForm.inscritionOpen"
-              label="Réinscription ouverte"
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            class="text-center"
-          >
-            <v-btn
-              color="primary"
-              type="submit"
-            >
-              Modifier l'état de réinscription
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-form>
-
-      <!-- Bouton pour vider les inscriptions aux séances avec confirmation -->
-      <v-row>
+    <!-- Formulaire pour modifier les dates de réinscription -->
+    <v-form @submit.prevent="submitDatesForm">
+      <v-row justify="center">
+        <v-col
+          cols="12"
+          md="4"
+          class="text-center"
+        >
+          <p>Date de réinscription pour les inscrits</p>
+          <v-date-picker
+            v-model="datesForm.dateReinscriptionIsInscrit"
+            required
+            class="mx-auto"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="4"
+          class="text-center"
+        >
+          <p>Date de réinscription pour tous</p>
+          <v-date-picker
+            v-model="datesForm.dateReinscriptionEveryone"
+            required
+            class="mx-auto"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="4"
+          class="text-center"
+        >
+          <p>Date de fin de réinscription</p>
+          <v-date-picker
+            v-model="datesForm.dateFinReinscription"
+            required
+            class="mx-auto"
+          />
+        </v-col>
         <v-col
           cols="12"
           class="text-center"
         >
+          <!-- Bouton de validation pour les dates -->
           <v-btn
-            color="error"
-            @click="openClearPopup"
+            color="primary"
+            type="submit"
           >
-            Vider les inscriptions aux séances
+            Modifier les dates
           </v-btn>
         </v-col>
       </v-row>
+    </v-form>
 
-      <!-- Popup de confirmation pour vider les inscriptions aux séances -->
-      <v-dialog
-        v-model="clearPopup"
-        max-width="400"
+    <!-- Formulaire pour changer l'état de réinscription (ouvert/fermé) -->
+    <v-row justify="center">
+      <v-col
+        cols="12"
+        md="4"
+        class="d-flex justify-center"
       >
-        <v-card>
-          <v-card-title class="headline">
-            Confirmation
-          </v-card-title>
-          <v-card-text>
-            Êtes-vous sûr de vouloir vider toutes les inscriptions aux séances ?
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="primary"
-              text
-              @click="clearReinscriptions"
-            >
-              Confirmer
-            </v-btn>
-            <v-btn
-              color="secondary"
-              text
-              @click="clearPopup = false"
-            >
-              Annuler
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        <v-checkbox
+          v-model="openForm.inscritionOpen"
+          label="Ouvrir la réinscription"
+          @change="submitOpenForm"
+        />
+      </v-col>
+    </v-row>
 
-      <!-- Message d'erreur ou de succès -->
-      <v-snackbar
-        v-model="snackbar"
-        :color="messageColor"
-        top
+    <!-- Bouton pour vider les inscriptions aux séances avec confirmation -->
+    <v-row>
+      <v-col
+        cols="12"
+        class="text-center"
       >
-        {{ errorMessage }}
         <v-btn
-          dark
-          text
-          @click="snackbar = false"
+          color="error"
+          @click="openClearPopup"
         >
-          Fermer
+          Vider les inscriptions aux séances
         </v-btn>
-      </v-snackbar>
-    </div>
+      </v-col>
+    </v-row>
+    <PopupClearSeanceGrimpeur
+      ref="clearDialog"
+      @confirm-clear="clearReinscriptions"
+    />
   </v-container>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue"
+import { format } from "date-fns"
 
 definePageMeta({
   pageTransition: {
@@ -163,10 +124,10 @@ const openForm = ref({
   inscritionOpen: false,
 })
 
-const clearPopup = ref(false)
-const snackbar = ref(false)
+const clearDialog = ref(null)
 const errorMessage = ref("")
 const messageColor = ref("")
+const issueMessage = ref("")
 
 onMounted(async () => {
   try {
@@ -188,13 +149,13 @@ onMounted(async () => {
     } else {
       messageColor.value = "error"
       errorMessage.value = response.body.error || "Erreur lors de la récupération des réinscriptions."
-      snackbar.value = true
+      issueMessage.value = "Récupération des réinscriptions"
     }
   } catch (error) {
     console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
     errorMessage.value = "Erreur lors de la récupération des réinscriptions."
-    snackbar.value = true
+    issueMessage.value = "Récupération des réinscriptions"
   }
 })
 
@@ -204,30 +165,30 @@ async function submitDatesForm() {
     const response = await $fetch("/api/reinscription?type=update", {
       method: "POST",
       body: JSON.stringify({
-        dateReinscriptionIsInscrit: datesForm.value.dateReinscriptionIsInscrit.toISOString(),
-        dateReinscriptionEveryone: datesForm.value.dateReinscriptionEveryone.toISOString(),
-        dateFinReinscription: datesForm.value.dateFinReinscription.toISOString()
+        dateReinscriptionIsInscrit: format(datesForm.value.dateReinscriptionIsInscrit, "yyyy-MM-dd"),
+        dateReinscriptionEveryone: format(datesForm.value.dateReinscriptionEveryone, "yyyy-MM-dd"),
+        dateFinReinscription: format(datesForm.value.dateFinReinscription, "yyyy-MM-dd")
       })
     })
 
     if (response.status === 200) {
       messageColor.value = "success"
       errorMessage.value = response.body.message || "Dates de réinscription mises à jour."
-      snackbar.value = true
+      issueMessage.value = "Mise à jour des dates de réinscription"
     } else {
       messageColor.value = "error"
       errorMessage.value = response.body.error || "Erreur lors de la mise à jour des dates de réinscription."
-      snackbar.value = true
+      issueMessage.value = "Mise à jour des dates de réinscription"
     }
   } catch (error) {
     console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
     errorMessage.value = "Erreur lors de la mise à jour des dates de réinscription."
-    snackbar.value = true
+    issueMessage.value = "Mise à jour des dates de réinscription"
   }
 }
 
-// Soumettre le formulaire pour changer l'état de réinscription (ouvert/fermé)
+// Soumettre la modification de l'état de réinscription (ouvert/fermé)
 async function submitOpenForm() {
   try {
     const response = await $fetch("/api/reinscription?type=open", {
@@ -240,23 +201,23 @@ async function submitOpenForm() {
     if (response.status === 200) {
       messageColor.value = "success"
       errorMessage.value = response.body.message || "État de réinscription mis à jour."
-      snackbar.value = true
+      issueMessage.value = "Mise à jour de l'état de réinscription"
     } else {
       messageColor.value = "error"
       errorMessage.value = response.body.error || "Erreur lors de la mise à jour de l'état de réinscription."
-      snackbar.value = true
+      issueMessage.value = "Mise à jour de l'état de réinscription"
     }
   } catch (error) {
     console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
     errorMessage.value = "Erreur lors de la mise à jour de l'état de réinscription."
-    snackbar.value = true
+    issueMessage.value = "Mise à jour de l'état de réinscription"
   }
 }
 
 // Ouvrir la popup de confirmation pour vider les inscriptions aux séances
 function openClearPopup() {
-  clearPopup.value = true
+  clearDialog.value.open()
 }
 
 // Vider les inscriptions aux séances
@@ -269,19 +230,17 @@ async function clearReinscriptions() {
     if (response.status === 200) {
       messageColor.value = "success"
       errorMessage.value = response.body.message || "Inscriptions aux séances vidées."
-      snackbar.value = true
+      issueMessage.value = "Suppression des inscriptions aux séances"
     } else {
       messageColor.value = "error"
       errorMessage.value = response.body.error || "Erreur lors de la suppression des inscriptions aux séances."
-      snackbar.value = true
+      issueMessage.value = "Suppression des inscriptions aux séances"
     }
   } catch (error) {
     console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
     errorMessage.value = "Erreur lors de la suppression des inscriptions aux séances."
-    snackbar.value = true
-  } finally {
-    clearPopup.value = false
+    issueMessage.value = "Suppression des inscriptions aux séances"
   }
 }
 </script>
