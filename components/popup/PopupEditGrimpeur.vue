@@ -22,8 +22,8 @@
               md="6"
             >
               <v-text-field
-                v-model="grimpeur.typeLicence"
-                label="Type de licence"
+                v-model="grimpeur.numLicence"
+                label="Numéro de licence"
                 outlined
               />
             </v-col>
