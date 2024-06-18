@@ -299,21 +299,16 @@ const openAddAdmin = () => {
 
 const handleAdd = async (admin) => {
   try {
-    const result = await $fetch("/api/add?type=admin", {
+    await $fetch("/api/add?type=admin", {
       method: "POST",
       body: admin
     })
 
-    if (result.status === 200) {
-      fetchAdmin()
-      fetchAdminCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchAdmin()
+    fetchAdminCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de l'ajout d'un admin"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

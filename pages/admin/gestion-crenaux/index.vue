@@ -260,21 +260,16 @@ const updateSeance = async (seance) => {
 
 const createSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/add?type=seance", {
+    await $fetch("/api/add?type=seance", {
       method: "POST",
       body: seance,
     })
 
-    if (result.status === 200) {
-      fetchSeance()
-      fetchSeanceCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchSeance()
+    fetchSeanceCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de l'ajout de la séance"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

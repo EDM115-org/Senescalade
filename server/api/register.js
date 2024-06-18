@@ -10,7 +10,8 @@ try {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
   })
-} catch {
+} catch (err) {
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 

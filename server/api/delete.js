@@ -13,7 +13,7 @@ try {
     database: process.env.DB_NAME,
   })
 } catch (err) {
-  console.error("Failed to connect to the database:", err)
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 
