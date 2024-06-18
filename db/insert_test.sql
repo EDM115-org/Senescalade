@@ -59,20 +59,7 @@ VALUES ('Dimanche', '10:00:00', '12:00:00', 'Babygrimpe', '', 10, 0, 'Pierre');
 
 INSERT INTO Compte(idCompte, mail, password)
 VALUES (1, 'admin@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
-
-INSERT INTO Compte(idCompte, mail, password)
-VALUES (3, 'admin2@gmail.com', '$2a$10$BQArTCdsWHp/jkbIx4O/A.nWh.zPg0rFPfn9Z3GnTynGj.0qCPayS');
 -- admintestadmin
-
-INSERT INTO Compte(idCompte, mail, password)
-VALUES (2, 'user@gmail.com', '$2a$10$PEU8uPfXaQ1rAqTvEFyeY./c5bn6fQjrU8dX7opt8goIiEthhjEMC');
--- usertestuser
-
-INSERT INTO Grimpeur(nom, prenom, dateNaissance, sexe, adresse, complementAdresse, codePostal, ville, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, fkCompte)
-VALUES ('DUPONT', 'Jean', '1999-01-01', 'H', '1 rue de la Paix', '', '75000', 'Paris', '0123456789', '0123456789', '', '', '', '', '', '', 'J', 2);
 
 INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
 VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-
-INSERT INTO Admin(idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur)
-VALUES (3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);

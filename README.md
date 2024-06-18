@@ -25,6 +25,19 @@ DB_PASSWORD="UserPassword"
 DB_NAME=sae
 DB_PORT=3306
 DEV_PORT=8000
+MYSQL_ROOT_PASSWORD="SomethingStrong"
+PORT=56860
+```
+
+- Un fichier `.prod.env` à la racine du projet, avec la structure suivante :
+
+```env
+DB_HOST=db
+DB_USER=sae
+DB_PASSWORD="UserPassword"
+DB_NAME=sae
+DB_PORT=3306
+DEV_PORT=8000
 GMAIL_USER="adresse-email@gmail.com"
 GMAIL_PASS="abcd efgh ijkl mnop"
 MYSQL_ROOT_PASSWORD="SomethingStrong"

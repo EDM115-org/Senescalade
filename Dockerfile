@@ -19,6 +19,8 @@ RUN apk update && \
   apk upgrade --no-cache && \
   apk add --no-cache bash>=5.2.21-r0 git>=2.43.0-r0 mysql-client>=10.11.6-r0 && \
   npm i -g rimraf && \
+  rimraf .env && \
+  cp .prod.env .env && \
   npm ci --no-audit --no-fund && \
   npm run build
 
