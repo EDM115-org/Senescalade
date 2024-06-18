@@ -104,7 +104,7 @@ async function fetchAdmin() {
 
   return {
     status: 200,
-    body: rows[0]
+    body: rows
   }
 }
 
