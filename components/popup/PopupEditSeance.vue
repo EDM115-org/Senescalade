@@ -11,14 +11,15 @@
           ref="form"
           v-model="valid"
         >
-          <v-text-field
+          <v-select
             v-model="seance.jour"
             label="Jour"
-            :rules="[rules.required, rules.jour]"
+            :items="jours"
+            :rules="[rules.required]"
           />
           <v-text-field
             v-model="seance.heureDebutSeance"
-            label="Heure de Debut"
+            label="Heure de Début"
             :rules="[rules.required, rules.heure]"
           />
           <v-text-field
@@ -100,12 +101,21 @@ const emit = defineEmits([ "confirm-add", "confirm-edit" ])
 
 const rules = {
   required: (value) => Boolean(value) || "Requis",
-  jour: (value) => [ "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche" ].includes(value.toLowerCase()) || "Jour invalide",
   heure: (value) => (/^([01]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/).test(value) || "Heure invalide (hh:mm:ss)",
   duree: (value) => (/^([01]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/).test(value) || "Durée invalide (hh:mm:ss)",
-  nbPlaces: (value) => value > 0 || "Le nombre de places doit être supérieur à 0",
+  nbPlaces: (value) => (
+    value <= 0
+      ? "Le nombre de places doit être supérieur à 0"
+      : (value < seance.value.nbPlacesRestantes
+          ? "Le nombre de places doit être supérieur ou égal au nombre de places restantes"
+          : true
+        )
+  ),
+
   nbPlacesRestantes: (value) => (value >= 0 && value <= seance.value.nbPlaces) || "Nombre de places restantes invalide",
 }
+
+const jours = [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" ]
 
 const open = (seanceData) => {
   if (seanceData === null) {
