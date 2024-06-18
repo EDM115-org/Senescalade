@@ -38,33 +38,33 @@ export default defineEventHandler(async (event) => {
     const { email } = body
 
     if (!email) {
-      return {
-        statusCode: 400,
-        body: { error: "Le champ 'email' est requis" }
-      }
+      throw createError({
+        status: 400,
+        message: "Le champ 'email' est requis"
+      })
+    }
+
+    const [ rows ] = await connection.execute(
+      "SELECT idCompte FROM Compte WHERE mail = ?",
+      [ email ]
+    )
+
+    if (rows.length === 0) {
+      throw createError({
+        status: 404,
+        message: "Aucun utilisateur trouvé avec cet email"
+      })
+    }
+
+    const mailOptions = {
+      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: "Senescalade : Séance disponible",
+      text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
+      html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
     }
 
     try {
-      const [ rows ] = await connection.execute(
-        "SELECT idCompte FROM Compte WHERE mail = ?",
-        [ email ]
-      )
-
-      if (rows.length === 0) {
-        return {
-          statusCode: 404,
-          body: { error: "Aucun utilisateur trouvé avec cet email" }
-        }
-      }
-
-      const mailOptions = {
-        from: `"Senescalade" <${process.env.GMAIL_USER}>`,
-        to: email,
-        subject: "Senescalade : Séance disponible",
-        text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
-        html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
-      }
-
       await transporter.sendMail(mailOptions)
 
       return {
@@ -72,12 +72,11 @@ export default defineEventHandler(async (event) => {
         body: { success: "Email de séance envoyé avec succès" }
       }
     } catch (error) {
-      console.error("Erreur lors de l'envoi de l'email de séance:", error)
-
-      return {
-        statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de séance", message: error.message }
-      }
+      throw createError({
+        status: 500,
+        message: "Échec de l'envoi de l'email de séance",
+        statusMessage: error
+      })
     }
   } else {
     return {

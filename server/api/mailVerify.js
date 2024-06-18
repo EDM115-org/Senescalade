@@ -37,23 +37,16 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     const { type } = query
 
-    try {
-      switch (type) {
-        case "mail":
-          return await handleMailRequest(body)
-        case "code":
-          return await handleCodeRequest(body)
-        default:
-          return {
-            statusCode: 400,
-            body: { error: "Type de requête non pris en charge" }
-          }
-      }
-    } catch (err) {
-      return {
-        statusCode: 500,
-        body: { error: "Erreur durant la requête", message: err.message }
-      }
+    switch (type) {
+      case "mail":
+        return await handleMailRequest(body)
+      case "code":
+        return await handleCodeRequest(body)
+      default:
+        throw createError({
+          status: 400,
+          message: "Type d'entité non pris en charge"
+        })
     }
   } else {
     throw createError({
@@ -67,74 +60,60 @@ async function handleMailRequest(body) {
   const { email } = body
 
   if (!email) {
-    return {
-      statusCode: 400,
-      body: { error: "Le champ 'email' est requis" }
-    }
+    throw createError({
+      status: 400,
+      message: "Le champ 'email' est requis"
+    })
+  }
+
+  const [ rows ] = await connection.execute(
+    "SELECT idCompte FROM Compte WHERE mail = ?",
+    [ email ]
+  )
+
+  if (rows.length === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun utilisateur trouvé avec cet email"
+    })
+  }
+
+  const code = generateRandomCode()
+
+  try {
+    await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
+      code,
+      email
+    ])
+  } catch (error) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour du code dans la base de données",
+      statusMessage: error
+    })
+  }
+
+  const mailOptions = {
+    from: `"Senescalade" <${process.env.GMAIL_USER}>`,
+    to: email,
+    subject: `Vérification de votre email : ${code}`,
+    text: `Votre code de vérification est : ${code}`,
+    html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`
   }
 
   try {
-    const [ rows ] = await connection.execute(
-      "SELECT idCompte FROM Compte WHERE mail = ?",
-      [ email ]
-    )
-
-    if (rows.length === 0) {
-      return {
-        statusCode: 404,
-        body: { error: "Aucun utilisateur trouvé avec cet email" }
-      }
-    }
-
-    const code = generateRandomCode()
-
-    try {
-      await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
-        code,
-        email
-      ])
-    } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour du code dans la base de données:",
-        error
-      )
-
-      return {
-        statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" }
-      }
-    }
-
-    const mailOptions = {
-      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Vérification de votre email",
-      text: `Votre code de vérification est: ${code}`,
-      html: `<p>Votre code de vérification est: <strong>${code}</strong></p>`
-    }
-
-    try {
-      await transporter.sendMail(mailOptions)
-
-      return {
-        statusCode: 200,
-        body: { success: "Email de récupération envoyé avec succès" }
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'envoi de l'email de récupération:", error)
-
-      return {
-        statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" }
-      }
-    }
-  } catch (error) {
-    console.error("Erreur lors de la vérification de l'email dans la base de données:", error)
+    await transporter.sendMail(mailOptions)
 
     return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la vérification de l'email dans la base de données" }
+      statusCode: 200,
+      body: { success: "Email de récupération envoyé avec succès" }
     }
+  } catch (error) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de l'envoi de l'email de récupération",
+      statusMessage: error
+    })
   }
 }
 
@@ -142,57 +121,48 @@ async function handleCodeRequest(body) {
   const { email, code } = body
 
   if (!email || !code) {
-    return {
-      statusCode: 400,
-      body: { error: "Le mail ou le code n'a pas été fourni" }
-    }
+    throw createError({
+      status: 400,
+      message: "Le mail ou le code n'a pas été fourni"
+    })
   }
 
-  try {
-    const [ rows ] = await connection.execute(
-      "SELECT idCompte, code FROM Compte WHERE mail = ?",
-      [ email ]
-    )
+  const [ rows ] = await connection.execute(
+    "SELECT idCompte, code FROM Compte WHERE mail = ?",
+    [ email ]
+  )
 
-    if (rows.length === 0) {
-      return {
-        statusCode: 404,
-        body: { error: "Aucun compte trouvé pour cet email" }
-      }
-    }
+  if (rows.length === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun compte trouvé pour cet email"
+    })
+  }
 
-    const dbCode = rows[0].code
+  const dbCode = rows[0].code
 
-    if (dbCode === "0") {
-      return {
-        statusCode: 400,
-        body: { error: "Aucun code de vérification n'a été généré" }
-      }
-    }
+  if (dbCode === "0") {
+    throw createError({
+      status: 400,
+      message: "Aucun code de vérification n'a été généré"
+    })
+  }
 
-    if (dbCode !== code) {
-      return {
-        statusCode: 404,
-        body: { error: "Code incorrect ou expiré" }
-      }
-    }
+  if (dbCode !== code) {
+    throw createError({
+      status: 404,
+      message: "Code incorrect ou expiré"
+    })
+  }
 
-    await connection.execute(
-      "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
-      [ email ]
-    )
+  await connection.execute(
+    "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
+    [ email ]
+  )
 
-    return {
-      statusCode: 200,
-      body: { success: "Code vérifié avec succès, email vérifié" }
-    }
-  } catch (error) {
-    console.error("Erreur lors de la vérification du code:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la vérification du code" }
-    }
+  return {
+    statusCode: 200,
+    body: { success: "Code vérifié avec succès, email vérifié" }
   }
 }
 

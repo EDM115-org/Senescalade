@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
       default:
         throw createError({
           status: 400,
-          message: "Type de requête non pris en charge"
+          message: "Type d'entité non pris en charge"
         })
     }
   } else {

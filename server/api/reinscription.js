@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
         default:
           return {
             status: 400,
-            body: { error: "Type de comptage non pris en charge" }
+            body: { error: "Type de réinscription non pris en charge" }
           }
       }
     } catch (err) {
