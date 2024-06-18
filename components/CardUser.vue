@@ -17,7 +17,19 @@
             <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
             <p><strong>Code Postal :</strong> {{ grimpeur.codePostal }}</p>
             <p><strong>Statut du paiement :</strong> {{ grimpeur.aPaye === 1 ? "Confirmé" : "Non confirmé" }}</p>
-            <p><strong>Numéro de Licence :</strong> {{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</p>
+            <div class="license-container">
+              <p class="mr-2">
+                <strong>Numéro de Licence :</strong>
+              </p>
+              <pre>{{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
+              <v-btn
+                v-if="grimpeur.numLicence !== ''"
+                flat
+                icon="mdi-content-copy"
+                size="small"
+                @click="copyToClipboard(grimpeur.numLicence)"
+              />
+            </div>
             <p v-if="grimpeur.seance">
               <strong>Séance selectionnée :</strong>
               {{ grimpeur.seance.typeSeance }} {{ grimpeur.seance.niveau ? `- ${grimpeur.seance.niveau}` : "" }}<br>
@@ -61,6 +73,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      color="success"
+      :close-delay="3000"
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -71,6 +90,8 @@ import { ref, onMounted } from "vue"
 const store = useMainStore()
 const grimpeurs = ref([])
 const deleteDialog = ref(false)
+const snackbar = ref(false)
+const snackbarMessage = ref("")
 
 async function fetchGrimpeurs() {
   try {
@@ -99,7 +120,7 @@ onMounted(async () => {
           const response = await $fetch("/api/fetch?type=seance")
 
           if (response.status === 200) {
-            grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance]
+            grimpeurs.value[grimpeur].seance = response.body[result.body[0].idSeance - 1]
           } else {
             console.error("Error fetching seance:", response)
           }
@@ -113,6 +134,17 @@ onMounted(async () => {
   }
 })
 
+const copyToClipboard = (text) => {
+  if (!text) {
+    return
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    snackbarMessage.value = "Numéro de licence copié dans le presse-papier"
+    snackbar.value = true
+  })
+}
+
 const formatBirthDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("fr-FR")
 }
@@ -121,5 +153,21 @@ const formatBirthDate = (dateString) => {
 <style scoped>
 .v-row {
   margin-top: 20px;
+}
+
+.license-container {
+  display: flex;
+  align-items: center;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+  background: rgb(var(-v-theme-on-surface));
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: "Fira Code";
 }
 </style>

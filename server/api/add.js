@@ -151,9 +151,13 @@ async function addGrimpeur(body) {
     optionAssurance,
     optionProtectionAgression,
     fkCompte,
-    idSeance,
-    isFileDAttente
+    idSeance
   } = body
+  let isFileDAttente = body.isFileDAttente
+
+  if (isFileDAttente === undefined || isFileDAttente === null) {
+    isFileDAttente = false
+  }
 
   const params = [
     action,
@@ -201,11 +205,12 @@ async function addGrimpeur(body) {
     const [ grimpeurResult ] = await connection.execute(query, params)
     const idGrimpeur = grimpeurResult.insertId
 
-    if (isFileDAttente === undefined) {
+    if (isFileDAttente === false) {
       const [ seanceResult ] = await connection.execute(
         "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
         [ idSeance ]
       )
+
       const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
 
       await connection.execute(
@@ -238,7 +243,17 @@ async function addGrimpeur(body) {
 }
 
 async function addSeance(body) {
-  const { jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
+  const { jour, heureDebutSeance, heureFinSeance, typeSeance, nbPlaces, nbPlacesRestantes } = body
+  let niveau = body.niveau
+  let professeur = body.professeur
+
+  if (niveau === undefined) {
+    niveau = null
+  }
+
+  if (professeur === undefined) {
+    professeur = null
+  }
 
   try {
     await connection.beginTransaction()

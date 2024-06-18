@@ -409,13 +409,13 @@ const emit = defineEmits([ "confirm-edit" ])
 
 const rules = {
   required: (value) => !!value || "Requis",
-  date: (value) => !isNaN(Date.parse(value)) || "Date invalide",
   codePostal: (value) => (/^[0-9]{5}$/).test(value) || "Code postal invalide",
 }
 
 const open = (grimpeurData) => {
   if (grimpeurData) {
     grimpeur.value = { ...grimpeurData }
+    grimpeur.value.dateNaissance = new Date(grimpeur.value.dateNaissance).toISOString().split("T")[0]
   }
   isOpen.value = true
 }
