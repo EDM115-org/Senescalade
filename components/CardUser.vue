@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
-    <v-row justify="center">
+    <v-skeleton-loader
+      v-if="loading"
+      type="card"
+    />
+    <v-row
+      v-else
+      justify="center"
+    >
       <v-col
         v-for="grimpeur in grimpeurs"
         :key="grimpeur.idGrimpeur"
@@ -90,16 +97,20 @@ import { ref, onMounted } from "vue"
 const store = useMainStore()
 const grimpeurs = ref([])
 const deleteDialog = ref(false)
+const loading = ref(false)
 const snackbar = ref(false)
 const snackbarMessage = ref("")
 
 async function fetchGrimpeurs() {
+  loading.value = true
   try {
     const data = await $fetch(`/api/fetch?type=grimpeur&id=${store.getUser.id}`)
 
     grimpeurs.value = data.body
   } catch (error) {
     console.error("Error fetching grimpeurs:", error)
+  } finally {
+    loading.value = false
   }
 }
 
