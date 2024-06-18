@@ -173,19 +173,17 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.UpdateListSeance === 1) {
-      isPermEdit.value = true
-    }
+  if (response.body.UpdateListSeance === 1) {
+    isPermEdit.value = true
+  }
 
-    if (response.body.DeleteListSeance === 1) {
-      isPermDelete.value = true
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.DeleteListSeance === 1) {
+    isPermDelete.value = true
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 const fetchSeance = async () => {
@@ -193,13 +191,11 @@ const fetchSeance = async () => {
   try {
     const result = await $fetch("/api/fetch?type=seance")
 
-    if (result.status === 200) {
-      seances.value = result.body
-    } else {
-      console.error("Error fetching seances: ", result)
-    }
+    seances.value = result.body
   } catch (error) {
-    console.error("Error fetching seances: ", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -284,27 +280,23 @@ const exportGrimpeursPDF = async (idSeance) => {
   try {
     const result = await $fetch("/api/fetch?type=grimpeursForSeance", {
       method: "POST",
-      body: { idSeance },
+      body: { idSeance }
     })
 
-    if (result.status === 200) {
-      const grimpeurs = result.body
-      const seanceDetails = {
-        jour: grimpeurs.jour,
-        typeSeance: grimpeurs.typeSeance,
-        heureDebutSeance: grimpeurs.heureDebutSeance,
-        heureFinSeance: grimpeurs.heureFinSeance,
-        nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes,
-      }
-
-      generatePDF(grimpeurs, seanceDetails)
-    } else {
-      errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
-      issueMessage.value = result.body.message ?? ""
+    const grimpeurs = result.body
+    const seanceDetails = {
+      jour: grimpeurs.jour,
+      typeSeance: grimpeurs.typeSeance,
+      heureDebutSeance: grimpeurs.heureDebutSeance,
+      heureFinSeance: grimpeurs.heureFinSeance,
+      nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes,
     }
+
+    generatePDF(grimpeurs, seanceDetails)
   } catch (error) {
-    errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
-    issueMessage.value = error
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -347,15 +339,13 @@ onMounted(async () => {
           body: JSON.stringify({ user }),
         })
 
-        if (response) {
-          if (response.body.ReadListSeance !== 1) {
-            router.push("/admin/dashboard")
-          }
-        } else {
-          console.error("Error getPermAdmin:", response.statusText)
+        if (response.body.ReadListSeance !== 1) {
+          router.push("/admin/dashboard")
         }
       } catch (error) {
-        console.error("Error getPermAdmin:", error.message)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
 
       fetchSeance()

@@ -173,32 +173,28 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.UpdateListAdmin === 1) {
-      isPermEdit.value = true
-    }
+  if (response.body.UpdateListAdmin === 1) {
+    isPermEdit.value = true
+  }
 
-    if (response.body.DeleteListAdmin === 1) {
-      isPermDelete.value = true
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.DeleteListAdmin === 1) {
+    isPermDelete.value = true
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 const fetchAdmin = async () => {
   try {
     const result = await $fetch("/api/fetch?type=admin")
 
-    if (result.status === 200) {
-      admins.value = result.body
-    } else {
-      console.error("Error fetching admins:", result)
-    }
+    admins.value = result.body
   } catch (error) {
-    console.error("Error fetching admins:", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -310,15 +306,13 @@ onMounted(async () => {
           body: JSON.stringify({ user })
         })
 
-        if (response) {
-          if (response.body.ReadListAdmin !== 1) {
-            router.push("/admin/dashboard")
-          }
-        } else {
-          console.error("Error getPermAdmin:", response.statusText)
+        if (response.body.ReadListAdmin !== 1) {
+          router.push("/admin/dashboard")
         }
       } catch (error) {
-        console.error("Error getPermAdmin:", error.message)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
 
       fetchAdmin()

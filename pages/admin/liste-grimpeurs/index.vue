@@ -191,19 +191,17 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.UpdateListGrimpeur === 1) {
-      isPermEdit.value = true
-    }
+  if (response.body.UpdateListGrimpeur === 1) {
+    isPermEdit.value = true
+  }
 
-    if (response.body.DeleteListGrimpeur === 1) {
-      isPermDelete.value = true
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.DeleteListGrimpeur === 1) {
+    isPermDelete.value = true
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 const fetchGrimpeurs = async () => {
@@ -211,13 +209,11 @@ const fetchGrimpeurs = async () => {
   try {
     const response = await $fetch("/api/fetch?type=grimpeur")
 
-    if (response) {
-      grimpeurs.value = response.body
-    } else {
-      console.error("Error fetching grimpeurs:", response.statusText)
-    }
+    grimpeurs.value = response.body
   } catch (error) {
-    console.error("Error fetching grimpeurs:", error.message)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -325,15 +321,13 @@ onMounted(async () => {
           body: JSON.stringify({ user })
         })
 
-        if (response) {
-          if (response.body.ReadListGrimpeur !== 1) {
-            router.push("/admin/dashboard")
-          }
-        } else {
-          console.error("Error getPermAdmin:", response.statusText)
+        if (response.body.ReadListGrimpeur !== 1) {
+          router.push("/admin/dashboard")
         }
       } catch (error) {
-        console.error("Error getPermAdmin:", error.message)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
 
       fetchGrimpeurs()
@@ -352,30 +346,29 @@ const downloadCSV = async () => {
   try {
     const response = await $fetch("/api/fetch?type=csv")
 
-    if (response.status !== 200) {
-      throw new Error("Erreur lors du téléchargement du CSV")
-    } else {
-      const csvContents = response.body
+    const csvContents = response.body
 
-      if (!Array.isArray(csvContents)) {
-        throw new Error("Format de réponse inattendu")
-      }
-
-      csvContents.forEach((csvData, index) => {
-        const blob = new Blob([ csvData ], { type: "text/csv" })
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement("a")
-
-        a.href = url
-        a.download = `grimpeurs_part_${index + 1}.csv`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        window.URL.revokeObjectURL(url)
-      })
+    if (!Array.isArray(csvContents)) {
+      throw new Error("Format de réponse inattendu")
     }
+
+    csvContents.forEach((csvData, index) => {
+      const blob = new Blob([ csvData ], { type: "text/csv" })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+
+      a.href = url
+      a.download = `grimpeurs_part_${index + 1}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    })
   } catch (error) {
     console.error("Erreur lors du téléchargement du CSV:", error)
+    // TODO. non conventionnal error message, fetch csv throws none. lies in the ability of the browser to download the file
+    // errorMessage.value = error.data.message
+    // issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

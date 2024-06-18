@@ -66,19 +66,13 @@ const open = async (grimpeurData) => {
       })
     })
 
-    if (result.status === 200) {
-      const response = await $fetch("/api/fetch?type=seance")
+    const response = await $fetch("/api/fetch?type=seance")
 
-      if (response.status === 200) {
-        seance.value = response.body[result.body.idSeance]
-      } else {
-        console.error("Error fetching seance:", response)
-      }
-    } else {
-      console.error("Error fetching grimpeur seance:", result)
-    }
+    seance.value = response.body[result.body.idSeance]
   } catch (error) {
-    console.error("Error fetching grimpeur seance : ", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 
   isOpen.value = true

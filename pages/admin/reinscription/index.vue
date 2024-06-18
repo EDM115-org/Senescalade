@@ -121,7 +121,7 @@ const datesForm = ref({
 })
 
 const openForm = ref({
-  inscritionOpen: false,
+  inscritionOpen: false
 })
 
 const clearDialog = ref(null)
@@ -131,31 +131,20 @@ const issueMessage = ref("")
 
 onMounted(async () => {
   try {
-    const response = await $fetch("/api/fetch?type=reinscription", {
-      method: "GET"
-    })
+    const response = await $fetch("/api/fetch?type=reinscription")
 
-    if (response.status === 200) {
-      const reinscriptions = response.body[0]
+    const reinscriptions = response.body
 
-      // Convertir les dates ISO 8601 en objets Date
-      datesForm.value.dateReinscriptionIsInscrit = new Date(reinscriptions.dateReinscriptionIsInscrit)
-      datesForm.value.dateReinscriptionEveryone = new Date(reinscriptions.dateReinscriptionEveryone)
-      datesForm.value.dateFinReinscription = new Date(reinscriptions.dateFinReinscription)
+    // Convertir les dates ISO 8601 en objets Date
+    datesForm.value.dateReinscriptionIsInscrit = new Date(reinscriptions.dateReinscriptionIsInscrit)
+    datesForm.value.dateReinscriptionEveryone = new Date(reinscriptions.dateReinscriptionEveryone)
+    datesForm.value.dateFinReinscription = new Date(reinscriptions.dateFinReinscription)
 
-      if (reinscriptions.inscritionOpen === 1) { openForm.value.inscritionOpen = true } else { openForm.value.inscritionOpen = false }
-
-      console.log(reinscriptions.inscritionOpen)
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur lors de la récupération des réinscriptions."
-      issueMessage.value = "Récupération des réinscriptions"
-    }
+    if (reinscriptions.inscritionOpen === 1) { openForm.value.inscritionOpen = true } else { openForm.value.inscritionOpen = false }
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
-    errorMessage.value = "Erreur lors de la récupération des réinscriptions."
-    issueMessage.value = "Récupération des réinscriptions"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 })
 
@@ -173,18 +162,17 @@ async function submitDatesForm() {
 
     if (response.status === 200) {
       messageColor.value = "success"
-      errorMessage.value = response.body.message || "Dates de réinscription mises à jour."
-      issueMessage.value = "Mise à jour des dates de réinscription"
+      errorMessage.value = "Dates de réinscription mises à jour"
+      issueMessage.value = response.body.message ?? ""
     } else {
       messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur lors de la mise à jour des dates de réinscription."
-      issueMessage.value = "Mise à jour des dates de réinscription"
+      errorMessage.value = "Erreur lors de la mise à jour des dates de réinscription"
+      issueMessage.value = response.body.error ?? ""
     }
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
-    errorMessage.value = "Erreur lors de la mise à jour des dates de réinscription."
-    issueMessage.value = "Mise à jour des dates de réinscription"
+    errorMessage.value = "Erreur lors de la mise à jour des dates de réinscription"
+    issueMessage.value = error
   }
 }
 

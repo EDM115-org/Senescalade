@@ -127,7 +127,9 @@ onMounted(async () => {
           router.push("/login/MailVerify")
         }
       } catch (error) {
-        console.error(error)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }

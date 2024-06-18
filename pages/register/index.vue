@@ -73,8 +73,8 @@ onMounted(async () => {
           router.push("/login/MailVerify")
         }
       } catch (error) {
-        errorMessage.value = "Erreur lors de la connexion"
-        issueMessage.value = error
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }

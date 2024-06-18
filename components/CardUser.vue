@@ -108,7 +108,9 @@ async function fetchGrimpeurs() {
 
     grimpeurs.value = data.body
   } catch (error) {
-    console.error("Error fetching grimpeurs:", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -127,19 +129,13 @@ onMounted(async () => {
           })
         })
 
-        if (result.status === 200) {
-          const response = await $fetch("/api/fetch?type=seance")
+        const response = await $fetch("/api/fetch?type=seance")
 
-          if (response.status === 200) {
-            grimpeurs.value[grimpeur].seance = response.body[result.body[0].idSeance - 1]
-          } else {
-            console.error("Error fetching seance:", response)
-          }
-        } else {
-          console.error("Error fetching grimpeur seance:", result)
-        }
+        grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance - 1]
       } catch (error) {
-        console.error("Error fetching grimpeur seance : ", error)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }
