@@ -95,10 +95,40 @@ export default defineEventHandler(async (event) => {
   }
 
   async function clearReinscription() {
-    const query = "DELETE FROM GrimpeurSeance"
+    try {
+      // Mettre à jour la colonne 'action' à 'R' pour tous les grimpeurs inscrits
+      const updateQuery = `
+        UPDATE Grimpeur
+        SET action = 'R'
+        WHERE idGrimpeur IN (
+          SELECT idGrimpeur
+          FROM GrimpeurSeance
+        )
+      `
+      const [ updateResults ] = await connection.execute(updateQuery)
 
-    await connection.execute(query)
+      if (updateResults.affectedRows === 0) {
+        return {
+          status: 404,
+          body: { error: "Aucun grimpeur mis à jour" },
+        }
+      }
 
-    return { status: 200, body: { message: "Table vidée" } }
+      // Maintenant, supprimer toutes les inscriptions dans GrimpeurSeance
+      const deleteQuery = `
+        DELETE FROM GrimpeurSeance
+      `
+
+      await connection.execute(deleteQuery)
+
+      return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour des actions et de la suppression des inscriptions:", err)
+
+      return {
+        status: 500,
+        body: { error: "Erreur lors de la mise à jour des actions et de la suppression des inscriptions" },
+      }
+    }
   }
 })
