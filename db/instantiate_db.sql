@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS Reinscription (
   dateReinscriptionIsInscrit DATE,
   dateReinscriptionEveryone DATE,
   dateFinReinscription DATE,
-  inscritionOpen BOOLEAN NOT NULL DEFAULT 0
+  inscriptionOpen BOOLEAN NOT NULL DEFAULT 0
 );
 
 DELIMITER //

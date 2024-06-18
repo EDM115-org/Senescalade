@@ -1,7 +1,7 @@
 USE sae;
 
 INSERT INTO Reinscription(dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription, inscritionOpen)
-VALUES ('2021-06-01', '2021-06-01', '2021-06-30', 1);
+VALUES ('2024-06-18', '2024-06-25', '2024-06-30', 1);
 
 INSERT INTO Seance(jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur)
 VALUES ('Lundi', '17:30:00', '19:00:00', 'Jeunes', 'U14', 10, 10, 'Pierre');

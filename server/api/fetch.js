@@ -42,6 +42,8 @@ export default defineEventHandler(async (event) => {
         return await exportGrimpeursToCSV()
       case "reinscription":
         return await fetchReinscription()
+      case "getInfo":
+        return await getInfo()
       default:
         throw createError({
           status: 400,
@@ -397,4 +399,18 @@ async function fetchReinscription() {
       message: "Aucune réinscription trouvée"
     })
   }
+}
+
+async function getInfo() {
+  const query = "SELECT * FROM Reinscription"
+  const [ results ] = await connection.execute(query)
+
+  if (results.length === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucune réinscription trouvée"
+    })
+  }
+
+  return { status: 200, body: results[0] }
 }
