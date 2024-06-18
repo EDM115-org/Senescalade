@@ -366,26 +366,26 @@ const downloadCSV = async () => {
 
     if (response.status !== 200) {
       throw new Error("Erreur lors du téléchargement du CSV")
+    } else {
+      const csvContents = response.body
+
+      if (!Array.isArray(csvContents)) {
+        throw new Error("Format de réponse inattendu")
+      }
+
+      csvContents.forEach((csvData, index) => {
+        const blob = new Blob([ csvData ], { type: "text/csv" })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
+
+        a.href = url
+        a.download = `grimpeurs_part_${index + 1}.csv`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      })
     }
-
-    const csvContents = response.body
-
-    if (!Array.isArray(csvContents)) {
-      throw new Error("Format de réponse inattendu")
-    }
-
-    csvContents.forEach((csvData, index) => {
-      const blob = new Blob([ csvData ], { type: "text/csv" })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
-
-      a.href = url
-      a.download = `grimpeurs_part_${index + 1}.csv`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
-    })
   } catch (error) {
     console.error("Erreur lors du téléchargement du CSV:", error)
   }
