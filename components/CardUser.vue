@@ -178,56 +178,37 @@ onMounted(async () => {
 
         const response = await $fetch("/api/fetch?type=seance")
 
-<<<<<<< HEAD
-          if (response.status === 200) {
-            if (result.body.length > 0) {
-              const dateSeance = response.body[result.body[0].idSeance - 1]
+        if (result.body.length > 0) {
+          const dateSeance = response.body[result.body[0].idSeance - 1]
 
-              grimpeurs.value[grimpeur].seance = `${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
-            } else {
-              grimpeurs.value[grimpeur].seance = " Aucune"
-            }
+          grimpeurs.value[grimpeur].seance = `${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
+        } else {
+          grimpeurs.value[grimpeur].seance = " Aucune"
+        }
 
-            try {
-              const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
-                method: "GET"
-              })
+        const responseReinscription = await $fetch("/api/fetch?type=getInfo")
 
-              if (response.body) {
-                const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.id}`, {
-                  method: "GET"
-                })
+        if (response.body) {
+          const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.id}`)
 
-                if (reponseGrimpeur.body) {
-                  if (responseReinscription.body.inscriptionOpen === 1) {
-                    if (reponseGrimpeur.body[0].action === "C") {
-                      if (new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date() && new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date(responseReinscription.body.dateFinReinscription)) {
-                        reinscriptionOpen.value = true
-                      } else {
-                        reinscriptionOpen.value = false
-                      }
-                    } else if (reponseGrimpeur.body[0].action === "R") {
-                      if (new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date() && new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date(responseReinscription.body.dateFinReinscription)) {
-                        reinscriptionOpen.value = true
-                      } else {
-                        reinscriptionOpen.value = false
-                      }
-                    }
-                  }
+          if (reponseGrimpeur.body) {
+            if (responseReinscription.body.inscriptionOpen === 1) {
+              if (reponseGrimpeur.body[0].action === "C") {
+                if (new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date() && new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date(responseReinscription.body.dateFinReinscription)) {
+                  reinscriptionOpen.value = true
+                } else {
+                  reinscriptionOpen.value = false
+                }
+              } else if (reponseGrimpeur.body[0].action === "R") {
+                if (new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date() && new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date(responseReinscription.body.dateFinReinscription)) {
+                  reinscriptionOpen.value = true
+                } else {
+                  reinscriptionOpen.value = false
                 }
               }
-            } catch (error) {
-              console.error(error)
             }
-          } else {
-            console.error("Error fetching seance:", response)
           }
-        } else {
-          console.error("Error fetching grimpeur seance:", result)
         }
-=======
-        grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance - 1]
->>>>>>> 50aa0ad829853285dee5b698202eea6e5d167eac
       } catch (error) {
         // TODO
         errorMessage.value = error.data.message
