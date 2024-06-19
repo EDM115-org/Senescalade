@@ -1,5 +1,10 @@
 <template>
   <v-container fluid>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <v-skeleton-loader
       v-if="loading"
       type="card"
@@ -185,8 +190,6 @@ onMounted(async () => {
           const dateSeance = response.body[result.body[0].idSeance - 1]
 
           grimpeurs.value[grimpeur].seance = `${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
-        } else {
-          grimpeurs.value[grimpeur].seance = " Aucune"
         }
 
         const responseReinscription = await $fetch("/api/fetch?type=getInfo")
@@ -213,9 +216,7 @@ onMounted(async () => {
           }
         }
       } catch (error) {
-        // TODO
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        grimpeurs.value[grimpeur].seance = " Aucune trouvé"
       }
     }
   }

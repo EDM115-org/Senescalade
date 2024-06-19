@@ -8,6 +8,11 @@
     >
       Espace utilisateur
     </h1>
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <NuxtLink
       to="/user/add"
     >
@@ -42,6 +47,9 @@ const router = useRouter()
 const user = store.getUser
 
 const loading = ref(false)
+
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 onMounted(async () => {
   if (user) {
