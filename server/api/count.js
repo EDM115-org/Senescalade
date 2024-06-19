@@ -38,6 +38,10 @@ export default defineEventHandler(async (event) => {
         return await countNonPaye()
       case "seance":
         return await countSeance()
+      case "isExported":
+        return await countIsExported()
+      case "isFileDAttente":
+        return await countFileDAttente()
       default:
         throw createError({
           status: 400,
@@ -99,5 +103,23 @@ async function countSeance() {
   return {
     status: 200,
     body: { seanceCount: rows[0].seanceCount }
+  }
+}
+
+async function countIsExported() {
+  const [ rows ] = await connection.execute("SELECT COUNT(*) as isExportedCount FROM Grimpeur WHERE isExported = 0")
+
+  return {
+    status: 200,
+    body: { isExportedCount: rows[0].isExportedCount }
+  }
+}
+
+async function countFileDAttente() {
+  const [ rows ] = await connection.execute("SELECT COUNT(*) as isFileDAttenteCount FROM GrimpeurSeance WHERE isFileDAttente = 0")
+
+  return {
+    status: 200,
+    body: { isFileDAttenteCount: rows[0].isFileDAttenteCount }
   }
 }

@@ -194,13 +194,12 @@ async function deleteGrimpeurSeance(body, headers) {
     })
     const seance = response.body.find((seance) => seance.idSeance === seanceId)
 
-
     if (seance.nbPlacesRestantes === 0) {
       const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
         headers: { Authorization: headers.authorization }
       })
 
-      for (const grimpeurSeance of grimpeurSeanceResponse) {
+      for (const grimpeurSeance of grimpeurSeanceResponse.body) {
         if (grimpeurSeance.isFileDAttente) {
           const grimpeurResponse = await ofetch(`${base_url}/api/fetch?type=grimpeur`, {
             method: "POST",
@@ -217,7 +216,6 @@ async function deleteGrimpeurSeance(body, headers) {
             }),
             headers: { Authorization: headers.authorization }
           })
-
 
           await ofetch(`${base_url}/api/notifySeance`, {
             method: "POST",

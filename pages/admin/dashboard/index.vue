@@ -37,6 +37,38 @@
             </v-card-text>
           </v-card>
         </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card>
+            <v-card-title class="text-center">
+              Grimpeurs n'ayant pas été exporté
+            </v-card-title>
+            <v-card-text class="text-center">
+              <v-icon size="56">
+                mdi-file-account
+              </v-icon>
+              <h3>{{ isExportedCount }}</h3>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card>
+            <v-card-title class="text-center">
+              Grimpeurs en file d'attente
+            </v-card-title>
+            <v-card-text class="text-center">
+              <v-icon size="56">
+                mdi-account-clock
+              </v-icon>
+              <h3>{{ isFileDAttenteCount }}</h3>
+            </v-card-text>
+          </v-card>
+        </v-col>
       </v-row>
     </div>
   </v-container>
@@ -60,6 +92,8 @@ const store = useMainStore()
 const router = useRouter()
 const grimpeurCount = ref(0)
 const nonPayeCount = ref(0)
+const isExportedCount = ref(0)
+const isFileDAttenteCount = ref(0)
 const user = computed(() => store.getUser)
 
 const fetchGrimpeurCount = async () => {
@@ -78,6 +112,22 @@ const fetchNonPayeCount = async () => {
   nonPayeCount.value = result.body.nonPayeCount
 }
 
+const fetchIsExported = async () => {
+  const result = await $fetch("/api/count?type=isExported", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
+
+  isExportedCount.value = result.body.isExportedCount
+}
+
+const fetchIsFileDAttente = async () => {
+  const result = await $fetch("/api/count?type=isFileDAttente", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
+
+  isFileDAttenteCount.value = result.body.isFileDAttenteCount
+}
+
 onMounted(async () => {
   const user = store.getUser
 
@@ -87,6 +137,8 @@ onMounted(async () => {
     } else {
       await fetchGrimpeurCount()
       await fetchNonPayeCount()
+      await fetchIsExported()
+      await fetchIsFileDAttente()
     }
   } else {
     router.push("/login")
