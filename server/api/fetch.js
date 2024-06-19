@@ -262,8 +262,6 @@ async function fetchGrimpeurAsSeance(body) {
   const query = "SELECT * FROM GrimpeurSeance WHERE idGrimpeur = ?"
   const [ rows ] = await connection.execute(query, [ idGrimpeur ])
 
-  console.log("rows " + rows)
-
   return {
     status: 200,
     body: rows

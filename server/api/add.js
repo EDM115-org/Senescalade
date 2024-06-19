@@ -250,8 +250,6 @@ async function addGrimpeur(body) {
 async function addGrimpeurSeance(body) {
   const { idGrimpeur, idSeance, isFileDAttente } = body
 
-  console.log(idGrimpeur, idSeance, isFileDAttente)
-
   try {
     await connection.beginTransaction()
 
