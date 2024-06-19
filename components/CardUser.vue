@@ -148,6 +148,9 @@ const snackbar = ref(false)
 const snackbarMessage = ref("")
 const reinscriptionOpen = ref(false)
 
+const errorMessage = ref("")
+const issueMessage = ref("")
+
 async function fetchGrimpeurs() {
   loading.value = true
   try {
