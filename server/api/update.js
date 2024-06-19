@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
 
   const query = getQuery(event)
   const { type } = query
+  const headers = event.node.req.headers
 
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
@@ -40,7 +41,7 @@ export default defineEventHandler(async (event) => {
       case "password":
         return await updatePassword(body)
       case "seance":
-        return await updateSeance(body)
+        return await updateSeance(body, headers)
       default:
         throw createError({
           status: 400,
@@ -85,18 +86,19 @@ async function updateAdmin(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de l'administrateur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
 
 async function updateGrimpeur(body) {
-  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported } = body
+  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, isExported } = body
+
 
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute("UPDATE Grimpeur SET action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?, aPaye = ?, dateExport = ?, isExported = ? WHERE idGrimpeur = ?", [ action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported, idGrimpeur ])
+    const [ rows ] = await connection.execute("UPDATE Grimpeur SET action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?, aPaye = ?,  isExported = ? WHERE idGrimpeur = ?", [ action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, isExported, idGrimpeur ])
 
     await connection.commit()
 
@@ -110,7 +112,7 @@ async function updateGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -163,7 +165,7 @@ async function updatePassword(body) {
   }
 }
 
-async function updateSeance(body) {
+async function updateSeance(body, headers) {
   const { idSeance, jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
 
   try {
@@ -195,7 +197,8 @@ async function updateSeance(body) {
               method: "POST",
               body: JSON.stringify({
                 email: compte.mail
-              })
+              }),
+              headers: { Authorization: headers.authorization }
             })
           }
         }
@@ -219,7 +222,7 @@ async function updateSeance(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -242,7 +245,7 @@ async function updateGrimpeurIsExported() {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de l'état exporté du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }

@@ -2,6 +2,12 @@
   <v-container
     class="fill-height"
   >
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+      :color="messageColor"
+    />
     <v-row
       align="center"
       align-content="center"
@@ -108,6 +114,9 @@ const router = useRouter()
 
 const displayOptionsHelpText = ref(false)
 
+const errorMessage = ref("")
+const issueMessage = ref("")
+
 onMounted(async () => {
   const user = store.getUser
 
@@ -128,7 +137,6 @@ onMounted(async () => {
           router.push("/login/MailVerify")
         }
       } catch (error) {
-        // TODO
         errorMessage.value = error.data.message
         issueMessage.value = error.data.statusMessage ?? ""
       }

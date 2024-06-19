@@ -11,7 +11,6 @@
       <v-card-text>
         <v-form ref="form">
           <v-row>
-            <!-- Lecture -->
             <v-col cols="12">
               <h3>Lecture</h3>
             </v-col>
@@ -29,7 +28,6 @@
               />
             </v-col>
 
-            <!-- Modification -->
             <v-col cols="12">
               <h3>Modification</h3>
             </v-col>
@@ -47,7 +45,6 @@
               />
             </v-col>
 
-            <!-- Suppression -->
             <v-col cols="12">
               <h3>Suppression</h3>
             </v-col>
@@ -64,7 +61,7 @@
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
-            <!-- Reinscription -->
+
             <v-col cols="12">
               <h3>Reinscription</h3>
             </v-col>

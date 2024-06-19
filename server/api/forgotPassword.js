@@ -91,7 +91,7 @@ async function handleMailRequest(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour du code dans la base de données",
-      statusMessage: error
+      statusMessage: JSON.stringify(err)
     })
   }
 
@@ -114,7 +114,7 @@ async function handleMailRequest(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de l'envoi de l'email de récupération",
-      statusMessage: error
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -193,7 +193,7 @@ async function handlePasswordRequest(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la réinitialisation du mot de passe",
-      statusMessage: error
+      statusMessage: JSON.stringify(err)
     })
   }
 }

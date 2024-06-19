@@ -140,7 +140,7 @@ docker push edm115/senescalade:latest
 |  Priorité  | Tâche |   État   |
 | :---------: | :---------------------: | :--------: |
 | **S** |   Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement)   |   ❌ (L)   |
-| **S** |       API : sécurisation et `throw createError()`          |   ❌ (L)   |
+| **S** |       API : sécurisation et `throw createError()`          |   ✅   |
 | **S** |      vuelidate dans l'inscription et tous les formulaires + désactiver les boutons    |   ❌ (L)   |
 | **S** |         export des grimpeurs d'un créneau en pdf **(à améliorer, L)**      |   ✅   |
 | **S** |         appels à `Error.vue` là où il faut (voir les `// TODO` et les errorMessage sans Error)         |   ❌ (L)   |

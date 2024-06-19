@@ -117,7 +117,7 @@ async function addAdmin(body) {
     throw createError({
       status: 500,
       message: "Erreur durant l'ajout de l'admin",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -242,7 +242,7 @@ async function addGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Erreur durant l'ajout du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -327,7 +327,7 @@ async function addSeance(body) {
     throw createError({
       status: 500,
       message: "Erreur durant l'ajout de la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }

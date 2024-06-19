@@ -1,4 +1,10 @@
 <template>
+  <Error
+    v-if="errorMessage"
+    :issue="issueMessage"
+    :message="errorMessage"
+    :color="messageColor"
+  />
   <v-dialog
     v-model="isOpen"
     max-width="600px"

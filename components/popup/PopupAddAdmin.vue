@@ -47,7 +47,6 @@
               </v-text-field>
             </v-col>
           </v-row>
-          <!-- Add switches for permissions as before -->
           <v-row>
             <v-col cols="12">
               <v-switch
@@ -150,7 +149,8 @@ const admin = reactive({
   DeleteListGrimpeur: false,
   DeleteListSeance: false,
   DeleteListAdmin: false,
-  DeleteListUtilisateur: false
+  DeleteListUtilisateur: false,
+  AccessReinscription: false
 })
 
 const rules = {

@@ -194,7 +194,6 @@ async function fetchGrimpeurSeance(body) {
   let rows = []
   let idGrimpeur = null
 
-
   if (body !== undefined) {
     idGrimpeur = body.idGrimpeur
   }

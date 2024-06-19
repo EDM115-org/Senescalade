@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
 
   const query = getQuery(event)
   const { type } = query
+  const headers = event.node.req.headers
 
   if (event.node.req.method === "DELETE") {
     const body = await readBody(event)
@@ -37,9 +38,9 @@ export default defineEventHandler(async (event) => {
       case "compte":
         return await deleteCompte(body)
       case "grimpeur":
-        return await deleteGrimpeur(body)
+        return await deleteGrimpeur(body, headers)
       case "grimpeurSeance":
-        return await deleteGrimpeurSeance(body)
+        return await deleteGrimpeurSeance(body, headers)
       case "seance":
         return await deleteSeance(body)
       default:
@@ -75,7 +76,7 @@ async function deleteAdmin(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de l'administrateur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -99,26 +100,31 @@ async function deleteCompte(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression du compte",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
 
-async function deleteGrimpeur(body) {
+async function deleteGrimpeur(body, headers) {
   const { idGrimpeur } = body
 
   try {
     await connection.beginTransaction()
     await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
       method: "POST",
-      body: JSON.stringify({ idGrimpeur })
+      body: JSON.stringify({ idGrimpeur }),
+      headers: { Authorization: headers.authorization }
     })
 
-    const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    const response = await ofetch(`${base_url}/api/fetch?type=seance`, {
+      headers: { Authorization: headers.authorization }
+    })
     const seance = response.body
 
     if (seance.nbPlacesRestantes === 0) {
-      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
+      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
+        headers: { Authorization: headers.authorization }
+      })
 
       for (const grimpeurSeance of grimpeurSeanceResponse.body) {
         if (grimpeurSeance.isFileDAttente) {
@@ -126,21 +132,24 @@ async function deleteGrimpeur(body) {
             method: "POST",
             body: JSON.stringify({
               idGrimpeur: grimpeurSeance.idGrimpeur
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
 
           const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
             method: "POST",
             body: JSON.stringify({
               idCompte: grimpeurResponse.body.fkCompte
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
 
           await ofetch(`${base_url}/api/notifySeance`, {
             method: "POST",
             body: JSON.stringify({
               email: compteResponse.body.mail
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
         }
       }
@@ -162,12 +171,12 @@ async function deleteGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
 
-async function deleteGrimpeurSeance(body) {
+async function deleteGrimpeurSeance(body, headers) {
   const { idGrimpeur } = body
 
   try {
@@ -175,15 +184,21 @@ async function deleteGrimpeurSeance(body) {
 
     const result = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
       method: "POST",
-      body: JSON.stringify({ idGrimpeur })
+      body: JSON.stringify({ idGrimpeur }),
+      headers: { Authorization: headers.authorization }
     })
 
     const seanceId = result.body.idSeance
-    const response = await ofetch(`${base_url}/api/fetch?type=seance`)
+    const response = await ofetch(`${base_url}/api/fetch?type=seance`, {
+      headers: { Authorization: headers.authorization }
+    })
     const seance = response.body.find((seance) => seance.idSeance === seanceId)
 
+
     if (seance.nbPlacesRestantes === 0) {
-      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`)
+      const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
+        headers: { Authorization: headers.authorization }
+      })
 
       for (const grimpeurSeance of grimpeurSeanceResponse) {
         if (grimpeurSeance.isFileDAttente) {
@@ -191,21 +206,25 @@ async function deleteGrimpeurSeance(body) {
             method: "POST",
             body: JSON.stringify({
               idGrimpeur: grimpeurSeance.idGrimpeur
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
 
           const compteResponse = await ofetch(`${base_url}/api/fetch?type=compte`, {
             method: "POST",
             body: JSON.stringify({
               idCompte: grimpeurResponse.body.fkCompte
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
+
 
           await ofetch(`${base_url}/api/notifySeance`, {
             method: "POST",
             body: JSON.stringify({
               email: compteResponse.body.mail
-            })
+            }),
+            headers: { Authorization: headers.authorization }
           })
         }
       }
@@ -217,6 +236,8 @@ async function deleteGrimpeurSeance(body) {
       "DELETE FROM GrimpeurSeance WHERE idGrimpeur = ?",
       [ idGrimpeur ]
     )
+
+    console.log(rows)
 
     await connection.commit()
 
@@ -230,7 +251,7 @@ async function deleteGrimpeurSeance(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de la relation entre le grimpeur et la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -254,7 +275,7 @@ async function deleteSeance(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }

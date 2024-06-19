@@ -133,16 +133,13 @@ const open = async (grimpeurData) => {
       headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
-    if (result.body.length > 0) {
+    if (result.body !== null) {
       grimpeur.value.idSeance = result.body.idSeance
     } else {
       grimpeur.value.idSeance = null
     }
   } catch (error) {
     grimpeur.value.idSeance = null
-    // TODO
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
   }
 
   isOpen.value = true
