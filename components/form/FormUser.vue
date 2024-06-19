@@ -51,7 +51,7 @@
       >
         <v-text-field
           v-model="props.grimpeur.telephone"
-          label="Téléphone"
+          label="Téléphone (optionnel)"
           outlined
         />
       </v-col>
@@ -61,7 +61,7 @@
       >
         <v-text-field
           v-model="props.grimpeur.mobile"
-          label="Mobile"
+          label="Mobile (optionnel)"
           outlined
         />
       </v-col>
@@ -71,7 +71,7 @@
       >
         <v-text-field
           v-model="props.grimpeur.courriel2"
-          label="Email secondaire"
+          label="Email secondaire (optionnel)"
           outlined
         />
       </v-col>
@@ -97,7 +97,7 @@
       >
         <v-text-field
           v-model="props.grimpeur.complementAdresse"
-          label="Complément d'Adresse"
+          label="Complément d'Adresse (optionnel)"
           outlined
         />
       </v-col>
@@ -146,7 +146,7 @@
     </v-row>
     <v-divider class="my-8" />
     <h2 class="my-4">
-      Personne de contact
+      Personne de contact (optionnel)
     </h2>
     <v-row>
       <v-col
