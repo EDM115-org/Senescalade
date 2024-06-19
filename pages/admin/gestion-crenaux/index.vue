@@ -1,5 +1,10 @@
 <template>
   <v-container class="fillheight">
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -289,16 +294,17 @@ const exportGrimpeursPDF = async (idSeance) => {
 
     const grimpeurs = result.body
     const seanceDetails = {
-      jour: grimpeurs.jour,
-      typeSeance: grimpeurs.typeSeance,
-      heureDebutSeance: grimpeurs.heureDebutSeance,
-      heureFinSeance: grimpeurs.heureFinSeance,
-      nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes
+      jour: grimpeurs[0].jour,
+      typeSeance: grimpeurs[0].typeSeance,
+      heureDebutSeance: grimpeurs[0].heureDebutSeance,
+      heureFinSeance: grimpeurs[0].heureFinSeance,
+      nbPlaces: grimpeurs[0].nbPlaces - grimpeurs[0].nbPlacesRestantes
     }
 
     generatePDF(grimpeurs, seanceDetails)
   } catch (error) {
     // TODO
+    console.warn(error)
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   }
