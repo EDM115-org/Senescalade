@@ -92,12 +92,13 @@ async function updateAdmin(body) {
 }
 
 async function updateGrimpeur(body) {
-  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported } = body
+  const { idGrimpeur, action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, isExported } = body
+
 
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute("UPDATE Grimpeur SET action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?, aPaye = ?, dateExport = ?, isExported = ? WHERE idGrimpeur = ?", [ action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, dateExport, isExported, idGrimpeur ])
+    const [ rows ] = await connection.execute("UPDATE Grimpeur SET action = ?, nom = ?, prenom = ?, dateNaissance = ?, sexe = ?, nationalite = ?, adresse = ?, complementAdresse = ?, codePostal = ?, ville = ?, pays = ?, telephone = ?, mobile = ?, courriel2 = ?, personneNom = ?, personnePrenom = ?, personneTelephone = ?, personneCourriel = ?, numLicence = ?, typeLicence = ?, assurance = ?, optionSki = ?, optionSlackline = ?, optionTrail = ?, optionVTT = ?, optionAssurance = ?, optionProtectionAgression = ?, fkCompte = ?, aPaye = ?,  isExported = ? WHERE idGrimpeur = ?", [ action, nom, prenom, dateNaissance, sexe, nationalite, adresse, complementAdresse, codePostal, ville, pays, telephone, mobile, courriel2, personneNom, personnePrenom, personneTelephone, personneCourriel, numLicence, typeLicence, assurance, optionSki, optionSlackline, optionTrail, optionVTT, optionAssurance, optionProtectionAgression, fkCompte, aPaye, isExported, idGrimpeur ])
 
     await connection.commit()
 
