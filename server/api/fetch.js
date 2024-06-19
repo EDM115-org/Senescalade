@@ -278,7 +278,7 @@ async function fetchGrimpeursForSeance(body) {
   if (rows.length > 0) {
     return {
       status: 200,
-      body: rows[0]
+      body: rows
     }
   } else {
     throw createError({

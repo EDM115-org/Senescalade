@@ -237,8 +237,6 @@ async function deleteGrimpeurSeance(body, headers) {
       [ idGrimpeur ]
     )
 
-    console.log(rows)
-
     await connection.commit()
 
     return {
