@@ -79,8 +79,7 @@ async function login(event) {
               method: "POST",
               body: JSON.stringify({
                 email: result.body.user.mail
-              }),
-              headers: { Authorization: `Bearer ${store.getUser.token}` }
+              })
             })
 
             router.push("/login/MailVerify")
