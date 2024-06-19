@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise"
-import { defineEventHandler, readBody, getQuery } from "h3"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
 let connection = null
 
@@ -8,19 +8,19 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
-  console.error("Failed to connect to the database:", err)
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
+    throw createError({
       status: 500,
-      body: { error: "Connexion à la base de données non disponible" },
-    }
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
   const body = await readBody(event)
@@ -28,123 +28,102 @@ export default defineEventHandler(async (event) => {
   const { type } = query
 
   if (event.node.req.method === "POST") {
-    try {
-      switch (type) {
-        case "update":
-          return await updateReinscription(body)
-        case "open":
-          return await openReinscription(body)
-        case "clear":
-          return await clearReinscription()
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de comptage non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: err.message },
-      }
+    switch (type) {
+      case "update":
+        return await updateReinscription(body)
+      case "open":
+        return await openReinscription(body)
+      case "clear":
+        return await clearReinscription()
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de réinscription non pris en charge"
+        })
     }
   } else {
-    return {
+    throw createError({
       status: 405,
-      body: { error: "Méthode non autorisée" },
-    }
-  }
-
-  async function updateReinscription(body) {
-    const { dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription } = body
-
-    // Validation des dates
-    if (new Date(dateReinscriptionIsInscrit) >= new Date(dateReinscriptionEveryone)) {
-      return {
-        status: 400,
-        body: { error: "La date de réinscription pour les inscrits doit être avant la date de réinscription pour tous." },
-      }
-    }
-
-    const query = "UPDATE Reinscription SET dateReinscriptionIsInscrit = ?, dateReinscriptionEveryone = ?, dateFinReinscription = ?"
-    const [ results ] = await connection.execute(query, [ dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription ])
-
-    if (results.affectedRows === 0) {
-      return {
-        status: 404,
-        body: { error: "Aucun enregistrement trouvé" },
-      }
-    }
-
-    return { status: 200, body: { message: "Enregistrement mis à jour" } }
-  }
-
-  async function openReinscription(body) {
-    const { inscriptionOpen } = body
-    const query = "UPDATE Reinscription SET inscriptionOpen = ?"
-    const [ results ] = await connection.execute(query, [ inscriptionOpen ])
-
-    if (results.affectedRows === 0) {
-      return {
-        status: 404,
-        body: { error: "Aucun enregistrement trouvé" },
-      }
-    }
-
-    return { status: 200, body: { message: "Enregistrement mis à jour" } }
-  }
-
-  async function clearReinscription() {
-    try {
-      // Mettre à jour la colonne 'action' à 'R' pour tous les grimpeurs inscrits
-      const updateQuery = `
-        UPDATE Grimpeur
-        SET action = 'R'
-        WHERE idGrimpeur IN (
-          SELECT idGrimpeur
-          FROM GrimpeurSeance
-        )
-      `
-      const [ updateResults ] = await connection.execute(updateQuery)
-
-      if (updateResults.affectedRows === 0) {
-        return {
-          status: 404,
-          body: { error: "Aucun grimpeur mis à jour" },
-        }
-      }
-
-      // Maintenant, supprimer toutes les inscriptions dans GrimpeurSeance
-      const deleteQuery = `
-        DELETE FROM GrimpeurSeance
-      `
-
-      await connection.execute(deleteQuery)
-
-      // seance nbPlacesRestantes = nbPlaces
-      const seanceQuery = `
-        UPDATE Seance
-        SET nbPlacesRestantes = nbPlaces
-      `
-
-      await connection.execute(seanceQuery)
-
-      // Grimpeur on remets à zéro le aPaye, isExported, dateExport
-      const grimpeurQuery = `
-        UPDATE Grimpeur
-        SET aPaye = 0, isExported = 0
-      `
-
-      await connection.execute(grimpeurQuery)
-
-      return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }
-    } catch (err) {
-      console.error("Erreur lors de la mise à jour des actions et de la suppression des inscriptions:", err)
-
-      return {
-        status: 500,
-        body: { error: "Erreur lors de la mise à jour des actions et de la suppression des inscriptions" },
-      }
-    }
+      message: "Méthode non autorisée"
+    })
   }
 })
+
+async function updateReinscription(body) {
+  const { dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription } = body
+
+  if (new Date(dateReinscriptionIsInscrit) >= new Date(dateReinscriptionEveryone)) {
+    throw createError({
+      status: 400,
+      message: "La date de réinscription pour les inscrits doit être avant la date de réinscription pour tous."
+    })
+  }
+
+  const query = "UPDATE Reinscription SET dateReinscriptionIsInscrit = ?, dateReinscriptionEveryone = ?, dateFinReinscription = ?"
+  const [ results ] = await connection.execute(query, [ dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription ])
+
+  if (results.affectedRows === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun enregistrement trouvé"
+    })
+  }
+
+  return { status: 200, body: { message: "Enregistrement mis à jour" } }
+}
+
+async function openReinscription(body) {
+  const { inscriptionOpen } = body
+  const query = "UPDATE Reinscription SET inscriptionOpen = ?"
+  const [ results ] = await connection.execute(query, [ inscriptionOpen ])
+
+  if (results.affectedRows === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun enregistrement trouvé"
+    })
+  }
+
+  return { status: 200, body: { message: "Enregistrement mis à jour" } }
+}
+
+async function clearReinscription() {
+  const updateQuery = `
+    UPDATE Grimpeur
+    SET action = 'R'
+    WHERE idGrimpeur IN (
+      SELECT idGrimpeur
+      FROM GrimpeurSeance
+    )
+  `
+  const [ updateResults ] = await connection.execute(updateQuery)
+
+  if (updateResults.affectedRows === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun grimpeur mis à jour"
+    })
+  }
+
+  const deleteQuery = `
+    DELETE FROM GrimpeurSeance
+  `
+
+  await connection.execute(deleteQuery)
+
+  const seanceQuery = `
+    UPDATE Seance
+    SET nbPlacesRestantes = nbPlaces
+  `
+
+  await connection.execute(seanceQuery)
+
+  const grimpeurQuery = `
+    UPDATE Grimpeur
+    SET aPaye = 0, isExported = 0
+  `
+
+  await connection.execute(grimpeurQuery)
+
+  return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }
+}

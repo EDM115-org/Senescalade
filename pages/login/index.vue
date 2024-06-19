@@ -73,30 +73,24 @@ async function login(event) {
           router.push("/user")
         } else {
           try {
-            const response = await $fetch("/api/mailVerify?type=mail", {
+            await $fetch("/api/mailVerify?type=mail", {
               method: "POST",
               body: JSON.stringify({
-                email: result.body.user.mail,
+                email: result.body.user.mail
               })
             })
 
-            if (response.statusCode === 200) {
-              router.push("/login/MailVerify")
-            } else {
-              messageColor.value = "error"
-              errorMessage.value = response.body.error || "Erreur inconnue"
-              issueMessage.value = response.body.message || ""
-            }
+            router.push("/login/MailVerify")
           } catch (error) {
-            console.error("Erreur lors de l'appel à l'API:", error)
-            errorMessage.value = "Erreur lors de l'envoi du mail de vérification"
-            issueMessage.value = error.message || error
+            messageColor.value = "error"
+            errorMessage.value = error.data.message
+            issueMessage.value = error.data.statusMessage ?? ""
           }
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = "Erreur lors de la connexion"
-        issueMessage.value = error
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   } catch (error) {
@@ -126,8 +120,8 @@ onMounted(async () => {
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = "Erreur lors de la connexion"
-        issueMessage.value = error
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }

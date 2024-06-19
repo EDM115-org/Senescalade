@@ -164,7 +164,7 @@ const headers = [
   { text: "Places", width: "10%" },
   { text: "Places restantes", width: "10%" },
   { text: "Professeur", width: "15%" },
-  { text: "Actions", width: "15%" },
+  { text: "Actions", width: "15%" }
 ]
 
 try {
@@ -173,19 +173,17 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.UpdateListSeance === 1) {
-      isPermEdit.value = true
-    }
+  if (response.body.UpdateListSeance === 1) {
+    isPermEdit.value = true
+  }
 
-    if (response.body.DeleteListSeance === 1) {
-      isPermDelete.value = true
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.DeleteListSeance === 1) {
+    isPermDelete.value = true
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 const fetchSeance = async () => {
@@ -193,88 +191,63 @@ const fetchSeance = async () => {
   try {
     const result = await $fetch("/api/fetch?type=seance")
 
-    if (result.status === 200) {
-      seances.value = result.body
-    } else {
-      console.error("Error fetching seances: ", result)
-    }
+    seances.value = result.body
   } catch (error) {
-    console.error("Error fetching seances: ", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   } finally {
     loading.value = false
   }
 }
 
 const fetchSeanceCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=seance")
+  const result = await $fetch("/api/count?type=seance")
 
-    if (result.status === 200) {
-      seanceCount.value = result.body.seanceCount
-    } else {
-      console.error("Error fetching seance count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching seance count:", error)
-  }
+  seanceCount.value = result.body.seanceCount
 }
 
 const deleteSeance = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=seance", {
+    await $fetch("/api/delete?type=seance", {
       method: "DELETE",
-      body: { idSeance: id },
+      body: { idSeance: id }
     })
 
-    if (result.status === 200) {
-      fetchSeance()
-      fetchSeanceCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchSeance()
+    fetchSeanceCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression de la séance"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
 const updateSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/update?type=seance", {
+    await $fetch("/api/update?type=seance", {
       method: "POST",
-      body: seance,
+      body: seance
     })
 
-    if (result.status === 200) {
-      fetchSeance()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchSeance()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la modification de la séance"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
 const createSeance = async (seance) => {
   try {
-    const result = await $fetch("/api/add?type=seance", {
+    await $fetch("/api/add?type=seance", {
       method: "POST",
-      body: seance,
+      body: seance
     })
 
-    if (result.status === 200) {
-      fetchSeance()
-      fetchSeanceCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchSeance()
+    fetchSeanceCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de l'ajout de la séance"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -302,27 +275,23 @@ const exportGrimpeursPDF = async (idSeance) => {
   try {
     const result = await $fetch("/api/fetch?type=grimpeursForSeance", {
       method: "POST",
-      body: { idSeance },
+      body: { idSeance }
     })
 
-    if (result.status === 200) {
-      const grimpeurs = result.body
-      const seanceDetails = {
-        jour: grimpeurs.jour,
-        typeSeance: grimpeurs.typeSeance,
-        heureDebutSeance: grimpeurs.heureDebutSeance,
-        heureFinSeance: grimpeurs.heureFinSeance,
-        nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes,
-      }
-
-      generatePDF(grimpeurs, seanceDetails)
-    } else {
-      errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
-      issueMessage.value = result.body.message ?? ""
+    const grimpeurs = result.body
+    const seanceDetails = {
+      jour: grimpeurs.jour,
+      typeSeance: grimpeurs.typeSeance,
+      heureDebutSeance: grimpeurs.heureDebutSeance,
+      heureFinSeance: grimpeurs.heureFinSeance,
+      nbPlaces: grimpeurs.nbPlaces - grimpeurs.nbPlacesRestantes
     }
+
+    generatePDF(grimpeurs, seanceDetails)
   } catch (error) {
-    errorMessage.value = "Erreur lors de la récupération des grimpeurs pour l'export PDF"
-    issueMessage.value = error
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -362,18 +331,16 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user }),
+          body: JSON.stringify({ user })
         })
 
-        if (response) {
-          if (response.body.ReadListSeance !== 1) {
-            router.push("/admin/dashboard")
-          }
-        } else {
-          console.error("Error getPermAdmin:", response.statusText)
+        if (response.body.ReadListSeance !== 1) {
+          router.push("/admin/dashboard")
         }
       } catch (error) {
-        console.error("Error getPermAdmin:", error.message)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
 
       fetchSeance()

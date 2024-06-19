@@ -188,7 +188,7 @@ const { sameAs } = createI18nValidators(t)
 
 const initialStatePassword = {
   newPassword: "",
-  confirmPassword: "",
+  confirmPassword: ""
 }
 const statePassword = reactive({ ...initialStatePassword })
 
@@ -215,20 +215,13 @@ async function submitMail() {
       body: JSON.stringify({ email: stateMail.email })
     })
 
-    if (response.statusCode === 200) {
-      messageColor.value = "success"
-      errorMessage.value = response.body.success
-      issueMessage.value = ""
-      step.value = 2
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur inconnue"
-      issueMessage.value = response.body.message || ""
-    }
+    messageColor.value = "success"
+    errorMessage.value = response.body.success
+    step.value = 2
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
-    errorMessage.value = "Erreur lors de l'envoi de l'email de récupération."
-    issueMessage.value = error.message || error
+    messageColor.value = "error"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -248,20 +241,13 @@ async function submitCode() {
       })
     })
 
-    if (response.statusCode === 200) {
-      messageColor.value = "success"
-      errorMessage.value = response.body.success
-      issueMessage.value = ""
-      step.value = 3
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur inconnue"
-      issueMessage.value = response.body.message || ""
-    }
+    messageColor.value = "success"
+    errorMessage.value = response.body.success
+    step.value = 3
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
-    errorMessage.value = "Erreur lors de la vérification du code."
-    issueMessage.value = error.message || error
+    messageColor.value = "error"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -284,21 +270,13 @@ async function submitPassword() {
       })
     })
 
-    if (response.statusCode === 200) {
-      messageColor.value = "success"
-      errorMessage.value = response.body.success
-      issueMessage.value = ""
-
-      router.push("/login")
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur inconnue"
-      issueMessage.value = response.body.message || ""
-    }
+    messageColor.value = "success"
+    errorMessage.value = response.body.success
+    router.push("/login")
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
-    errorMessage.value = "Erreur lors de la réinitialisation du mot de passe."
-    issueMessage.value = error.message || error
+    messageColor.value = "error"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

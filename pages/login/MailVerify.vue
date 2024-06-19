@@ -103,46 +103,31 @@ async function submitCode() {
       })
     })
 
-    if (response.statusCode === 200) {
-      messageColor.value = "success"
-      errorMessage.value = response.body.success
-      issueMessage.value = ""
-      router.push("/user")
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur inconnue"
-      issueMessage.value = response.body.message || ""
-    }
+    messageColor.value = "success"
+    errorMessage.value = response.body.success
+    router.push("/user")
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
-    errorMessage.value = "Erreur lors de la vérification du code."
-    issueMessage.value = error.message || error
+    messageColor.value = "error"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
 async function resendVerificationMail() {
   try {
-    const response = await $fetch("/api/mailVerify?type=mail", {
+    await $fetch("/api/mailVerify?type=mail", {
       method: "POST",
       body: JSON.stringify({
-        email: user.mail,
+        email: user.mail
       })
     })
 
-    if (response.statusCode === 200) {
-      messageColor.value = "success"
-      errorMessage.value = "Un nouveau mail de vérification a été envoyé."
-      issueMessage.value = ""
-    } else {
-      messageColor.value = "error"
-      errorMessage.value = response.body.error || "Erreur inconnue"
-      issueMessage.value = response.body.message || ""
-    }
+    messageColor.value = "success"
+    errorMessage.value = "Un nouveau mail de vérification a été envoyé"
   } catch (error) {
-    console.error("Erreur lors de l'appel à l'API:", error)
     messageColor.value = "error"
-    errorMessage.value = "Erreur lors de l'envoi du mail de vérification."
-    issueMessage.value = error.message || error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -164,8 +149,8 @@ onMounted(async () => {
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = "Erreur lors de la connexion"
-        issueMessage.value = error
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   } else {

@@ -42,20 +42,15 @@ const issueMessage = ref("")
 
 async function register(event) {
   try {
-    const result = await $fetch("/api/register", {
+    await $fetch("/api/register", {
       method: "POST",
-      body: JSON.stringify(event),
+      body: JSON.stringify(event)
     })
 
-    if (result.status === 200) {
-      router.push("/login?inscription=success")
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    router.push("/login?inscription=success")
   } catch (error) {
-    errorMessage.value = "Erreur lors de l'inscription"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -78,8 +73,8 @@ onMounted(async () => {
           router.push("/login/MailVerify")
         }
       } catch (error) {
-        errorMessage.value = "Erreur lors de la connexion"
-        issueMessage.value = error
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }

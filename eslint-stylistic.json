@@ -52,7 +52,7 @@
   ],
   "commaDangle": [
     "error",
-    "only-multiline"
+    "never"
   ],
   "computed-property-spacing": [
     "error",

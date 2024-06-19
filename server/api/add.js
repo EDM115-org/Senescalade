@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise"
-import { defineEventHandler, readBody, getQuery } from "h3"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
 let connection = null
 
@@ -8,19 +8,19 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
-  console.error("Failed to connect to the database:", err)
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
+    throw createError({
       status: 500,
-      body: { error: "Connexion à la base de données non disponible" },
-    }
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
   const query = getQuery(event)
@@ -29,31 +29,24 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
 
-    try {
-      switch (type) {
-        case "admin":
-          return await addAdmin(body)
-        case "grimpeur":
-          return await addGrimpeur(body)
-        case "seance":
-          return await addSeance(body)
-        default:
-          return {
-            status: 400,
-            body: { error: "Type d'entité non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant l'ajout", message: err.message },
-      }
+    switch (type) {
+      case "admin":
+        return await addAdmin(body)
+      case "grimpeur":
+        return await addGrimpeur(body)
+      case "seance":
+        return await addSeance(body)
+      default:
+        throw createError({
+          status: 400,
+          message: "Type d'ajout non pris en charge"
+        })
     }
   } else {
-    return {
+    throw createError({
       status: 405,
-      body: { error: "Méthode non autorisée" },
-    }
+      message: "Méthode non autorisée"
+    })
   }
 })
 
@@ -72,7 +65,7 @@ async function addAdmin(body) {
     DeleteListGrimpeur,
     DeleteListSeance,
     DeleteListAdmin,
-    DeleteListUtilisateur,
+    DeleteListUtilisateur
   } = body
 
   try {
@@ -112,12 +105,16 @@ async function addAdmin(body) {
 
     return {
       status: 200,
-      body: { success: "Admin ajouté avec succès" },
+      body: { success: "Admin ajouté avec succès" }
     }
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur durant l'ajout de l'admin",
+      statusMessage: err
+    })
   }
 }
 
@@ -233,12 +230,16 @@ async function addGrimpeur(body) {
 
     return {
       status: 200,
-      body: { success: "Grimpeur ajouté" },
+      body: { success: "Grimpeur ajouté" }
     }
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur durant l'ajout du grimpeur",
+      statusMessage: err
+    })
   }
 }
 
@@ -272,6 +273,10 @@ async function addSeance(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur durant l'ajout de la séance",
+      statusMessage: err
+    })
   }
 }

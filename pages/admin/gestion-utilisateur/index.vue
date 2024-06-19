@@ -108,66 +108,49 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.UpdateListUtilisateur === 1) {
-      isPermEdit.value = true
-    }
+  if (response.body.UpdateListUtilisateur === 1) {
+    isPermEdit.value = true
+  }
 
-    if (response.body.DeleteListUtilisateur === 1) {
-      isPermDelete.value = true
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.DeleteListUtilisateur === 1) {
+    isPermDelete.value = true
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 const fetchCompte = async () => {
   try {
     const result = await $fetch("/api/fetch?type=compte")
 
-    if (result.status === 200) {
-      users.value = result.body
-    } else {
-      console.error("Error fetching users:", result)
-    }
+    users.value = result.body
   } catch (error) {
-    console.error("Error fetching users:", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
 const fetchUserCount = async () => {
-  try {
-    const result = await $fetch("/api/count?type=compte")
+  const result = await $fetch("/api/count?type=compte")
 
-    if (result.status === 200) {
-      userCount.value = result.body.userCount
-    } else {
-      console.error("Error fetching user count:", result)
-    }
-  } catch (error) {
-    console.error("Error fetching user count:", error)
-  }
+  userCount.value = result.body.userCount
 }
 
 const deleteUser = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=compte", {
+    await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })
 
-    if (result.status === 200) {
-      fetchCompte()
-      fetchUserCount()
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    fetchCompte()
+    fetchUserCount()
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -194,18 +177,16 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user }),
+          body: JSON.stringify({ user })
         })
 
-        if (response) {
-          if (response.body.ReadListUtilisateur !== 1) {
-            router.push("/admin/dashboard")
-          }
-        } else {
-          console.error("Error getPermAdmin:", response.statusText)
+        if (response.body.ReadListUtilisateur !== 1) {
+          router.push("/admin/dashboard")
         }
       } catch (error) {
-        console.error("Error getPermAdmin:", error.message)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
 
       fetchCompte()

@@ -124,7 +124,7 @@ const togglePasswordVisibility = () => {
 const initialState = {
   oldPassword: "",
   newPassword: "",
-  confirmPassword: "",
+  confirmPassword: ""
 }
 
 const state = reactive({ ...initialState })
@@ -152,7 +152,7 @@ async function submit() {
   const hashedNewPassword = await bcrypt.hash(state.newPassword, salt)
 
   try {
-    const result = await $fetch("/api/update?type=password", {
+    await $fetch("/api/update?type=password", {
       method: "POST",
       body: JSON.stringify({
         oldPassword: state.oldPassword,
@@ -161,19 +161,14 @@ async function submit() {
       })
     })
 
-    if (result.status === 200) {
-      errorMessage.value = "Mot de passe modifié avec succès"
-      issueMessage.value = ""
-      messageColor.value = "success"
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    errorMessage.value = "Mot de passe modifié avec succès"
+    messageColor.value = "success"
 
     clear()
   } catch (error) {
-    errorMessage.value = "Erreur lors du changement de mot de passe"
-    issueMessage.value = error
+    messageColor.value = "error"
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

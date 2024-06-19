@@ -318,7 +318,7 @@ let countries = []
 const props = defineProps({
   grimpeur: {
     type: Object,
-    required: true,
+    required: true
   }
 })
 

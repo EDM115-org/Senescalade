@@ -128,14 +128,16 @@ const open = async (grimpeurData) => {
       })
     })
 
-    if (result !== undefined && result.status === 200 && result.body && result.body.length > 0) {
-      grimpeur.value.idSeance = result.body[0].idSeance
+    if (result.body.length > 0) {
+      grimpeur.value.idSeance = result.body.idSeance
     } else {
       grimpeur.value.idSeance = null
     }
   } catch (error) {
-    console.error("Error fetching grimpeur seance:", error)
     grimpeur.value.idSeance = null
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 
   isOpen.value = true

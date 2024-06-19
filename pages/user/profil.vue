@@ -55,7 +55,9 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      console.error(error)
+      // TODO
+      errorMessage.value = error.data.message
+      issueMessage.value = error.data.statusMessage ?? ""
     }
   } else {
     return router.push("/login")
@@ -64,21 +66,16 @@ onMounted(async () => {
 
 const deleteUser = async (id) => {
   try {
-    const result = await $fetch("/api/delete?type=compte", {
+    await $fetch("/api/delete?type=compte", {
       method: "DELETE",
       body: { idCompte: id }
     })
 
-    if (result.status === 200) {
-      store.logout()
-      router.push("/")
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    store.logout()
+    router.push("/")
   } catch (error) {
-    errorMessage.value = "Erreur lors de la suppression d'un utilisateur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

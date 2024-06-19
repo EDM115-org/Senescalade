@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise"
-import { defineEventHandler, readBody } from "h3"
+import { createError, defineEventHandler, readBody } from "h3"
 
 let connection = null
 
@@ -10,16 +10,17 @@ try {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
   })
-} catch {
+} catch (err) {
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
+    throw createError({
       status: 500,
-      body: { error: "Connexion à la base de données non disponible" }
-    }
+      message: "Connexion à la base de données non disponible"
+    })
   }
   const body = await readBody(event)
   const { mail, password } = body
@@ -35,15 +36,16 @@ export default defineEventHandler(async (event) => {
         body: { success: "Utilisateur inscrit" }
       }
     } catch (err) {
-      return {
+      throw createError({
         status: 500,
-        body: { error: "Erreur durant l'inscription de l'utilisateur", message: err }
-      }
+        message: "Erreur durant l'inscription de l'utilisateur",
+        statusMessage: err
+      })
     }
   } else {
-    return {
+    throw createError({
       status: 405,
-      body: { error: "Méthode non autorisée" }
-    }
+      message: "Méthode non autorisée"
+    })
   }
 })

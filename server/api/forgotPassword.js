@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody, getQuery } from "h3"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
 import nodemailer from "nodemailer"
 import mysql from "mysql2/promise"
 
@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
+    pass: process.env.GMAIL_PASS
+  }
 })
 
 let connection = null
@@ -17,26 +17,26 @@ try {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
-  console.error("Failed to connect to the database:", err)
+  console.error("Échec de connexion à la base de données : ", err)
   connection = null
 }
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
-      statusCode: 500,
-      body: { error: "Connexion à la base de données non disponible" },
-    }
+    throw createError({
+      status: 500,
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
-  const body = await readBody(event)
-  const query = getQuery(event)
-  const { type } = query
+  if (event.node.req.method === "POST") {
+    const body = await readBody(event)
+    const query = getQuery(event)
+    const { type } = query
 
-  try {
     switch (type) {
       case "mail":
         return await handleMailRequest(body)
@@ -45,16 +45,16 @@ export default defineEventHandler(async (event) => {
       case "password":
         return await handlePasswordRequest(body)
       default:
-        return {
-          statusCode: 400,
-          body: { error: "Type de requête non pris en charge" },
-        }
+        throw createError({
+          status: 400,
+          message: "Type d'entité non pris en charge"
+        })
     }
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: { error: "Erreur durant la requête", message: err.message },
-    }
+  } else {
+    throw createError({
+      status: 405,
+      message: "Méthode non autorisée"
+    })
   }
 })
 
@@ -62,74 +62,60 @@ async function handleMailRequest(body) {
   const { email } = body
 
   if (!email) {
-    return {
-      statusCode: 400,
-      body: { error: "Le champ 'email' est requis" },
-    }
+    throw createError({
+      status: 400,
+      message: "Le champ 'email' est requis"
+    })
+  }
+
+  const [ rows ] = await connection.execute(
+    "SELECT idCompte FROM Compte WHERE mail = ?",
+    [ email ]
+  )
+
+  if (rows.length === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun utilisateur trouvé avec cet email"
+    })
+  }
+
+  const code = generateRandomCode()
+
+  try {
+    await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
+      code,
+      email
+    ])
+  } catch (error) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour du code dans la base de données",
+      statusMessage: error
+    })
+  }
+
+  const mailOptions = {
+    from: `"Senescalade" <${process.env.GMAIL_USER}>`,
+    to: email,
+    subject: `Réinitialisation du mot de passe : ${code}`,
+    text: `Votre code de vérification est : ${code}`,
+    html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`
   }
 
   try {
-    const [ rows ] = await connection.execute(
-      "SELECT idCompte FROM Compte WHERE mail = ?",
-      [ email ]
-    )
-
-    if (rows.length === 0) {
-      return {
-        statusCode: 404,
-        body: { error: "Aucun utilisateur trouvé avec cet email" },
-      }
-    }
-
-    const code = generateRandomCode()
-
-    try {
-      await connection.execute("UPDATE Compte SET code = ? WHERE mail = ?", [
-        code,
-        email,
-      ])
-    } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour du code dans la base de données:",
-        error
-      )
-
-      return {
-        statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
-      }
-    }
-
-    const mailOptions = {
-      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: `Réinitialisation du mot de passe : ${code}`,
-      text: `Votre code de vérification est : ${code}`,
-      html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`,
-    }
-
-    try {
-      await transporter.sendMail(mailOptions)
-
-      return {
-        statusCode: 200,
-        body: { success: "Email de récupération envoyé avec succès" },
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'envoi de l'email de récupération:", error)
-
-      return {
-        statusCode: 500,
-        body: { error: "Erreur lors de l'envoi de l'email de récupération" },
-      }
-    }
-  } catch (error) {
-    console.error("Erreur lors de la vérification de l'email dans la base de données:", error)
+    await transporter.sendMail(mailOptions)
 
     return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la vérification de l'email dans la base de données" },
+      statusCode: 200,
+      body: { success: "Email de récupération envoyé avec succès" }
     }
+  } catch (error) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de l'envoi de l'email de récupération",
+      statusMessage: error
+    })
   }
 }
 
@@ -137,61 +123,48 @@ async function handleCodeRequest(body) {
   const { email, code } = body
 
   if (!email || !code) {
-    return {
-      statusCode: 400,
-      body: { error: "Les champs 'email' et 'code' sont requis" },
-    }
+    throw createError({
+      status: 400,
+      message: "Les champs 'email' et 'code' sont requis"
+    })
   }
 
-  try {
-    // Récupérer le code en base de données
-    const [ rows ] = await connection.execute(
-      "SELECT idCompte, code FROM Compte WHERE mail = ?",
-      [ email ]
-    )
+  const [ rows ] = await connection.execute(
+    "SELECT idCompte, code FROM Compte WHERE mail = ?",
+    [ email ]
+  )
 
-    if (rows.length === 0) {
-      return {
-        statusCode: 404,
-        body: { error: "Aucun compte trouvé pour cet email" },
-      }
-    }
+  if (rows.length === 0) {
+    throw createError({
+      status: 404,
+      message: "Aucun compte trouvé pour cet email"
+    })
+  }
 
-    const dbCode = rows[0].code
+  const dbCode = rows[0].code
 
-    // Vérifier si le code en base de données est égal à 0
-    if (dbCode === "0") {
-      return {
-        statusCode: 400,
-        body: { error: "Aucun code de vérification n'a été généré" },
-      }
-    }
+  if (dbCode === "0") {
+    throw createError({
+      status: 400,
+      message: "Aucun code de vérification n'a été généré"
+    })
+  }
 
-    // Vérifier si le code correspond
-    if (dbCode !== code) {
-      return {
-        statusCode: 404,
-        body: { error: "Code incorrect ou expiré" },
-      }
-    }
+  if (dbCode !== code) {
+    throw createError({
+      status: 404,
+      message: "Code incorrect ou expiré"
+    })
+  }
 
-    // Mettre à jour la base de données
-    await connection.execute(
-      "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
-      [ email ]
-    )
+  await connection.execute(
+    "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
+    [ email ]
+  )
 
-    return {
-      statusCode: 200,
-      body: { success: "Code vérifié avec succès, email vérifié" },
-    }
-  } catch (error) {
-    console.error("Erreur lors de la vérification du code:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la vérification du code" },
-    }
+  return {
+    statusCode: 200,
+    body: { success: "Code vérifié avec succès, email vérifié" }
   }
 }
 
@@ -200,10 +173,10 @@ async function handlePasswordRequest(body) {
   const { email, password } = body
 
   if (!email || !password) {
-    return {
-      statusCode: 400,
-      body: { error: "Les champs 'email' et 'password' sont requis" },
-    }
+    throw createError({
+      status: 400,
+      message: "Les champs 'email' et 'password' sont requis"
+    })
   }
 
   try {
@@ -214,15 +187,14 @@ async function handlePasswordRequest(body) {
 
     return {
       statusCode: 200,
-      body: { success: "Mot de passe réinitialisé avec succès" },
+      body: { success: "Mot de passe réinitialisé avec succès" }
     }
   } catch (error) {
-    console.error("Erreur lors de la réinitialisation du mot de passe:", error)
-
-    return {
-      statusCode: 500,
-      body: { error: "Erreur lors de la réinitialisation du mot de passe" },
-    }
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la réinitialisation du mot de passe",
+      statusMessage: error
+    })
   }
 }
 

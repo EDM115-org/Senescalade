@@ -1,15 +1,17 @@
 import mysql from "mysql2/promise"
 import bcrypt from "bcryptjs"
-import { defineEventHandler, readBody, getQuery } from "h3"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
+import { ofetch } from "ofetch"
 
 let connection = null
+const base_url = `http://localhost:${process.env.DEV_PORT}`
 
 try {
   connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: process.env.DB_NAME
   })
 } catch (err) {
   console.error("Erreur de connexion à la base de données:", err)
@@ -18,10 +20,10 @@ try {
 
 export default defineEventHandler(async (event) => {
   if (!connection) {
-    return {
+    throw createError({
       status: 500,
-      body: { error: "Connexion à la base de données non disponible" },
-    }
+      message: "Connexion à la base de données non disponible"
+    })
   }
 
   const query = getQuery(event)
@@ -30,50 +32,36 @@ export default defineEventHandler(async (event) => {
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
 
-    try {
-      switch (type) {
-        case "admin":
-          return await updateAdmin(body)
-        case "grimpeur":
-          return await updateGrimpeur(body)
-        case "password":
-          return await updatePassword(body)
-        case "seance":
-          return await updateSeance(body)
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de mise à jour non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message },
-      }
+    switch (type) {
+      case "admin":
+        return await updateAdmin(body)
+      case "grimpeur":
+        return await updateGrimpeur(body)
+      case "password":
+        return await updatePassword(body)
+      case "seance":
+        return await updateSeance(body)
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de mise à jour non pris en charge"
+        })
     }
   } else if (event.node.req.method === "PUT") {
-    try {
-      switch (type) {
-        case "grimpeurIsExported":
-          return await updateGrimpeurIsExported()
-        default:
-          return {
-            status: 400,
-            body: { error: "Type de mise à jour non pris en charge" },
-          }
-      }
-    } catch (err) {
-      return {
-        status: 500,
-        body: { error: "Erreur durant la mise à jour", message: err.message },
-      }
+    switch (type) {
+      case "grimpeurIsExported":
+        return await updateGrimpeurIsExported()
+      default:
+        throw createError({
+          status: 400,
+          message: "Type de mise à jour non pris en charge"
+        })
     }
   } else {
-    return {
+    throw createError({
       status: 405,
-      body: { error: "Méthode non autorisée" },
-    }
+      message: "Méthode non autorisée"
+    })
   }
 })
 
@@ -94,7 +82,11 @@ async function updateAdmin(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de l'administrateur",
+      statusMessage: err
+    })
   }
 }
 
@@ -115,7 +107,11 @@ async function updateGrimpeur(body) {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour du grimpeur",
+      statusMessage: err
+    })
   }
 }
 
@@ -123,53 +119,47 @@ async function updatePassword(body) {
   const { oldPassword, newPassword, user } = body
 
   if (!user) {
-    return {
+    throw createError({
       status: 401,
-      body: { error: "Utilisateur non connecté" },
-    }
+      message: "Utilisateur non connecté"
+    })
   }
 
-  try {
-    await connection.beginTransaction()
+  await connection.beginTransaction()
 
-    const query = "SELECT * FROM Compte WHERE idCompte = ?"
-    const [ rows ] = await connection.execute(query, [ user.id ])
+  const query = "SELECT * FROM Compte WHERE idCompte = ?"
+  const [ rows ] = await connection.execute(query, [ user.id ])
 
-    if (rows.length > 0) {
-      const userFromDB = rows[0]
-      const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
+  if (rows.length > 0) {
+    const userFromDB = rows[0]
+    const passwordMatch = await bcrypt.compare(oldPassword, userFromDB.password)
 
-      if (passwordMatch) {
-        const updateQuery = "UPDATE Compte SET password = ? WHERE idCompte = ?"
+    if (passwordMatch) {
+      const updateQuery = "UPDATE Compte SET password = ? WHERE idCompte = ?"
 
-        await connection.execute(updateQuery, [ newPassword, userFromDB.idCompte ])
+      await connection.execute(updateQuery, [ newPassword, userFromDB.idCompte ])
 
-        await connection.commit()
+      await connection.commit()
 
-        return {
-          status: 200,
-          body: { success: "Mot de passe mis à jour" },
-        }
-      } else {
-        await connection.rollback()
-
-        return {
-          status: 401,
-          body: { error: "Ancien mot de passe invalide" },
-        }
+      return {
+        status: 200,
+        body: { success: "Mot de passe mis à jour" }
       }
     } else {
       await connection.rollback()
 
-      return {
-        status: 404,
-        body: { error: "L'utilisateur n'existe pas" },
-      }
+      throw createError({
+        status: 401,
+        message: "Ancien mot de passe invalide"
+      })
     }
-  } catch (err) {
+  } else {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 404,
+      message: "L'utilisateur n'existe pas"
+    })
   }
 }
 
@@ -179,18 +169,58 @@ async function updateSeance(body) {
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute("UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?", [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ])
+    const [ seanceRows ] = await connection.execute("SELECT * FROM Seance WHERE idSeance = ?", [ idSeance ])
+    const seance = seanceRows[0]
+
+    if (!seance) {
+      throw createError({
+        status: 404,
+        message: "Séance non trouvée"
+      })
+    }
+
+    if (seance.nbPlacesRestantes === 0 && seance.nbPlacesRestantes !== nbPlacesRestantes) {
+      const [ grimpeurSeanceRows ] = await connection.execute("SELECT idGrimpeur FROM GrimpeurSeance WHERE idSeance = ? AND isFileDAttente = 1", [ idSeance ])
+
+      for (const grimpeurSeance of grimpeurSeanceRows) {
+        const [ grimpeurRows ] = await connection.execute("SELECT * FROM Grimpeur WHERE idGrimpeur = ?", [ grimpeurSeance.idGrimpeur ])
+        const grimpeur = grimpeurRows[0]
+
+        if (grimpeur) {
+          const [ compteRows ] = await connection.execute("SELECT * FROM Compte WHERE idCompte = ?", [ grimpeur.fkCompte ])
+          const compte = compteRows[0]
+
+          if (compte) {
+            await ofetch(`${base_url}/api/notifySeance`, {
+              method: "POST",
+              body: JSON.stringify({
+                email: compte.mail
+              })
+            })
+          }
+        }
+      }
+    }
+
+    const [ updateRows ] = await connection.execute(
+      "UPDATE Seance SET jour = ?, heureDebutSeance = ?, heureFinSeance = ?, typeSeance = ?, niveau = ?, nbPlaces = ?, nbPlacesRestantes = ?, professeur = ? WHERE idSeance = ?",
+      [ jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur, idSeance ]
+    )
 
     await connection.commit()
 
     return {
       status: 200,
-      body: rows[0]
+      body: updateRows[0]
     }
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de la séance",
+      statusMessage: err
+    })
   }
 }
 
@@ -209,6 +239,10 @@ async function updateGrimpeurIsExported() {
   } catch (err) {
     await connection.rollback()
 
-    throw err
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de l'état exporté du grimpeur",
+      statusMessage: err
+    })
   }
 }

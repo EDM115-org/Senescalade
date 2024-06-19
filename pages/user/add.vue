@@ -297,20 +297,15 @@ function nextLoadingClick(callback) {
 async function adduser() {
   try {
     grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
-    const result = await $fetch("/api/add?type=grimpeur", {
+    await $fetch("/api/add?type=grimpeur", {
       method: "POST",
-      body: JSON.stringify(grimpeur),
+      body: JSON.stringify(grimpeur)
     })
 
-    if (result.status === 200) {
-      router.push("/user")
-    } else {
-      errorMessage.value = result.body.error
-      issueMessage.value = result.body.message ?? ""
-    }
+    router.push("/user")
   } catch (error) {
-    errorMessage.value = "Erreur lors de l'ajout du grimpeur"
-    issueMessage.value = error
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 
@@ -461,7 +456,8 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      console.error(error)
+      errorMessage.value = error.data.message
+      issueMessage.value = error.data.statusMessage ?? ""
     }
   } else {
     return router.push("/login")
@@ -485,7 +481,7 @@ onMounted(async () => {
       end: new Date(`${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`),
       ...event,
       color: getEventColor(event),
-      description: event.niveau,
+      description: event.niveau
     }
   })
 })

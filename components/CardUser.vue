@@ -155,7 +155,9 @@ async function fetchGrimpeurs() {
 
     grimpeurs.value = data.body
   } catch (error) {
-    console.error("Error fetching grimpeurs:", error)
+    // TODO
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -174,9 +176,9 @@ onMounted(async () => {
           })
         })
 
-        if (result.status === 200) {
-          const response = await $fetch("/api/fetch?type=seance")
+        const response = await $fetch("/api/fetch?type=seance")
 
+<<<<<<< HEAD
           if (response.status === 200) {
             if (result.body.length > 0) {
               const dateSeance = response.body[result.body[0].idSeance - 1]
@@ -223,8 +225,13 @@ onMounted(async () => {
         } else {
           console.error("Error fetching grimpeur seance:", result)
         }
+=======
+        grimpeurs.value[grimpeur].seance = response.body[result.body.idSeance - 1]
+>>>>>>> 50aa0ad829853285dee5b698202eea6e5d167eac
       } catch (error) {
-        console.error("Error fetching grimpeur seance : ", error)
+        // TODO
+        errorMessage.value = error.data.message
+        issueMessage.value = error.data.statusMessage ?? ""
       }
     }
   }

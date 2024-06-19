@@ -410,7 +410,7 @@ const grimpeur = ref({
   optionVTT: 0,
   optionAssurance: "",
   optionProtectionAgression: 0,
-  aPaye: 0,
+  aPaye: 0
 })
 
 const valid = ref(false)
@@ -418,7 +418,7 @@ const emit = defineEmits([ "confirm-edit" ])
 
 const rules = {
   required: (value) => Boolean(value) || "Requis",
-  codePostal: (value) => (/^[0-9]{5}$/).test(value) || "Code postal invalide",
+  codePostal: (value) => (/^[0-9]{5}$/).test(value) || "Code postal invalide"
 }
 
 const MoreInformation = () => {

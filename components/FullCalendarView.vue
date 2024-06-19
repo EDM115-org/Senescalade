@@ -65,7 +65,7 @@ const calendarOptions = ref({
   slotMinTime: "08:00:00",
   slotMaxTime: "23:00:00",
   titleFormat: { year: "numeric", month: "long", day: "numeric" },
-  weekends: true,
+  weekends: true
 })
 const formattedEvents = ref([])
 

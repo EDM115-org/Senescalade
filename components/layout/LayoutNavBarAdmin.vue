@@ -40,36 +40,32 @@ try {
     body: JSON.stringify({ user })
   })
 
-  if (response) {
-    if (response.body.ReadListGrimpeur === 1) {
-      items.push({ text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" })
-    }
+  if (response.body.ReadListGrimpeur === 1) {
+    items.push({ text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" })
+  }
 
-    if (response.body.ReadListSeance === 1) {
-      items.push({ text: "Gestion des crénaux", to: "/admin/gestion-crenaux" })
-    }
+  if (response.body.ReadListSeance === 1) {
+    items.push({ text: "Gestion des crénaux", to: "/admin/gestion-crenaux" })
+  }
 
-    if (response.body.ReadListAdmin === 1) {
-      items.push({ text: "Gestion admin", to: "/admin/gestion-admin" })
-    }
+  if (response.body.ReadListAdmin === 1) {
+    items.push({ text: "Gestion admin", to: "/admin/gestion-admin" })
+  }
 
-    if (response.body.ReadListUtilisateur === 1) {
-      items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
-    }
+  if (response.body.ReadListUtilisateur === 1) {
+    items.push({ text: "Gestion des utilisateurs", to: "/admin/gestion-utilisateur" })
+  }
 
-    if (response.body.AccessReinscription === 1) {
-      items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
-    }
-  } else {
-    console.error("Error getPermAdmin:", response.statusText)
+  if (response.body.AccessReinscription === 1) {
+    items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
   }
 } catch (error) {
-  console.error("Error getPermAdmin:", error.message)
+  // TODO
+  errorMessage.value = error.data.message
+  issueMessage.value = error.data.statusMessage ?? ""
 }
 
 items.push({ text: "Profil", to: "/admin/profil" })
-
-
 </script>
 
 <style scoped>
