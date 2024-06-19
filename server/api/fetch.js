@@ -208,7 +208,6 @@ async function fetchGrimpeurSeance(body) {
 
     rows = await connection.execute(query, [ idGrimpeur ])
     rows = rows[0]
-    console.log(rows[0])
   }
 
   return {

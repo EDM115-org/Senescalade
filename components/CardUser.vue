@@ -187,9 +187,9 @@ onMounted(async () => {
         const response = await $fetch("/api/fetch?type=seance")
 
         if (result.body !== undefined) {
-          const dateSeance = response.body[result.body[0].idSeance - 1]
+          const dateSeance = response.body[result.body.idSeance - 1]
 
-          grimpeurs.value[grimpeur].seance = `${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
+          grimpeurs.value[grimpeur].seance = ` ${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
         } else {
           grimpeurs.value[grimpeur].seance = " Aucune"
         }
