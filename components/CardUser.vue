@@ -15,41 +15,86 @@
         md="6"
         lg="4"
       >
-        <v-card class="grimpeur-card">
+        <v-card class="grimpeur-card text-center">
           <v-card-title>{{ grimpeur.prenom }} {{ grimpeur.nom }}</v-card-title>
           <v-card-subtitle>{{ grimpeur.ville }}, {{ grimpeur.pays }}</v-card-subtitle>
           <v-card-text>
-            <p><strong>Date de Naissance :</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
-            <p><strong>Sexe :</strong> {{ grimpeur.sexe === "H" ? "Homme" : "Femme" }}</p>
-            <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
-            <p><strong>Code Postal :</strong> {{ grimpeur.codePostal }}</p>
-            <p><strong>Statut du paiement :</strong> {{ grimpeur.aPaye === 1 ? "Confirmé" : "Non confirmé" }}</p>
-            <div class="license-container">
-              <p class="mr-2">
-                <strong>Numéro de Licence :</strong>
+            <div class="text-center">
+              <p><strong>Date de Naissance :</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
+              <p><strong>Sexe :</strong> {{ grimpeur.sexe === "H" ? "Homme" : "Femme" }}</p>
+              <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
+              <p><strong>Code Postal :</strong> {{ grimpeur.codePostal }}</p>
+              <p><strong>Statut du paiement :</strong> {{ grimpeur.aPaye === 1 ? "Confirmé" : "Non confirmé" }}</p>
+              <div class="license-container">
+                <p class="mr-2">
+                  <strong>Numéro de Licence :</strong>
+                </p>
+                <pre>{{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
+                <v-btn
+                  v-if="grimpeur.numLicence !== ''"
+                  flat
+                  icon="mdi-content-copy"
+                  size="small"
+                  @click="copyToClipboard(grimpeur.numLicence)"
+                />
+              </div>
+              <p v-if="grimpeur.seance">
+                <strong>Séance sélectionnée :</strong>
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <span v-html="grimpeur.seance" />
               </p>
-              <pre>{{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
-              <v-btn
-                v-if="grimpeur.numLicence !== ''"
-                flat
-                icon="mdi-content-copy"
-                size="small"
-                @click="copyToClipboard(grimpeur.numLicence)"
-              />
             </div>
-            <p v-if="grimpeur.seance">
-              <strong>Séance selectionnée :</strong>
-              {{ grimpeur.seance.typeSeance }} {{ grimpeur.seance.niveau ? `- ${grimpeur.seance.niveau}` : "" }}<br>
-              {{ grimpeur.seance.jour }} de {{ grimpeur.seance.heureDebutSeance }} à {{ grimpeur.seance.heureFinSeance }}
-            </p>
           </v-card-text>
+
+          <v-divider />
+
           <v-card-actions>
-            <v-btn
-              color="error"
-              icon="mdi-delete-outline"
-              variant="elevated"
-              @click.prevent="deleteDialog = true"
-            />
+            <v-row
+              align="center"
+              justify="end"
+            >
+              <v-col
+                cols="12"
+                class="no-padding-btn mt-3"
+              >
+                <v-tooltip
+                  v-if="reinscriptionOpen"
+                  bottom
+                >
+                  <template #activator="{ on }">
+                    <v-btn
+                      color="warning"
+                      icon
+                      v-bind="on"
+                      @click.prevent="reinscription(grimpeur)"
+                    >
+                      <span>Réinscription</span>
+                      <v-icon>mdi-account-arrow-left</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Réinscrire le grimpeur à une nouvelle session</span>
+                </v-tooltip>
+              </v-col>
+              <v-col
+                cols="12"
+                class="no-padding-btn mb-3"
+              >
+                <v-tooltip bottom>
+                  <template #activator="{ on }">
+                    <v-btn
+                      color="error"
+                      icon
+                      v-bind="on"
+                      @click.prevent="deleteDialog = true"
+                    >
+                      <span>Supprimer</span>
+                      <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Supprimer ce grimpeur de la base de données</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -95,11 +140,13 @@ import { useMainStore } from "~/store/main"
 import { ref, onMounted } from "vue"
 
 const store = useMainStore()
+const user = store.getUser
 const grimpeurs = ref([])
 const deleteDialog = ref(false)
 const loading = ref(false)
 const snackbar = ref(false)
 const snackbarMessage = ref("")
+const reinscriptionOpen = ref(false)
 
 async function fetchGrimpeurs() {
   loading.value = true
@@ -131,7 +178,45 @@ onMounted(async () => {
           const response = await $fetch("/api/fetch?type=seance")
 
           if (response.status === 200) {
-            grimpeurs.value[grimpeur].seance = response.body[result.body[0].idSeance - 1]
+            if (result.body.length > 0) {
+              const dateSeance = response.body[result.body[0].idSeance - 1]
+
+              grimpeurs.value[grimpeur].seance = `${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
+            } else {
+              grimpeurs.value[grimpeur].seance = " Aucune"
+            }
+
+            try {
+              const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
+                method: "GET"
+              })
+
+              if (response.body) {
+                const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.id}`, {
+                  method: "GET"
+                })
+
+                if (reponseGrimpeur.body) {
+                  if (responseReinscription.body.inscriptionOpen === 1) {
+                    if (reponseGrimpeur.body[0].action === "C") {
+                      if (new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date() && new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date(responseReinscription.body.dateFinReinscription)) {
+                        reinscriptionOpen.value = true
+                      } else {
+                        reinscriptionOpen.value = false
+                      }
+                    } else if (reponseGrimpeur.body[0].action === "R") {
+                      if (new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date() && new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date(responseReinscription.body.dateFinReinscription)) {
+                        reinscriptionOpen.value = true
+                      } else {
+                        reinscriptionOpen.value = false
+                      }
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.error(error)
+            }
           } else {
             console.error("Error fetching seance:", response)
           }
@@ -159,26 +244,30 @@ const copyToClipboard = (text) => {
 const formatBirthDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("fr-FR")
 }
+
+async function reinscription(grimpeur) {
+  console.log("Reinscription:", grimpeur)
+}
 </script>
+  <style scoped>
+  .license-container {
+    display: flex;
+    align-items: center;
+  justify-content: center;
+  }
 
-<style scoped>
-.v-row {
-  margin-top: 20px;
-}
+  pre {
+    margin: 0;
+    padding: 0;
+    background: rgb(var(-v-theme-on-surface));
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+    font-family: "Fira Code";
+  }
 
-.license-container {
-  display: flex;
-  align-items: center;
-}
-
-pre {
-  margin: 0;
-  padding: 0;
-  background: rgb(var(-v-theme-on-surface));
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 14px;
-  font-family: "Fira Code";
-}
-</style>
+  .no-padding-btn {
+    padding: 0 !important; /* Annule le padding des boutons */
+  }
+  </style>
