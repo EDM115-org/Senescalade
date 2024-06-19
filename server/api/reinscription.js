@@ -141,9 +141,6 @@ async function clearReinscription() {
 
   const [ rows ] = await connection.execute(selectQuery)
 
-  console.log(rows[0].mail)
-  console.log(rows[1].mail)
-
   const mailOptions = {
     from: process.env.GMAIL_USER,
     to: rows.map((row) => row.mail).join(", "),
@@ -158,7 +155,7 @@ async function clearReinscription() {
     throw createError({
       status: 500,
       message: "Erreur lors de l'envoi de l'email de réinscription",
-      statusMessage: JSON.stringify(err)
+      statusMessage: JSON.stringify(error)
     })
   }
 
