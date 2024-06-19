@@ -194,6 +194,7 @@ async function deleteGrimpeurSeance(body, headers) {
     })
     const seance = response.body.find((seance) => seance.idSeance === seanceId)
 
+
     if (seance.nbPlacesRestantes === 0) {
       const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
         headers: { Authorization: headers.authorization }
@@ -217,6 +218,7 @@ async function deleteGrimpeurSeance(body, headers) {
             headers: { Authorization: headers.authorization }
           })
 
+
           await ofetch(`${base_url}/api/notifySeance`, {
             method: "POST",
             body: JSON.stringify({
@@ -234,6 +236,8 @@ async function deleteGrimpeurSeance(body, headers) {
       "DELETE FROM GrimpeurSeance WHERE idGrimpeur = ?",
       [ idGrimpeur ]
     )
+
+    console.log(rows)
 
     await connection.commit()
 
