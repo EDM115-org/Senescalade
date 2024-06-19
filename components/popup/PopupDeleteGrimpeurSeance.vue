@@ -5,26 +5,39 @@
     transition="dialog-bottom-transition"
   >
     <v-card>
-      <v-card-title>Suppression de ce grimpeur pour une séance</v-card-title>
+      <v-card-title>Suppression de la séance du grimpeur</v-card-title>
       <v-card-text>
-        Êtes-vous sûr de vouloir supprimer ce grimpeur de cette séance ?
-        <v-card
-          v-if="grimpeur"
-          class="mt-4"
-        >
-          <p class="font-weight-medium my-2 mx-4">
-            {{ grimpeur.prenom }} {{ grimpeur.nom }}
-          </p>
-        </v-card>
-        <v-card
-          v-if="seance"
-          class="mt-4"
-        >
-          <p class="font-weight-medium my-2 mx-4">
-            {{ seance.typeSeance }} {{ seance.niveau ? `- ${seance.niveau}` : "" }}<br>
-            {{ seance.jour }} de {{ seance.heureDebutSeance }} à {{ seance.heureFinSeance }}
-          </p>
-        </v-card>
+        <template v-if="seance">
+          Êtes-vous sûr de vouloir supprimer ce grimpeur de cette séance ?
+          <v-card
+            v-if="grimpeur"
+            class="mt-4"
+          >
+            <p class="font-weight-medium my-2 mx-4">
+              {{ grimpeur.prenom }} {{ grimpeur.nom }}
+            </p>
+          </v-card>
+          <v-card
+            v-if="seance"
+            class="mt-4"
+          >
+            <p class="font-weight-medium my-2 mx-4">
+              {{ seance.typeSeance }} {{ seance.niveau ? `- ${seance.niveau}` : "" }}<br>
+              {{ seance.jour }} de {{ seance.heureDebutSeance }} à {{ seance.heureFinSeance }}
+            </p>
+          </v-card>
+        </template>
+        <template v-else>
+          Ce grimpeur n'a pas de séance liée.
+          <v-card
+            v-if="grimpeur"
+            class="mt-4"
+          >
+            <p class="font-weight-medium my-2 mx-4">
+              {{ grimpeur.prenom }} {{ grimpeur.nom }}
+            </p>
+          </v-card>
+        </template>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -37,6 +50,7 @@
         <v-btn
           color="accent"
           variant="elevated"
+          :disabled="!seance"
           @click="confirmDelete"
         >
           Oui
@@ -69,11 +83,14 @@ const open = async (grimpeurData) => {
       })
     })
 
-    const response = await $fetch("/api/fetch?type=seance")
+    if (result.body && result.body.idSeance) {
+      const response = await $fetch("/api/fetch?type=seance")
 
-    seance.value = response.body[result.body.idSeance]
+      seance.value = response.body[result.body.idSeance]
+    } else {
+      seance.value = null
+    }
   } catch (error) {
-    // TODO
     console.log(error)
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
