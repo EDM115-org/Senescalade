@@ -98,7 +98,6 @@
 
 <script setup>
 import { ref, onMounted } from "vue"
-import { format } from "date-fns"
 
 definePageMeta({
   pageTransition: {
@@ -146,14 +145,16 @@ onMounted(async () => {
   }
 })
 
+const formatDateToYYYYMMDD = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
+
 async function submitDatesForm() {
   try {
     const response = await $fetch("/api/reinscription?type=update", {
       method: "POST",
       body: JSON.stringify({
-        dateReinscriptionIsInscrit: format(datesForm.value.dateReinscriptionIsInscrit, "yyyy-MM-dd"),
-        dateReinscriptionEveryone: format(datesForm.value.dateReinscriptionEveryone, "yyyy-MM-dd"),
-        dateFinReinscription: format(datesForm.value.dateFinReinscription, "yyyy-MM-dd")
+        dateReinscriptionIsInscrit: formatDateToYYYYMMDD(datesForm.value.dateReinscriptionIsInscrit),
+        dateReinscriptionEveryone: formatDateToYYYYMMDD(datesForm.value.dateReinscriptionEveryone),
+        dateFinReinscription: formatDateToYYYYMMDD(datesForm.value.dateFinReinscription)
       })
     })
 

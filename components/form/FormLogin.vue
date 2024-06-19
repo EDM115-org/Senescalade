@@ -166,7 +166,7 @@ async function submit() {
 
     emit("submit:register", { mail: state.mail, password: hash })
   } else {
-    emit("submit:login", { mail: state.mail, password: state.password, stayConnected })
+    emit("submit:login", { mail: state.mail, password: state.password, stayConnected: stayConnected.value })
   }
 
   clear()
