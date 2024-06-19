@@ -1,5 +1,14 @@
 import mysql from "mysql2/promise"
+import nodemailer from "nodemailer"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS
+  }
+})
 
 let connection = null
 
@@ -96,14 +105,8 @@ async function clearReinscription() {
       FROM GrimpeurSeance
     )
   `
-  const [ updateResults ] = await connection.execute(updateQuery)
 
-  if (updateResults.affectedRows === 0) {
-    throw createError({
-      status: 404,
-      message: "Aucun grimpeur mis à jour"
-    })
-  }
+  await connection.execute(updateQuery)
 
   const deleteQuery = `
     DELETE FROM GrimpeurSeance
@@ -124,6 +127,40 @@ async function clearReinscription() {
   `
 
   await connection.execute(grimpeurQuery)
+
+  // récupérer tout les mails des compte des grimpeurs des gens en R
+  const selectQuery = `
+    SELECT mail
+    FROM Compte
+    WHERE idCompte IN (
+      SELECT fkCompte
+      FROM Grimpeur
+      WHERE action = 'R'
+    )
+  `
+
+  const [ rows ] = await connection.execute(selectQuery)
+
+  console.log(rows[0].mail)
+  console.log(rows[1].mail)
+
+  const mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: rows.map((row) => row.mail).join(", "),
+    subject: "Réinscription",
+    text: "Bonjour,\n\nLa réinscription a été ouverte.\n\nCordialement,\n\nLe club",
+    html: "Bonjour,<br><br>La réinscription a été ouverte.<br><br>Cordialement,<br><br>Le club"
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+  } catch (error) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de l'envoi de l'email de réinscription",
+      statusMessage: error
+    })
+  }
 
   return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }
 }

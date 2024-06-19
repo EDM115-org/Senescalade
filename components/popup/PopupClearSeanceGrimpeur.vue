@@ -9,22 +9,22 @@
         Confirmation
       </v-card-title>
       <v-card-text>
-        Lorsque vous confirmez, toutes les inscriptions des grimpeurs aux séances seront supprimées, les anciens grimpeurs passeront en statut de renouvellement, et la variable de paiement sera réinitialisée.
+        Lorsque vous confirmez, toutes les inscriptions des grimpeurs aux séances seront supprimées, les anciens grimpeurs passeront en statut de renouvellement, la variable de paiement sera réinitialisée, et un mail de compte sera envoyé pour annoncer la réinscription.
       </v-card-text>
       <v-card-actions>
         <v-btn
           color="primary"
           text
-          @click="clearReinscriptions"
-        >
-          Confirmer
-        </v-btn>
-        <v-btn
-          color="secondary"
-          text
           @click="close"
         >
           Annuler
+        </v-btn>
+        <v-btn
+          color="success"
+          text
+          @click="clearReinscriptions"
+        >
+          Confirmer
         </v-btn>
       </v-card-actions>
     </v-card>
