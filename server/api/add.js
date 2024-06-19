@@ -34,6 +34,8 @@ export default defineEventHandler(async (event) => {
         return await addAdmin(body)
       case "grimpeur":
         return await addGrimpeur(body)
+      case "grimpeurSeance":
+        return await addGrimpeurSeance(body)
       case "seance":
         return await addSeance(body)
       default:
@@ -240,6 +242,53 @@ async function addGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Erreur durant l'ajout du grimpeur",
+      statusMessage: err
+    })
+  }
+}
+
+async function addGrimpeurSeance(body) {
+  const { idGrimpeur, idSeance, isFileDAttente } = body
+
+  try {
+    await connection.beginTransaction()
+
+    if (isFileDAttente === false) {
+      const [ seanceResult ] = await connection.execute(
+        "SELECT nbPlacesRestantes FROM Seance WHERE idSeance = ?",
+        [ idSeance ]
+      )
+
+      const nbPlacesRestantes = seanceResult[0].nbPlacesRestantes
+
+      await connection.execute(
+        "UPDATE Seance SET nbPlacesRestantes = ? WHERE idSeance = ?",
+        [ nbPlacesRestantes - 1, idSeance ]
+      )
+
+      await connection.execute(
+        "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance) VALUES (?, ?)",
+        [ idGrimpeur, idSeance ]
+      )
+    } else {
+      await connection.execute(
+        "INSERT INTO GrimpeurSeance (idGrimpeur, idSeance, isFileDAttente) VALUES (?, ?, ?)",
+        [ idGrimpeur, idSeance, isFileDAttente ]
+      )
+    }
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: { success: "Grimpeur ajouté à la séance" }
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw createError({
+      status: 500,
+      message: "Erreur durant l'ajout du grimpeur à la séance",
       statusMessage: err
     })
   }
