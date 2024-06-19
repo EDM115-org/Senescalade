@@ -250,6 +250,8 @@ async function addGrimpeur(body) {
 async function addGrimpeurSeance(body) {
   const { idGrimpeur, idSeance, isFileDAttente } = body
 
+  console.log(idGrimpeur, idSeance, isFileDAttente)
+
   try {
     await connection.beginTransaction()
 
@@ -289,7 +291,7 @@ async function addGrimpeurSeance(body) {
     throw createError({
       status: 500,
       message: "Erreur durant l'ajout du grimpeur à la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }

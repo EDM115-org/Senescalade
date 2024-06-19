@@ -158,7 +158,7 @@ async function clearReinscription() {
     throw createError({
       status: 500,
       message: "Erreur lors de l'envoi de l'email de réinscription",
-      statusMessage: JSON.stringify(err)
+      statusMessage: JSON.stringify(error)
     })
   }
 

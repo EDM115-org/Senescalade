@@ -196,6 +196,7 @@ function nextLoadingClick(callback) {
 
 async function addGrimpeurSeance() {
   try {
+    console.log(JSON.stringify(grimpeur))
     grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
     await $fetch("/api/add?type=grimpeurSeance", {
       method: "POST",
@@ -331,6 +332,7 @@ function handleNoEventsLeft() {
 
 watch(selectedEvent, (value) => {
   if (value) {
+    grimpeur.idSeance = parseInt(value.id)
     choixCreneau.value = parseInt(value.id)
 
     if (value.extendedProps.nbPlacesRestantes === 0) {
@@ -396,9 +398,8 @@ onMounted(async () => {
       headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
-    grimpeur = response.body[0]
+    grimpeur = { ...grimpeur, ...response.body[0] }
     grimpeur.dateNaissance = new Date(grimpeur.dateNaissance).toISOString().split("T")[0]
-    console.log(grimpeur)
 
     router.replace({ query: {} })
     loading.value = true
