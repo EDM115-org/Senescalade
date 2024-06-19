@@ -24,7 +24,7 @@ import { computed } from "vue"
 
 const store = useMainStore()
 
-const user = store.getUser
+const user = computed(() => store.getUser)
 
 const drawer = computed(() => store.getDisplayAdminMenu)
 
@@ -37,7 +37,8 @@ const items = [{ text: "Dashboard", to: "/admin/dashboard" }]
 try {
   const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
-    body: JSON.stringify({ user })
+    body: JSON.stringify({ user: user.value }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
   if (response.body.ReadListGrimpeur === 1) {

@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 
 definePageMeta({
@@ -90,7 +90,7 @@ definePageMeta({
 })
 
 const store = useMainStore()
-const user = store.getUser
+const user = computed(() => store.getUser)
 const router = useRouter()
 const users = ref([])
 const userCount = ref(0)
@@ -105,7 +105,8 @@ const issueMessage = ref("")
 try {
   const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
-    body: JSON.stringify({ user })
+    body: JSON.stringify({ user: user.value }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
   if (response.body.UpdateListUtilisateur === 1) {
@@ -123,7 +124,9 @@ try {
 
 const fetchCompte = async () => {
   try {
-    const result = await $fetch("/api/fetch?type=compte")
+    const result = await $fetch("/api/fetch?type=compte", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     users.value = result.body
   } catch (error) {
@@ -134,7 +137,9 @@ const fetchCompte = async () => {
 }
 
 const fetchUserCount = async () => {
-  const result = await $fetch("/api/count?type=compte")
+  const result = await $fetch("/api/count?type=compte", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   userCount.value = result.body.userCount
 }
@@ -143,7 +148,8 @@ const deleteUser = async (id) => {
   try {
     await $fetch("/api/delete?type=compte", {
       method: "DELETE",
-      body: { idCompte: id }
+      body: { idCompte: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchCompte()
@@ -168,16 +174,15 @@ const handleDelete = (idCompte) => {
 }
 
 onMounted(async () => {
-  const user = store.getUser
-
-  if (user) {
-    if (!user.isAdmin) {
+  if (user.value) {
+    if (!user.value.isAdmin) {
       router.push("/user")
     } else {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user })
+          body: JSON.stringify({ user: user.value }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
         if (response.body.ReadListUtilisateur !== 1) {

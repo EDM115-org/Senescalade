@@ -4,7 +4,7 @@ import mysql from "mysql2/promise"
 
 import { createError, defineEventHandler, readBody } from "h3"
 
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET ?? "secret"
 let connection = null
 
 try {

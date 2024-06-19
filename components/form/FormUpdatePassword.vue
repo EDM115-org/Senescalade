@@ -106,11 +106,11 @@ import bcrypt from "bcryptjs"
 
 import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { useMainStore } from "~/store/main"
-import { ref, reactive } from "vue"
+import { computed, ref, reactive } from "vue"
 
 const store = useMainStore()
 
-const user = store.getUser
+const user = computed(() => store.getUser)
 
 const errorMessage = ref("")
 const issueMessage = ref("")
@@ -157,8 +157,9 @@ async function submit() {
       body: JSON.stringify({
         oldPassword: state.oldPassword,
         newPassword: hashedNewPassword,
-        user
-      })
+        user: user.value
+      }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     errorMessage.value = "Mot de passe modifié avec succès"

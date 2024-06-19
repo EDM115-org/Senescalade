@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 
 definePageMeta({
@@ -60,15 +60,20 @@ const store = useMainStore()
 const router = useRouter()
 const grimpeurCount = ref(0)
 const nonPayeCount = ref(0)
+const user = computed(() => store.getUser)
 
 const fetchGrimpeurCount = async () => {
-  const result = await $fetch("/api/count?type=grimpeur")
+  const result = await $fetch("/api/count?type=grimpeur", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   grimpeurCount.value = result.body.grimpeurCount
 }
 
 const fetchNonPayeCount = async () => {
-  const result = await $fetch("/api/count?type=nonPaye")
+  const result = await $fetch("/api/count?type=nonPaye", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   nonPayeCount.value = result.body.nonPayeCount
 }

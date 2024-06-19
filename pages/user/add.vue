@@ -225,11 +225,11 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { onMounted, reactive, ref, watch } from "vue"
+import { computed, onMounted, reactive, ref, watch } from "vue"
 import { useDisplay } from "vuetify"
 
 const store = useMainStore()
-const user = store.getUser
+const user = computed(() => store.getUser)
 const { mdAndUp } = useDisplay()
 const router = useRouter()
 
@@ -299,7 +299,8 @@ async function adduser() {
     grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
     await $fetch("/api/add?type=grimpeur", {
       method: "POST",
-      body: JSON.stringify(grimpeur)
+      body: JSON.stringify(grimpeur),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     router.push("/user")
@@ -443,11 +444,12 @@ watch(birthdate, (value) => {
 })
 
 onMounted(async () => {
-  if (user) {
+  if (user.value) {
     try {
       const response = await $fetch("/api/fetch?type=mailIsVerified", {
         method: "POST",
-        body: JSON.stringify({ mail: user.mail })
+        body: JSON.stringify({ mail: user.value.mail }),
+        headers: { Authorization: `Bearer ${user.value.token}` }
       })
 
       if (response.body.mailIsVerified === 1) {
@@ -463,7 +465,9 @@ onMounted(async () => {
     return router.push("/login")
   }
 
-  const response = await $fetch("/api/fetch?type=seance")
+  const response = await $fetch("/api/fetch?type=seance", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   events.value = response.body
 

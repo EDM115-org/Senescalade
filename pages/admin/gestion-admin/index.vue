@@ -139,7 +139,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 
 definePageMeta({
@@ -159,7 +159,7 @@ const adminCount = ref(0)
 const deleteDialog = ref(null)
 const editDialog = ref(null)
 const addDialog = ref(null)
-const user = store.getUser
+const user = computed(() => store.getUser)
 
 const isPermDelete = ref(false)
 const isPermEdit = ref(false)
@@ -170,7 +170,8 @@ const issueMessage = ref("")
 try {
   const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
-    body: JSON.stringify({ user })
+    body: JSON.stringify({ user: user.value }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
   if (response.body.UpdateListAdmin === 1) {
@@ -188,7 +189,9 @@ try {
 
 const fetchAdmin = async () => {
   try {
-    const result = await $fetch("/api/fetch?type=admin")
+    const result = await $fetch("/api/fetch?type=admin", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     admins.value = result.body
   } catch (error) {
@@ -199,7 +202,9 @@ const fetchAdmin = async () => {
 }
 
 const fetchAdminCount = async () => {
-  const result = await $fetch("/api/count?type=admin")
+  const result = await $fetch("/api/count?type=admin", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   adminCount.value = result.body.adminCount
 }
@@ -208,7 +213,8 @@ const updateAdmin = async (admin) => {
   try {
     await $fetch("/api/update?type=admin", {
       method: "POST",
-      body: admin
+      body: admin,
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchAdmin()
@@ -222,7 +228,8 @@ const deleteAdmin = async (id) => {
   try {
     await $fetch("/api/delete?type=compte", {
       method: "DELETE",
-      body: { idCompte: id }
+      body: { idCompte: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchAdmin()
@@ -279,7 +286,8 @@ const handleAdd = async (admin) => {
   try {
     await $fetch("/api/add?type=admin", {
       method: "POST",
-      body: admin
+      body: admin,
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchAdmin()
@@ -291,14 +299,15 @@ const handleAdd = async (admin) => {
 }
 
 onMounted(async () => {
-  if (user) {
-    if (!user.isAdmin) {
+  if (user.value) {
+    if (!user.value.isAdmin) {
       router.push("/user")
     } else {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user })
+          body: JSON.stringify({ user: user.value }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
         if (response.body.ReadListAdmin !== 1) {

@@ -154,7 +154,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 import { useRouter } from "vue-router"
 
@@ -169,7 +169,7 @@ definePageMeta({
 })
 
 const store = useMainStore()
-const user = store.getUser
+const user = computed(() => store.getUser)
 const router = useRouter()
 const grimpeurs = ref([])
 const grimpeurCount = ref(0)
@@ -188,7 +188,8 @@ const issueMessage = ref("")
 try {
   const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
-    body: JSON.stringify({ user })
+    body: JSON.stringify({ user: user.value }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
   if (response.body.UpdateListGrimpeur === 1) {
@@ -207,7 +208,9 @@ try {
 const fetchGrimpeurs = async () => {
   loading.value = true
   try {
-    const response = await $fetch("/api/fetch?type=grimpeur")
+    const response = await $fetch("/api/fetch?type=grimpeur", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     grimpeurs.value = response.body
   } catch (error) {
@@ -220,7 +223,9 @@ const fetchGrimpeurs = async () => {
 }
 
 const fetchGrimpeurCount = async () => {
-  const result = await $fetch("/api/count?type=grimpeur")
+  const result = await $fetch("/api/count?type=grimpeur", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   grimpeurCount.value = result.body.grimpeurCount
 }
@@ -229,7 +234,8 @@ const deleteGrimpeur = async (id) => {
   try {
     await $fetch("/api/delete?type=grimpeur", {
       method: "DELETE",
-      body: { idGrimpeur: id }
+      body: { idGrimpeur: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchGrimpeurs()
@@ -244,7 +250,8 @@ const deleteGrimpeurSeance = async (id) => {
   try {
     await $fetch("/api/delete?type=grimpeurSeance", {
       method: "DELETE",
-      body: { idGrimpeur: id }
+      body: { idGrimpeur: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchGrimpeurs()
@@ -259,7 +266,8 @@ const updateGrimpeur = async (grimpeur) => {
   try {
     await $fetch("/api/update?type=grimpeur", {
       method: "POST",
-      body: grimpeur
+      body: grimpeur,
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchGrimpeurs()
@@ -306,14 +314,15 @@ const handleEdit = (grimpeur) => {
 }
 
 onMounted(async () => {
-  if (user) {
-    if (!user.isAdmin) {
+  if (user.value) {
+    if (!user.value.isAdmin) {
       router.push("/user")
     } else {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user })
+          body: JSON.stringify({ user: user.value }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
         if (response.body.ReadListGrimpeur !== 1) {
@@ -339,7 +348,9 @@ const viewGrimpeur = (grimpeur) => {
 
 const downloadCSV = async () => {
   try {
-    const response = await $fetch("/api/fetch?type=csv")
+    const response = await $fetch("/api/fetch?type=csv", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     const csvContents = response.body
 
@@ -370,7 +381,8 @@ const downloadCSV = async () => {
 const resetIsExported = async () => {
   try {
     await $fetch("/api/update?type=grimpeurIsExported", {
-      method: "PUT"
+      method: "PUT",
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
   } catch (error) {
     errorMessage.value = error.data.message

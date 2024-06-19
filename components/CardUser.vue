@@ -142,10 +142,10 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 
 const store = useMainStore()
-const user = store.getUser
+const user = computed(() => store.getUser)
 const grimpeurs = ref([])
 const deleteDialog = ref(false)
 const loading = ref(false)
@@ -159,7 +159,9 @@ const issueMessage = ref("")
 async function fetchGrimpeurs() {
   loading.value = true
   try {
-    const data = await $fetch(`/api/fetch?type=grimpeur&id=${store.getUser.id}`)
+    const data = await $fetch(`/api/fetch?type=grimpeur&id=${store.getUser.id}`, {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     grimpeurs.value = data.body
   } catch (error) {
@@ -181,10 +183,13 @@ onMounted(async () => {
           method: "POST",
           body: JSON.stringify({
             idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
-          })
+          }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
-        const response = await $fetch("/api/fetch?type=seance")
+        const response = await $fetch("/api/fetch?type=seance", {
+          headers: { Authorization: `Bearer ${user.value.token}` }
+        })
 
         if (result.body !== undefined) {
           const dateSeance = response.body[result.body.idSeance - 1]
@@ -194,10 +199,14 @@ onMounted(async () => {
           grimpeurs.value[grimpeur].seance = " Aucune"
         }
 
-        const responseReinscription = await $fetch("/api/fetch?type=getInfo")
+        const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
+          headers: { Authorization: `Bearer ${user.value.token}` }
+        })
 
         if (response.body) {
-          const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.id}`)
+          const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.value.id}`, {
+            headers: { Authorization: `Bearer ${user.value.token}` }
+          })
 
           if (reponseGrimpeur.body) {
             if (responseReinscription.body.inscriptionOpen === 1) {
