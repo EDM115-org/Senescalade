@@ -178,7 +178,8 @@ async function deleteGrimpeurSeance(body) {
       body: JSON.stringify({ idGrimpeur })
     })
 
-    const seanceId = result.body[0].idSeance
+    console.log(result)
+    const seanceId = result.body.idSeance
     const response = await ofetch(`${base_url}/api/fetch?type=seance`)
     const seance = response.body.find((seance) => seance.idSeance === seanceId)
 

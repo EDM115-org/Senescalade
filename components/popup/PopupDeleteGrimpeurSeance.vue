@@ -53,6 +53,9 @@ const isOpen = ref(false)
 const grimpeur = ref(null)
 const seance = ref(null)
 
+const errorMessage = ref("")
+const issueMessage = ref("")
+
 const emit = defineEmits([ "confirm-delete" ])
 
 const open = async (grimpeurData) => {
@@ -71,6 +74,7 @@ const open = async (grimpeurData) => {
     seance.value = response.body[result.body.idSeance]
   } catch (error) {
     // TODO
+    console.log(error)
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   }
