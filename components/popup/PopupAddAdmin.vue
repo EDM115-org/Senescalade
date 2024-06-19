@@ -98,6 +98,10 @@
                 v-model="admin.DeleteListUtilisateur"
                 label="Suppression Liste Utilisateur"
               />
+              <v-switch
+                v-model="admin.AccessReinscription"
+                label="Access à la réinscription"
+              />
             </v-col>
           </v-row>
         </v-form>

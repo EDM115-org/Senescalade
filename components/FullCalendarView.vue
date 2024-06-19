@@ -27,11 +27,15 @@
 import frLocale from "@fullcalendar/core/locales/fr"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import FullCalendar from "@fullcalendar/vue3"
-import { ref, onMounted, watch } from "vue"
+import { useMainStore } from "~/store/main"
+import { computed, ref, onMounted, watch } from "vue"
 import { useDisplay, useTheme } from "vuetify"
 
 const { mdAndUp } = useDisplay()
 const theme = useTheme()
+
+const store = useMainStore()
+const user = computed(() => store.getUser)
 
 const emit = defineEmits([ "event-click", "no-events-left" ])
 const props = defineProps({
@@ -147,7 +151,9 @@ watch(theme.name, () => {
 })
 
 onMounted(async () => {
-  const response = await $fetch("/api/fetch?type=seance")
+  const response = await $fetch("/api/fetch?type=seance", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
   const events = response.body
 
   const startOfWeek = daysOfTheCurrentWeek()[0]

@@ -97,7 +97,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { useMainStore } from "~/store/main"
+import { computed, ref, onMounted } from "vue"
+
+const store = useMainStore()
+const user = computed(() => store.getUser)
 
 definePageMeta({
   pageTransition: {
@@ -126,7 +130,9 @@ const issueMessage = ref("")
 
 onMounted(async () => {
   try {
-    const response = await $fetch("/api/fetch?type=reinscription")
+    const response = await $fetch("/api/fetch?type=reinscription", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
     const reinscriptions = response.body
 
     datesForm.value.dateReinscriptionIsInscrit = new Date(reinscriptions.dateReinscriptionIsInscrit)
@@ -155,7 +161,8 @@ async function submitDatesForm() {
         dateReinscriptionIsInscrit: formatDateToYYYYMMDD(datesForm.value.dateReinscriptionIsInscrit),
         dateReinscriptionEveryone: formatDateToYYYYMMDD(datesForm.value.dateReinscriptionEveryone),
         dateFinReinscription: formatDateToYYYYMMDD(datesForm.value.dateFinReinscription)
-      })
+      }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     messageColor.value = "success"
@@ -174,7 +181,8 @@ async function submitOpenForm() {
       method: "POST",
       body: JSON.stringify({
         inscriptionOpen: openForm.value.inscriptionOpen
-      })
+      }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     messageColor.value = "success"
@@ -194,7 +202,8 @@ function openClearPopup() {
 async function clearReinscriptions() {
   try {
     const response = await $fetch("/api/reinscription?type=clear", {
-      method: "POST"
+      method: "POST",
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     messageColor.value = "success"

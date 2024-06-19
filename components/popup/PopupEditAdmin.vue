@@ -64,6 +64,23 @@
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
+            <!-- Reinscription -->
+            <v-col cols="12">
+              <h3>Reinscription</h3>
+            </v-col>
+            <v-col
+              v-for="(value, key) in AccessPermissions"
+              :key="key"
+              cols="12"
+              sm="6"
+            >
+              <v-checkbox
+                v-model="permissions[key]"
+                :model-value="value === 1 ? true : false"
+                :label="permissionNames[key]"
+                @update:model-value="permissions[key] = $event ? 1 : 0"
+              />
+            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
@@ -110,7 +127,8 @@ const permissionNames = {
   DeleteListGrimpeur: "Supprimer la liste des grimpeurs",
   DeleteListSeance: "Supprimer la liste des séances",
   DeleteListAdmin: "Supprimer la liste des admins",
-  DeleteListUtilisateur: "Supprimer la liste des utilisateurs"
+  DeleteListUtilisateur: "Supprimer la liste des utilisateurs",
+  AccessReinscription: "Accéder à la réinscription"
 }
 
 const open = (adminPermissions) => {
@@ -143,6 +161,11 @@ const updatePermissions = computed(() => {
 const deletePermissions = computed(() => {
   return Object.fromEntries(Object.entries(permissions.value).filter(([ key ]) => key.startsWith("Delete")))
 })
+
+const AccessPermissions = computed(() => {
+  return Object.fromEntries(Object.entries(permissions.value).filter(([ key ]) => key.startsWith("Access")))
+})
+
 </script>
 
 <style scoped>

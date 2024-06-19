@@ -39,12 +39,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 
 const store = useMainStore()
 const router = useRouter()
-const user = store.getUser
+const user = computed(() => store.getUser)
 
 const loading = ref(false)
 
@@ -52,11 +52,12 @@ const errorMessage = ref("")
 const issueMessage = ref("")
 
 onMounted(async () => {
-  if (user) {
+  if (user.value) {
     try {
       const response = await $fetch("/api/fetch?type=mailIsVerified", {
         method: "POST",
-        body: JSON.stringify({ mail: user.mail })
+        body: JSON.stringify({ mail: user.value.mail }),
+        headers: { Authorization: `Bearer ${user.value.token}` }
       })
 
       if (response.body.mailIsVerified === 1) {

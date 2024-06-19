@@ -86,7 +86,7 @@ async function fetchAdmin() {
   const [ rows ] = await connection.execute(`
     SELECT c.idCompte, c.mail, a.ReadListGrimpeur, a.ReadListSeance, a.ReadListAdmin, a.ReadListUtilisateur, 
             a.UpdateListGrimpeur, a.UpdateListSeance, a.UpdateListAdmin, a.UpdateListUtilisateur, 
-            a.DeleteListGrimpeur, a.DeleteListSeance, a.DeleteListAdmin, a.DeleteListUtilisateur
+            a.DeleteListGrimpeur, a.DeleteListSeance, a.DeleteListAdmin, a.DeleteListUtilisateur, a.AccessReinscription
     FROM Compte c
     LEFT JOIN Admin a ON c.idCompte = a.idAdmin
     WHERE a.idAdmin IS NOT NULL

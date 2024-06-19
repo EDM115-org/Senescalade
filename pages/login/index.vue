@@ -54,7 +54,8 @@ async function login(event) {
 
     const response = await $fetch("/api/fetch?type=isCompteAdmin", {
       method: "POST",
-      body: JSON.stringify({ idCompte: result.body.user.id })
+      body: JSON.stringify({ idCompte: result.body.user.id }),
+      headers: { Authorization: `Bearer ${result.body.token}` }
     })
 
     result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin, token: result.body.token }
@@ -66,7 +67,8 @@ async function login(event) {
       try {
         const response = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
-          body: JSON.stringify({ mail: result.body.user.mail })
+          body: JSON.stringify({ mail: result.body.user.mail }),
+          headers: { Authorization: `Bearer ${result.body.token}` }
         })
 
         if (response.body.mailIsVerified === 1) {
@@ -77,7 +79,8 @@ async function login(event) {
               method: "POST",
               body: JSON.stringify({
                 email: result.body.user.mail
-              })
+              }),
+              headers: { Authorization: `Bearer ${store.getUser.token}` }
             })
 
             router.push("/login/MailVerify")
@@ -110,7 +113,8 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
-          body: JSON.stringify({ mail: user.mail })
+          body: JSON.stringify({ mail: user.mail }),
+          headers: { Authorization: `Bearer ${user.token}` }
         })
 
         if (response.body.mailIsVerified === 1) {

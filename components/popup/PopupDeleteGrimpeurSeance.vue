@@ -61,7 +61,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { useMainStore } from "~/store/main"
+import { computed, ref } from "vue"
+
+const store = useMainStore()
+const user = computed(() => store.getUser)
 
 const isOpen = ref(false)
 const grimpeur = ref(null)
@@ -80,11 +84,14 @@ const open = async (grimpeurData) => {
       method: "POST",
       body: JSON.stringify({
         idGrimpeur: grimpeur.value.id
-      })
+      }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     if (result.body && result.body.idSeance) {
-      const response = await $fetch("/api/fetch?type=seance")
+      const response = await $fetch("/api/fetch?type=seance", {
+        headers: { Authorization: `Bearer ${user.value.token}` }
+      })
 
       seance.value = response.body[result.body.idSeance]
     } else {

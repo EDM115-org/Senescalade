@@ -35,7 +35,11 @@
 </template>
 
 <script setup>
+import { useMainStore } from "~/store/main"
 import { ref, computed } from "vue"
+
+const store = useMainStore()
+const user = computed(() => store.getUser)
 
 const isOpen = ref(false)
 const grimpeur = ref({
@@ -125,7 +129,8 @@ const open = async (grimpeurData) => {
       method: "POST",
       body: JSON.stringify({
         idGrimpeur: grimpeur.value.idGrimpeur
-      })
+      }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     if (result.body.length > 0) {

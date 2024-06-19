@@ -118,7 +118,8 @@ onMounted(async () => {
       try {
         const response = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
-          body: JSON.stringify({ mail: user.mail })
+          body: JSON.stringify({ mail: user.mail }),
+          headers: { Authorization: `Bearer ${user.token}` }
         })
 
         if (response.body.mailIsVerified === 1) {

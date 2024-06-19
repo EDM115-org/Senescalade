@@ -34,7 +34,7 @@ import { computed } from "vue"
 const store = useMainStore()
 const deleteDialog = ref(null)
 const mail = computed(() => store.getUser?.mail)
-const user = store.getUser
+const user = computed(() => store.getUser)
 const router = useRouter()
 
 const loading = ref(false)
@@ -42,11 +42,12 @@ const errorMessage = ref("")
 const issueMessage = ref("")
 
 onMounted(async () => {
-  if (user) {
+  if (user.value) {
     try {
       const response = await $fetch("/api/fetch?type=mailIsVerified", {
         method: "POST",
-        body: JSON.stringify({ mail: user.mail })
+        body: JSON.stringify({ mail: user.value.mail }),
+        headers: { Authorization: `Bearer ${user.value.token}` }
       })
 
       if (response.body.mailIsVerified === 1) {
@@ -68,7 +69,8 @@ const deleteUser = async (id) => {
   try {
     await $fetch("/api/delete?type=compte", {
       method: "DELETE",
-      body: { idCompte: id }
+      body: { idCompte: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     store.logout()

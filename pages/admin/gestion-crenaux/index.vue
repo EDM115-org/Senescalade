@@ -125,7 +125,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 import { jsPDF } from "jspdf"
 
@@ -140,7 +140,7 @@ definePageMeta({
 })
 
 const store = useMainStore()
-const user = store.getUser
+const user = computed(() => store.getUser)
 const router = useRouter()
 const loading = ref(false)
 const seances = ref([])
@@ -170,7 +170,8 @@ const headers = [
 try {
   const response = await $fetch("/api/fetch?type=adminPerms", {
     method: "POST",
-    body: JSON.stringify({ user })
+    body: JSON.stringify({ user: user.value }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
   if (response.body.UpdateListSeance === 1) {
@@ -189,7 +190,9 @@ try {
 const fetchSeance = async () => {
   loading.value = true
   try {
-    const result = await $fetch("/api/fetch?type=seance")
+    const result = await $fetch("/api/fetch?type=seance", {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
 
     seances.value = result.body
   } catch (error) {
@@ -202,7 +205,9 @@ const fetchSeance = async () => {
 }
 
 const fetchSeanceCount = async () => {
-  const result = await $fetch("/api/count?type=seance")
+  const result = await $fetch("/api/count?type=seance", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
 
   seanceCount.value = result.body.seanceCount
 }
@@ -211,7 +216,8 @@ const deleteSeance = async (id) => {
   try {
     await $fetch("/api/delete?type=seance", {
       method: "DELETE",
-      body: { idSeance: id }
+      body: { idSeance: id },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchSeance()
@@ -226,7 +232,8 @@ const updateSeance = async (seance) => {
   try {
     await $fetch("/api/update?type=seance", {
       method: "POST",
-      body: seance
+      body: seance,
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchSeance()
@@ -240,7 +247,8 @@ const createSeance = async (seance) => {
   try {
     await $fetch("/api/add?type=seance", {
       method: "POST",
-      body: seance
+      body: seance,
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     fetchSeance()
@@ -275,7 +283,8 @@ const exportGrimpeursPDF = async (idSeance) => {
   try {
     const result = await $fetch("/api/fetch?type=grimpeursForSeance", {
       method: "POST",
-      body: { idSeance }
+      body: { idSeance },
+      headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
     const grimpeurs = result.body
@@ -322,16 +331,15 @@ const generatePDF = (grimpeurs, seanceDetails) => {
 
 
 onMounted(async () => {
-  const user = store.getUser
-
-  if (user) {
-    if (!user.isAdmin) {
+  if (user.value) {
+    if (!user.value.isAdmin) {
       router.push("/user")
     } else {
       try {
         const response = await $fetch("/api/fetch?type=adminPerms", {
           method: "POST",
-          body: JSON.stringify({ user })
+          body: JSON.stringify({ user: user.value }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
         if (response.body.ReadListSeance !== 1) {
