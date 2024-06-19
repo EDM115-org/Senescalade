@@ -141,7 +141,7 @@ async function deleteGrimpeur(body, headers) {
             body: JSON.stringify({
               idCompte: grimpeurResponse.body.fkCompte
             }),
-            headers: { Authorization: headers.authorization
+            headers: { Authorization: headers.authorization }
           })
 
           await ofetch(`${base_url}/api/notifySeance`, {
