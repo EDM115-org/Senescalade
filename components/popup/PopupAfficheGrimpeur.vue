@@ -140,9 +140,6 @@ const open = async (grimpeurData) => {
     }
   } catch (error) {
     grimpeur.value.idSeance = null
-    // TODO
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
   }
 
   isOpen.value = true

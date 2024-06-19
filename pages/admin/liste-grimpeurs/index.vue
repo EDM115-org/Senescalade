@@ -200,7 +200,6 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  // TODO
   errorMessage.value = error.data.message
   issueMessage.value = error.data.statusMessage ?? ""
 }
@@ -214,7 +213,6 @@ const fetchGrimpeurs = async () => {
 
     grimpeurs.value = response.body
   } catch (error) {
-    // TODO
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   } finally {
