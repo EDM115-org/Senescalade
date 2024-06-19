@@ -259,7 +259,8 @@ const adminPermissions = (admin) => {
     "Suppression Grimpeur": admin.DeleteListGrimpeur,
     "Suppression Seance": admin.DeleteListSeance,
     "Suppression Admin": admin.DeleteListAdmin,
-    "Suppression Utilisateur": admin.DeleteListUtilisateur
+    "Suppression Utilisateur": admin.DeleteListUtilisateur,
+    "Access à la réinscription": admin.AccessReinscription
   }
 }
 

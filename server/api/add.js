@@ -65,7 +65,8 @@ async function addAdmin(body) {
     DeleteListGrimpeur,
     DeleteListSeance,
     DeleteListAdmin,
-    DeleteListUtilisateur
+    DeleteListUtilisateur,
+    AccessReinscription
   } = body
 
   try {
@@ -82,8 +83,8 @@ async function addAdmin(body) {
       `INSERT INTO Admin (
         idAdmin, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur,
         UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur,
-        DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, AccessReinscription
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         idCompte,
         ReadListGrimpeur,
@@ -97,7 +98,8 @@ async function addAdmin(body) {
         DeleteListGrimpeur,
         DeleteListSeance,
         DeleteListAdmin,
-        DeleteListUtilisateur
+        DeleteListUtilisateur,
+        AccessReinscription
       ]
     )
 
