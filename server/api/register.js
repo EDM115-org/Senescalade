@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
       throw createError({
         status: 500,
         message: "Erreur durant l'inscription de l'utilisateur",
-        statusMessage: err
+        statusMessage: JSON.stringify(err)
       })
     }
   } else {

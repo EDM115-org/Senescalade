@@ -85,7 +85,7 @@ async function updateAdmin(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de l'administrateur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -110,7 +110,7 @@ async function updateGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -219,7 +219,7 @@ async function updateSeance(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -242,7 +242,7 @@ async function updateGrimpeurIsExported() {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour de l'état exporté du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }

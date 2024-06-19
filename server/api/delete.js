@@ -75,7 +75,7 @@ async function deleteAdmin(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de l'administrateur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -99,7 +99,7 @@ async function deleteCompte(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression du compte",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -162,7 +162,7 @@ async function deleteGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression du grimpeur",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -230,7 +230,7 @@ async function deleteGrimpeurSeance(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de la relation entre le grimpeur et la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
@@ -254,7 +254,7 @@ async function deleteSeance(body) {
     throw createError({
       status: 500,
       message: "Échec de la suppression de la séance",
-      statusMessage: err
+      statusMessage: JSON.stringify(err)
     })
   }
 }
