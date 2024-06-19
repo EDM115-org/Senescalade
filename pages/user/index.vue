@@ -29,9 +29,20 @@
     >
       <v-btn
         color="secondary"
+        class="mr-2"
         variant="elevated"
       >
         modifier son profil
+      </v-btn>
+    </NuxtLink>
+    <NuxtLink
+      to="/user/cours"
+    >
+      <v-btn
+        color="secondary"
+        variant="elevated"
+      >
+        Voir les créneaux disponibles
       </v-btn>
     </NuxtLink>
     <CardUser />

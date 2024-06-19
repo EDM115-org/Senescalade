@@ -4,6 +4,13 @@
     class="fillheight"
   >
     <h1 class="text-center my-4">
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-arrow-left"
+        @click="goBack"
+      >
+        Retour
+      </v-btn>
       Ajouter un grimpeur
     </h1>
     <Error
@@ -489,6 +496,10 @@ onMounted(async () => {
     }
   })
 })
+
+function goBack() {
+  router.push("/user")
+}
 </script>
 
 <style scoped>

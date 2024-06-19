@@ -4,6 +4,13 @@
     class="fillheight"
   >
     <h1 class="text-center my-4">
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-arrow-left"
+        @click="goBack"
+      >
+        Retour
+      </v-btn>
       Vous êtes connecté {{ mail ?? "" }}
     </h1>
     <FormUpdatePassword />
@@ -92,5 +99,9 @@ const confirmDelete = (userToDelete) => {
 
 const handleDelete = (userToDelete) => {
   deleteUser(userToDelete)
+}
+
+function goBack() {
+  router.push("/user")
 }
 </script>
