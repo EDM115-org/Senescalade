@@ -194,7 +194,6 @@ async function fetchGrimpeurSeance(body) {
   let rows = []
   let idGrimpeur = null
 
-
   if (body !== undefined) {
     idGrimpeur = body.idGrimpeur
   }
@@ -204,6 +203,7 @@ async function fetchGrimpeurSeance(body) {
 
     rows = await connection.execute(query)
   } else {
+    console.log(idGrimpeur)
     const query = "SELECT idSeance FROM GrimpeurSeance WHERE idGrimpeur = ?"
 
     rows = await connection.execute(query, [ idGrimpeur ])
