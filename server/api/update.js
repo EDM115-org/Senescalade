@@ -66,12 +66,12 @@ export default defineEventHandler(async (event) => {
 })
 
 async function updateAdmin(body) {
-  const { idCompte, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur } = body
+  const { idCompte, ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, AccessReinscription } = body
 
   try {
     await connection.beginTransaction()
 
-    const [ rows ] = await connection.execute("UPDATE Admin SET ReadListGrimpeur = ?, ReadListSeance = ?, ReadListAdmin = ?, ReadListUtilisateur = ?, UpdateListGrimpeur = ?, UpdateListSeance = ?, UpdateListAdmin = ?, UpdateListUtilisateur = ?, DeleteListGrimpeur = ?, DeleteListSeance = ?, DeleteListAdmin = ?, DeleteListUtilisateur = ? WHERE idAdmin = ?", [ ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, idCompte ])
+    const [ rows ] = await connection.execute("UPDATE Admin SET ReadListGrimpeur = ?, ReadListSeance = ?, ReadListAdmin = ?, ReadListUtilisateur = ?, UpdateListGrimpeur = ?, UpdateListSeance = ?, UpdateListAdmin = ?, UpdateListUtilisateur = ?, DeleteListGrimpeur = ?, DeleteListSeance = ?, DeleteListAdmin = ?, DeleteListUtilisateur = ?, AccessReinscription = ? WHERE idAdmin = ?", [ ReadListGrimpeur, ReadListSeance, ReadListAdmin, ReadListUtilisateur, UpdateListGrimpeur, UpdateListSeance, UpdateListAdmin, UpdateListUtilisateur, DeleteListGrimpeur, DeleteListSeance, DeleteListAdmin, DeleteListUtilisateur, AccessReinscription, idCompte ])
 
     await connection.commit()
 
