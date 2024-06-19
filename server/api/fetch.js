@@ -194,6 +194,7 @@ async function fetchGrimpeurSeance(body) {
   let rows = []
   let idGrimpeur = null
 
+
   if (body !== undefined) {
     idGrimpeur = body.idGrimpeur
   }
@@ -207,18 +208,12 @@ async function fetchGrimpeurSeance(body) {
 
     rows = await connection.execute(query, [ idGrimpeur ])
     rows = rows[0]
+    console.log(rows[0])
   }
 
-  if (rows.length > 0) {
-    return {
-      status: 200,
-      body: rows[0]
-    }
-  } else {
-    throw createError({
-      status: 404,
-      message: "Aucune séance trouvée pour le grimpeur donné"
-    })
+  return {
+    status: 200,
+    body: rows[0]
   }
 }
 
