@@ -57,7 +57,7 @@ async function login(event) {
       body: JSON.stringify({ idCompte: result.body.user.id })
     })
 
-    result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin }
+    result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin, token: result.body.token }
     store.login(result.body.user, result.body.stayConnected)
 
     if (result.body.user.isAdmin === true) {

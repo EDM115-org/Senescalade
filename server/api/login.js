@@ -1,8 +1,10 @@
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 import mysql from "mysql2/promise"
 
 import { createError, defineEventHandler, readBody } from "h3"
 
+const JWT_SECRET = process.env.JWT_SECRET
 let connection = null
 
 try {
@@ -42,9 +44,15 @@ export default defineEventHandler(async (event) => {
 
         const isAdmin = adminRows.length > 0
 
+        const token = jwt.sign(
+          { id: user.idCompte, mail: user.mail, isAdmin },
+          JWT_SECRET,
+          { expiresIn: stayConnected ? "30d" : "1d" }
+        )
+
         return {
           status: 200,
-          body: { success: "Utilisateur connecté", user: { id: user.idCompte, mail: user.mail, isAdmin }, stayConnected }
+          body: { success: "Utilisateur connecté", token, user: { id: user.idCompte, mail: user.mail, isAdmin }, stayConnected }
         }
       } else {
         throw createError({
