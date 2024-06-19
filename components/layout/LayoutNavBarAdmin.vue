@@ -1,4 +1,10 @@
 <template>
+  <Error
+    v-if="errorMessage"
+    :issue="issueMessage"
+    :message="errorMessage"
+    :color="messageColor"
+  />
   <v-navigation-drawer
     v-model="drawer"
     color="secondary"
@@ -27,6 +33,8 @@ const store = useMainStore()
 const user = computed(() => store.getUser)
 
 const drawer = computed(() => store.getDisplayAdminMenu)
+const errorMessage = ref("")
+const issueMessage = ref("")
 
 function displayMenu() {
   store.setDisplayAdminMenu(!store.getDisplayAdminMenu)
@@ -61,7 +69,6 @@ try {
     items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
   }
 } catch (error) {
-  // TODO
   errorMessage.value = error.data.message
   issueMessage.value = error.data.statusMessage ?? ""
 }

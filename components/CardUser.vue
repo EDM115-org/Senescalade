@@ -165,7 +165,6 @@ async function fetchGrimpeurs() {
 
     grimpeurs.value = data.body
   } catch (error) {
-    // TODO
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   } finally {
