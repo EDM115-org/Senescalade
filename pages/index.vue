@@ -1,13 +1,13 @@
 <template>
-  <Error
-    v-if="errorMessage"
-    :issue="issueMessage"
-    :message="errorMessage"
-    :color="messageColor"
-  />
   <v-container
     class="fill-height"
   >
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+      :color="messageColor"
+    />
     <v-row
       align="center"
       align-content="center"
