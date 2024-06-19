@@ -145,6 +145,7 @@ import { useMainStore } from "~/store/main"
 import { computed, ref, onMounted } from "vue"
 
 const store = useMainStore()
+const router = useRouter()
 const user = computed(() => store.getUser)
 const grimpeurs = ref([])
 const deleteDialog = ref(false)
@@ -250,7 +251,7 @@ const formatBirthDate = (dateString) => {
 }
 
 async function reinscription(grimpeur) {
-  console.log("Reinscription:", grimpeur)
+  router.push(`/user/reinscription?grimpeur=${grimpeur.idGrimpeur}`)
 }
 </script>
   <style scoped>
