@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
 
   const query = getQuery(event)
   const { type } = query
+  const headers = event.node.req.headers
 
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
@@ -40,7 +41,7 @@ export default defineEventHandler(async (event) => {
       case "password":
         return await updatePassword(body)
       case "seance":
-        return await updateSeance(body)
+        return await updateSeance(body, headers)
       default:
         throw createError({
           status: 400,
@@ -163,7 +164,7 @@ async function updatePassword(body) {
   }
 }
 
-async function updateSeance(body) {
+async function updateSeance(body, headers) {
   const { idSeance, jour, heureDebutSeance, heureFinSeance, typeSeance, niveau, nbPlaces, nbPlacesRestantes, professeur } = body
 
   try {
@@ -195,7 +196,8 @@ async function updateSeance(body) {
               method: "POST",
               body: JSON.stringify({
                 email: compte.mail
-              })
+              }),
+              headers: { Authorization: headers.authorization }
             })
           }
         }
