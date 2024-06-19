@@ -63,7 +63,7 @@
                 class="no-padding-btn mt-3"
               >
                 <v-tooltip
-                  v-if="reinscriptionOpen"
+                  v-if="reinscriptionOpen && grimpeur.asSeance"
                   bottom
                 >
                   <template #activator="{ on }">
@@ -225,9 +225,25 @@ onMounted(async () => {
               }
             }
           }
+          try {
+            const response = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+              method: "POST",
+              body: JSON.stringify({ idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur }),
+              headers: { Authorization: `Bearer ${user.value.token}` }
+            })
+
+            // si reponse.body n'es pas vide
+            if (response.body.length > 0) {
+              grimpeurs.value[grimpeur].asSeance = false
+            } else {
+              grimpeurs.value[grimpeur].asSeance = true
+            }
+          } catch (error) {
+            errorMessage.value = error.data.message
+            issueMessage.value = error.data.statusMessage ?? ""
+          }
         }
       } catch (error) {
-        // TODO
         errorMessage.value = error.data.message
         issueMessage.value = error.data.statusMessage ?? ""
       }

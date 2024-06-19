@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
       throw createError({
         status: 500,
         message: "Échec de l'envoi de l'email de séance",
-        statusMessage: JSON.stringify(err)
+        statusMessage: JSON.stringify(error)
       })
     }
   } else {

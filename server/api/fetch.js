@@ -62,6 +62,8 @@ export default defineEventHandler(async (event) => {
         return await fetchIsCompteAdmin(body)
       case "mailIsVerified":
         return await fetchMailIsVerified(body)
+      case "grimpeurAsSeance":
+        return await fetchGrimpeurAsSeance(body)
       case "grimpeur":
         return await fetchGrimpeurPost(body)
       case "grimpeurSeance":
@@ -244,6 +246,27 @@ async function fetchMailIsVerified(body) {
       status: 404,
       message: "Aucun compte trouvé pour le mail donné"
     })
+  }
+}
+
+async function fetchGrimpeurAsSeance(body) {
+  const { idGrimpeur } = body
+
+  if (!idGrimpeur) {
+    throw createError({
+      status: 400,
+      message: "L'ID du grimpeur est requis"
+    })
+  }
+
+  const query = "SELECT * FROM GrimpeurSeance WHERE idGrimpeur = ?"
+  const [ rows ] = await connection.execute(query, [ idGrimpeur ])
+
+  console.log("rows " + rows)
+
+  return {
+    status: 200,
+    body: rows
   }
 }
 
