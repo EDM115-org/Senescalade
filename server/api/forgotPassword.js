@@ -38,13 +38,19 @@ export default defineEventHandler(async (event) => {
     const { type } = query
 
     switch (type) {
-      case "mail":
-        return await handleMailRequest(body)
-      case "code":
-        return await handleCodeRequest(body)
-      case "password":
-        return await handlePasswordRequest(body)
-      default:
+      case "mail": {
+        const apiRequest1 = await handleMailRequest(body)
+
+        return apiRequest1
+      } case "code": {
+        const apiRequest2 = await handleCodeRequest(body)
+
+        return apiRequest2
+      } case "password": {
+        const apiRequest3 = await handlePasswordRequest(body)
+
+        return apiRequest3
+      } default:
         throw createError({
           status: 400,
           message: "Type d'entité non pris en charge"

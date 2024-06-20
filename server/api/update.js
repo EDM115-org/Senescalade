@@ -34,15 +34,23 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     switch (type) {
-      case "admin":
-        return await updateAdmin(body)
-      case "grimpeur":
-        return await updateGrimpeur(body)
-      case "password":
-        return await updatePassword(body)
-      case "seance":
-        return await updateSeance(body, headers)
-      default:
+      case "admin": {
+        const apiRequest1 = await updateAdmin(body)
+
+        return apiRequest1
+      } case "grimpeur": {
+        const apiRequest2 = await updateGrimpeur(body)
+
+        return apiRequest2
+      } case "password": {
+        const apiRequest3 = await updatePassword(body)
+
+        return apiRequest3
+      } case "seance": {
+        const apiRequest4 = await updateSeance(body, headers)
+
+        return apiRequest4
+      } default:
         throw createError({
           status: 400,
           message: "Type de mise à jour non pris en charge"
@@ -50,9 +58,11 @@ export default defineEventHandler(async (event) => {
     }
   } else if (event.node.req.method === "PUT") {
     switch (type) {
-      case "grimpeurIsExported":
-        return await updateGrimpeurIsExported()
-      default:
+      case "grimpeurIsExported": {
+        const apiRequest = await updateGrimpeurIsExported()
+
+        return apiRequest
+      } default:
         throw createError({
           status: 400,
           message: "Type de mise à jour non pris en charge"

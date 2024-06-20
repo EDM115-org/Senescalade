@@ -28,21 +28,35 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "GET") {
     switch (type) {
-      case "admin":
-        return await countAdmin()
-      case "compte":
-        return await countCompte()
-      case "grimpeur":
-        return await countGrimpeur()
-      case "nonPaye":
-        return await countNonPaye()
-      case "seance":
-        return await countSeance()
-      case "isExported":
-        return await countIsExported()
-      case "isFileDAttente":
-        return await countFileDAttente()
-      default:
+      case "admin": {
+        const apiRequest1 = await countAdmin()
+
+        return apiRequest1
+      } case "compte": {
+        const apiRequest2 = await countCompte()
+
+        return apiRequest2
+      } case "grimpeur": {
+        const apiRequest3 = await countGrimpeur()
+
+        return apiRequest3
+      } case "nonPaye": {
+        const apiRequest4 = await countNonPaye()
+
+        return apiRequest4
+      } case "seance": {
+        const apiRequest5 = await countSeance()
+
+        return apiRequest5
+      } case "isExported": {
+        const apiRequest6 = await countIsExported()
+
+        return apiRequest6
+      } case "isFileDAttente": {
+        const apiRequest7 = await countFileDAttente()
+
+        return apiRequest7
+      } default:
         throw createError({
           status: 400,
           message: "Type de comptage non pris en charge"

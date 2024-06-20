@@ -28,23 +28,39 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "GET") {
     switch (type) {
-      case "admin":
-        return await fetchAdmin()
-      case "compte":
-        return await fetchCompte()
-      case "grimpeur":
-        return await fetchGrimpeur(id)
-      case "grimpeurSeance":
-        return await fetchGrimpeurSeance()
-      case "seance":
-        return await fetchSeance()
-      case "csv":
-        return await exportGrimpeursToCSV()
-      case "reinscription":
-        return await fetchReinscription()
-      case "getInfo":
-        return await getInfo()
-      default:
+      case "admin": {
+        const apiRequest1 = await fetchAdmin()
+
+        return apiRequest1
+      } case "compte": {
+        const apiRequest2 = await fetchCompte()
+
+        return apiRequest2
+      } case "grimpeur": {
+        const apiRequest3 = await fetchGrimpeur(id)
+
+        return apiRequest3
+      } case "grimpeurSeance": {
+        const apiRequest4 = await fetchGrimpeurSeance()
+
+        return apiRequest4
+      } case "seance": {
+        const apiRequest5 = await fetchSeance()
+
+        return apiRequest5
+      } case "csv": {
+        const apiRequest6 = await exportGrimpeursToCSV()
+
+        return apiRequest6
+      } case "reinscription": {
+        const apiRequest7 = await fetchReinscription()
+
+        return apiRequest7
+      } case "getInfo": {
+        const apiRequest8 = await getInfo()
+
+        return apiRequest8
+      } default:
         throw createError({
           status: 400,
           message: "Type de récupération non pris en charge"
@@ -54,23 +70,39 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     switch (type) {
-      case "adminPerms":
-        return await fetchAdminPerms(body)
-      case "compte":
-        return await fetchComptePost(body)
-      case "isCompteAdmin":
-        return await fetchIsCompteAdmin(body)
-      case "mailIsVerified":
-        return await fetchMailIsVerified(body)
-      case "grimpeurAsSeance":
-        return await fetchGrimpeurAsSeance(body)
-      case "grimpeur":
-        return await fetchGrimpeurPost(body)
-      case "grimpeurSeance":
-        return await fetchGrimpeurSeance(body)
-      case "grimpeursForSeance":
-        return await fetchGrimpeursForSeance(body)
-      default:
+      case "adminPerms": {
+        const apiRequest1 = await fetchAdminPerms(body)
+
+        return apiRequest1
+      } case "compte": {
+        const apiRequest2 = await fetchComptePost(body)
+
+        return apiRequest2
+      } case "isCompteAdmin": {
+        const apiRequest3 = await fetchIsCompteAdmin(body)
+
+        return apiRequest3
+      } case "mailIsVerified": {
+        const apiRequest4 = await fetchMailIsVerified(body)
+
+        return apiRequest4
+      } case "grimpeurAsSeance": {
+        const apiRequest5 = await fetchGrimpeurAsSeance(body)
+
+        return apiRequest5
+      } case "grimpeur": {
+        const apiRequest6 = await fetchGrimpeurPost(body)
+
+        return apiRequest6
+      } case "grimpeurSeance": {
+        const apiRequest7 = await fetchGrimpeurSeance(body)
+
+        return apiRequest7
+      } case "grimpeursForSeance": {
+        const apiRequest8 = await fetchGrimpeursForSeance(body)
+
+        return apiRequest8
+      } default:
         throw createError({
           status: 400,
           message: "Type de récupération non pris en charge"

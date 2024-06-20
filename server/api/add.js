@@ -30,15 +30,23 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     switch (type) {
-      case "admin":
-        return await addAdmin(body)
-      case "grimpeur":
-        return await addGrimpeur(body)
-      case "grimpeurSeance":
-        return await addGrimpeurSeance(body)
-      case "seance":
-        return await addSeance(body)
-      default:
+      case "admin": {
+        const apiRequest1 = await addAdmin(body)
+
+        return apiRequest1
+      } case "grimpeur": {
+        const apiRequest2 = await addGrimpeur(body)
+
+        return apiRequest2
+      } case "grimpeurSeance": {
+        const apiRequest3 = await addGrimpeurSeance(body)
+
+        return apiRequest3
+      } case "seance": {
+        const apiRequest4 = await addSeance(body)
+
+        return apiRequest4
+      } default:
         throw createError({
           status: 400,
           message: "Type d'ajout non pris en charge"

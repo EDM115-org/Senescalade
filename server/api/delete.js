@@ -33,17 +33,27 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     switch (type) {
-      case "admin":
-        return await deleteAdmin(body)
-      case "compte":
-        return await deleteCompte(body)
-      case "grimpeur":
-        return await deleteGrimpeur(body, headers)
-      case "grimpeurSeance":
-        return await deleteGrimpeurSeance(body, headers)
-      case "seance":
-        return await deleteSeance(body)
-      default:
+      case "admin": {
+        const apiRequest1 = await deleteAdmin(body)
+
+        return apiRequest1
+      } case "compte": {
+        const apiRequest2 = await deleteCompte(body)
+
+        return apiRequest2
+      } case "grimpeur": {
+        const apiRequest3 = await deleteGrimpeur(body, headers)
+
+        return apiRequest3
+      } case "grimpeurSeance": {
+        const apiRequest4 = await deleteGrimpeurSeance(body, headers)
+
+        return apiRequest4
+      } case "seance": {
+        const apiRequest5 = await deleteSeance(body)
+
+        return apiRequest5
+      } default:
         throw createError({
           status: 400,
           message: "Type de suppression non pris en charge"

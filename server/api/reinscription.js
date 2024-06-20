@@ -38,13 +38,19 @@ export default defineEventHandler(async (event) => {
 
   if (event.node.req.method === "POST") {
     switch (type) {
-      case "update":
-        return await updateReinscription(body)
-      case "open":
-        return await openReinscription(body)
-      case "clear":
-        return await clearReinscription()
-      default:
+      case "update": {
+        const apiRequest1 = await updateReinscription(body)
+
+        return apiRequest1
+      } case "open": {
+        const apiRequest2 = await openReinscription(body)
+
+        return apiRequest2
+      } case "clear": {
+        const apiRequest3 = await clearReinscription()
+
+        return apiRequest3
+      } default:
         throw createError({
           status: 400,
           message: "Type de réinscription non pris en charge"
