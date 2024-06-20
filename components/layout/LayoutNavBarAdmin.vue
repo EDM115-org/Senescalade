@@ -8,6 +8,7 @@
   <v-navigation-drawer
     v-model="drawer"
     color="secondary"
+    elevation="6"
     @update:model-value="displayMenu"
   >
     <v-list>
@@ -66,7 +67,7 @@ try {
   }
 
   if (response.body.AccessReinscription === 1) {
-    items.push({ text: "Gestion Réinscription", to: "/admin/reinscription" })
+    items.push({ text: "Gestion réinscription", to: "/admin/reinscription" })
   }
 } catch (error) {
   errorMessage.value = error.data.message

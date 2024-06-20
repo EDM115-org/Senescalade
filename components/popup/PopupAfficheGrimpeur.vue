@@ -24,11 +24,10 @@
       <v-card-actions>
         <v-btn
           color="error"
+          text="Fermer"
           variant="elevated"
           @click="close"
-        >
-          Fermer
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

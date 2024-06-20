@@ -19,12 +19,11 @@
       >
         <v-btn
           color="secondary"
+          text="Se connecter"
           type="submit"
           variant="elevated"
           @click="$router.push('/login')"
-        >
-          Se connecter
-        </v-btn>
+        />
       </v-col>
     </v-row>
   </v-container>

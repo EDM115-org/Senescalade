@@ -22,12 +22,11 @@
       >
         <v-btn
           color="secondary"
+          text="S'inscrire"
           type="submit"
           variant="elevated"
           @click="$router.push('/register')"
-        >
-          S'inscrire
-        </v-btn>
+        />
       </v-col>
     </v-row>
   </v-container>

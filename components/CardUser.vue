@@ -61,42 +61,26 @@
                 cols="12"
                 class="pa-0 mt-3"
               >
-                <v-tooltip
+                <v-btn
                   v-if="reinscriptionOpen && grimpeur.asSeance"
-                  bottom
-                >
-                  <template #activator="{ on }">
-                    <v-btn
-                      color="warning"
-                      icon
-                      v-bind="on"
-                      @click.prevent="reinscription(grimpeur)"
-                    >
-                      <span>Réinscription</span>
-                      <v-icon>mdi-account-arrow-left</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Réinscrire le grimpeur à une nouvelle session</span>
-                </v-tooltip>
+                  color="warning"
+                  prepend-icon="mdi-account-arrow-left"
+                  text="Réinscription"
+                  size="xl"
+                  @click.prevent="reinscription(grimpeur)"
+                />
               </v-col>
               <v-col
                 cols="12"
                 class="pa-0 mb-3"
               >
-                <v-tooltip bottom>
-                  <template #activator="{ on }">
-                    <v-btn
-                      color="error"
-                      icon
-                      v-bind="on"
-                      @click.prevent="deleteDialog = true"
-                    >
-                      <span>Supprimer</span>
-                      <v-icon>mdi-delete-outline</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Supprimer ce grimpeur de la base de données</span>
-                </v-tooltip>
+                <v-btn
+                  color="error"
+                  prepend-icon="mdi-delete-outline"
+                  text="Supprimer"
+                  size="xl"
+                  @click.prevent="deleteDialog = true"
+                />
               </v-col>
             </v-row>
           </v-card-actions>
@@ -121,11 +105,10 @@
         <v-card-actions>
           <v-btn
             color="error"
+            text="Fermer"
             variant="elevated"
             @click="deleteDialog = false"
-          >
-            Fermer
-          </v-btn>
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>

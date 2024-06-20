@@ -17,11 +17,11 @@
           md="4"
           class="text-center"
         >
-          <p>Date de réinscription pour les inscrits</p>
           <v-date-picker
             v-model="datesForm.dateReinscriptionIsInscrit"
-            required
             class="mx-auto"
+            color="success"
+            title="Date de réinscription pour les inscrits"
           />
         </v-col>
         <v-col
@@ -29,11 +29,11 @@
           md="4"
           class="text-center"
         >
-          <p>Date de réinscription pour tous</p>
           <v-date-picker
             v-model="datesForm.dateReinscriptionEveryone"
-            required
             class="mx-auto"
+            color="success"
+            title="Date de réinscription pour tous"
           />
         </v-col>
         <v-col
@@ -41,11 +41,11 @@
           md="4"
           class="text-center"
         >
-          <p>Date de fin de réinscription</p>
           <v-date-picker
             v-model="datesForm.dateFinReinscription"
-            required
             class="mx-auto"
+            color="success"
+            title="Date de fin de réinscription"
           />
         </v-col>
         <v-col
@@ -54,10 +54,9 @@
         >
           <v-btn
             color="primary"
+            text="Modifier les dates"
             type="submit"
-          >
-            Modifier les dates
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-form>
@@ -65,7 +64,7 @@
     <v-row justify="center">
       <v-col
         cols="12"
-        md="4"
+        md="3"
         class="d-flex justify-center"
       >
         <v-checkbox
@@ -74,19 +73,16 @@
           @change="submitOpenForm"
         />
       </v-col>
-    </v-row>
-
-    <v-row>
       <v-col
         cols="12"
-        class="text-center"
+        md="3"
+        class="d-flex justify-center"
       >
         <v-btn
           color="error"
+          text="Lancer la réinscription"
           @click="openClearPopup"
-        >
-          Lancer la réinscription
-        </v-btn>
+        />
       </v-col>
     </v-row>
     <PopupClearSeanceGrimpeur

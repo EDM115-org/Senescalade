@@ -59,19 +59,17 @@
       <v-card-actions>
         <v-btn
           color="error"
+          text="Annuler"
           variant="elevated"
           @click="close"
-        >
-          Annuler
-        </v-btn>
+        />
         <v-btn
           color="accent"
+          :text="isEdit ? 'Sauvegarder' : 'Ajouter'"
           variant="elevated"
           :disabled="!valid"
           @click="confirmEdit"
-        >
-          {{ isEdit ? "Sauvegarder" : "Ajouter" }}
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

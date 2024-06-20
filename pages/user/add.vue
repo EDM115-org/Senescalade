@@ -11,7 +11,7 @@
       >
         Retour
       </v-btn>
-      Ajouter un grimpeur
+      Inscrire un grimpeur
     </h1>
     <Error
       v-if="errorMessage"
@@ -211,7 +211,7 @@
             <v-btn
               :disabled="!aPaye"
               color="success"
-              text="Ajouter un grimpeur"
+              text="Inscription"
               variant="elevated"
               @click="adduser"
             />

@@ -13,38 +13,34 @@
       :issue="issueMessage"
       :message="errorMessage"
     />
-    <NuxtLink
-      to="/user/add"
-    >
-      <v-btn
-        color="secondary"
-        class="mr-2"
-        variant="elevated"
+    <v-row justify="center">
+      <v-col
+        cols="12"
+        md="6"
+        class="text-center"
       >
-        Ajouter un grimpeur
-      </v-btn>
-    </NuxtLink>
-    <NuxtLink
-      to="/user/profil"
-    >
-      <v-btn
-        color="secondary"
-        class="mr-2"
-        variant="elevated"
-      >
-        modifier son profil
-      </v-btn>
-    </NuxtLink>
-    <NuxtLink
-      to="/user/cours"
-    >
-      <v-btn
-        color="secondary"
-        variant="elevated"
-      >
-        Voir les créneaux disponibles
-      </v-btn>
-    </NuxtLink>
+        <NuxtLink
+          to="/user/add"
+        >
+          <v-btn
+            color="success"
+            class="mr-2"
+            text="Inscrire un grimpeur"
+            variant="elevated"
+          />
+        </NuxtLink>
+        <NuxtLink
+          to="/user/profil"
+        >
+          <v-btn
+            color="secondary"
+            class="mr-2"
+            text="Modifier son profil"
+            variant="elevated"
+          />
+        </NuxtLink>
+      </v-col>
+    </v-row>
     <CardUser />
   </v-container>
 </template>

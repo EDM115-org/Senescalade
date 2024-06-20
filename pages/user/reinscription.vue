@@ -4,7 +4,7 @@
     class="fillheight"
   >
     <h1 class="text-center my-4">
-      Ajouter un grimpeur
+      Réinscription du grimpeur
     </h1>
     <Error
       v-if="errorMessage"
@@ -44,12 +44,12 @@
             <p class="text-center mt-4 mx-4">
               Tous les créneaux sont complets.<br>
               Vous pouvez selectionner un des créneaux complets, et vous serez mis sur liste d'attente. Nous vous enverrons un email si une place se libère, de manière à ce que vous puissiez vous inscrire.<br>
-              Si cela ne vous convient pas, annulez l'inscription du grimpeur en cliquant sur le bouton ci-dessous.
+              Si cela ne vous convient pas, annulez la réinscription du grimpeur en cliquant sur le bouton ci-dessous.
             </p>
             <v-btn
               class="d-flex mx-auto mt-4"
               color="error"
-              text="Annuler l'inscription"
+              text="Annuler la réinscription"
               variant="elevated"
               @click="$router.push('/user')"
             />
@@ -82,7 +82,7 @@
           value="2"
         >
           <h2 class="text-center">
-            Vous devez payer {{ calculatePrice() }}€ pour l'inscription de votre grimpeur.
+            Vous devez payer {{ calculatePrice() }}€ pour la réinscription de votre grimpeur.
           </h2>
           <p class="text-center">
             Si vous faites de la compétition, ajoutez 40€ au prix ci-dessus.<br>
@@ -107,7 +107,7 @@
             <v-btn
               :disabled="!aPaye"
               color="success"
-              text="Ajouter un grimpeur"
+              text="Réinscription"
               variant="elevated"
               @click="addGrimpeurSeance"
             />

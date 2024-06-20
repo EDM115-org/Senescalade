@@ -3,12 +3,12 @@
     <h1 class="text-center mt-5 mb-5">
       <v-btn
         color="primary"
+        class="mr-2"
         prepend-icon="mdi-arrow-left"
-        @click="goBack"
-      >
-        Retour
-      </v-btn>
-      Créneaux Disponibles
+        text="Retour"
+        @click="$router.push('/')"
+      />
+      Séances
     </h1>
 
     <Error
@@ -20,34 +20,37 @@
       <v-col>
         <v-btn
           color="secondary"
+          text="Tous"
+          @click="filterSeances('Tous')"
+        />
+      </v-col>
+      <v-col>
+        <v-btn
+          color="secondary"
+          text="Adultes"
           @click="filterSeances('Adultes')"
-        >
-          Adultes
-        </v-btn>
+        />
       </v-col>
       <v-col>
         <v-btn
           color="secondary"
+          text="Jeunes"
           @click="filterSeances('Jeunes')"
-        >
-          Jeunes
-        </v-btn>
+        />
       </v-col>
       <v-col>
         <v-btn
           color="secondary"
+          text="Competition"
           @click="filterSeances('Competition')"
-        >
-          Compétition
-        </v-btn>
+        />
       </v-col>
       <v-col>
         <v-btn
           color="secondary"
+          text="Babygrimpe"
           @click="filterSeances('Babygrimpe')"
-        >
-          BabyGrimpe
-        </v-btn>
+        />
       </v-col>
     </v-row>
     <v-row v-if="filteredSeances.length">
@@ -58,13 +61,11 @@
         md="6"
       >
         <v-card class="mb-3">
-          <v-card-title>{{ seance.typeSeance }} - {{ seance.jour }}</v-card-title>
-          <v-card-subtitle>{{ seance.professeur }}</v-card-subtitle>
+          <v-card-title>{{ seance.typeSeance }} {{ seance.niveau ? `(${seance.niveau})` : "" }} - {{ seance.jour }}</v-card-title>
           <v-card-text>
-            <div>Heure: {{ seance.heureDebutSeance }} - {{ seance.heureFinSeance }}</div>
-            <div>Nombre de places: {{ seance.nbPlaces }}</div>
-            <div>Places restantes: {{ seance.nbPlacesRestantes }}</div>
-            <div>Niveau: {{ seance.niveau || 'Tous niveaux' }}</div>
+            Horaires : {{ seance.heureDebutSeance }} - {{ seance.heureFinSeance }}<br>
+            Nombre de places : {{ seance.nbPlaces }}<br>
+            Places restantes : {{ seance.nbPlacesRestantes }}
           </v-card-text>
         </v-card>
       </v-col>
@@ -78,38 +79,19 @@
 </template>
 
 <script setup>
-import { useMainStore } from "~/store/main"
-import { computed, onMounted, ref } from "vue"
-
-const store = useMainStore()
-const router = useRouter()
-const user = computed(() => store.getUser)
+import { onMounted, ref } from "vue"
 
 const seances = ref([])
 const filteredSeances = ref([])
-const loading = ref(false)
 const errorMessage = ref("")
 const issueMessage = ref("")
 
 onMounted(async () => {
-  if (!user.value) {
-    return router.push("/login")
-  }
-
   try {
-    const response = await $fetch("/api/fetch?type=seance", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${user.value.token}` }
-    })
+    const response = await $fetch("/api/fetch?type=seance")
 
-    if (response.status === 200) {
-      seances.value = response.body
-      filteredSeances.value = response.body
-      loading.value = true
-    } else {
-      errorMessage.value = response.body.error || "Erreur lors de la récupération des créneaux."
-      issueMessage.value = response.body.message || ""
-    }
+    seances.value = response.body
+    filteredSeances.value = response.body
   } catch (error) {
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
@@ -117,15 +99,13 @@ onMounted(async () => {
 })
 
 function filterSeances(category) {
-  if (category === "Competition") {
+  if (category === "Tous") {
+    filteredSeances.value = seances.value
+  } else if (category === "Competition") {
     filteredSeances.value = seances.value.filter((seance) => seance.niveau === "Compétition")
   } else {
     filteredSeances.value = seances.value.filter((seance) => seance.typeSeance === category)
   }
-}
-
-function goBack() {
-  router.push("/user")
 }
 </script>
 

@@ -23,7 +23,6 @@
             :error-messages="code$.code.$errors.map(e => e.$message)"
             class="input-field mx-auto"
             label="Code de vérification"
-            required
             maxlength="6"
             @blur="code$.code.$touch"
             @input="code$.code.$touch"
@@ -38,11 +37,10 @@
           <v-btn
             :disabled="code$.$invalid"
             color="secondary"
+            text="Vérifier"
             type="submit"
             variant="elevated"
-          >
-            Vérifier
-          </v-btn>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -52,11 +50,10 @@
         >
           <v-btn
             color="primary"
+            text="Renvoyer le mail de vérification"
             variant="elevated"
             @click="resendVerificationMail"
-          >
-            Renvoyer le mail de vérification
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-form>

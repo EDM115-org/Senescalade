@@ -14,18 +14,14 @@
       <v-card-actions>
         <v-btn
           color="primary"
-          text
+          text="Annuler"
           @click="close"
-        >
-          Annuler
-        </v-btn>
+        />
         <v-btn
           color="success"
-          text
+          text="Confirmer"
           @click="clearReinscriptions"
-        >
-          Confirmer
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

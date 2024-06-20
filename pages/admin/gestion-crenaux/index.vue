@@ -5,118 +5,116 @@
       :issue="issueMessage"
       :message="errorMessage"
     />
-    <div>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              <v-row>
-                <v-col>
-                  <h2>Gestion des séances</h2>
-                </v-col>
-                <v-spacer />
-                <v-col
-                  class="d-flex justify-sm-end"
-                >
-                  <v-btn
-                    color="success"
-                    icon="mdi-calendar-plus-outline"
-                    variant="elevated"
-                    @click="editSeance(null)"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <p>Nombre total de séances : {{ seanceCount }}</p>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text>
-              <v-skeleton-loader
-                v-if="loading"
-                type="heading, table-tbody"
-              />
-              <v-table v-else>
-                <thead>
-                  <tr>
-                    <th
-                      v-for="header in headers"
-                      :key="header.text"
-                      :style="{ width: header.width }"
-                      class="text-center"
-                    >
-                      {{ header.text }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="seance in seances"
-                    :key="seance.idSeance"
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <v-row>
+              <v-col>
+                <h2>Gestion des séances</h2>
+              </v-col>
+              <v-spacer />
+              <v-col
+                class="d-flex justify-sm-end"
+              >
+                <v-btn
+                  color="success"
+                  icon="mdi-calendar-plus-outline"
+                  variant="elevated"
+                  @click="editSeance(null)"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <p>Nombre total de séances : {{ seanceCount }}</p>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-skeleton-loader
+              v-if="loading"
+              type="heading, table-tbody"
+            />
+            <v-table v-else>
+              <thead>
+                <tr>
+                  <th
+                    v-for="header in headers"
+                    :key="header.text"
+                    :style="{ width: header.width }"
+                    class="text-center"
                   >
-                    <td class="text-center">
-                      {{ seance.idSeance }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.jour }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.heureDebutSeance }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.heureFinSeance }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.typeSeance }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.niveau }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.nbPlaces }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.nbPlacesRestantes }}
-                    </td>
-                    <td class="text-center">
-                      {{ seance.professeur }}
-                    </td>
-                    <td class="d-flex justify-center align-center text-center">
-                      <v-btn
-                        v-if="isPermEdit"
-                        color="accent"
-                        class="mr-2"
-                        icon="mdi-calendar-edit-outline"
-                        size="small"
-                        variant="elevated"
-                        @click="editSeance(seance)"
-                      />
-                      <v-btn
-                        v-if="isPermDelete"
-                        color="error"
-                        class="mr-2"
-                        icon="mdi-calendar-remove-outline"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="confirmDelete(seance)"
-                      />
-                      <v-btn
-                        color="secondary"
-                        icon="mdi-file-pdf-box"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="exportGrimpeursPDF(seance.idSeance)"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                    {{ header.text }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="seance in seances"
+                  :key="seance.idSeance"
+                >
+                  <td class="text-center">
+                    {{ seance.idSeance }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.jour }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.heureDebutSeance }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.heureFinSeance }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.typeSeance }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.niveau }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.nbPlaces }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.nbPlacesRestantes }}
+                  </td>
+                  <td class="text-center">
+                    {{ seance.professeur }}
+                  </td>
+                  <td class="d-flex justify-center align-center text-center">
+                    <v-btn
+                      v-if="isPermEdit"
+                      color="accent"
+                      class="mr-2"
+                      icon="mdi-calendar-edit-outline"
+                      size="small"
+                      variant="elevated"
+                      @click="editSeance(seance)"
+                    />
+                    <v-btn
+                      v-if="isPermDelete"
+                      color="error"
+                      class="mr-2"
+                      icon="mdi-calendar-remove-outline"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="confirmDelete(seance)"
+                    />
+                    <v-btn
+                      color="secondary"
+                      icon="mdi-file-pdf-box"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="exportGrimpeursPDF(seance.idSeance)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <PopupDeleteSeance
       ref="deleteDialog"
       @confirm-delete="handleDelete"

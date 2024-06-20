@@ -5,74 +5,72 @@
       :issue="issueMessage"
       :message="errorMessage"
     />
-    <div>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              <h2>Gestion des utilisateurs</h2>
-              <v-row>
-                <v-col>
-                  <p>Nombre total d'utilisateurs : {{ userCount }}</p>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text>
-              <v-table>
-                <thead>
-                  <tr>
-                    <th
-                      class="text-center"
-                      style="width: 33%;"
-                    >
-                      Id
-                    </th>
-                    <th
-                      class="text-center"
-                      style="width: 33%;"
-                    >
-                      Email
-                    </th>
-                    <th
-                      v-if="isPermDelete"
-                      class="text-center"
-                      style="width: 34%;"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="theUser in users"
-                    :key="theUser.idCompte"
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <h2>Gestion des utilisateurs</h2>
+            <v-row>
+              <v-col>
+                <p>Nombre total d'utilisateurs : {{ userCount }}</p>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-table>
+              <thead>
+                <tr>
+                  <th
+                    class="text-center"
+                    style="width: 33%;"
                   >
-                    <td class="text-center">
-                      {{ theUser.idCompte }}
-                    </td>
-                    <td class="text-center">
-                      {{ theUser.mail }}
-                    </td>
-                    <td
-                      v-if="isPermDelete"
-                      class="d-flex justify-center align-center text-center"
-                    >
-                      <v-btn
-                        color="error"
-                        icon="mdi-delete"
-                        size="small"
-                        variant="elevated"
-                        @click.prevent="confirmDelete(theUser)"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                    Id
+                  </th>
+                  <th
+                    class="text-center"
+                    style="width: 33%;"
+                  >
+                    Email
+                  </th>
+                  <th
+                    v-if="isPermDelete"
+                    class="text-center"
+                    style="width: 34%;"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="theUser in users"
+                  :key="theUser.idCompte"
+                >
+                  <td class="text-center">
+                    {{ theUser.idCompte }}
+                  </td>
+                  <td class="text-center">
+                    {{ theUser.mail }}
+                  </td>
+                  <td
+                    v-if="isPermDelete"
+                    class="d-flex justify-center align-center text-center"
+                  >
+                    <v-btn
+                      color="error"
+                      icon="mdi-delete"
+                      size="small"
+                      variant="elevated"
+                      @click.prevent="confirmDelete(theUser)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <PopupDeleteUser
       ref="deleteDialog"
       @confirm-delete="handleDelete"

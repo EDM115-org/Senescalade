@@ -48,19 +48,17 @@
       <v-card-actions>
         <v-btn
           color="error"
+          text="Non"
           variant="elevated"
           @click="close"
-        >
-          Non
-        </v-btn>
+        />
         <v-btn
           color="accent"
+          text="Oui"
           variant="elevated"
           :disabled="!seance"
           @click="confirmDelete"
-        >
-          Oui
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

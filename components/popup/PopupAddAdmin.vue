@@ -18,7 +18,6 @@
                 :error-messages="v$.mail.$errors.map(e => e.$message)"
                 autocomplete="username"
                 label="Email"
-                required
                 @blur="v$.mail.$touch"
                 @input="v$.mail.$touch"
               />
@@ -32,7 +31,6 @@
                 :type="showPassword ? 'text' : 'password'"
                 autocomplete="new-password"
                 label="Mot de passe"
-                required
                 @blur="v$.password.$touch"
                 @input="v$.password.$touch"
               >
@@ -108,19 +106,17 @@
       <v-card-actions>
         <v-btn
           color="error"
+          text="Annuler"
           variant="elevated"
           @click="close"
-        >
-          Annuler
-        </v-btn>
+        />
         <v-btn
           color="accent"
+          text="Ajouter"
           variant="elevated"
           :disabled="v$.$invalid"
           @click="confirmAdd"
-        >
-          Ajouter
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

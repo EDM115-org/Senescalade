@@ -11,11 +11,11 @@
     <h1 class="text-center my-4">
       <v-btn
         color="primary"
+        class="mr-2"
         prepend-icon="mdi-arrow-left"
-        @click="goBack"
-      >
-        Retour
-      </v-btn>
+        text="Retour"
+        @click="$router.push('/user')"
+      />
       Vous êtes connecté {{ mail ?? "" }}
     </h1>
     <FormUpdatePassword />
@@ -25,11 +25,10 @@
         <v-btn
           color="error"
           prepend-icon="mdi-delete"
+          text="Supprimer mon compte"
           variant="elevated"
           @click.prevent="confirmDelete(user)"
-        >
-          Supprimer mon compte
-        </v-btn>
+        />
       </v-col>
     </v-row>
     <PopupDeleteUser
@@ -103,9 +102,5 @@ const confirmDelete = (userToDelete) => {
 
 const handleDelete = (userToDelete) => {
   deleteUser(userToDelete)
-}
-
-function goBack() {
-  router.push("/user")
 }
 </script>

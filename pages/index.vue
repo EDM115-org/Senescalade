@@ -13,9 +13,7 @@
       align-content="center"
       justify="center"
     >
-      <v-col
-        align="center"
-      >
+      <v-col align="center">
         <v-img
           :draggable="false"
           class="mb-4"
@@ -42,10 +40,9 @@
             >
               <v-btn
                 color="secondary"
+                text="Inscription"
                 variant="elevated"
-              >
-                Inscription
-              </v-btn>
+              />
             </NuxtLink>
           </v-col>
           <v-col>
@@ -54,10 +51,20 @@
             >
               <v-btn
                 color="secondary"
+                text="Connexion"
                 variant="elevated"
-              >
-                Connexion
-              </v-btn>
+              />
+            </NuxtLink>
+          </v-col>
+          <v-col>
+            <NuxtLink
+              to="/seances"
+            >
+              <v-btn
+                color="secondary"
+                text="Voir les séances"
+                variant="elevated"
+              />
             </NuxtLink>
           </v-col>
         </v-row>

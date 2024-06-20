@@ -6,129 +6,127 @@
       :message="errorMessage"
       :color="messageColor"
     />
-    <div>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              <v-row>
-                <v-col>
-                  <h2>Gestion des administrateurs</h2>
-                </v-col>
-                <v-spacer />
-                <v-col
-                  class="d-flex justify-sm-end"
-                >
-                  <v-btn
-                    color="success"
-                    icon="mdi-account-plus-outline"
-                    variant="elevated"
-                    @click.prevent="openAddAdmin"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <p>Nombre total d'administrateurs : {{ adminCount }}</p>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text>
-              <v-table>
-                <thead>
-                  <tr>
-                    <th
-                      class="text-center"
-                      style="width: 10%;"
-                    >
-                      Id
-                    </th>
-                    <th
-                      class="text-center"
-                      style="width: 20%;"
-                    >
-                      Email
-                    </th>
-                    <th
-                      class="text-center"
-                      style="width: 60%;"
-                    >
-                      Permissions
-                    </th>
-                    <th
-                      v-if="isPermEdit || isPermDelete"
-                      class="text-center"
-                      style="width: 10%;"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="admin in admins"
-                    :key="admin.idCompte"
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <v-row>
+              <v-col>
+                <h2>Gestion des administrateurs</h2>
+              </v-col>
+              <v-spacer />
+              <v-col
+                class="d-flex justify-sm-end"
+              >
+                <v-btn
+                  color="success"
+                  icon="mdi-account-plus-outline"
+                  variant="elevated"
+                  @click.prevent="openAddAdmin"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <p>Nombre total d'administrateurs : {{ adminCount }}</p>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-table>
+              <thead>
+                <tr>
+                  <th
+                    class="text-center"
+                    style="width: 10%;"
                   >
-                    <td class="text-center">
-                      {{ admin.idCompte }}
-                    </td>
-                    <td class="text-center">
-                      {{ admin.mail }}
-                    </td>
-                    <td>
-                      <v-row class="d-flex flex-sm-wrap my-4">
-                        <v-col
-                          v-for="(value, key) in adminPermissions(admin)"
-                          :key="key"
-                          cols="4"
+                    Id
+                  </th>
+                  <th
+                    class="text-center"
+                    style="width: 20%;"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="text-center"
+                    style="width: 60%;"
+                  >
+                    Permissions
+                  </th>
+                  <th
+                    v-if="isPermEdit || isPermDelete"
+                    class="text-center"
+                    style="width: 10%;"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="admin in admins"
+                  :key="admin.idCompte"
+                >
+                  <td class="text-center">
+                    {{ admin.idCompte }}
+                  </td>
+                  <td class="text-center">
+                    {{ admin.mail }}
+                  </td>
+                  <td>
+                    <v-row class="d-flex flex-sm-wrap my-4">
+                      <v-col
+                        v-for="(value, key) in adminPermissions(admin)"
+                        :key="key"
+                        cols="4"
+                      >
+                        <v-chip
+                          :color="value ? 'green' : 'red'"
+                          variant="elevated"
                         >
-                          <v-chip
-                            :color="value ? 'green' : 'red'"
-                            variant="elevated"
-                          >
-                            {{ key }}
-                          </v-chip>
-                        </v-col>
-                      </v-row>
-                    </td>
-                    <td
-                      v-if="isPermEdit || isPermDelete"
-                    >
-                      <v-row class="justify-center">
-                        <v-col
-                          v-if="isPermEdit"
-                          cols="auto"
-                        >
-                          <v-btn
-                            color="accent"
-                            icon="mdi-pencil"
-                            variant="elevated"
-                            :disabled="admin.idCompte === user.id"
-                            @click.prevent="confirmEdit(admin)"
-                          />
-                        </v-col>
-                        <v-col
-                          v-if="isPermDelete"
-                          cols="auto"
-                        >
-                          <v-btn
-                            color="error"
-                            icon="mdi-delete"
-                            variant="elevated"
-                            :disabled="admin.idCompte === user.id"
-                            @click.prevent="confirmDelete(admin)"
-                          />
-                        </v-col>
-                      </v-row>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                          {{ key }}
+                        </v-chip>
+                      </v-col>
+                    </v-row>
+                  </td>
+                  <td
+                    v-if="isPermEdit || isPermDelete"
+                  >
+                    <v-row class="justify-center">
+                      <v-col
+                        v-if="isPermEdit"
+                        cols="auto"
+                      >
+                        <v-btn
+                          color="accent"
+                          icon="mdi-pencil"
+                          variant="elevated"
+                          :disabled="admin.idCompte === user.id"
+                          @click.prevent="confirmEdit(admin)"
+                        />
+                      </v-col>
+                      <v-col
+                        v-if="isPermDelete"
+                        cols="auto"
+                      >
+                        <v-btn
+                          color="error"
+                          icon="mdi-delete"
+                          variant="elevated"
+                          :disabled="admin.idCompte === user.id"
+                          @click.prevent="confirmDelete(admin)"
+                        />
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <PopupAddAdmin
       ref="addDialog"
       @confirm-add="handleAdd"

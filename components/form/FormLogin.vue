@@ -10,7 +10,6 @@
           :error-messages="v$.mail.$errors.map(e => e.$message)"
           class="input-field mx-auto"
           label="Email"
-          required
           @blur="v$.mail.$touch"
           @input="v$.mail.$touch"
         />
@@ -24,7 +23,6 @@
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
           label="Mot de passe"
-          required
           @blur="v$.password.$touch"
           @input="v$.password.$touch"
         >
@@ -47,7 +45,6 @@
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
           label="Confirmation du mot de passe"
-          required
           @blur="v$.checkPassword.$touch"
           @input="v$.checkPassword.$touch"
         >
@@ -80,12 +77,12 @@
       >
         <v-btn
           color="warning"
+          text="Mot de passe oublié ?"
           variant="elevated"
           @click="$router.push('/login/forgotpassword')"
-        >
-          Mot de passe oublié ?
-        </v-btn>
+        />
       </v-col>
+      <v-divider class="my-4" />
     </v-row>
     <v-row>
       <v-col
@@ -95,11 +92,10 @@
         <v-btn
           :disabled="v$.$invalid"
           color="accent"
+          :text="loginProps.inscription ? 'S\'inscrire' : 'Se connecter'"
           type="submit"
           variant="elevated"
-        >
-          {{ loginProps.inscription ? "S'inscrire" : "Se connecter" }}
-        </v-btn>
+        />
       </v-col>
     </v-row>
   </v-form>

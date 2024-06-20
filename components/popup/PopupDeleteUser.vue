@@ -8,7 +8,7 @@
       <v-card-title>Suppression du compte</v-card-title>
       <v-card-text>
         Êtes-vous sûr de vouloir supprimer ce compte ?<br>
-        Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés.<br>
+        Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés, sans possibilité de revenir en arrière. Ils seront automatiquement désinscrits de leurs créneaux.<br>
         Note : il est recommandé d'envoyer à la place un mail à <NuxtLink
           class="link-color"
           to="mailto:tresorier@senescalade.com"
@@ -27,18 +27,16 @@
       <v-card-actions>
         <v-btn
           color="error"
+          text="Non"
           variant="elevated"
           @click="close"
-        >
-          Non
-        </v-btn>
+        />
         <v-btn
           color="accent"
+          text="Oui"
           variant="elevated"
           @click="confirmDelete"
-        >
-          Oui
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

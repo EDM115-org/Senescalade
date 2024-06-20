@@ -1,76 +1,78 @@
 <template>
   <v-container class="fillheight">
-    <div>
-      <h1 class="text-center mt-5 mb-5">
-        Dashboard
-      </h1>
-      <v-row>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-card>
-            <v-card-title class="text-center">
-              Nombre de Grimpeurs
-            </v-card-title>
-            <v-card-text class="text-center">
-              <v-icon size="56">
-                mdi-account-group
-              </v-icon>
-              <h3>{{ grimpeurCount }}</h3>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-card>
-            <v-card-title class="text-center">
-              Grimpeurs n'ayant pas payé
-            </v-card-title>
-            <v-card-text class="text-center">
-              <v-icon size="56">
-                mdi-currency-eur-off
-              </v-icon>
-              <h3>{{ nonPayeCount }}</h3>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-card>
-            <v-card-title class="text-center">
-              Grimpeurs n'ayant pas été exporté
-            </v-card-title>
-            <v-card-text class="text-center">
-              <v-icon size="56">
-                mdi-file-account
-              </v-icon>
-              <h3>{{ isExportedCount }}</h3>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-card>
-            <v-card-title class="text-center">
-              Grimpeurs en file d'attente
-            </v-card-title>
-            <v-card-text class="text-center">
-              <v-icon size="56">
-                mdi-account-clock
-              </v-icon>
-              <h3>{{ isFileDAttenteCount }}</h3>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+    <h1 class="text-center mt-5 mb-5">
+      Dashboard
+    </h1>
+    <v-row>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <v-card>
+          <v-card-title class="text-center">
+            Nombre de grimpeurs
+          </v-card-title>
+          <v-card-text class="text-center">
+            <v-icon
+              icon="mdi-account-group"
+              size="56"
+            />
+            <h3>{{ grimpeurCount }}</h3>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <v-card>
+          <v-card-title class="text-center">
+            Grimpeurs dont le paiement n'est pas confirmé
+          </v-card-title>
+          <v-card-text class="text-center">
+            <v-icon
+              icon="mdi-currency-eur-off"
+              size="56"
+            />
+            <h3>{{ nonPayeCount }}</h3>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <v-card>
+          <v-card-title class="text-center">
+            Grimpeurs n'ayant pas été exporté
+          </v-card-title>
+          <v-card-text class="text-center">
+            <v-icon
+              icon="mdi-file-account"
+              size="56"
+            />
+            <h3>{{ isExportedCount }}</h3>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <v-card>
+          <v-card-title class="text-center">
+            Grimpeurs en file d'attente
+          </v-card-title>
+          <v-card-text class="text-center">
+            <v-icon
+              icon="mdi-account-clock"
+              size="56"
+            />
+            <h3>{{ isFileDAttenteCount }}</h3>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -21,7 +21,6 @@
             :error-messages="mail$.email.$errors.map(e => e.$message)"
             class="input-field mx-auto"
             label="Email"
-            required
             @blur="mail$.email.$touch"
             @input="mail$.email.$touch"
           />
@@ -35,11 +34,10 @@
           <v-btn
             :disabled="mail$.$invalid"
             color="secondary"
+            text="Envoyer"
             type="submit"
             variant="elevated"
-          >
-            Envoyer
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-form>
@@ -55,7 +53,6 @@
             :error-messages="code$.code.$errors.map(e => e.$message)"
             class="input-field mx-auto"
             label="Code de vérification"
-            required
             maxlength="6"
             @blur="code$.code.$touch"
             @input="code$.code.$touch"
@@ -70,11 +67,10 @@
           <v-btn
             :disabled="code$.$invalid"
             color="secondary"
+            text="Vérifier"
             type="submit"
             variant="elevated"
-          >
-            Vérifier
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-form>
@@ -91,7 +87,6 @@
             :type="showPassword ? 'text' : 'password'"
             class="input-field mx-auto"
             label="Nouveau mot de passe"
-            required
             @blur="password$.newPassword.$touch"
             @input="password$.newPassword.$touch"
           >
@@ -115,7 +110,6 @@
             :type="showPassword ? 'text' : 'password'"
             class="input-field mx-auto"
             label="Confirmation du mot de passe"
-            required
             @blur="password$.confirmPassword.$touch"
             @input="password$.confirmPassword.$touch"
           >
@@ -138,11 +132,10 @@
           <v-btn
             :disabled="password$.$invalid"
             color="secondary"
+            text="Réinitialiser le mot de passe"
             type="submit"
             variant="elevated"
-          >
-            Réinitialiser le mot de passe
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-form>

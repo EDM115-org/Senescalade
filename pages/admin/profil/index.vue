@@ -1,11 +1,9 @@
 <template>
   <v-container class="fillheight">
-    <div>
-      <h1 class="text-center mt-5 mb-5">
-        Modifier le mot de passe
-      </h1>
-      <FormUpdatePassword />
-    </div>
+    <h1 class="text-center mt-5 mb-5">
+      Modifier le mot de passe
+    </h1>
+    <FormUpdatePassword />
   </v-container>
 </template>
 

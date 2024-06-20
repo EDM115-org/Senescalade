@@ -11,8 +11,7 @@
         <v-text-field
           v-model="props.grimpeur.nom"
           label="Nom"
-          required
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -22,8 +21,7 @@
         <v-text-field
           v-model="props.grimpeur.prenom"
           label="Prénom"
-          required
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -52,7 +50,7 @@
         <v-text-field
           v-model="props.grimpeur.telephone"
           label="Téléphone (optionnel)"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -62,7 +60,7 @@
         <v-text-field
           v-model="props.grimpeur.mobile"
           label="Mobile (optionnel)"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -72,7 +70,7 @@
         <v-text-field
           v-model="props.grimpeur.courriel2"
           label="Email secondaire (optionnel)"
-          outlined
+          variant="outlined"
         />
       </v-col>
     </v-row>
@@ -87,8 +85,7 @@
         <v-text-field
           v-model="props.grimpeur.adresse"
           label="Adresse"
-          required
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -98,7 +95,7 @@
         <v-text-field
           v-model="props.grimpeur.complementAdresse"
           label="Complément d'Adresse (optionnel)"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -108,8 +105,7 @@
         <v-text-field
           v-model="props.grimpeur.codePostal"
           label="Code Postal"
-          required
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -119,8 +115,7 @@
         <v-text-field
           v-model="props.grimpeur.ville"
           label="Ville"
-          required
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -156,7 +151,7 @@
         <v-text-field
           v-model="props.grimpeur.personneNom"
           label="Nom"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -166,7 +161,7 @@
         <v-text-field
           v-model="props.grimpeur.personnePrenom"
           label="Prénom"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -176,7 +171,7 @@
         <v-text-field
           v-model="props.grimpeur.personneTelephone"
           label="Téléphone"
-          outlined
+          variant="outlined"
         />
       </v-col>
       <v-col
@@ -186,7 +181,7 @@
         <v-text-field
           v-model="props.grimpeur.personneCourriel"
           label="Email"
-          outlined
+          variant="outlined"
         />
       </v-col>
     </v-row>

@@ -17,7 +17,6 @@
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
           label="Ancien mot de passe"
-          required
           @blur="v$.oldPassword.$touch"
           @input="v$.oldPassword.$touch"
         >
@@ -41,7 +40,6 @@
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
           label="Nouveau mot de passe"
-          required
           @blur="v$.newPassword.$touch"
           @input="v$.newPassword.$touch"
         >
@@ -65,7 +63,6 @@
           :type="showPassword ? 'text' : 'password'"
           class="input-field mx-auto"
           label="Confirmation du mot de passe"
-          required
           @blur="v$.confirmPassword.$touch"
           @input="v$.confirmPassword.$touch"
         >
@@ -89,11 +86,10 @@
         <v-btn
           :disabled="v$.$invalid"
           color="accent"
+          text="Modifier le mot de passe"
           type="submit"
           variant="elevated"
-        >
-          Modifier le mot de passe
-        </v-btn>
+        />
       </v-col>
     </v-row>
   </v-form>
