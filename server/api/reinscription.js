@@ -1,6 +1,7 @@
 import pool from "./db"
 import nodemailer from "nodemailer"
-import { createError, defineEventHandler, readBody, getQuery } from "h3"
+
+import { createError, defineEventHandler, getQuery, readBody } from "h3"
 
 const transporter = nodemailer.createTransport({
   service: "gmail",

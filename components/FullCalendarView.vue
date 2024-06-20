@@ -27,8 +27,9 @@
 import frLocale from "@fullcalendar/core/locales/fr"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import FullCalendar from "@fullcalendar/vue3"
+
 import { useMainStore } from "~/store/main"
-import { computed, ref, onMounted, watch } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { useDisplay, useTheme } from "vuetify"
 
 const { mdAndUp } = useDisplay()

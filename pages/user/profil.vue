@@ -41,7 +41,7 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 
 const store = useMainStore()
 const deleteDialog = ref(null)

@@ -1,4 +1,5 @@
 import pool from "./db"
+
 import { createError, defineEventHandler, getQuery } from "h3"
 
 export default defineEventHandler(async (event) => {

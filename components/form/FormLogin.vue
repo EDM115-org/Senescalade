@@ -106,11 +106,11 @@
 </template>
 
 <script setup>
-import bcrypt from "bcryptjs"
 import useVuelidate from "@vuelidate/core"
+import bcrypt from "bcryptjs"
 
 import { createI18nValidators } from "~/assets/utils/i18n-validators"
-import { ref, reactive, computed } from "vue"
+import { computed, reactive, ref } from "vue"
 import { useI18n } from "vue-i18n"
 
 const emit = defineEmits([ "submit:login", "submit:register" ])

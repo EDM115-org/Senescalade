@@ -152,10 +152,11 @@
 
 <script setup>
 import useVuelidate from "@vuelidate/core"
-import { required, email, numeric, minLength, maxLength } from "@vuelidate/validators"
-import { createI18nValidators } from "~/assets/utils/i18n-validators"
-import { computed, ref, reactive } from "vue"
 import bcrypt from "bcryptjs"
+
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
+import { email, maxLength, minLength, numeric, required } from "@vuelidate/validators"
+import { computed, reactive, ref } from "vue"
 
 const router = useRouter()
 

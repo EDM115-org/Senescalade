@@ -98,7 +98,7 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { computed, ref, onMounted } from "vue"
+import { computed, onMounted, ref } from "vue"
 
 const store = useMainStore()
 const user = computed(() => store.getUser)

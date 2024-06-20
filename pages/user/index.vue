@@ -50,8 +50,8 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
+import { computed, onMounted, ref } from "vue"
 
 const store = useMainStore()
 const router = useRouter()

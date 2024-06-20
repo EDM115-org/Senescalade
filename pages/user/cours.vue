@@ -78,9 +78,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue"
-import { useRouter } from "vue-router"
 import { useMainStore } from "~/store/main"
+import { computed, onMounted, ref } from "vue"
 
 const store = useMainStore()
 const router = useRouter()

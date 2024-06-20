@@ -1,6 +1,7 @@
 import pool from "./db"
 import bcrypt from "bcryptjs"
-import { createError, defineEventHandler, readBody, getQuery } from "h3"
+
+import { createError, defineEventHandler, getQuery, readBody } from "h3"
 import { ofetch } from "ofetch"
 
 const base_url = `http://localhost:${process.env.DEV_PORT}`

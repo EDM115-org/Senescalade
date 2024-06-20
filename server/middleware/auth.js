@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+
 import { createError, defineEventHandler, sendError } from "h3"
 
 export default defineEventHandler((event) => {

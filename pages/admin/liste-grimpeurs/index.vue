@@ -159,9 +159,8 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
-import { useRouter } from "vue-router"
+import { computed, onMounted, ref } from "vue"
 
 definePageMeta({
   pageTransition: {

@@ -127,10 +127,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue"
 import useVuelidate from "@vuelidate/core"
-import { required, email, minLength } from "@vuelidate/validators"
 import bcrypt from "bcryptjs"
+
+import { email, minLength, required } from "@vuelidate/validators"
+import { reactive, ref } from "vue"
 
 const isOpen = ref(false)
 const showPassword = ref(false)

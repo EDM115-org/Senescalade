@@ -65,10 +65,11 @@
 
 
 <script setup>
-import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
-import { required, numeric, minLength, maxLength } from "@vuelidate/validators"
-import { computed, ref, reactive, onMounted } from "vue"
+
+import { useMainStore } from "~/store/main"
+import { maxLength, minLength, numeric, required } from "@vuelidate/validators"
+import { computed, onMounted, reactive, ref } from "vue"
 
 const store = useMainStore()
 const user = computed(() => store.user)

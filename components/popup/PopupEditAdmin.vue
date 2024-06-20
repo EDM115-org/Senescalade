@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue"
+import { computed, ref } from "vue"
 
 const isOpen = ref(false)
 const permissions = ref(null)

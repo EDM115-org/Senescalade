@@ -1,6 +1,7 @@
 import pool from "./db"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+
 import { createError, defineEventHandler, readBody } from "h3"
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "secret"

@@ -1,5 +1,6 @@
 import pool from "./db"
-import { createError, defineEventHandler, readBody, getQuery } from "h3"
+
+import { createError, defineEventHandler, getQuery, readBody } from "h3"
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)

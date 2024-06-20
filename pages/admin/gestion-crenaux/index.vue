@@ -130,9 +130,9 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue"
 import { useMainStore } from "~/store/main"
 import { jsPDF } from "jspdf"
+import { computed, onMounted, ref } from "vue"
 
 definePageMeta({
   pageTransition: {

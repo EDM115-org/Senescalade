@@ -106,7 +106,7 @@ import bcrypt from "bcryptjs"
 
 import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { useMainStore } from "~/store/main"
-import { computed, ref, reactive } from "vue"
+import { computed, reactive, ref } from "vue"
 
 const store = useMainStore()
 

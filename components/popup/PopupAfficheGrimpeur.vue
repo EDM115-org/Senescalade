@@ -36,7 +36,7 @@
 
 <script setup>
 import { useMainStore } from "~/store/main"
-import { ref, computed } from "vue"
+import { computed, ref } from "vue"
 
 const store = useMainStore()
 const user = computed(() => store.getUser)
