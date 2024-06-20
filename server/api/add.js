@@ -1,28 +1,7 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   const query = getQuery(event)
   const { type } = query
 
@@ -79,6 +58,8 @@ async function addAdmin(body) {
     AccessReinscription
   } = body
 
+  const connection = await pool.getConnection()
+
   try {
     await connection.beginTransaction()
 
@@ -127,6 +108,8 @@ async function addAdmin(body) {
       message: "Erreur durant l'ajout de l'admin",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
@@ -199,6 +182,8 @@ async function addGrimpeur(body) {
     fkCompte
   ].map((param) => (param !== undefined ? param : null))
 
+  const connection = await pool.getConnection()
+
   try {
     await connection.beginTransaction()
 
@@ -252,11 +237,14 @@ async function addGrimpeur(body) {
       message: "Erreur durant l'ajout du grimpeur",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function addGrimpeurSeance(body) {
   const { idGrimpeur, idSeance, isFileDAttente } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -299,6 +287,8 @@ async function addGrimpeurSeance(body) {
       message: "Erreur durant l'ajout du grimpeur à la séance",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
@@ -314,6 +304,8 @@ async function addSeance(body) {
   if (professeur === undefined) {
     professeur = null
   }
+
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -337,5 +329,7 @@ async function addSeance(body) {
       message: "Erreur durant l'ajout de la séance",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }

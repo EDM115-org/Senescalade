@@ -1,35 +1,19 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import { createError, defineEventHandler, readBody } from "h3"
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
 
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
   const body = await readBody(event)
   const { mail, password } = body
 
   if (event.node.req.method === "POST") {
     try {
+      const connection = await pool.getConnection()
       const query = "INSERT INTO Compte(mail, password) VALUES (?, ?)"
 
       await connection.execute(query, [ mail, password ])
+
+      connection.release()
 
       return {
         status: 200,

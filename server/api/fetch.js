@@ -1,28 +1,7 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   const query = getQuery(event)
   const { type, id } = query
 
@@ -117,6 +96,7 @@ export default defineEventHandler(async (event) => {
 })
 
 async function fetchAdmin() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(`
     SELECT c.idCompte, c.mail, a.ReadListGrimpeur, a.ReadListSeance, a.ReadListAdmin, a.ReadListUtilisateur, 
             a.UpdateListGrimpeur, a.UpdateListSeance, a.UpdateListAdmin, a.UpdateListUtilisateur, 
@@ -125,6 +105,8 @@ async function fetchAdmin() {
     LEFT JOIN Admin a ON c.idCompte = a.idAdmin
     WHERE a.idAdmin IS NOT NULL
   `)
+
+  connection.release()
 
   return {
     status: 200,
@@ -142,8 +124,11 @@ async function fetchAdminPerms(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const query = "SELECT * FROM Compte c INNER JOIN Admin a ON c.idCompte = a.idAdmin WHERE a.idAdmin = ?"
   const [ rows ] = await connection.execute(query, [ user.id ])
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -159,11 +144,14 @@ async function fetchAdminPerms(body) {
 }
 
 async function fetchCompte() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(`
     SELECT * FROM Compte c 
     LEFT JOIN Admin a ON c.idCompte = a.idAdmin 
     WHERE a.idAdmin IS NULL
   `)
+
+  connection.release()
 
   return {
     status: 200,
@@ -173,9 +161,11 @@ async function fetchCompte() {
 
 async function fetchComptePost(body) {
   const { idCompte } = body
-
+  const connection = await pool.getConnection()
   const query = "SELECT * FROM Compte WHERE idCompte = ?"
   const [ rows ] = await connection.execute(query, [ idCompte ])
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -191,6 +181,7 @@ async function fetchComptePost(body) {
 }
 
 async function fetchGrimpeur(id) {
+  const connection = await pool.getConnection()
   let rows = []
 
   if (id === undefined) {
@@ -198,6 +189,8 @@ async function fetchGrimpeur(id) {
   } else {
     rows = await connection.execute("SELECT * FROM Grimpeur WHERE fkCompte = ?", [ id ])
   }
+
+  connection.release()
 
   return {
     status: 200,
@@ -207,9 +200,11 @@ async function fetchGrimpeur(id) {
 
 async function fetchGrimpeurPost(body) {
   const { idGrimpeur } = body
-
+  const connection = await pool.getConnection()
   const query = "SELECT * FROM Grimpeur WHERE idGrimpeur = ?"
   const [ rows ] = await connection.execute(query, [ idGrimpeur ])
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -225,6 +220,7 @@ async function fetchGrimpeurPost(body) {
 }
 
 async function fetchGrimpeurSeance(body) {
+  const connection = await pool.getConnection()
   let rows = []
   let idGrimpeur = null
 
@@ -243,6 +239,8 @@ async function fetchGrimpeurSeance(body) {
     rows = rows[0]
   }
 
+  connection.release()
+
   return {
     status: 200,
     body: rows[0]
@@ -251,10 +249,12 @@ async function fetchGrimpeurSeance(body) {
 
 async function fetchIsCompteAdmin(body) {
   const { idCompte } = body
-
+  const connection = await pool.getConnection()
   const adminQuery = "SELECT * FROM Admin WHERE idAdmin = ?"
   const [ adminRows ] = await connection.execute(adminQuery, [ idCompte ])
   const isAdmin = adminRows.length > 0
+
+  connection.release()
 
   return {
     status: 200,
@@ -264,9 +264,11 @@ async function fetchIsCompteAdmin(body) {
 
 async function fetchMailIsVerified(body) {
   const { mail } = body
-
+  const connection = await pool.getConnection()
   const query = "SELECT mailIsVerified FROM Compte WHERE mail = ?"
   const [ rows ] = await connection.execute(query, [ mail ])
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -291,8 +293,11 @@ async function fetchGrimpeurAsSeance(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const query = "SELECT * FROM GrimpeurSeance WHERE idGrimpeur = ?"
   const [ rows ] = await connection.execute(query, [ idGrimpeur ])
+
+  connection.release()
 
   return {
     status: 200,
@@ -301,7 +306,10 @@ async function fetchGrimpeurAsSeance(body) {
 }
 
 async function fetchSeance() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT * FROM Seance")
+
+  connection.release()
 
   return {
     status: 200,
@@ -319,6 +327,7 @@ async function fetchGrimpeursForSeance(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(
     `SELECT g.idGrimpeur, g.nom, g.prenom, s.jour, s.typeSeance, s.heureDebutSeance, s.heureFinSeance, s.nbPlaces, s.nbPlacesRestantes
       FROM Grimpeur g
@@ -327,6 +336,8 @@ async function fetchGrimpeursForSeance(body) {
       WHERE gs.idSeance = ?`,
     [ idSeance ]
   )
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -342,6 +353,7 @@ async function fetchGrimpeursForSeance(body) {
 }
 
 async function exportGrimpeursToCSV() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT * FROM Grimpeur WHERE isExported = 0")
 
   if (!rows || rows.length === 0) {
@@ -436,11 +448,16 @@ async function exportGrimpeursToCSV() {
       message: "Erreur lors de la génération du fichier CSV",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function fetchReinscription() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT * FROM Reinscription")
+
+  connection.release()
 
   if (rows.length > 0) {
     return {
@@ -456,8 +473,11 @@ async function fetchReinscription() {
 }
 
 async function getInfo() {
+  const connection = await pool.getConnection()
   const query = "SELECT * FROM Reinscription"
   const [ results ] = await connection.execute(query)
+
+  connection.release()
 
   if (results.length === 0) {
     throw createError({

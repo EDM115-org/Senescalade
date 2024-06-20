@@ -1,4 +1,4 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import nodemailer from "nodemailer"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
@@ -10,28 +10,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   const body = await readBody(event)
   const query = getQuery(event)
   const { type } = query
@@ -74,8 +53,11 @@ async function updateReinscription(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const query = "UPDATE Reinscription SET dateReinscriptionIsInscrit = ?, dateReinscriptionEveryone = ?, dateFinReinscription = ?"
   const [ results ] = await connection.execute(query, [ dateReinscriptionIsInscrit, dateReinscriptionEveryone, dateFinReinscription ])
+
+  connection.release()
 
   if (results.affectedRows === 0) {
     throw createError({
@@ -89,8 +71,11 @@ async function updateReinscription(body) {
 
 async function openReinscription(body) {
   const { inscriptionOpen } = body
+  const connection = await pool.getConnection()
   const query = "UPDATE Reinscription SET inscriptionOpen = ?"
   const [ results ] = await connection.execute(query, [ inscriptionOpen ])
+
+  connection.release()
 
   if (results.affectedRows === 0) {
     throw createError({
@@ -103,6 +88,7 @@ async function openReinscription(body) {
 }
 
 async function clearReinscription() {
+  const connection = await pool.getConnection()
   const updateQuery = `
     UPDATE Grimpeur
     SET action = 'R'
@@ -145,6 +131,8 @@ async function clearReinscription() {
   `
 
   const [ rows ] = await connection.execute(selectQuery)
+
+  connection.release()
 
   const mailOptions = {
     from: process.env.GMAIL_USER,

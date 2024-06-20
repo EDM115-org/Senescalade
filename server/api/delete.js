@@ -1,30 +1,10 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import { createError, defineEventHandler, readBody, getQuery } from "h3"
 import { ofetch } from "ofetch"
 
-let connection = null
 const base_url = `http://localhost:${process.env.DEV_PORT}`
 
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   const query = getQuery(event)
   const { type } = query
   const headers = event.node.req.headers
@@ -69,6 +49,7 @@ export default defineEventHandler(async (event) => {
 
 async function deleteAdmin(body) {
   const { idAdmin } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -88,11 +69,14 @@ async function deleteAdmin(body) {
       message: "Échec de la suppression de l'administrateur",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function deleteCompte(body) {
   const { idCompte } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -112,11 +96,14 @@ async function deleteCompte(body) {
       message: "Échec de la suppression du compte",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function deleteGrimpeur(body, headers) {
   const { idGrimpeur } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -183,11 +170,14 @@ async function deleteGrimpeur(body, headers) {
       message: "Échec de la suppression du grimpeur",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function deleteGrimpeurSeance(body, headers) {
   const { idGrimpeur } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -259,11 +249,14 @@ async function deleteGrimpeurSeance(body, headers) {
       message: "Échec de la suppression de la relation entre le grimpeur et la séance",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }
 
 async function deleteSeance(body) {
   const { idSeance } = body
+  const connection = await pool.getConnection()
 
   try {
     await connection.beginTransaction()
@@ -283,5 +276,7 @@ async function deleteSeance(body) {
       message: "Échec de la suppression de la séance",
       statusMessage: JSON.stringify(err)
     })
+  } finally {
+    connection.release()
   }
 }

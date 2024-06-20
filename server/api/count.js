@@ -1,28 +1,7 @@
-import mysql from "mysql2/promise"
+import pool from "./db"
 import { createError, defineEventHandler, getQuery } from "h3"
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   const query = getQuery(event)
   const { type } = query
 
@@ -71,7 +50,10 @@ export default defineEventHandler(async (event) => {
 })
 
 async function countAdmin() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as adminCount FROM Admin")
+
+  connection.release()
 
   return {
     status: 200,
@@ -80,12 +62,15 @@ async function countAdmin() {
 }
 
 async function countCompte() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(`
     SELECT COUNT(*) AS userCount
     FROM Compte c
     LEFT JOIN Admin a ON c.idCompte = a.idAdmin
     WHERE a.idAdmin IS NULL
   `)
+
+  connection.release()
 
   return {
     status: 200,
@@ -94,7 +79,10 @@ async function countCompte() {
 }
 
 async function countGrimpeur() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as grimpeurCount FROM Grimpeur")
+
+  connection.release()
 
   return {
     status: 200,
@@ -103,7 +91,10 @@ async function countGrimpeur() {
 }
 
 async function countNonPaye() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as nonPayeCount FROM Grimpeur WHERE aPaye = 0")
+
+  connection.release()
 
   return {
     status: 200,
@@ -112,7 +103,10 @@ async function countNonPaye() {
 }
 
 async function countSeance() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as seanceCount FROM Seance")
+
+  connection.release()
 
   return {
     status: 200,
@@ -121,7 +115,10 @@ async function countSeance() {
 }
 
 async function countIsExported() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as isExportedCount FROM Grimpeur WHERE isExported = 0")
+
+  connection.release()
 
   return {
     status: 200,
@@ -130,7 +127,10 @@ async function countIsExported() {
 }
 
 async function countFileDAttente() {
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute("SELECT COUNT(*) as isFileDAttenteCount FROM GrimpeurSeance WHERE isFileDAttente = 0")
+
+  connection.release()
 
   return {
     status: 200,

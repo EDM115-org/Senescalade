@@ -1,5 +1,5 @@
+import pool from "./db"
 import nodemailer from "nodemailer"
-import mysql from "mysql2/promise"
 import { createError, defineEventHandler, readBody } from "h3"
 
 const transporter = nodemailer.createTransport({
@@ -10,28 +10,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
 
@@ -44,10 +23,13 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    const connection = await pool.getConnection()
     const [ rows ] = await connection.execute(
       "SELECT idCompte FROM Compte WHERE mail = ?",
       [ email ]
     )
+
+    connection.release()
 
     if (rows.length === 0) {
       throw createError({

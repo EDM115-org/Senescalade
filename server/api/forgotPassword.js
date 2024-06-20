@@ -1,6 +1,6 @@
-import { createError, defineEventHandler, readBody, getQuery } from "h3"
+import pool from "./db"
 import nodemailer from "nodemailer"
-import mysql from "mysql2/promise"
+import { createError, defineEventHandler, readBody, getQuery } from "h3"
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -10,28 +10,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-let connection = null
-
-try {
-  connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  })
-} catch (err) {
-  console.error("Échec de connexion à la base de données : ", err)
-  connection = null
-}
-
 export default defineEventHandler(async (event) => {
-  if (!connection) {
-    throw createError({
-      status: 500,
-      message: "Connexion à la base de données non disponible"
-    })
-  }
-
   if (event.node.req.method === "POST") {
     const body = await readBody(event)
     const query = getQuery(event)
@@ -74,12 +53,15 @@ async function handleMailRequest(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(
     "SELECT idCompte FROM Compte WHERE mail = ?",
     [ email ]
   )
 
   if (rows.length === 0) {
+    connection.release()
+
     throw createError({
       status: 404,
       message: "Aucun utilisateur trouvé avec cet email"
@@ -94,11 +76,15 @@ async function handleMailRequest(body) {
       email
     ])
   } catch (error) {
+    connection.release()
+
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour du code dans la base de données",
       statusMessage: JSON.stringify(error)
     })
+  } finally {
+    connection.release()
   }
 
   const mailOptions = {
@@ -135,12 +121,15 @@ async function handleCodeRequest(body) {
     })
   }
 
+  const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(
     "SELECT idCompte, code FROM Compte WHERE mail = ?",
     [ email ]
   )
 
   if (rows.length === 0) {
+    connection.release()
+
     throw createError({
       status: 404,
       message: "Aucun compte trouvé pour cet email"
@@ -150,6 +139,8 @@ async function handleCodeRequest(body) {
   const dbCode = rows[0].code
 
   if (dbCode === "0") {
+    connection.release()
+
     throw createError({
       status: 400,
       message: "Aucun code de vérification n'a été généré"
@@ -157,6 +148,8 @@ async function handleCodeRequest(body) {
   }
 
   if (dbCode !== code) {
+    connection.release()
+
     throw createError({
       status: 404,
       message: "Code incorrect ou expiré"
@@ -167,6 +160,8 @@ async function handleCodeRequest(body) {
     "UPDATE Compte SET code = '0', mailIsVerified = true WHERE mail = ?",
     [ email ]
   )
+
+  connection.release()
 
   return {
     statusCode: 200,
@@ -185,6 +180,8 @@ async function handlePasswordRequest(body) {
     })
   }
 
+  const connection = await pool.getConnection()
+
   try {
     await connection.execute(
       "UPDATE Compte SET password = ? WHERE mail = ?",
@@ -201,6 +198,8 @@ async function handlePasswordRequest(body) {
       message: "Erreur lors de la réinitialisation du mot de passe",
       statusMessage: JSON.stringify(error)
     })
+  } finally {
+    connection.release()
   }
 }
 
