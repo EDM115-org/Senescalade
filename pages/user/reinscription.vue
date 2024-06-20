@@ -22,7 +22,7 @@
           :color="step > 1 ? 'success' : 'accent'"
           :complete="step > 1"
           bg-color="transparent"
-          subtitle="Choix du créneau"
+          subtitle="Choix de la séance"
           title="Étape 1"
           value="1"
         >
@@ -33,7 +33,7 @@
           />
           <div v-if="selectedEvent">
             <p class="text-center mt-4">
-              Créneau sélectionné : <strong>{{ selectedEvent.title }} {{ selectedEvent.extendedProps.niveau ? `- ${selectedEvent.extendedProps.niveau}` : "" }}</strong>
+              Séance sélectionnée : <strong>{{ selectedEvent.title }} {{ selectedEvent.extendedProps.niveau ? `- ${selectedEvent.extendedProps.niveau}` : "" }}</strong>
               <br>
               Jour : <strong>{{ selectedEvent.extendedProps.jour }} de {{ selectedEvent.start.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }} à {{ selectedEvent.end.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(":", "h") }}</strong>
               <br>
@@ -42,8 +42,8 @@
           </div>
           <div v-if="noEventsLeft">
             <p class="text-center mt-4 mx-4">
-              Tous les créneaux sont complets.<br>
-              Vous pouvez selectionner un des créneaux complets, et vous serez mis sur liste d'attente. Nous vous enverrons un email si une place se libère, de manière à ce que vous puissiez vous inscrire.<br>
+              Toutes les séances sont complètes.<br>
+              Vous pouvez selectionner une des séances complètes, et vous serez mis sur liste d'attente. Nous vous enverrons un email si une place se libère, de manière à ce que vous puissiez vous inscrire.<br>
               Si cela ne vous convient pas, annulez la réinscription du grimpeur en cliquant sur le bouton ci-dessous.
             </p>
             <v-btn

@@ -55,7 +55,7 @@ try {
   }
 
   if (response.body.ReadListSeance === 1) {
-    items.push({ text: "Gestion des crénaux", to: "/admin/gestion-crenaux" })
+    items.push({ text: "Gestion des séances", to: "/admin/gestion-seances" })
   }
 
   if (response.body.ReadListAdmin === 1) {

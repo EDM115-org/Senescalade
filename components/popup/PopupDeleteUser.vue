@@ -8,7 +8,7 @@
       <v-card-title>Suppression du compte</v-card-title>
       <v-card-text>
         Êtes-vous sûr de vouloir supprimer ce compte ?<br>
-        Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés, sans possibilité de revenir en arrière. Ils seront automatiquement désinscrits de leurs créneaux.<br>
+        Attention, cette action est irréversible. Les grimpeurs associés à ce compte seront également supprimés, sans possibilité de revenir en arrière. Ils seront automatiquement désinscrits de leurs séances.<br>
         Note : il est recommandé d'envoyer à la place un mail à <NuxtLink
           class="link-color"
           to="mailto:tresorier@senescalade.com"

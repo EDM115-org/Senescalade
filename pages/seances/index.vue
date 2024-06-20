@@ -72,7 +72,7 @@
     </v-row>
     <v-row v-else>
       <v-col class="text-center">
-        <p>Aucun créneau disponible pour cette catégorie</p>
+        <p>Aucune séance disponible pour cette catégorie</p>
       </v-col>
     </v-row>
   </v-container>

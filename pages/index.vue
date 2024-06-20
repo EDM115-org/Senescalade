@@ -23,7 +23,7 @@
           src="/images/logo-black-red-transparent.png"
         />
         Bienvenue sur le site d'inscription de Senescalade<br>
-        Ici vous pourrez vous inscrire à l'association, choisir un créneau, payer en ligne, récupérer votre licence et bien plus encore.<br>
+        Ici vous pourrez vous inscrire à l'association, choisir une séance, payer en ligne, récupérer votre licence et bien plus encore.<br>
         Cliquez sur le bouton d'aide pour en savoir plus.
         <v-tooltip
           location="right"
@@ -107,11 +107,11 @@
           <h3>Ajouter un grimpeur</h3>
           Ce formulaire en 4 étapes vous permettra d'inscrire un nouveau grimpeur à l'association.
           <h4>Etape 1 : Date de naissance</h4>
-          Vous devez renseigner la date de naissance du grimpeur pour déterminer le créneau auquel il peut s'inscrire.
-          <h4>Etape 2 : Choix du créneau</h4>
-          Vous devez choisir le créneau auquel le grimpeur s'inscrira. Cliquez sur le créneau dans le calendrier pour le sélectionner.<br>
-          Un créneau vert signifie qu'il reste des places, un créneau rouge signifie qu'il est complet.<br>
-          Si le créneau est complet, vous pouvez ajouter le grimpeur à la liste d'attente.
+          Vous devez renseigner la date de naissance du grimpeur pour déterminer la séance à laquelle il peut s'inscrire.
+          <h4>Etape 2 : Choix de la séance</h4>
+          Vous devez choisir la séance auquelle le grimpeur s'inscrira. Cliquez sur la séance dans le calendrier pour la sélectionner.<br>
+          Une séance verte signifie qu'il reste des places, une séance rouge signifie qu'elle est complète.<br>
+          Si la séance est complète, vous pouvez ajouter le grimpeur à la liste d'attente.
           <h4>Etape 3 : Informations personnelles</h4>
           Vous devez renseigner les informations personnelles du grimpeur. C'est également ici que vous pourrez ajouter des options à l'assurance incluse dans l'inscription.
           <h4>Etape 4 : Paiement</h4>
