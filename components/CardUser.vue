@@ -45,8 +45,7 @@
               </div>
               <p v-if="grimpeur.seance">
                 <strong>Séance sélectionnée :</strong>
-                <!-- eslint-disable-next-line vue/no-v-html -->
-                <span v-html="grimpeur.seance" />
+                {{ grimpeur.seance }}
               </p>
             </div>
           </v-card-text>
