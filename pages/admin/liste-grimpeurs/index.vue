@@ -359,13 +359,13 @@ const downloadCSV = async () => {
     csvContents.forEach((csvData, index) => {
       const blob = new Blob([ csvData ], { type: "text/csv" })
       const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
+      const link = document.createElement("a")
 
-      a.href = url
-      a.download = `grimpeurs_part_${index + 1}.csv`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
+      link.href = url
+      link.download = `grimpeurs_part_${index + 1}.csv`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
     })
   } catch (error) {
