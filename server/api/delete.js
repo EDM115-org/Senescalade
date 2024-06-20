@@ -192,7 +192,7 @@ async function deleteGrimpeurSeance(body, headers) {
     const response = await ofetch(`${base_url}/api/fetch?type=seance`, {
       headers: { Authorization: headers.authorization }
     })
-    const seance = response.body.find((seance) => seance.idSeance === seanceId)
+    const seance = response.body.find((seance2) => seance2.idSeance === seanceId)
 
     if (seance.nbPlacesRestantes === 0) {
       const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {

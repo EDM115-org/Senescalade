@@ -129,10 +129,8 @@ const fetchIsFileDAttente = async () => {
 }
 
 onMounted(async () => {
-  const user = store.getUser
-
-  if (user) {
-    if (!user.isAdmin) {
+  if (user.value) {
+    if (!user.value.isAdmin) {
       router.push("/user")
     } else {
       await fetchGrimpeurCount()

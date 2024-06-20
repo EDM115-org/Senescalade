@@ -364,11 +364,11 @@ onMounted(async () => {
     return router.push("/login")
   }
 
-  const response = await $fetch("/api/fetch?type=seance", {
+  const response2 = await $fetch("/api/fetch?type=seance", {
     headers: { Authorization: `Bearer ${user.value.token}` }
   })
 
-  events.value = response.body
+  events.value = response2.body
 
   const startOfWeek = daysOfTheCurrentWeek()[0]
 
@@ -388,16 +388,15 @@ onMounted(async () => {
     }
   })
 
-  // chargement des valeurs du grimpeur
   if (route.query.grimpeur) {
     const idGrimpeur = parseInt(route.query.grimpeur)
-    const response = await $fetch("/api/fetch?type=grimpeur", {
+    const response3 = await $fetch("/api/fetch?type=grimpeur", {
       method: "POST",
       body: JSON.stringify({ idGrimpeur }),
       headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
-    grimpeur = { ...grimpeur, ...response.body[0] }
+    grimpeur = { ...grimpeur, ...response3.body[0] }
     grimpeur.dateNaissance = new Date(grimpeur.dateNaissance).toISOString().split("T")[0]
 
     router.replace({ query: {} })

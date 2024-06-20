@@ -226,14 +226,13 @@ onMounted(async () => {
             }
           }
           try {
-            const response = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+            const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
               method: "POST",
               body: JSON.stringify({ idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur }),
               headers: { Authorization: `Bearer ${user.value.token}` }
             })
 
-            // si reponse.body n'es pas vide
-            if (response.body.length > 0) {
+            if (response2.body.length > 0) {
               grimpeurs.value[grimpeur].asSeance = false
             } else {
               grimpeurs.value[grimpeur].asSeance = true

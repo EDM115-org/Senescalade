@@ -128,7 +128,6 @@ async function clearReinscription() {
 
   await connection.execute(grimpeurQuery)
 
-  // récupérer tout les mails des compte des grimpeurs des gens en R
   const selectQuery = `
     SELECT mail
     FROM Compte

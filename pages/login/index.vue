@@ -65,13 +65,13 @@ async function login(event) {
       router.push("/admin/dashboard")
     } else {
       try {
-        const response = await $fetch("/api/fetch?type=mailIsVerified", {
+        const response2 = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
           body: JSON.stringify({ mail: result.body.user.mail }),
           headers: { Authorization: `Bearer ${result.body.token}` }
         })
 
-        if (response.body.mailIsVerified === 1) {
+        if (response2.body.mailIsVerified === 1) {
           router.push("/user")
         } else {
           try {

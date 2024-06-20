@@ -160,10 +160,10 @@ const deleteUser = async (id) => {
   }
 }
 
-const confirmDelete = (user) => {
+const confirmDelete = (user3) => {
   const user2 = {
-    id: user.idCompte,
-    mail: user.mail
+    id: user3.idCompte,
+    mail: user3.mail
   }
 
   deleteDialog.value.open(user2)

@@ -68,10 +68,10 @@
 import { useMainStore } from "~/store/main"
 import useVuelidate from "@vuelidate/core"
 import { required, numeric, minLength, maxLength } from "@vuelidate/validators"
-import { ref, reactive, onMounted } from "vue"
+import { computed, ref, reactive, onMounted } from "vue"
 
 const store = useMainStore()
-const user = store.user
+const user = computed(() => store.user)
 const router = useRouter()
 
 const errorMessage = ref("")
@@ -98,7 +98,7 @@ async function submitCode() {
     const response = await $fetch("/api/mailVerify?type=code", {
       method: "POST",
       body: JSON.stringify({
-        email: user.mail,
+        email: user.value.mail,
         code: stateCode.code
       })
     })
@@ -118,7 +118,7 @@ async function resendVerificationMail() {
     await $fetch("/api/mailVerify?type=mail", {
       method: "POST",
       body: JSON.stringify({
-        email: user.mail
+        email: user.value.mail
       })
     })
 
@@ -132,16 +132,14 @@ async function resendVerificationMail() {
 }
 
 onMounted(async () => {
-  const user = store.getUser
-
-  if (user) {
-    if (user.isAdmin === 1) {
+  if (user.value) {
+    if (user.value.isAdmin === 1) {
       router.push("/admin/dashboard")
     } else {
       try {
         const response = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
-          body: JSON.stringify({ mail: user.mail })
+          body: JSON.stringify({ mail: user.value.mail })
         })
 
         if (response.body.mailIsVerified === 1) {
