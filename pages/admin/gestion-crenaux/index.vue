@@ -187,7 +187,6 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  // TODO
   errorMessage.value = error.data.message
   issueMessage.value = error.data.statusMessage ?? ""
 }
@@ -201,7 +200,6 @@ const fetchSeance = async () => {
 
     seances.value = result.body
   } catch (error) {
-    // TODO
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   } finally {
@@ -328,8 +326,6 @@ const exportGrimpeursPDF = async (idSeance) => {
 
     generatePDF(grimpeurs, seanceDetails)
   } catch (error) {
-    // TODO
-    console.warn(error)
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   }
@@ -351,7 +347,6 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        // TODO
         errorMessage.value = error.data.message
         issueMessage.value = error.data.statusMessage ?? ""
       }

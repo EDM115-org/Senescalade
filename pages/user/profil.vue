@@ -3,6 +3,11 @@
     v-if="loading"
     class="fillheight"
   >
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <h1 class="text-center my-4">
       <v-btn
         color="primary"
@@ -63,7 +68,6 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      // TODO
       errorMessage.value = error.data.message
       issueMessage.value = error.data.statusMessage ?? ""
     }

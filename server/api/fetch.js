@@ -380,54 +380,62 @@ async function exportGrimpeursToCSV() {
     "optionProtectionAgression"
   ]
 
-  const data = rows.map((row) => [
-    row.nom,
-    row.prenom,
-    new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
-    row.sexe,
-    row.nationalite,
-    row.adresse,
-    row.complementAdresse || "",
-    row.codePostal,
-    row.ville,
-    row.pays,
-    row.telephone || "",
-    row.mobile || "",
-    row.courriel2 || "",
-    row.personneNom || "",
-    row.personnePrenom || "",
-    row.personneTelephone || "",
-    row.personneCourriel || "",
-    row.numLicence || "",
-    row.typeLicence,
-    row.assurance,
-    row.optionSki ? "Oui" : "Non",
-    row.optionSlackline ? "Oui" : "Non",
-    row.optionTrail ? "Oui" : "Non",
-    row.optionVTT ? "Oui" : "Non",
-    row.optionAssurance,
-    row.optionProtectionAgression ? "Oui" : "Non"
-  ])
+  try {
+    const data = rows.map((row) => [
+      row.nom,
+      row.prenom,
+      new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
+      row.sexe,
+      row.nationalite,
+      row.adresse,
+      row.complementAdresse || "",
+      row.codePostal,
+      row.ville,
+      row.pays,
+      row.telephone || "",
+      row.mobile || "",
+      row.courriel2 || "",
+      row.personneNom || "",
+      row.personnePrenom || "",
+      row.personneTelephone || "",
+      row.personneCourriel || "",
+      row.numLicence || "",
+      row.typeLicence,
+      row.assurance,
+      row.optionSki ? "Oui" : "Non",
+      row.optionSlackline ? "Oui" : "Non",
+      row.optionTrail ? "Oui" : "Non",
+      row.optionVTT ? "Oui" : "Non",
+      row.optionAssurance,
+      row.optionProtectionAgression ? "Oui" : "Non"
+    ])
 
-  const chunkSize = 100
-  const chunks = []
+    const chunkSize = 100
+    const chunks = []
 
-  for (let i = 0; i < data.length; i += chunkSize) {
-    const chunk = data.slice(i, i + chunkSize)
-    const csvContent = [ header, ...chunk ].map((row) => row.join(";")).join("\n")
+    for (let i = 0; i < data.length; i += chunkSize) {
+      const chunk = data.slice(i, i + chunkSize)
+      const csvContent = [ header, ...chunk ].map((row) => row.join(";")).join("\n")
 
-    chunks.push(csvContent)
-  }
+      chunks.push(csvContent)
+    }
 
-  const idsToUpdate = rows.map((row) => row.idGrimpeur)
+    const idsToUpdate = rows.map((row) => row.idGrimpeur)
 
-  const updateQuery = `UPDATE Grimpeur SET isExported = 1 WHERE idGrimpeur IN (${idsToUpdate.join(",")})`
+    const updateQuery = `UPDATE Grimpeur SET isExported = 1 WHERE idGrimpeur IN (${idsToUpdate.join(",")})`
 
-  await connection.execute(updateQuery)
+    await connection.execute(updateQuery)
 
-  return {
-    status: 200,
-    body: chunks
+    return {
+      status: 200,
+      body: chunks
+    }
+  } catch (err) {
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la génération du fichier CSV",
+      statusMessage: JSON.stringify(err)
+    })
   }
 }
 

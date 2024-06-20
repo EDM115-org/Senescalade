@@ -181,16 +181,12 @@ const confirmAdd = async () => {
     return
   }
 
-  try {
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(admin.password, salt)
-    const adminData = { ...admin, password: hash }
+  const salt = await bcrypt.genSalt(10)
+  const hash = await bcrypt.hash(admin.password, salt)
+  const adminData = { ...admin, password: hash }
 
-    emit("confirm-add", adminData)
-    close()
-  } catch (error) {
-    console.error("Erreur lors de l'encryptage du mot de passe:", error)
-  }
+  emit("confirm-add", adminData)
+  close()
 }
 
 defineExpose({ open, close })

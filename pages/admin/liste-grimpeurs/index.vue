@@ -1,5 +1,10 @@
 <template>
   <v-container class="fillheight">
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <v-row justify="center">
       <v-col cols="12">
         <v-card>
@@ -327,7 +332,6 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        // TODO
         errorMessage.value = error.data.message
         issueMessage.value = error.data.statusMessage ?? ""
       }
@@ -369,10 +373,8 @@ const downloadCSV = async () => {
       window.URL.revokeObjectURL(url)
     })
   } catch (error) {
-    console.error("Erreur lors du téléchargement du CSV:", error)
-    // TODO. non conventionnal error message, fetch csv throws none. lies in the ability of the browser to download the file
-    // errorMessage.value = error.data.message
-    // issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data.message
+    issueMessage.value = error.data.statusMessage ?? ""
   }
 }
 

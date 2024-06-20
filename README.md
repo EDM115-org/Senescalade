@@ -137,16 +137,12 @@ docker push edm115/senescalade:latest
 
 ## Tier list des choses à faire
 
-|  Priorité  | Tâche |   État   |
-| :---------: | :---------------------: | :--------: |
-| **S** |   Docker : vérifier que tout fonctionne (ex : BDD après un redéploiement)   |   ❌ (L)   |
-| **S** |       API : sécurisation et `throw createError()`          |   ✅   |
-| **S** |      vuelidate dans l'inscription et tous les formulaires + désactiver les boutons    |   ❌ (L)   |
-| **S** |         export des grimpeurs d'un créneau en pdf **(à améliorer, L)**      |   ✅   |
-| **S** |         appels à `Error.vue` là où il faut (voir les `// TODO` et les errorMessage sans Error)         |   ❌ (L)   |
-| **S** |       vérifier la liste d'attente + reprise d'inscription (jump to paiement)  |  ❌ (A/C)  |
-|      A      |      réinscriptions          | ❌ (C/A/L) |
-|      A      |            instructions claires dans le readme        |   ❌ (L)   |
-|      B      |          compléter le dashboard    |  ❌ (C/A)  |
-|    B    |   nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...)   |   ❌ (L)   |
-|      C      |      clean les couleurs et images            |   ❌ (L)   |
+| Priorité | Tâche | État |
+| :---: | :---: | :---: |
+| **S** | vuelidate dans l'inscription et tous les formulaires + désactiver les boutons | ❌ |
+| **S** | export des grimpeurs d'un créneau en pdf **(à améliorer)** | ✅ |
+| A | réinscriptions | ❌ |
+| A | instructions claires dans le readme | ❌ |
+| B | compléter le dashboard | ✅ |
+| B | nettoyer le code (props non utilisées, meilleurs tableaux avec indicateurs visuels, ...) | ❌ |
+| C | clean les couleurs et images | ❌ |

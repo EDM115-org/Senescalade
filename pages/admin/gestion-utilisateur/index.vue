@@ -1,5 +1,10 @@
 <template>
   <v-container class="fillheight">
+    <Error
+      v-if="errorMessage"
+      :issue="issueMessage"
+      :message="errorMessage"
+    />
     <div>
       <v-row justify="center">
         <v-col cols="12">
@@ -117,7 +122,6 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  // TODO
   errorMessage.value = error.data.message
   issueMessage.value = error.data.statusMessage ?? ""
 }
@@ -130,7 +134,6 @@ const fetchCompte = async () => {
 
     users.value = result.body
   } catch (error) {
-    // TODO
     errorMessage.value = error.data.message
     issueMessage.value = error.data.statusMessage ?? ""
   }
@@ -189,7 +192,6 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        // TODO
         errorMessage.value = error.data.message
         issueMessage.value = error.data.statusMessage ?? ""
       }
