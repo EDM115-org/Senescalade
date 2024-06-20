@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fillheight flex-column justify-center">
+  <v-container class="h-screen flex-column justify-center">
     <h1 class="text-center mt-5 mb-5">
       Récupération du mot de passe
     </h1>
@@ -278,17 +278,9 @@ async function submitPassword() {
 
 
 <style scoped>
-.fillheight {
-  height: 100vh;
-}
-
 .input-field {
   width: 100%;
   max-width: 400px;
-}
-
-.text-center {
-  text-align: center;
 }
 </style>
 

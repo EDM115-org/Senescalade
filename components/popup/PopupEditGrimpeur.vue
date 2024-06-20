@@ -685,14 +685,3 @@ const confirmEdit = () => {
 
 defineExpose({ open, close })
 </script>
-
-<style scoped>
-.link-color {
-  color: #2196F3;
-  text-decoration: none;
-}
-
-.link-color:hover {
-  text-decoration: underline;
-}
-</style>

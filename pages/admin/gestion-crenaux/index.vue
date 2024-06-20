@@ -17,12 +17,21 @@
               <v-col
                 class="d-flex justify-sm-end"
               >
-                <v-btn
-                  color="success"
-                  icon="mdi-calendar-plus-outline"
-                  variant="elevated"
-                  @click="editSeance(null)"
-                />
+                <v-tooltip
+                  location="bottom"
+                  text="Ajouter une séance"
+                  theme="light"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      color="success"
+                      icon="mdi-calendar-plus-outline"
+                      variant="elevated"
+                      @click="editSeance(null)"
+                    />
+                  </template>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-row>
@@ -82,31 +91,57 @@
                     {{ seance.professeur }}
                   </td>
                   <td class="d-flex justify-center align-center text-center">
-                    <v-btn
-                      v-if="isPermEdit"
-                      color="accent"
-                      class="mr-2"
-                      icon="mdi-calendar-edit-outline"
-                      size="small"
-                      variant="elevated"
-                      @click="editSeance(seance)"
-                    />
-                    <v-btn
-                      v-if="isPermDelete"
-                      color="error"
-                      class="mr-2"
-                      icon="mdi-calendar-remove-outline"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="confirmDelete(seance)"
-                    />
-                    <v-btn
-                      color="secondary"
-                      icon="mdi-file-pdf-box"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="exportGrimpeursPDF(seance.idSeance)"
-                    />
+                    <v-tooltip
+                      location="top"
+                      text="Modifier la séance"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-if="isPermEdit"
+                          v-bind="props"
+                          color="accent"
+                          class="mr-2"
+                          icon="mdi-calendar-edit-outline"
+                          size="small"
+                          variant="elevated"
+                          @click="editSeance(seance)"
+                        />
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip
+                      location="top"
+                      text="Supprimer la séance"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-if="isPermDelete"
+                          v-bind="props"
+                          color="error"
+                          class="mr-2"
+                          icon="mdi-calendar-remove-outline"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="confirmDelete(seance)"
+                        />
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip
+                      location="top"
+                      text="Exporter la liste des grimpeurs en PDF"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          color="secondary"
+                          icon="mdi-file-pdf-box"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="exportGrimpeursPDF(seance.idSeance)"
+                        />
+                      </template>
+                    </v-tooltip>
                   </td>
                 </tr>
               </tbody>

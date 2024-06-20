@@ -9,7 +9,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.nom"
+          v-model="userProps.grimpeur.nom"
           label="Nom"
           variant="outlined"
         />
@@ -19,7 +19,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.prenom"
+          v-model="userProps.grimpeur.prenom"
           label="Prénom"
           variant="outlined"
         />
@@ -29,7 +29,7 @@
         md="6"
       >
         <v-radio-group
-          v-model="props.grimpeur.sexe"
+          v-model="userProps.grimpeur.sexe"
           label="Sexe"
           inline
         >
@@ -48,7 +48,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.telephone"
+          v-model="userProps.grimpeur.telephone"
           label="Téléphone (optionnel)"
           variant="outlined"
         />
@@ -58,7 +58,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.mobile"
+          v-model="userProps.grimpeur.mobile"
           label="Mobile (optionnel)"
           variant="outlined"
         />
@@ -68,7 +68,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.courriel2"
+          v-model="userProps.grimpeur.courriel2"
           label="Email secondaire (optionnel)"
           variant="outlined"
         />
@@ -83,7 +83,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.adresse"
+          v-model="userProps.grimpeur.adresse"
           label="Adresse"
           variant="outlined"
         />
@@ -93,7 +93,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.complementAdresse"
+          v-model="userProps.grimpeur.complementAdresse"
           label="Complément d'Adresse (optionnel)"
           variant="outlined"
         />
@@ -103,7 +103,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.codePostal"
+          v-model="userProps.grimpeur.codePostal"
           label="Code Postal"
           variant="outlined"
         />
@@ -113,7 +113,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.ville"
+          v-model="userProps.grimpeur.ville"
           label="Ville"
           variant="outlined"
         />
@@ -123,7 +123,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="props.grimpeur.pays"
+          v-model="userProps.grimpeur.pays"
           :items="countries"
           label="Pays"
         />
@@ -133,7 +133,7 @@
         md="6"
       >
         <v-autocomplete
-          v-model="props.grimpeur.nationalite"
+          v-model="userProps.grimpeur.nationalite"
           :items="countries"
           label="Nationalité"
         />
@@ -149,7 +149,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.personneNom"
+          v-model="userProps.grimpeur.personneNom"
           label="Nom"
           variant="outlined"
         />
@@ -159,7 +159,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.personnePrenom"
+          v-model="userProps.grimpeur.personnePrenom"
           label="Prénom"
           variant="outlined"
         />
@@ -169,7 +169,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.personneTelephone"
+          v-model="userProps.grimpeur.personneTelephone"
           label="Téléphone"
           variant="outlined"
         />
@@ -179,7 +179,7 @@
         md="6"
       >
         <v-text-field
-          v-model="props.grimpeur.personneCourriel"
+          v-model="userProps.grimpeur.personneCourriel"
           label="Email"
           variant="outlined"
         />
@@ -188,13 +188,22 @@
     <v-divider class="my-8" />
     <h2 class="my-4">
       Informations complémentaires
-      <v-btn
-        class="ml-2"
-        color="accent"
-        icon="mdi-tooltip-question-outline"
-        variant="elevated"
-        @click="displayOptionsHelpText = !displayOptionsHelpText"
-      />
+      <v-tooltip
+        location="top"
+        text="Aide sur les options"
+        theme="light"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            class="ml-2"
+            color="accent"
+            icon="mdi-tooltip-question-outline"
+            variant="elevated"
+            @click="displayOptionsHelpText = !displayOptionsHelpText"
+          />
+        </template>
+      </v-tooltip>
     </h2>
     <p
       v-if="displayOptionsHelpText"
@@ -219,7 +228,7 @@
       >
         <h4>Assurance</h4>
         <v-radio-group
-          v-model="props.grimpeur.assurance"
+          v-model="userProps.grimpeur.assurance"
           inline
         >
           <v-radio
@@ -246,7 +255,7 @@
       >
         <h4>Assurance complémentaire (indemnités journalières)</h4>
         <v-radio-group
-          v-model="props.grimpeur.optionAssurance"
+          v-model="userProps.grimpeur.optionAssurance"
           inline
         >
           <v-radio
@@ -273,27 +282,27 @@
       >
         <h4>Options</h4>
         <v-checkbox
-          v-model="props.grimpeur.optionProtectionAgression"
+          v-model="userProps.grimpeur.optionProtectionAgression"
           density="compact"
           label="Option Protection Agression (1,70 €)"
         />
         <v-checkbox
-          v-model="props.grimpeur.optionSki"
+          v-model="userProps.grimpeur.optionSki"
           density="compact"
           label="Option ski de piste (5 €)"
         />
         <v-checkbox
-          v-model="props.grimpeur.optionSlackline"
+          v-model="userProps.grimpeur.optionSlackline"
           density="compact"
           label="Option slackline/highline (5 €)"
         />
         <v-checkbox
-          v-model="props.grimpeur.optionTrail"
+          v-model="userProps.grimpeur.optionTrail"
           density="compact"
           label="Option trail (10 €)"
         />
         <v-checkbox
-          v-model="props.grimpeur.optionVTT"
+          v-model="userProps.grimpeur.optionVTT"
           density="compact"
           label="Option VTT (30 €)"
         />
@@ -310,7 +319,7 @@ const displayOptionsHelpText = ref(false)
 const selectedOptions = ref([])
 let countries = []
 
-const props = defineProps({
+const userProps = defineProps({
   grimpeur: {
     type: Object,
     required: true
@@ -319,7 +328,7 @@ const props = defineProps({
 
 watch(selectedOptions, (newVal) => {
   newVal.forEach((option) => {
-    props.grimpeur.value[option.value] = true
+    userProps.grimpeur.value[option.value] = true
   })
 })
 

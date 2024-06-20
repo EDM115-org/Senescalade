@@ -56,13 +56,22 @@
                     v-if="isPermDelete"
                     class="d-flex justify-center align-center text-center"
                   >
-                    <v-btn
-                      color="error"
-                      icon="mdi-delete"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="confirmDelete(theUser)"
-                    />
+                    <v-tooltip
+                      location="top"
+                      text="Supprimer le compte"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          color="error"
+                          icon="mdi-delete-outline"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="confirmDelete(theUser)"
+                        />
+                      </template>
+                    </v-tooltip>
                   </td>
                 </tr>
               </tbody>

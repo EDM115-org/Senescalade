@@ -35,13 +35,21 @@
                   <strong>Numéro de Licence :</strong>
                 </p>
                 <pre>{{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
-                <v-btn
-                  v-if="grimpeur.numLicence !== ''"
-                  flat
-                  icon="mdi-content-copy"
-                  size="small"
-                  @click="copyToClipboard(grimpeur.numLicence)"
-                />
+                <v-tooltip
+                  location="bottom"
+                  text="Copier le numéro de licence"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-if="grimpeur.numLicence !== ''"
+                      v-bind="props"
+                      flat
+                      icon="mdi-content-copy"
+                      size="small"
+                      @click="copyToClipboard(grimpeur.numLicence)"
+                    />
+                  </template>
+                </v-tooltip>
               </div>
               <p v-if="grimpeur.seance">
                 <strong>Séance sélectionnée :</strong>
@@ -64,7 +72,7 @@
                 <v-btn
                   v-if="reinscriptionOpen && grimpeur.asSeance"
                   color="warning"
-                  prepend-icon="mdi-account-arrow-left"
+                  prepend-icon="mdi-account-convert-outline"
                   text="Réinscription"
                   size="xl"
                   @click.prevent="reinscription(grimpeur)"
@@ -76,7 +84,7 @@
               >
                 <v-btn
                   color="error"
-                  prepend-icon="mdi-delete-outline"
+                  prepend-icon="mdi-account-remove-outline"
                   text="Supprimer"
                   size="xl"
                   @click.prevent="deleteDialog = true"

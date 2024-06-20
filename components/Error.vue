@@ -8,22 +8,32 @@
     :width="mdAndUp ? '25%' : '75%'"
     @click:close="close = true"
   >
-    <v-btn
-      v-if="issue"
-      :color="color"
-      class="mr-4"
-      icon="mdi-information-outline"
-      variant="flat"
-      @click="more = !more"
-    />
-    <v-btn
-      v-else
-      :color="color"
-      class="mr-4"
-      icon="mdi-information-outline"
-      variant="flat"
-      readonly
-    />
+    <v-tooltip
+      location="top"
+      text="Informations supplémentaires"
+      theme="light"
+    >
+      <template #activator="{ props }">
+        <v-btn
+          v-if="issue"
+          v-bind="props"
+          :color="color"
+          class="mr-4"
+          icon="mdi-information-outline"
+          variant="flat"
+          @click="more = !more"
+        />
+        <v-btn
+          v-else
+          v-bind="props"
+          :color="color"
+          class="mr-4"
+          icon="mdi-information-outline"
+          variant="flat"
+          readonly
+        />
+      </template>
+    </v-tooltip>
     {{ message }}
     <div v-if="more">
       <v-divider class="my-4" />

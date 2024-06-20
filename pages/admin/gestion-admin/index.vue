@@ -18,12 +18,21 @@
               <v-col
                 class="d-flex justify-sm-end"
               >
-                <v-btn
-                  color="success"
-                  icon="mdi-account-plus-outline"
-                  variant="elevated"
-                  @click.prevent="openAddAdmin"
-                />
+                <v-tooltip
+                  location="bottom"
+                  text="Ajouter un administrateur"
+                  theme="light"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      color="success"
+                      icon="mdi-account-plus-outline"
+                      variant="elevated"
+                      @click.prevent="openAddAdmin"
+                    />
+                  </template>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-row>
@@ -98,25 +107,43 @@
                         v-if="isPermEdit"
                         cols="auto"
                       >
-                        <v-btn
-                          color="accent"
-                          icon="mdi-pencil"
-                          variant="elevated"
-                          :disabled="admin.idCompte === user.id"
-                          @click.prevent="confirmEdit(admin)"
-                        />
+                        <v-tooltip
+                          location="top"
+                          text="Modifier l'administrateur"
+                          theme="light"
+                        >
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              color="accent"
+                              :icon="admin.idCompte === user.id ? 'mdi-pencil-off-outline' : 'mdi-pencil-outline'"
+                              variant="elevated"
+                              :disabled="admin.idCompte === user.id"
+                              @click.prevent="confirmEdit(admin)"
+                            />
+                          </template>
+                        </v-tooltip>
                       </v-col>
                       <v-col
                         v-if="isPermDelete"
                         cols="auto"
                       >
-                        <v-btn
-                          color="error"
-                          icon="mdi-delete"
-                          variant="elevated"
-                          :disabled="admin.idCompte === user.id"
-                          @click.prevent="confirmDelete(admin)"
-                        />
+                        <v-tooltip
+                          location="top"
+                          text="Supprimer l'administrateur"
+                          theme="light"
+                        >
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              color="error"
+                              :icon="admin.idCompte === user.id ? 'mdi-delete-off-outline' : 'mdi-delete-outline'"
+                              variant="elevated"
+                              :disabled="admin.idCompte === user.id"
+                              @click.prevent="confirmDelete(admin)"
+                            />
+                          </template>
+                        </v-tooltip>
                       </v-col>
                     </v-row>
                   </td>

@@ -25,13 +25,22 @@
         Bienvenue sur le site d'inscription de Senescalade<br>
         Ici vous pourrez vous inscrire à l'association, choisir un créneau, payer en ligne, récupérer votre licence et bien plus encore.<br>
         Cliquez sur le bouton d'aide pour en savoir plus.
-        <v-btn
-          class="ml-2"
-          color="accent"
-          icon="mdi-tooltip-question-outline"
-          variant="elevated"
-          @click="displayOptionsHelpText = !displayOptionsHelpText"
-        />
+        <v-tooltip
+          location="right"
+          text="Aide"
+          theme="light"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              class="ml-2"
+              color="accent"
+              icon="mdi-tooltip-question-outline"
+              variant="elevated"
+              @click="displayOptionsHelpText = !displayOptionsHelpText"
+            />
+          </template>
+        </v-tooltip>
         <v-divider class="my-4" />
         <v-row>
           <v-col>
@@ -40,6 +49,7 @@
             >
               <v-btn
                 color="secondary"
+                prepend-icon="mdi-account-plus-outline"
                 text="Inscription"
                 variant="elevated"
               />
@@ -51,6 +61,7 @@
             >
               <v-btn
                 color="secondary"
+                prepend-icon="mdi-login"
                 text="Connexion"
                 variant="elevated"
               />
@@ -62,6 +73,7 @@
             >
               <v-btn
                 color="secondary"
+                prepend-icon="mdi-calendar-multiple"
                 text="Voir les séances"
                 variant="elevated"
               />

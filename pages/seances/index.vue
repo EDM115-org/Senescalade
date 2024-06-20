@@ -1,10 +1,10 @@
 <template>
-  <v-container class="fillheight">
+  <v-container class="h-screen">
     <h1 class="text-center mt-5 mb-5">
       <v-btn
         color="primary"
         class="mr-2"
-        prepend-icon="mdi-arrow-left"
+        prepend-icon="mdi-chevron-left"
         text="Retour"
         @click="$router.push('/')"
       />
@@ -108,9 +108,3 @@ function filterSeances(category) {
   }
 }
 </script>
-
-<style scoped>
-.fillheight {
-  min-height: 100vh;
-}
-</style>

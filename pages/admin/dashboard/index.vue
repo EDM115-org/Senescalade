@@ -14,7 +14,7 @@
           </v-card-title>
           <v-card-text class="text-center">
             <v-icon
-              icon="mdi-account-group"
+              icon="mdi-account-group-outline"
               size="56"
             />
             <h3>{{ grimpeurCount }}</h3>
@@ -48,7 +48,7 @@
           </v-card-title>
           <v-card-text class="text-center">
             <v-icon
-              icon="mdi-file-account"
+              icon="mdi-file-account-outline"
               size="56"
             />
             <h3>{{ isExportedCount }}</h3>
@@ -65,7 +65,7 @@
           </v-card-title>
           <v-card-text class="text-center">
             <v-icon
-              icon="mdi-account-clock"
+              icon="mdi-account-clock-outline"
               size="56"
             />
             <h3>{{ isFileDAttenteCount }}</h3>

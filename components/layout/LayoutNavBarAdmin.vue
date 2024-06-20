@@ -51,7 +51,7 @@ try {
   })
 
   if (response.body.ReadListGrimpeur === 1) {
-    items.push({ text: "Liste des grimpeurs", to: "/admin/liste-grimpeurs" })
+    items.push({ text: "Gestion des grimpeurs", to: "/admin/gestion-grimpeurs" })
   }
 
   if (response.body.ReadListSeance === 1) {
@@ -59,7 +59,7 @@ try {
   }
 
   if (response.body.ReadListAdmin === 1) {
-    items.push({ text: "Gestion admin", to: "/admin/gestion-admin" })
+    items.push({ text: "Gestion des administrateurs", to: "/admin/gestion-admin" })
   }
 
   if (response.body.ReadListUtilisateur === 1) {
@@ -67,7 +67,7 @@ try {
   }
 
   if (response.body.AccessReinscription === 1) {
-    items.push({ text: "Gestion réinscription", to: "/admin/reinscription" })
+    items.push({ text: "Gestion de la réinscription", to: "/admin/reinscription" })
   }
 } catch (error) {
   errorMessage.value = error.data.message
@@ -76,11 +76,3 @@ try {
 
 items.push({ text: "Profil", to: "/admin/profil" })
 </script>
-
-<style scoped>
-.sidebar-header {
-  padding: 20px;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-</style>

@@ -6,7 +6,7 @@
     <h1 class="text-center my-4">
       <v-btn
         color="primary"
-        prepend-icon="mdi-arrow-left"
+        prepend-icon="mdi-chevron-left"
         @click="goBack"
       >
         Retour
@@ -40,20 +40,28 @@
               color="success"
               class="d-flex mx-auto"
               clearable
-              icon="mdi-calendar-account-outline"
               label="Date de naissance (MM/DD/YYYY)"
               prepend-icon=""
               prepend-inner-icon="mdi-calendar-account-outline"
               :max-width="mdAndUp ? '30em' : '100em'"
               @click:clear="birthdate = null"
             />
-            <v-btn
-              class="ml-2"
-              color="accent"
-              icon="mdi-tooltip-question-outline"
-              variant="elevated"
-              @click="displayBirthdateHelpText = !displayBirthdateHelpText"
-            />
+            <v-tooltip
+              location="right"
+              text="Aide pour la date de naissance"
+              theme="light"
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  class="ml-2"
+                  color="accent"
+                  icon="mdi-tooltip-question-outline"
+                  variant="elevated"
+                  @click="displayBirthdateHelpText = !displayBirthdateHelpText"
+                />
+              </template>
+            </v-tooltip>
           </div>
           <p
             v-if="displayBirthdateHelpText"

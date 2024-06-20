@@ -25,7 +25,7 @@
       </NuxtLink>
       <v-btn
         v-else
-        icon="mdi-menu"
+        :icon="displayMenuIcon ? 'mdi-close' : 'mdi-menu'"
         @click="displayMenu"
       />
     </template>
@@ -65,6 +65,7 @@ const vuetifyTheme = useTheme()
 const accountIcon = ref("mdi-login")
 const accountText = computed(() => (store.getUser ? "Déconnexion" : "Connexion"))
 const connected = computed(() => store.getUser)
+const displayMenuIcon = computed(() => store.getDisplayAdminMenu)
 const theme = ref(store.getTheme)
 const adminPage = computed(() => route.fullPath.includes("admin"))
 const iconTheme = computed(() => (vuetifyTheme.name.value === "light" ? "mdi-weather-night" : "mdi-weather-sunny"))

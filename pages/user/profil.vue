@@ -12,11 +12,11 @@
       <v-btn
         color="primary"
         class="mr-2"
-        prepend-icon="mdi-arrow-left"
+        prepend-icon="mdi-chevron-left"
         text="Retour"
         @click="$router.push('/user')"
       />
-      Vous êtes connecté {{ mail ?? "" }}
+      Modifier son profil
     </h1>
     <FormUpdatePassword />
     <v-row class="justify-center">
@@ -24,7 +24,7 @@
         <v-divider class="my-4" />
         <v-btn
           color="error"
-          prepend-icon="mdi-delete"
+          prepend-icon="mdi-delete-outline"
           text="Supprimer mon compte"
           variant="elevated"
           @click.prevent="confirmDelete(user)"

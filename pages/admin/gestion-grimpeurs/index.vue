@@ -17,20 +17,37 @@
               <v-col
                 class="d-flex justify-sm-end"
               >
-                <v-btn
-                  class="mr-2"
-                  color="success"
-                  icon="mdi-file-download-outline"
-                  variant="elevated"
-                  @click="downloadCSV"
-                />
-                <v-btn
-                  v-col
-                  color="success"
-                  icon="mdi-refresh"
-                  variant="elevated"
-                  @click="resetIsExported"
-                />
+                <v-tooltip
+                  location="bottom"
+                  text="Télécharger les données au format CSV"
+                  theme="light"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      class="mr-2"
+                      color="success"
+                      icon="mdi-file-download-outline"
+                      variant="elevated"
+                      @click="downloadCSV"
+                    />
+                  </template>
+                </v-tooltip>
+                <v-tooltip
+                  location="bottom"
+                  text="Réinitialiser l'état d'export des données pour TOUS les grimpeurs"
+                  theme="light"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      color="error"
+                      icon="mdi-account-convert-outline"
+                      variant="elevated"
+                      @click="resetIsExported"
+                    />
+                  </template>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-row>
@@ -100,40 +117,75 @@
                     {{ grimpeur.aPaye ? 'Oui' : 'Non' }}
                   </td>
                   <td class="d-flex justify-center align-center text-center">
-                    <v-btn
-                      v-if="isPermEdit"
-                      color="accent"
-                      class="mr-2"
-                      icon="mdi-pencil"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="editGrimpeur(grimpeur)"
-                    />
-                    <v-btn
-                      v-if="isPermDelete"
-                      color="warning"
-                      class="mr-2"
-                      icon="mdi-calendar-remove-outline"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="confirmDeleteSeance(grimpeur)"
-                    />
-                    <v-btn
-                      v-if="isPermDelete"
-                      color="error"
-                      class="mr-2"
-                      icon="mdi-delete"
-                      size="small"
-                      variant="elevated"
-                      @click.prevent="confirmDelete(grimpeur)"
-                    />
-                    <v-btn
-                      color="secondary"
-                      icon="mdi-dots-horizontal-circle-outline"
-                      size="small"
-                      variant="elevated"
-                      @click="viewGrimpeur(grimpeur)"
-                    />
+                    <v-tooltip
+                      location="top"
+                      text="Modifier le grimpeur"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-if="isPermEdit"
+                          v-bind="props"
+                          color="accent"
+                          class="mr-2"
+                          icon="mdi-pencil-outline"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="editGrimpeur(grimpeur)"
+                        />
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip
+                      location="top"
+                      text="Supprimer le grimpeur de sa séance"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-if="isPermDelete"
+                          v-bind="props"
+                          color="warning"
+                          class="mr-2"
+                          icon="mdi-calendar-remove-outline"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="confirmDeleteSeance(grimpeur)"
+                        />
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip
+                      location="top"
+                      text="Supprimer le grimpeur"
+                      theme="light"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-if="isPermDelete"
+                          v-bind="props"
+                          color="error"
+                          class="mr-2"
+                          icon="mdi-delete-outline"
+                          size="small"
+                          variant="elevated"
+                          @click.prevent="confirmDelete(grimpeur)"
+                        />
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip
+                      location="top"
+                      text="Voir plus d'informations du grimpeur"
+                    >
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          color="secondary"
+                          icon="mdi-dots-vertical"
+                          size="small"
+                          variant="elevated"
+                          @click="viewGrimpeur(grimpeur)"
+                        />
+                      </template>
+                    </v-tooltip>
                   </td>
                 </tr>
               </tbody>
