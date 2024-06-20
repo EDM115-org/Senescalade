@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import { createError, defineEventHandler, sendError } from "h3"
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler((event) => {
   if ((/^\/api(\/(?!login|register|forgotPassword|mailVerify|fetch\?type=mailIsVerified).*)?$/).test(event.node.req.url)) {
     const authHeader = event.node.req.headers.authorization
 

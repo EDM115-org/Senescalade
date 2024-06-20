@@ -265,7 +265,7 @@ const formatBirthDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("fr-FR")
 }
 
-async function reinscription(grimpeur) {
+function reinscription(grimpeur) {
   router.push(`/user/reinscription?grimpeur=${grimpeur.idGrimpeur}`)
 }
 </script>
