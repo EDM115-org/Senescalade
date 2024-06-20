@@ -284,6 +284,31 @@ const handleSeance = (seance, edit) => {
   }
 }
 
+const generatePDF = (grimpeurs, seanceDetails) => {
+  const doc = new jsPDF()
+
+  doc.setTextColor(40)
+  doc.setFontSize(16)
+  doc.setFont("helvetica", "normal")
+
+  doc.text(`Liste des grimpeurs inscrits à la séance du ${seanceDetails.jour} de ${seanceDetails.heureDebutSeance} à ${seanceDetails.heureFinSeance}`, 15, 15)
+
+  doc.setFontSize(12)
+  doc.text(`Type de séance : ${seanceDetails.typeSeance}`, 15, 25)
+  doc.text(`Nombre de grimpeurs : ${seanceDetails.nbPlaces}`, 15, 30)
+
+  doc.setLineWidth(0.2)
+  doc.line(15, 35, 195, 35)
+
+  grimpeurs.forEach((grimpeur, index) => {
+    const yPos = 45 + (index * 10)
+
+    doc.text(`${grimpeur.nom} ${grimpeur.prenom}`, 20, yPos)
+  })
+
+  doc.save(`grimpeurs_seance_${seanceDetails.idSeance}.pdf`)
+}
+
 const exportGrimpeursPDF = async (idSeance) => {
   try {
     const result = await $fetch("/api/fetch?type=grimpeursForSeance", {
@@ -309,32 +334,6 @@ const exportGrimpeursPDF = async (idSeance) => {
     issueMessage.value = error.data.statusMessage ?? ""
   }
 }
-
-const generatePDF = (grimpeurs, seanceDetails) => {
-  const doc = new jsPDF()
-
-  doc.setTextColor(40)
-  doc.setFontSize(16)
-  doc.setFont("helvetica", "normal")
-
-  doc.text(`Liste des grimpeurs inscrits à la séance du ${seanceDetails.jour} de ${seanceDetails.heureDebutSeance} à ${seanceDetails.heureFinSeance}`, 15, 15)
-
-  doc.setFontSize(12)
-  doc.text(`Type de séance : ${seanceDetails.typeSeance}`, 15, 25)
-  doc.text(`Nombre de grimpeurs : ${seanceDetails.nbPlaces}`, 15, 30)
-
-  doc.setLineWidth(0.2)
-  doc.line(15, 35, 195, 35)
-
-  grimpeurs.forEach((grimpeur, index) => {
-    const yPos = 45 + (index * 10)
-
-    doc.text(`${grimpeur.nom} ${grimpeur.prenom}`, 20, yPos)
-  })
-
-  doc.save("grimpeurs_seance.pdf")
-}
-
 
 onMounted(async () => {
   if (user.value) {

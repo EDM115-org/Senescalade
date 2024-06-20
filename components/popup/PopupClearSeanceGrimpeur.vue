@@ -38,17 +38,17 @@ const isOpen = ref(false)
 
 const emit = defineEmits([ "confirm-clear" ])
 
-const clearReinscriptions = () => {
-  emit("confirm-clear")
-  close()
-}
-
 const open = () => {
   isOpen.value = true
 }
 
 const close = () => {
   isOpen.value = false
+}
+
+const clearReinscriptions = () => {
+  emit("confirm-clear")
+  close()
 }
 
 defineExpose({ open, close })
