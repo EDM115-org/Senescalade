@@ -94,7 +94,7 @@ const open = async (grimpeurData) => {
       headers: { Authorization: `Bearer ${user.value.token}` }
     })
 
-    if (result.body && result.body.idSeance) {
+    if (result.body?.idSeance) {
       const response = await $fetch("/api/fetch?type=seance", {
         headers: { Authorization: `Bearer ${user.value.token}` }
       })
