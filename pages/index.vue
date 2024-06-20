@@ -22,7 +22,7 @@
           max-height="200"
           max-width="200"
           rounded="xl"
-          src="/images/logo-black-red.png"
+          src="/images/logo-black-red-transparent.png"
         />
         Bienvenue sur le site d'inscription de Senescalade<br>
         Ici vous pourrez vous inscrire à l'association, choisir un créneau, payer en ligne, récupérer votre licence et bien plus encore.<br>
