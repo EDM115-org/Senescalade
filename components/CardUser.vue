@@ -30,7 +30,7 @@
               <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
               <p><strong>Code Postal :</strong> {{ grimpeur.codePostal }}</p>
               <p><strong>Statut du paiement :</strong> {{ grimpeur.aPaye === 1 ? "Confirmé" : "Non confirmé" }}</p>
-              <div class="license-container">
+              <div class="d-flex justify-center align-center">
                 <p class="mr-2">
                   <strong>Numéro de Licence :</strong>
                 </p>
@@ -60,7 +60,7 @@
             >
               <v-col
                 cols="12"
-                class="no-padding-btn mt-3"
+                class="pa-0 mt-3"
               >
                 <v-tooltip
                   v-if="reinscriptionOpen && grimpeur.asSeance"
@@ -82,7 +82,7 @@
               </v-col>
               <v-col
                 cols="12"
-                class="no-padding-btn mb-3"
+                class="pa-0 mb-3"
               >
                 <v-tooltip bottom>
                   <template #activator="{ on }">
@@ -194,7 +194,7 @@ onMounted(async () => {
         if (result.body !== undefined) {
           const dateSeance = response.body[result.body.idSeance - 1]
 
-          grimpeurs.value[grimpeur].seance = ` ${dateSeance.typeSeance}${dateSeance.niveau ? " - " + dateSeance.niveau : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
+          grimpeurs.value[grimpeur].seance = ` ${dateSeance.typeSeance} ${dateSeance.niveau ? `- ${dateSeance.niveau}` : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
         } else {
           grimpeurs.value[grimpeur].seance = " Aucune"
         }
@@ -270,25 +270,16 @@ async function reinscription(grimpeur) {
   router.push(`/user/reinscription?grimpeur=${grimpeur.idGrimpeur}`)
 }
 </script>
-  <style scoped>
-  .license-container {
-    display: flex;
-    align-items: center;
-  justify-content: center;
-  }
 
-  pre {
-    margin: 0;
-    padding: 0;
-    background: rgb(var(-v-theme-on-surface));
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-size: 14px;
-    font-family: "Fira Code";
-  }
-
-  .no-padding-btn {
-    padding: 0 !important; /* Annule le padding des boutons */
-  }
-  </style>
+<style scoped>
+pre {
+  margin: 0;
+  padding: 0;
+  background: rgb(var(-v-theme-on-surface));
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: "Fira Code";
+}
+</style>
