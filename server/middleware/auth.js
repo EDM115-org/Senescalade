@@ -3,7 +3,7 @@ import { createError, defineEventHandler, sendError } from "h3"
 
 export default defineEventHandler(async (event) => {
   if ((/^\/api(\/(?!login|register|forgotPassword|mailVerify|fetch\?type=mailIsVerified).*)?$/).test(event.node.req.url)) {
-    const authHeader = event.node.req.headers["authorization"]
+    const authHeader = event.node.req.headers.authorization
 
     if (!authHeader) {
       return sendError(event, createError({
