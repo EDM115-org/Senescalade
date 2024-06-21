@@ -148,8 +148,8 @@ import useVuelidate from "@vuelidate/core"
 import bcrypt from "bcryptjs"
 
 import { createI18nValidators } from "~/assets/utils/i18n-validators"
-import { email, maxLength, minLength, numeric, required } from "@vuelidate/validators"
 import { computed, reactive, ref } from "vue"
+import { useI18n } from "vue-i18n"
 
 const router = useRouter()
 
@@ -158,6 +158,9 @@ const issueMessage = ref("")
 const messageColor = ref("error")
 const showPassword = ref(false)
 const step = ref(1)
+
+const { t } = useI18n()
+const { email, maxLength, minLength, numeric, required, sameAs } = createI18nValidators(t)
 
 const initialStateMail = {
   email: ""
@@ -177,8 +180,6 @@ const rulesCode = {
 }
 const code$ = useVuelidate(rulesCode, stateCode)
 
-const { t } = useI18n()
-const { sameAs } = createI18nValidators(t)
 
 const initialStatePassword = {
   newPassword: "",

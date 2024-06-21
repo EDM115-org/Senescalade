@@ -49,54 +49,67 @@
             <v-col cols="12">
               <v-switch
                 v-model="admin.ReadListGrimpeur"
+                color="success"
                 label="Lecture Liste Grimpeur"
               />
               <v-switch
                 v-model="admin.ReadListSeance"
+                color="success"
                 label="Lecture Liste Séance"
               />
               <v-switch
                 v-model="admin.ReadListAdmin"
+                color="success"
                 label="Lecture Liste Admin"
               />
               <v-switch
                 v-model="admin.ReadListUtilisateur"
+                color="success"
                 label="Lecture Liste Utilisateur"
               />
               <v-switch
                 v-model="admin.UpdateListGrimpeur"
+                color="success"
                 label="Modification Liste Grimpeur"
               />
               <v-switch
                 v-model="admin.UpdateListSeance"
+                color="success"
                 label="Modification Liste Séance"
               />
               <v-switch
                 v-model="admin.UpdateListAdmin"
+                color="success"
                 label="Modification Liste Admin"
               />
               <v-switch
                 v-model="admin.UpdateListUtilisateur"
+                color="success"
                 label="Modification Liste Utilisateur"
               />
               <v-switch
                 v-model="admin.DeleteListGrimpeur"
+                color="success"
                 label="Suppression Liste Grimpeur"
               />
               <v-switch
                 v-model="admin.DeleteListSeance"
+                color="success"
                 label="Suppression Liste Séance"
               />
               <v-switch
                 v-model="admin.DeleteListAdmin"
+                color="success"
                 label="Suppression Liste Admin"
               />
               <v-switch
                 v-model="admin.DeleteListUtilisateur"
+                color="success"
                 label="Suppression Liste Utilisateur"
               />
               <v-switch
                 v-model="admin.AccessReinscription"
+                color="success"
                 label="Access à la réinscription"
               />
             </v-col>
@@ -126,8 +139,9 @@
 import useVuelidate from "@vuelidate/core"
 import bcrypt from "bcryptjs"
 
-import { email, minLength, required } from "@vuelidate/validators"
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { reactive, ref } from "vue"
+import { useI18n } from "vue-i18n"
 
 const isOpen = ref(false)
 const showPassword = ref(false)
@@ -149,6 +163,9 @@ const admin = reactive({
   DeleteListUtilisateur: false,
   AccessReinscription: false
 })
+
+const { t } = useI18n()
+const { required, email, minLength } = createI18nValidators(t)
 
 const rules = {
   mail: { required, email },

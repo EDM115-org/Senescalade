@@ -24,6 +24,7 @@
                 v-model="permissions[key]"
                 :model-value="value === 1 ? true : false"
                 :label="permissionNames[key]"
+                color="success"
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
@@ -41,6 +42,7 @@
                 v-model="permissions[key]"
                 :model-value="value === 1 ? true : false"
                 :label="permissionNames[key]"
+                color="success"
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
@@ -58,6 +60,7 @@
                 v-model="permissions[key]"
                 :model-value="value === 1 ? true : false"
                 :label="permissionNames[key]"
+                color="success"
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>
@@ -75,6 +78,7 @@
                 v-model="permissions[key]"
                 :model-value="value === 1 ? true : false"
                 :label="permissionNames[key]"
+                color="success"
                 @update:model-value="permissions[key] = $event ? 1 : 0"
               />
             </v-col>

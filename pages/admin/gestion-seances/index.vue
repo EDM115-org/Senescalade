@@ -337,7 +337,7 @@ const generatePDF = (grimpeurs, seanceDetails) => {
     doc.text(`${grimpeur.nom} ${grimpeur.prenom}`, 20, yPos)
   })
 
-  doc.save(`grimpeurs_seance_${seanceDetails.idSeance}.pdf`)
+  doc.save(`grimpeurs_seance_${seanceDetails.id}.pdf`)
 }
 
 const exportGrimpeursPDF = async (idSeance) => {
@@ -350,6 +350,7 @@ const exportGrimpeursPDF = async (idSeance) => {
 
     const grimpeurs = result.body
     const seanceDetails = {
+      id: grimpeurs[0].idSeance,
       jour: grimpeurs[0].jour,
       typeSeance: grimpeurs[0].typeSeance,
       heureDebutSeance: grimpeurs[0].heureDebutSeance,

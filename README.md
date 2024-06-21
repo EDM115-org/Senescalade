@@ -139,7 +139,6 @@ docker push edm115/senescalade:latest
 
 | Priorité | Tâche | État |
 | :---: | :---: | :---: |
-| **S** | vuelidate dans l'inscription et tous les formulaires + désactiver les boutons | ❌ |
 | **S** | réinscriptions | ❌ |
 | A | export des grimpeurs d'un créneau en pdf **(à améliorer)** | ✅ |
 | A | instructions claires dans le readme | ❌ |

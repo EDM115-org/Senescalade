@@ -1,8 +1,15 @@
 {
   "validations": {
+    "duree": "Durée invalide (hh:mm:ss)",
     "email": "L'email n'est pas valide",
+    "heure": "Heure invalide (hh:mm:ss)",
     "maxLength": "Ce champ doit avoir une longueur maximale de {max} caractères",
     "minLength": "Ce champ doit avoir une longueur minimale de {min} caractères",
+    "nbPlaces": {
+      "greaterThanZero": "Le nombre de places doit être supérieur à 0",
+      "greaterOrEqualNbPlacesRestantes": "Le nombre de places doit être supérieur ou égal au nombre de places restantes"
+    },
+    "nbPlacesRestantes": "Nombre de places restantes invalide",
     "numeric": "Ce champ doit contenir uniquement des chiffres",
     "required": "Ce champ est requis",
     "sameAsPassword": "Les mots de passe ne correspondent pas"

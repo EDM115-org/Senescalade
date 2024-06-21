@@ -64,9 +64,10 @@
 <script setup>
 import useVuelidate from "@vuelidate/core"
 
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { useMainStore } from "~/store/main"
-import { maxLength, minLength, numeric, required } from "@vuelidate/validators"
 import { computed, onMounted, reactive, ref } from "vue"
+import { useI18n } from "vue-i18n"
 
 const store = useMainStore()
 const user = computed(() => store.user)
@@ -75,6 +76,9 @@ const router = useRouter()
 const errorMessage = ref("")
 const issueMessage = ref("")
 const messageColor = ref("error")
+
+const { t } = useI18n()
+const { maxLength, minLength, numeric, required } = createI18nValidators(t)
 
 const initialStateCode = {
   code: ""

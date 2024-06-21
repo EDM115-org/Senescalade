@@ -1,8 +1,15 @@
 {
   "validations": {
+    "duree": "Invalid duration (hh:mm:ss)",
     "email": "This email is not valid",
+    "heure": "Invalid time (hh:mm:ss)",
     "maxLength": "This field must have a maximum length of {max} characters",
     "minLength": "This field must have a minimum length of {min} characters",
+    "nbPlaces": {
+      "greaterThanZero": "The number of places must be greater than 0",
+      "greaterOrEqualNbPlacesRestantes": "The number of places must be greater than or equal to the number of remaining places"
+    },
+    "nbPlacesRestantes": "Invalid number of remaining places",
     "numeric": "This field must contain only numbers",
     "required": "This field is required",
     "sameAsPassword": "The passwords do not match"

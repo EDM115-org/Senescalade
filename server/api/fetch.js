@@ -330,7 +330,7 @@ async function fetchGrimpeursForSeance(body) {
 
   const connection = await pool.getConnection()
   const [ rows ] = await connection.execute(
-    `SELECT g.idGrimpeur, g.nom, g.prenom, s.jour, s.typeSeance, s.heureDebutSeance, s.heureFinSeance, s.nbPlaces, s.nbPlacesRestantes
+    `SELECT g.idGrimpeur, g.nom, g.prenom, s.idSeance, s.jour, s.typeSeance, s.heureDebutSeance, s.heureFinSeance, s.nbPlaces, s.nbPlacesRestantes
       FROM Grimpeur g
       INNER JOIN GrimpeurSeance gs ON g.idGrimpeur = gs.idGrimpeur
       INNER JOIN Seance s ON gs.idSeance = s.idSeance

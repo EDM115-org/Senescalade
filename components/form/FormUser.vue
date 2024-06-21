@@ -381,7 +381,7 @@ const v$ = useVuelidate(rules, userProps.grimpeur)
 
 watch(
   () => v$.value,
-  (newVal) => {
+  () => {
     v$.value.$touch()
 
     if (v$.value.$invalid) {
