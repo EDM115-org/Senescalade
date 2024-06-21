@@ -49,6 +49,7 @@
           class="text-center"
         >
           <v-btn
+            :disabled="isResendDisabled"
             color="primary"
             text="Renvoyer le mail de vérification"
             variant="elevated"
@@ -89,6 +90,23 @@ const rulesCode = {
 }
 const code$ = useVuelidate(rulesCode, stateCode)
 
+const isResendDisabled = ref(false)
+const timer = ref(0)
+
+const timerMessage = computed(() => `Vous pouvez renvoyer le mail dans ${timer.value} secondes.`)
+
+function startTimer() {
+  timer.value = 60
+  const countdown = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--
+    } else {
+      clearInterval(countdown)
+      isResendDisabled.value = false
+    }
+  }, 1000)
+}
+
 async function submitCode() {
   code$.value.$touch()
 
@@ -116,6 +134,9 @@ async function submitCode() {
 }
 
 async function resendVerificationMail() {
+  isResendDisabled.value = true
+  startTimer()
+
   try {
     await $fetch("/api/mailVerify?type=mail", {
       method: "POST",
@@ -138,6 +159,9 @@ onMounted(async () => {
     if (user.value.isAdmin === 1) {
       router.push("/admin/dashboard")
     } else {
+      isResendDisabled.value = true
+      startTimer()
+
       try {
         const response = await $fetch("/api/fetch?type=mailIsVerified", {
           method: "POST",
