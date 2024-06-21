@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fillheight">
-    <h1 class="text-center mt-5 mb-5">
+  <v-container class="h-screen flex-column justify-center">
+    <h1 class="text-center my-4">
       Inscription
     </h1>
     <Error

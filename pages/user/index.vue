@@ -1,11 +1,9 @@
 <template>
   <v-container
     v-if="loading"
-    class="fillheight"
+    class="h-screen flex-column justify-center"
   >
-    <h1
-      class="text-center mt-5 mb-5"
-    >
+    <h1 class="text-center my-4">
       Espace utilisateur
     </h1>
     <Error

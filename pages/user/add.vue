@@ -1,7 +1,7 @@
 <template>
   <v-container
     v-if="loading"
-    class="fillheight"
+    class="h-screen flex-column justify-center"
   >
     <h1 class="text-center my-4">
       <v-btn

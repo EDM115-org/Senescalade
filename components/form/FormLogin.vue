@@ -73,7 +73,7 @@
     <v-row v-if="!loginProps.inscription && loginProps.errors !== '' && loginProps.messageColor !== 'success'">
       <v-col
         cols="12"
-        class="d-flex justify-center pa-0 mt-1"
+        class="d-flex justify-center pa-0 mt-2"
       >
         <v-btn
           color="warning"

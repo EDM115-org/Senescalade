@@ -1,6 +1,6 @@
 <template>
   <v-container class="h-screen">
-    <h1 class="text-center mt-5 mb-5">
+    <h1 class="text-center my-4">
       <v-btn
         color="primary"
         class="mr-2"
@@ -16,7 +16,7 @@
       :issue="issueMessage"
       :message="errorMessage"
     />
-    <v-row class="mb-3">
+    <v-row class="mb-2">
       <v-col>
         <v-btn
           color="secondary"
@@ -60,7 +60,7 @@
         cols="12"
         md="6"
       >
-        <v-card class="mb-3">
+        <v-card class="mb-2">
           <v-card-title>{{ seance.typeSeance }} {{ seance.niveau ? `(${seance.niveau})` : "" }} - {{ seance.jour }}</v-card-title>
           <v-card-text>
             Horaires : {{ seance.heureDebutSeance }} - {{ seance.heureFinSeance }}<br>

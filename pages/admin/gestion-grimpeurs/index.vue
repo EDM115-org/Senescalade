@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fillheight">
+  <v-container class="h-screen flex-column justify-center">
     <Error
       v-if="errorMessage"
       :issue="issueMessage"

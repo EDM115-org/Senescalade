@@ -1,7 +1,7 @@
 <template>
   <v-container
     v-if="loading"
-    class="fillheight"
+    class="h-screen flex-column justify-center"
   >
     <Error
       v-if="errorMessage"

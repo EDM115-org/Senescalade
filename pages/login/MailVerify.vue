@@ -1,9 +1,9 @@
 <template>
-  <v-container class="fillheight">
-    <h1 class="text-center mt-5 mb-5">
+  <v-container class="h-screen flex-column justify-center">
+    <h1 class="text-center my-4">
       Vérification de l'email
     </h1>
-    <p class="text-center mb-5">
+    <p class="text-center mb-4">
       Un mail vous a été envoyé avec un code de vérification.
     </p>
     <Error

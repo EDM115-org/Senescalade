@@ -71,10 +71,11 @@
             >
               <v-col
                 cols="12"
-                class="pa-0 my-4"
+                class="pa-0 mt-4"
               >
                 <v-btn
                   v-if="reinscriptionOpen && grimpeur.asSeance"
+                  class="mb-2"
                   color="warning"
                   prepend-icon="mdi-account-convert-outline"
                   text="Réinscription"
