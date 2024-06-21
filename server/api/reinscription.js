@@ -93,10 +93,6 @@ async function clearReinscription() {
   const updateQuery = `
     UPDATE Grimpeur
     SET action = 'R'
-    WHERE idGrimpeur IN (
-      SELECT idGrimpeur
-      FROM GrimpeurSeance
-    )
   `
 
   await connection.execute(updateQuery)
@@ -135,22 +131,24 @@ async function clearReinscription() {
 
   connection.release()
 
-  const mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: rows.map((row) => row.mail).join(", "),
-    subject: "Réinscription",
-    text: "Bonjour,\n\nLa réinscription a été ouverte.\n\nCordialement,\n\nLe club",
-    html: "Bonjour,<br><br>La réinscription a été ouverte.<br><br>Cordialement,<br><br>Le club"
-  }
+  for (const row of rows) {
+    const mailOptions = {
+      from: `"Senescalade" <${process.env.GMAIL_USER}>`,
+      to: row.mail,
+      subject: "Senescalade - Réinscription ouverte",
+      text: "Bonjour,\n\nLa réinscription a été ouverte. Vous pouvez dès maintenant choisir un nouveau créneau pour votre/vos grimpeurs\n\nCordialement,\nLe club",
+      html: "Bonjour,<br><br>La réinscription a été ouverte. Vous pouvez dès maintenant choisir un nouveau créneau pour votre/vos grimpeurs<br><br>Cordialement,<br>Senescalade"
+    }
 
-  try {
-    await transporter.sendMail(mailOptions)
-  } catch (error) {
-    throw createError({
-      status: 500,
-      message: "Erreur lors de l'envoi de l'email de réinscription",
-      statusMessage: JSON.stringify(error)
-    })
+    try {
+      await transporter.sendMail(mailOptions)
+    } catch (error) {
+      throw createError({
+        status: 500,
+        message: "Erreur lors de l'envoi de l'email de réinscription",
+        statusMessage: JSON.stringify(error)
+      })
+    }
   }
 
   return { status: 200, body: { message: "Mise à jour des actions et suppression des inscriptions effectuées avec succès" } }

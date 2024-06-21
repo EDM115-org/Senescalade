@@ -85,7 +85,7 @@ async function handleMailRequest(body) {
   const mailOptions = {
     from: `"Senescalade" <${process.env.GMAIL_USER}>`,
     to: email,
-    subject: `Vérification de votre email : ${code}`,
+    subject: `Vérification de votre email - ${code}`,
     text: `Votre code de vérification est : ${code}`,
     html: `<p>Votre code de vérification est : <strong>${code}</strong></p>`
   }

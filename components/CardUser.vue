@@ -34,14 +34,14 @@
                 <p class="mr-2">
                   <strong>Numéro de Licence :</strong>
                 </p>
-                <pre>{{ grimpeur.numLicence !== "" ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
+                <pre>{{ grimpeur.numLicence !== "" && grimpeur.numLicence !== null ? grimpeur.numLicence : "En attente d'attribution" }}</pre>
                 <v-tooltip
                   location="bottom"
                   text="Copier le numéro de licence"
                 >
                   <template #activator="{ props }">
                     <v-btn
-                      v-if="grimpeur.numLicence !== ''"
+                      v-if="grimpeur.numLicence !== '' && grimpeur.numLicence !== null"
                       v-bind="props"
                       flat
                       icon="mdi-content-copy"
@@ -71,7 +71,7 @@
             >
               <v-col
                 cols="12"
-                class="pa-0 mt-3"
+                class="pa-0 my-4"
               >
                 <v-btn
                   v-if="reinscriptionOpen && grimpeur.asSeance"
@@ -84,7 +84,7 @@
               </v-col>
               <v-col
                 cols="12"
-                class="pa-0 mb-3"
+                class="pa-0 mb-4"
               >
                 <v-btn
                   color="error"

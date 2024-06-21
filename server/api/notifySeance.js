@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     const mailOptions = {
       from: `"Senescalade" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: "Senescalade : Séance disponible",
+      subject: "Senescalade - Séance disponible",
       text: "La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.",
       html: "<p>La séance pour laquelle vous êtes en file d'attente est maintenant disponible. Connectez-vous pour réserver votre place.</p>"
     }

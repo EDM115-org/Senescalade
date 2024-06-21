@@ -139,6 +139,5 @@ docker push edm115/senescalade:latest
 
 | Priorité | Tâche | État |
 | :---: | :---: | :---: |
-| **S** | réinscriptions | ❌ |
 | A | export des grimpeurs d'un créneau en pdf **(à améliorer)** | ✅ |
 | A | instructions claires dans le readme | ❌ |
