@@ -1,8 +1,10 @@
 {
   "validations": {
-    "required": "This field is required",
     "email": "This email is not valid",
+    "maxLength": "This field must have a maximum length of {max} characters",
     "minLength": "This field must have a minimum length of {min} characters",
+    "numeric": "This field must contain only numbers",
+    "required": "This field is required",
     "sameAsPassword": "The passwords do not match"
   }
 }

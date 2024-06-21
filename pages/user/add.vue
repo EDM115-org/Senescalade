@@ -157,6 +157,7 @@
             <template #default>
               <FormUser
                 :grimpeur="grimpeur"
+                @validation="isUserValid = $event"
               />
             </template>
             <template #fallback>
@@ -171,6 +172,7 @@
           <template #next="{ next }">
             <v-btn
               color="success"
+              :disabled="!isUserValid"
               text="Ajouter un grimpeur"
               variant="elevated"
               @click="nextLoadingClick(next)"
@@ -256,6 +258,7 @@ const displayBirthdateHelpText = ref(false)
 const errorMessage = ref("")
 const events = ref([])
 const isLoading = ref(false)
+const isUserValid = ref(false)
 const issueMessage = ref("")
 const selectedEvent = ref(null)
 const noEventsLeft = ref(false)

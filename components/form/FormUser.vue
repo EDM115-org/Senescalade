@@ -12,6 +12,8 @@
           v-model="userProps.grimpeur.nom"
           label="Nom"
           variant="outlined"
+          :error-messages="v$.nom.$errors.map(e => e.$message)"
+          @blur="v$.nom.$touch"
         />
       </v-col>
       <v-col
@@ -22,6 +24,8 @@
           v-model="userProps.grimpeur.prenom"
           label="Prénom"
           variant="outlined"
+          :error-messages="v$.prenom.$errors.map(e => e.$message)"
+          @blur="v$.prenom.$touch"
         />
       </v-col>
       <v-col
@@ -32,6 +36,8 @@
           v-model="userProps.grimpeur.sexe"
           label="Sexe"
           inline
+          :error-messages="v$.sexe.$errors.map(e => e.$message)"
+          @blur="v$.sexe.$touch"
         >
           <v-radio
             label="Homme"
@@ -51,6 +57,8 @@
           v-model="userProps.grimpeur.telephone"
           label="Téléphone (optionnel)"
           variant="outlined"
+          :error-messages="v$.telephone.$errors.map(e => e.$message)"
+          @blur="v$.telephone.$touch"
         />
       </v-col>
       <v-col
@@ -61,6 +69,8 @@
           v-model="userProps.grimpeur.mobile"
           label="Mobile (optionnel)"
           variant="outlined"
+          :error-messages="v$.mobile.$errors.map(e => e.$message)"
+          @blur="v$.mobile.$touch"
         />
       </v-col>
       <v-col
@@ -71,6 +81,8 @@
           v-model="userProps.grimpeur.courriel2"
           label="Email secondaire (optionnel)"
           variant="outlined"
+          :error-messages="v$.courriel2.$errors.map(e => e.$message)"
+          @blur="v$.courriel2.$touch"
         />
       </v-col>
     </v-row>
@@ -86,6 +98,8 @@
           v-model="userProps.grimpeur.adresse"
           label="Adresse"
           variant="outlined"
+          :error-messages="v$.adresse.$errors.map(e => e.$message)"
+          @blur="v$.adresse.$touch"
         />
       </v-col>
       <v-col
@@ -106,6 +120,8 @@
           v-model="userProps.grimpeur.codePostal"
           label="Code Postal"
           variant="outlined"
+          :error-messages="v$.codePostal.$errors.map(e => e.$message)"
+          @blur="v$.codePostal.$touch"
         />
       </v-col>
       <v-col
@@ -116,6 +132,8 @@
           v-model="userProps.grimpeur.ville"
           label="Ville"
           variant="outlined"
+          :error-messages="v$.ville.$errors.map(e => e.$message)"
+          @blur="v$.ville.$touch"
         />
       </v-col>
       <v-col
@@ -172,6 +190,8 @@
           v-model="userProps.grimpeur.personneTelephone"
           label="Téléphone"
           variant="outlined"
+          :error-messages="v$.personneTelephone.$errors.map(e => e.$message)"
+          @blur="v$.personneTelephone.$touch"
         />
       </v-col>
       <v-col
@@ -182,6 +202,8 @@
           v-model="userProps.grimpeur.personneCourriel"
           label="Email"
           variant="outlined"
+          :error-messages="v$.personneCourriel.$errors.map(e => e.$message)"
+          @blur="v$.personneCourriel.$touch"
         />
       </v-col>
     </v-row>
@@ -312,7 +334,11 @@
 </template>
 
 <script setup>
+import useVuelidate from "@vuelidate/core"
+
+import { createI18nValidators } from "~/assets/utils/i18n-validators"
 import { onMounted, ref, watch } from "vue"
+import { useI18n } from "vue-i18n"
 
 const displayOptionsHelpText = ref(false)
 
@@ -326,11 +352,48 @@ const userProps = defineProps({
   }
 })
 
+const emit = defineEmits([ "validation" ])
+
 watch(selectedOptions, (newVal) => {
   newVal.forEach((option) => {
     userProps.grimpeur.value[option.value] = true
   })
 })
+
+const { t } = useI18n()
+const { required, email, maxLength, numeric } = createI18nValidators(t)
+
+const rules = {
+  nom: { required },
+  prenom: { required },
+  telephone: { maxLength: maxLength(15), numeric },
+  sexe: { required },
+  mobile: { maxLength: maxLength(15), numeric },
+  courriel2: { email },
+  adresse: { required },
+  codePostal: { required, maxLength: maxLength(5), numeric },
+  ville: { required },
+  personneCourriel: { email },
+  personneTelephone: { maxLength: maxLength(15), numeric }
+}
+
+const v$ = useVuelidate(rules, userProps.grimpeur)
+
+watch(
+  () => v$.value,
+  (newVal) => {
+    v$.value.$touch()
+
+    if (v$.value.$invalid) {
+      emit("validation", false)
+
+      return
+    }
+
+    emit("validation", true)
+  },
+  { deep: true }
+)
 
 // skipcq: JS-0116
 onMounted(async () => {

@@ -53,7 +53,11 @@
               </div>
               <p v-if="grimpeur.seance">
                 <strong>Séance sélectionnée :</strong>
-                {{ grimpeur.seance }}
+                {{ grimpeur.seance.typeSeance }} {{ grimpeur.seance.niveau ? `- ${grimpeur.seance.niveau}` : "" }}<br>
+                {{ grimpeur.seance.jour }} de {{ grimpeur.seance.heureDebutSeance }} à {{ grimpeur.seance.heureFinSeance }}
+              </p>
+              <p v-else>
+                <strong>Aucune séance sélectionnée</strong>
               </p>
             </div>
           </v-card-text>
@@ -184,9 +188,9 @@ onMounted(async () => {
         if (result.body !== undefined) {
           const dateSeance = response.body[result.body.idSeance - 1]
 
-          grimpeurs.value[grimpeur].seance = ` ${dateSeance.typeSeance} ${dateSeance.niveau ? `- ${dateSeance.niveau}` : ""}<br>${dateSeance.jour} de ${dateSeance.heureDebutSeance} à ${dateSeance.heureFinSeance}`
+          grimpeurs.value[grimpeur].seance = dateSeance
         } else {
-          grimpeurs.value[grimpeur].seance = " Aucune"
+          grimpeurs.value[grimpeur].seance = null
         }
 
         const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
