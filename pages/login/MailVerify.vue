@@ -134,6 +134,13 @@ async function submitCode() {
 }
 
 async function resendVerificationMail() {
+  if (isResendDisabled.value) {
+    messageColor.value = "warning"
+    errorMessage.value = timerMessage.value
+
+    return
+  }
+
   isResendDisabled.value = true
   startTimer()
 
