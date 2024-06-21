@@ -247,6 +247,8 @@ async function addGrimpeurSeance(body) {
   const { idGrimpeur, idSeance, isFileDAttente } = body
   const connection = await pool.getConnection()
 
+  console.log(idGrimpeur, idSeance, isFileDAttente)
+
   try {
     await connection.beginTransaction()
 

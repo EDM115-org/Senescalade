@@ -70,8 +70,8 @@ try {
     items.push({ text: "Gestion de la réinscription", to: "/admin/reinscription" })
   }
 } catch (error) {
-  errorMessage.value = error.data.message
-  issueMessage.value = error.data.statusMessage ?? ""
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
 }
 
 items.push({ text: "Profil", to: "/admin/profil" })

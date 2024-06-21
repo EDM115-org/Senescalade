@@ -323,8 +323,8 @@ async function adduser() {
 
     router.push("/user")
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -450,15 +450,28 @@ function handleNoEventsLeft() {
 watch(selectedEvent, (value) => {
   if (value) {
     choixCreneau.value = parseInt(value.id)
+    grimpeur.idSeance = choixCreneau.value
 
     if (value.extendedProps.nbPlacesRestantes === 0) {
       isFileDattente.value = true
+      grimpeur.isFileDAttente = isFileDattente.value
+      noEventsLeft.value = true
+    } else {
+      isFileDattente.value = false
+      grimpeur.isFileDAttente = isFileDattente.value
+      noEventsLeft.value = false
     }
   }
 })
 
 watch(birthdate, (value) => {
   grimpeur.dateNaissance = value?.toISOString().split("T")[0] ?? ""
+  selectedEvent.value = null
+  choixCreneau.value = null
+  grimpeur.idSeance = choixCreneau.value
+  isFileDattente.value = false
+  grimpeur.isFileDAttente = isFileDattente.value
+  noEventsLeft.value = false
 })
 
 onMounted(async () => {
@@ -476,8 +489,8 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      errorMessage.value = error.data.message
-      issueMessage.value = error.data.statusMessage ?? ""
+      errorMessage.value = error.data?.message ?? error
+      issueMessage.value = error.data?.statusMessage ?? ""
     }
   } else {
     return router.push("/login")

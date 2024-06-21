@@ -129,8 +129,8 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  errorMessage.value = error.data.message
-  issueMessage.value = error.data.statusMessage ?? ""
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
 }
 
 const fetchCompte = async () => {
@@ -141,8 +141,8 @@ const fetchCompte = async () => {
 
     users.value = result.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -165,8 +165,8 @@ const deleteUser = async (id) => {
     fetchCompte()
     fetchUserCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -199,8 +199,8 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
 
       fetchCompte()

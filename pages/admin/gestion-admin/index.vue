@@ -213,8 +213,8 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  errorMessage.value = error.data.message
-  issueMessage.value = error.data.statusMessage ?? ""
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
 }
 
 const fetchAdmin = async () => {
@@ -225,8 +225,8 @@ const fetchAdmin = async () => {
 
     admins.value = result.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -248,8 +248,8 @@ const updateAdmin = async (admin) => {
 
     fetchAdmin()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -264,8 +264,8 @@ const deleteAdmin = async (id) => {
     fetchAdmin()
     fetchAdminCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -323,8 +323,8 @@ const handleAdd = async (admin) => {
     fetchAdmin()
     fetchAdminCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -344,8 +344,8 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
 
       fetchAdmin()

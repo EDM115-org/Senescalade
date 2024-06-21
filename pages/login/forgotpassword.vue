@@ -215,8 +215,8 @@ async function submitMail() {
     step.value = 2
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -241,8 +241,8 @@ async function submitCode() {
     step.value = 3
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -270,8 +270,8 @@ async function submitPassword() {
     router.push("/login")
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 

@@ -164,8 +164,8 @@ async function submit() {
     clear()
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 

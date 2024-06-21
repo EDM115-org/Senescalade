@@ -300,9 +300,16 @@ async function fetchGrimpeurAsSeance(body) {
 
   connection.release()
 
-  return {
-    status: 200,
-    body: rows
+  if (rows !== undefined && rows.length > 0) {
+    return {
+      status: 200,
+      body: rows[0]
+    }
+  } else {
+    return {
+      status: 200,
+      body: null
+    }
   }
 }
 

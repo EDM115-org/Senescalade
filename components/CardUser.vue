@@ -25,6 +25,7 @@
           <v-card-subtitle>{{ grimpeur.ville }}, {{ grimpeur.pays }}</v-card-subtitle>
           <v-card-text>
             <div class="text-center">
+              {{ grimpeur }}
               <p><strong>Date de Naissance :</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
               <p><strong>Sexe :</strong> {{ grimpeur.sexe === "H" ? "Homme" : "Femme" }}</p>
               <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
@@ -161,8 +162,8 @@ async function fetchGrimpeurs() {
 
     grimpeurs.value = data.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -186,10 +187,10 @@ onMounted(async () => {
           headers: { Authorization: `Bearer ${user.value.token}` }
         })
 
-        if (result.body !== undefined) {
-          const dateSeance = response.body[result.body.idSeance - 1]
+        if (result.body !== undefined && result.body !== null) {
+          const userSeance = response.body.find((seance) => seance.idSeance === result.body.idSeance)
 
-          grimpeurs.value[grimpeur].seance = dateSeance
+          grimpeurs.value[grimpeur].seance = userSeance
         } else {
           grimpeurs.value[grimpeur].seance = null
         }
@@ -220,6 +221,7 @@ onMounted(async () => {
               }
             }
           }
+
           try {
             const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
               method: "POST",
@@ -227,19 +229,19 @@ onMounted(async () => {
               headers: { Authorization: `Bearer ${user.value.token}` }
             })
 
-            if (response2.body.length > 0) {
+            if (response2.body !== null) {
               grimpeurs.value[grimpeur].asSeance = false
             } else {
               grimpeurs.value[grimpeur].asSeance = true
             }
           } catch (error) {
-            errorMessage.value = error.data.message
-            issueMessage.value = error.data.statusMessage ?? ""
+            errorMessage.value = error.data?.message ?? error
+            issueMessage.value = error.data?.statusMessage ?? ""
           }
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
     }
   }

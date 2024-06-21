@@ -220,8 +220,8 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  errorMessage.value = error.data.message
-  issueMessage.value = error.data.statusMessage ?? ""
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
 }
 
 const fetchSeance = async () => {
@@ -233,8 +233,8 @@ const fetchSeance = async () => {
 
     seances.value = result.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -259,8 +259,8 @@ const deleteSeance = async (id) => {
     fetchSeance()
     fetchSeanceCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -274,8 +274,8 @@ const updateSeance = async (seance) => {
 
     fetchSeance()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -290,8 +290,8 @@ const createSeance = async (seance) => {
     fetchSeance()
     fetchSeanceCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -416,8 +416,8 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
 
       fetchSeance()

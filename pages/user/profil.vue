@@ -66,8 +66,8 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      errorMessage.value = error.data.message
-      issueMessage.value = error.data.statusMessage ?? ""
+      errorMessage.value = error.data?.message ?? error
+      issueMessage.value = error.data?.statusMessage ?? ""
     }
   } else {
     return router.push("/login")
@@ -85,8 +85,8 @@ const deleteUser = async (id) => {
     store.logout()
     router.push("/")
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 

@@ -84,20 +84,20 @@ async function login(event) {
             router.push("/login/MailVerify")
           } catch (error) {
             messageColor.value = "error"
-            errorMessage.value = error.data.message
-            issueMessage.value = error.data.statusMessage ?? ""
+            errorMessage.value = error.data?.message ?? error
+            issueMessage.value = error.data?.statusMessage ?? ""
           }
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
     }
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -122,8 +122,8 @@ onMounted(async () => {
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
     }
   }

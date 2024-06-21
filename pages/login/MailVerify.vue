@@ -128,8 +128,8 @@ async function submitCode() {
     router.push("/user")
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -156,8 +156,8 @@ async function resendVerificationMail() {
     errorMessage.value = "Un nouveau mail de vérification a été envoyé"
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -180,8 +180,8 @@ onMounted(async () => {
         }
       } catch (error) {
         messageColor.value = "error"
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
     }
   } else {

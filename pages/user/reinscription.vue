@@ -148,7 +148,7 @@ const isFileDattente = ref(false)
 const loading = ref(false)
 
 let grimpeur = reactive({
-  action: "C",
+  action: "R",
   nom: "",
   prenom: "",
   dateNaissance: "",
@@ -196,7 +196,9 @@ function nextLoadingClick(callback) {
 
 async function addGrimpeurSeance() {
   try {
-    grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
+    // grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
+
+    console.error(grimpeur)
     await $fetch("/api/add?type=grimpeurSeance", {
       method: "POST",
       body: JSON.stringify(grimpeur),
@@ -205,8 +207,8 @@ async function addGrimpeurSeance() {
 
     router.push("/user")
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -331,17 +333,19 @@ function handleNoEventsLeft() {
 
 watch(selectedEvent, (value) => {
   if (value) {
-    grimpeur.idSeance = parseInt(value.id)
     choixCreneau.value = parseInt(value.id)
+    grimpeur.idSeance = choixCreneau.value
 
     if (value.extendedProps.nbPlacesRestantes === 0) {
       isFileDattente.value = true
+      grimpeur.isFileDAttente = isFileDattente.value
+      noEventsLeft.value = true
+    } else {
+      isFileDattente.value = false
+      grimpeur.isFileDAttente = isFileDattente.value
+      noEventsLeft.value = false
     }
   }
-})
-
-watch(grimpeur, (value) => {
-  grimpeur.dateNaissance = value.dateNaissance
 })
 
 onMounted(async () => {
@@ -357,8 +361,8 @@ onMounted(async () => {
         return router.push("/login/MailVerify")
       }
     } catch (error) {
-      errorMessage.value = error.data.message
-      issueMessage.value = error.data.statusMessage ?? ""
+      errorMessage.value = error.data?.message ?? error
+      issueMessage.value = error.data?.statusMessage ?? ""
     }
   } else {
     return router.push("/login")

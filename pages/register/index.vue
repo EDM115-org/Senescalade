@@ -48,8 +48,8 @@ async function register(event) {
 
     router.push("/login?inscription=success")
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -72,8 +72,8 @@ onMounted(async () => {
           router.push("/login/MailVerify")
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
     }
   }

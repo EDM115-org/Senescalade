@@ -102,8 +102,8 @@ const open = async (grimpeurData) => {
       seance.value = null
     }
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 
   isOpen.value = true

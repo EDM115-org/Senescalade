@@ -142,8 +142,8 @@ onMounted(async () => {
     }
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 })
 
@@ -166,8 +166,8 @@ async function submitDatesForm() {
     issueMessage.value = response.body.message ?? ""
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -186,8 +186,8 @@ async function submitOpenForm() {
     issueMessage.value = "Mise à jour de l'état de réinscription"
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -207,8 +207,8 @@ async function clearReinscriptions() {
     issueMessage.value = "Suppression des inscriptions aux séances"
   } catch (error) {
     messageColor.value = "error"
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 </script>

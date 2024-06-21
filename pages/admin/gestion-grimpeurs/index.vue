@@ -256,8 +256,8 @@ try {
     isPermDelete.value = true
   }
 } catch (error) {
-  errorMessage.value = error.data.message
-  issueMessage.value = error.data.statusMessage ?? ""
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
 }
 
 const fetchGrimpeurs = async () => {
@@ -269,8 +269,8 @@ const fetchGrimpeurs = async () => {
 
     grimpeurs.value = response.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   } finally {
     loading.value = false
   }
@@ -295,8 +295,8 @@ const deleteGrimpeur = async (id) => {
     fetchGrimpeurs()
     fetchGrimpeurCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -311,8 +311,8 @@ const deleteGrimpeurSeance = async (id) => {
     fetchGrimpeurs()
     fetchGrimpeurCount()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -326,8 +326,8 @@ const updateGrimpeur = async (grimpeur) => {
 
     fetchGrimpeurs()
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -383,8 +383,8 @@ onMounted(async () => {
           router.push("/admin/dashboard")
         }
       } catch (error) {
-        errorMessage.value = error.data.message
-        issueMessage.value = error.data.statusMessage ?? ""
+        errorMessage.value = error.data?.message ?? error
+        issueMessage.value = error.data?.statusMessage ?? ""
       }
 
       fetchGrimpeurs()
@@ -424,8 +424,8 @@ const downloadCSV = async () => {
       window.URL.revokeObjectURL(url)
     })
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 
@@ -436,8 +436,8 @@ const resetIsExported = async () => {
       headers: { Authorization: `Bearer ${user.value.token}` }
     })
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 </script>

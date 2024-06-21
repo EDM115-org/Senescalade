@@ -93,8 +93,8 @@ onMounted(async () => {
     seances.value = response.body
     filteredSeances.value = response.body
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 })
 
