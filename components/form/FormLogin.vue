@@ -112,11 +112,13 @@ import { useI18n } from "vue-i18n"
 const emit = defineEmits([ "submit:login", "submit:register" ])
 
 const loginProps = defineProps({
+  // skipcq: JS-0715
   errors: {
     type: String,
     default: ""
   },
   inscription: Boolean,
+  // skipcq: JS-0715
   messageColor: {
     type: String,
     default: "error"
