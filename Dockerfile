@@ -3,9 +3,9 @@ FROM node:20.14.0-alpine3.19
 LABEL org.opencontainers.image.authors="EDM115 <dev@edm115.dev>, EuphoriaReal <allan.maccrez@gmail.com>, yamakajump <corentin.batard2003@gmail.com>"
 LABEL org.opencontainers.image.base.name="node:20.14.0-alpine3.19"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.source="https://github.com/EDM115-org/Tab-Magiques.git"
-LABEL org.opencontainers.image.title="Tab Magiques"
-LABEL org.opencontainers.image.url="https://github.com/EDM115-org/Tab-Magiques.git"
+LABEL org.opencontainers.image.source="https://github.com/EDM115-org/Senescalade.git"
+LABEL org.opencontainers.image.title="Senescalade"
+LABEL org.opencontainers.image.url="https://github.com/EDM115-org/Senescalade.git"
 
 ARG PORT=56860
 ENV PORT=${PORT}

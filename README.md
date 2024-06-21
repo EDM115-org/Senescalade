@@ -1,10 +1,10 @@
 <center>
 
-# Tab-Magiques
+# Senescalade
 
 ### Application web d'inscription pour l'association Senescalade
 
-Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques.svg/?label=active+issues&show_trend=true&token=WF6hxNEht95_hyiFpZdVK2h6)](https://app.deepsource.com/gh/EDM115-org/Tab-Magiques/)
+Nombre de problèmes (analyse automatique du dernier commit) [![DeepSource](https://app.deepsource.com/gh/EDM115-org/Senescalade.svg/?label=active+issues&show_trend=true&token=WF6hxNEht95_hyiFpZdVK2h6)](https://app.deepsource.com/gh/EDM115-org/Senescalade/)
 
 </center>
 
@@ -51,7 +51,7 @@ PORT=56860
 ### Production (Docker)
 
 ```bash
-git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
+git clone https://github.com/EDM115-org/Senescalade.git && cd Senescalade
 npm run i
 npm run docker-start
 ```
@@ -75,7 +75,7 @@ npm run docker-stop
 ### Développement
 
 ```bash
-git clone https://github.com/EDM115-org/Tab-Magiques.git && cd Tab-Magiques
+git clone https://github.com/EDM115-org/Senescalade.git && cd Senescalade
 ```
 
 #### Windows
@@ -85,19 +85,19 @@ Ouvrir le MySQL Shell
 ```sql
 \sql
 \connect root@localhost
-\source "C:\Path\To\Tab-Magiques\db\create_user.sql"
-\source "C:\Path\To\Tab-Magiques\db\create_db.sql"
-\source "C:\Path\To\Tab-Magiques\db\instantiate_db.sql"
-\source "C:\Path\To\Tab-Magiques\db\insert_test.sql"
+\source "C:\Path\To\Senescalade\db\create_user.sql"
+\source "C:\Path\To\Senescalade\db\create_db.sql"
+\source "C:\Path\To\Senescalade\db\instantiate_db.sql"
+\source "C:\Path\To\Senescalade\db\insert_test.sql"
 ```
 
 #### Linux
 
 ```bash
-mysql -u root -p < /path/to/Tab-Magiques/db/create_user.sql
-mysql -u root -p < /path/to/Tab-Magiques/db/create_db.sql
-mysql -u root -p < /path/to/Tab-Magiques/db/instantiate_db.sql
-mysql -u root -p < /path/to/Tab-Magiques/db/insert_test.sql
+mysql -u root -p < /path/to/Senescalade/db/create_user.sql
+mysql -u root -p < /path/to/Senescalade/db/create_db.sql
+mysql -u root -p < /path/to/Senescalade/db/instantiate_db.sql
+mysql -u root -p < /path/to/Senescalade/db/insert_test.sql
 ```
 
 Puis dans un terminal
