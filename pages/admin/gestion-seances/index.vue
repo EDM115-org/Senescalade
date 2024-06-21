@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-screen flex-column justify-center">
+  <v-container class="flex-column justify-center">
     <Error
       v-if="errorMessage"
       :issue="issueMessage"
@@ -320,21 +320,56 @@ const generatePDF = (grimpeurs, seanceDetails) => {
 
   doc.setTextColor(40)
   doc.setFontSize(16)
-  doc.setFont("helvetica", "normal")
+  doc.setFont("Helvetica", "normal")
 
-  doc.text(`Liste des grimpeurs inscrits à la séance du ${seanceDetails.jour} de ${seanceDetails.heureDebutSeance} à ${seanceDetails.heureFinSeance}`, 15, 15)
+  doc.text(
+    `Liste des grimpeurs inscrits à la séance du ${seanceDetails.jour} de ${seanceDetails.heureDebutSeance} à ${seanceDetails.heureFinSeance}`,
+    15,
+    15,
+    { maxWidth: 180 }
+  )
 
   doc.setFontSize(12)
-  doc.text(`Type de séance : ${seanceDetails.typeSeance}`, 15, 25)
-  doc.text(`Nombre de grimpeurs : ${seanceDetails.nbPlaces}`, 15, 30)
+  doc.text(`Type de séance : ${seanceDetails.typeSeance}`, 15, 30)
+  doc.text(`Nombre de grimpeurs : ${seanceDetails.nbPlaces}`, 15, 35)
 
   doc.setLineWidth(0.2)
-  doc.line(15, 35, 195, 35)
+  doc.line(15, 40, 195, 40)
 
-  grimpeurs.forEach((grimpeur, index) => {
-    const yPos = 45 + (index * 10)
+  const startX = 15
+  const startY = 45
+  const rowHeight = 10
+  const colWidths = [ 90, 90 ]
 
-    doc.text(`${grimpeur.nom} ${grimpeur.prenom}`, 20, yPos)
+  doc.setFontSize(10)
+  doc.setFont("Helvetica", "bold")
+  doc.text("Nom", startX + 2, startY + 5)
+  doc.text("Prénom", startX + colWidths[0] + 2, startY + 5)
+
+  doc.line(startX, startY, startX + colWidths.reduce((a, b) => a + b), startY)
+  doc.line(startX, startY + rowHeight, startX + colWidths.reduce((a, b) => a + b), startY + rowHeight)
+  doc.line(startX, startY, startX, startY + rowHeight)
+  doc.line(startX + colWidths[0], startY, startX + colWidths[0], startY + rowHeight)
+  doc.line(startX + colWidths.reduce((a, b) => a + b), startY, startX + colWidths.reduce((a, b) => a + b), startY + rowHeight)
+
+  doc.setFont("Helvetica", "normal")
+  let currentY = startY + rowHeight
+
+  grimpeurs.forEach((grimpeur) => {
+    if (currentY + rowHeight > doc.internal.pageSize.height - 10) {
+      doc.addPage()
+      currentY = 10
+    }
+    doc.text(grimpeur.nom, startX + 2, currentY + 5)
+    doc.text(grimpeur.prenom, startX + colWidths[0] + 2, currentY + 5)
+
+    doc.line(startX, currentY, startX + colWidths.reduce((a, b) => a + b), currentY)
+    doc.line(startX, currentY + rowHeight, startX + colWidths.reduce((a, b) => a + b), currentY + rowHeight)
+    doc.line(startX, currentY, startX, currentY + rowHeight)
+    doc.line(startX + colWidths[0], currentY, startX + colWidths[0], currentY + rowHeight)
+    doc.line(startX + colWidths.reduce((a, b) => a + b), currentY, startX + colWidths.reduce((a, b) => a + b), currentY + rowHeight)
+
+    currentY += rowHeight
   })
 
   doc.save(`grimpeurs_seance_${seanceDetails.id}.pdf`)
@@ -360,8 +395,8 @@ const exportGrimpeursPDF = async (idSeance) => {
 
     generatePDF(grimpeurs, seanceDetails)
   } catch (error) {
-    errorMessage.value = error.data.message
-    issueMessage.value = error.data.statusMessage ?? ""
+    errorMessage.value = error.data?.message ?? error
+    issueMessage.value = error.data?.statusMessage ?? ""
   }
 }
 

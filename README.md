@@ -134,10 +134,3 @@ docker push edm115/senescalade:latest
 ## Code
 
 > Explication...
-
-## Tier list des choses à faire
-
-| Priorité | Tâche | État |
-| :---: | :---: | :---: |
-| A | export des grimpeurs d'un créneau en pdf **(à améliorer)** | ✅ |
-| A | instructions claires dans le readme | ❌ |

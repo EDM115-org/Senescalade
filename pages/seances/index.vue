@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-screen">
+  <v-container>
     <h1 class="text-center my-4">
       <v-btn
         color="primary"
