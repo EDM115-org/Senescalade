@@ -44,7 +44,7 @@
 	"docker.languageserver.diagnostics.instructionJSONInSingleQuotes": "error",
 	"docker.languageserver.diagnostics.instructionWorkdirRelative": "error",
 	"editor.tabSize": 2,
-	"eslint.experimental.useFlatConfig": true,
+	"eslint.useFlatConfig": true,
 	"eslint.format.enable": true,
 	"eslint.ignoreUntitled": true,
 	"files.eol": "\n",
@@ -88,9 +88,5 @@
 	"vue.format.style.initialIndent": true,
 	"vue.inlayHints.inlineHandlerLeading": true,
 	"vue.inlayHints.missingProps": true,
-	"vue.inlayHints.vBindShorthand": true,
-	"vue3snippets.semi": false,
-	"vue3snippets.trailingComma": "none",
-	"vue3snippets.vueIndentScriptAndStyle": true
+	"vue.inlayHints.vBindShorthand": true
 }
-
