@@ -9,7 +9,7 @@
     "EuphoriaReal <allan.maccrez@gmail.com>",
     "yamakajump <corentin.batard2003@gmail.com> (https://yamakajump.com)"
   ],
-  "description": "Une webapp pour la gestion des inscriptions de l'association Senescalade",
+  "description": "Une webapp en Nuxt pour la gestion des inscriptions de l'association Senescalade",
   "dependencies": {
     "@fullcalendar/core": "6.1.14",
     "@fullcalendar/interaction": "6.1.14",
