@@ -44,7 +44,6 @@ import { computed, ref } from "vue"
 
 const store = useMainStore()
 const deleteDialog = ref(null)
-const mail = computed(() => store.getUser?.mail)
 const user = computed(() => store.getUser)
 const router = useRouter()
 
