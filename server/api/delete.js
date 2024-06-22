@@ -195,7 +195,7 @@ async function deleteGrimpeurSeance(body, headers) {
     })
     const seance = response.body.find((seance2) => seance2.idSeance === seanceId)
 
-    const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+    const response2 = await ofetch("/api/fetch?type=grimpeurAsSeance", {
       method: "POST",
       body: JSON.stringify({ idGrimpeur }),
       headers: { Authorization: headers.authorization }
