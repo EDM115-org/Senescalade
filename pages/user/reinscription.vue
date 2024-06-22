@@ -196,9 +196,8 @@ function nextLoadingClick(callback) {
 
 async function addGrimpeurSeance() {
   try {
-    // grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
+    grimpeur.typeLicence = determineCategory(grimpeur.dateNaissance) === "Adultes" ? "A" : "J"
 
-    console.error(grimpeur)
     await $fetch("/api/add?type=grimpeurSeance", {
       method: "POST",
       body: JSON.stringify(grimpeur),

@@ -207,8 +207,6 @@ async function deleteGrimpeurSeance(body, headers) {
       isFileDAttente = response2.body.isFileDAttente
     }
 
-    console.warn(result.body, seance)
-
     if (seance.nbPlacesRestantes === 0 && !isFileDAttente) {
       const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
         headers: { Authorization: headers.authorization }

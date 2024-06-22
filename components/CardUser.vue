@@ -85,6 +85,15 @@
                   size="xl"
                   @click.prevent="reinscription(grimpeur)"
                 />
+                <v-btn
+                  v-else-if="grimpeur.seance?.nbPlacesRestantes !== 0 && grimpeur.seance?.isFileDAttente === 1"
+                  class="mb-2"
+                  color="success"
+                  prepend-icon="mdi-account-check-outline"
+                  text="Terminer l'inscription"
+                  size="xl"
+                  @click.prevent="finishInscription(grimpeur)"
+                />
               </v-col>
               <v-col
                 cols="12"
