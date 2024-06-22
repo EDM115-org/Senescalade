@@ -1,15 +1,17 @@
+<div align="center">
+
 # Senescalade
 
-## Une application web en Nuxt pour les inscriptions de l'association Senescalade
+<img src="./public/images/logo-black-red-transparent.png" alt="Senescalade" width="200" height="200">
 
-<center>
+## Une application web en Nuxt pour les inscriptions de l'association Senescalade
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/EDM115-Org/Senescalade) ![GitHub branch status](https://img.shields.io/github/checks-status/EDM115-Org/Senescalade/master) ![GitHub repo size](https://img.shields.io/github/repo-size/EDM115-Org/Senescalade) ![GitHub language count](https://img.shields.io/github/languages/count/EDM115-Org/Senescalade) ![GitHub top language](https://img.shields.io/github/languages/top/EDM115-Org/Senescalade)  
 ![GitHub Created At](https://img.shields.io/github/created-at/EDM115-Org/Senescalade) ![GitHub License](https://img.shields.io/github/license/EDM115-Org/Senescalade) ![GitHub Repo stars](https://img.shields.io/github/stars/EDM115-Org/Senescalade)  
 ![Docker Pulls](https://img.shields.io/docker/pulls/edm115/senescalade) ![Docker Image Size](https://img.shields.io/docker/image-size/edm115/senescalade) ![Docker Image Version](https://img.shields.io/docker/v/edm115/senescalade)  
 [![DeepSource](https://app.deepsource.com/gh/EDM115-org/Senescalade.svg/?label=active+issues&show_trend=true&token=WF6hxNEht95_hyiFpZdVK2h6)](https://app.deepsource.com/gh/EDM115-org/Senescalade/)
 
-</center>
+</div>
 
 ## Présentation
 
