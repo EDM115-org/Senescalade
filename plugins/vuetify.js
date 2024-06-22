@@ -43,6 +43,10 @@ export default defineNuxtPlugin((app) => {
           },
           dark: false
         }
+      },
+      variations: {
+        colors: [ "secondary" ],
+        darken: 2
       }
     }
   })

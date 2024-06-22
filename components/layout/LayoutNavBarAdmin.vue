@@ -22,6 +22,21 @@
         <v-list-item-title>{{ item.text }}</v-list-item-title>
       </v-list-item>
     </v-list>
+
+    <template #append>
+      <div class="d-flex justify-center pa-2">
+        <NuxtLink
+          target="_blank"
+          to="https://github.com/EDM115-Org/Senescalade"
+        >
+          <v-btn
+            append-icon="mdi-github"
+            color="secondary-darken-2"
+            text="Source"
+          />
+        </NuxtLink>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
