@@ -29,7 +29,7 @@ Une interface d'administration est également disponible pour les administrateur
 - Ajout de grimpeurs
 - Inscription aux séances
 - Réinscription semi-automatique
-- Mise en file d'attente pour les séances pleinnes
+- Mise en file d'attente pour les séances pleines
 - Réininialisation du mot de passe
 - Vérification du compte
 - Changement de thème (clair/sombre)
@@ -206,8 +206,8 @@ Accessible à http://localhost:8000/
 - **Build**
 
 ```bash
-docker build -t senescalade .
-docker run -d --env-file ./.env -p 80:56860 --name senescalade senescalade
+docker build -t edm115/senescalade .
+docker run -d --env-file ./.env -p 80:56860 --name senescalade edm115/senescalade
 ```
 
 - **Run**
