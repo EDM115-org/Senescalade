@@ -277,6 +277,10 @@ const formatBirthDate = (dateString) => {
 function reinscription(grimpeur) {
   router.push(`/user/reinscription?grimpeur=${grimpeur.idGrimpeur}`)
 }
+
+function finishInscription(grimpeur) {
+  router.push(`/user/finish?grimpeur=${grimpeur.idGrimpeur}&seance=${grimpeur.seance.idSeance}`)
+}
 </script>
 
 <style scoped>

@@ -23,14 +23,18 @@ export default defineEventHandler(async (event) => {
         const apiRequest2 = await updateGrimpeur(body)
 
         return apiRequest2
-      } case "password": {
-        const apiRequest3 = await updatePassword(body)
+      } case "grimpeurSeance": {
+        const apiRequest3 = await updateGrimpeurSeance(body)
 
         return apiRequest3
-      } case "seance": {
-        const apiRequest4 = await updateSeance(body, headers)
+      } case "password": {
+        const apiRequest4 = await updatePassword(body)
 
         return apiRequest4
+      } case "seance": {
+        const apiRequest5 = await updateSeance(body, headers)
+
+        return apiRequest5
       } default:
         throw createError({
           status: 400,
@@ -106,6 +110,34 @@ async function updateGrimpeur(body) {
     throw createError({
       status: 500,
       message: "Erreur lors de la mise à jour du grimpeur",
+      statusMessage: JSON.stringify(err)
+    })
+  } finally {
+    connection.release()
+  }
+}
+
+async function updateGrimpeurSeance(body) {
+  const { idGrimpeur, idSeance, isFileDAttente } = body
+  const connection = await pool.getConnection()
+
+  try {
+    await connection.beginTransaction()
+
+    const [ rows ] = await connection.execute("UPDATE GrimpeurSeance SET isFileDAttente = ? WHERE idGrimpeur = ? AND idSeance = ?", [ isFileDAttente, idGrimpeur, idSeance ])
+
+    await connection.commit()
+
+    return {
+      status: 200,
+      body: rows[0]
+    }
+  } catch (err) {
+    await connection.rollback()
+
+    throw createError({
+      status: 500,
+      message: "Erreur lors de la mise à jour de la séance du grimpeur",
       statusMessage: JSON.stringify(err)
     })
   } finally {

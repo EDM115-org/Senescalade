@@ -81,31 +81,41 @@
           title="Étape 2"
           value="2"
         >
-          <h2 class="text-center">
-            Vous devez payer {{ calculatePrice() }}€ pour la réinscription de votre grimpeur.
-          </h2>
-          <p class="text-center">
-            Si vous faites de la compétition, ajoutez 40€ au prix ci-dessus.<br>
-            Si vous pensez bénéficier du tarif solidaire (RSA, chômage, étudiant.e.s), retirez 40€ au prix ci-dessus.<br>
-            Remplissez le formulaire HelloAsso ci-dessous, indiquez le prix final dans le champ "Montant Libre" et suivez les instructions.
-          </p>
-          <iframe
-            allowtransparency="true"
-            frameborder="0"
-            class="my-4"
-            scrolling="auto"
-            src="https://www.helloasso.com/associations/senescalade/boutiques/paiements-en-ligne/widget"
-            style="height: 800px; width: 100%; border: none;"
-          />
-          <v-checkbox
-            v-model="aPaye"
-            class="mx-auto"
-            label="Je confirme avoir payé le montant indiqué ci-dessus"
-          />
+          <div v-if="!isFileDAttente">
+            <h2 class="text-center">
+              Vous devez payer {{ calculatePrice() }}€ pour la réinscription de votre grimpeur.
+            </h2>
+            <p class="text-center">
+              Si vous faites de la compétition, ajoutez 40€ au prix ci-dessus.<br>
+              Si vous pensez bénéficier du tarif solidaire (RSA, chômage, étudiant.e.s), retirez 40€ au prix ci-dessus.<br>
+              Remplissez le formulaire HelloAsso ci-dessous, indiquez le prix final dans le champ "Montant Libre" et suivez les instructions.
+            </p>
+            <iframe
+              allowtransparency="true"
+              frameborder="0"
+              class="my-4"
+              scrolling="auto"
+              src="https://www.helloasso.com/associations/senescalade/boutiques/paiements-en-ligne/widget"
+              style="height: 800px; width: 100%; border: none;"
+            />
+            <v-checkbox
+              v-model="aPaye"
+              class="mx-auto"
+              label="Je confirme avoir payé le montant indiqué ci-dessus"
+            />
+          </div>
+          <div v-else>
+            <h2 class="text-center">
+              Vous êtes sur liste d'attente pour la séance sélectionnée.
+            </h2>
+            <p class="text-center">
+              Vous ne pouvez pas payer pour le moment. Nous vous enverrons un email si une place se libère, de manière à ce que vous puissiez vous inscrire. Le paiement se fera à ce moment-là.
+            </p>
+          </div>
 
           <template #next>
             <v-btn
-              :disabled="!aPaye"
+              :disabled="!isFileDAttente && !aPaye"
               color="success"
               text="Réinscription"
               variant="elevated"
