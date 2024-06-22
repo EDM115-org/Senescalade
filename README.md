@@ -219,7 +219,7 @@ docker start senescalade
 - **Publish**
 
 ```bash
-docker tag senescalade edm115/senescalade:latest
+docker tag edm115/senescalade edm115/senescalade:latest
 docker push edm115/senescalade:latest
 ```
 
