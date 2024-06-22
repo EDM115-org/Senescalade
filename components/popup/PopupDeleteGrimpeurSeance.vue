@@ -97,7 +97,7 @@ const open = async (grimpeurData) => {
         headers: { Authorization: `Bearer ${user.value.token}` }
       })
 
-      seance.value = response.body.find((seance) => seance.idSeance === result.body.idSeance)
+      seance.value = response.body.find((seance2) => seance2.idSeance === result.body.idSeance)
     } else {
       seance.value = null
     }
