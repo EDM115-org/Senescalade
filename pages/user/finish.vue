@@ -87,7 +87,7 @@ let grimpeur = reactive({
   optionAssurance: "NON",
   optionProtectionAgression: false,
   fkCompte: store.getUser.id,
-  idSeance: idSeance,
+  idSeance,
   isFileDAttente: false
 })
 
