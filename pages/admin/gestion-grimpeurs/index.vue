@@ -270,15 +270,17 @@ const fetchGrimpeurs = async () => {
     grimpeurs.value = response.body
 
     for (const grimpeur in grimpeurs.value) {
-      const result = await $fetch("/api/fetch?type=grimpeurAsSeance", {
-        method: "POST",
-        body: JSON.stringify({
-          idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
-        }),
-        headers: { Authorization: `Bearer ${user.value.token}` }
-      })
+      if (Object.prototype.hasOwnProperty.call(grimpeurs.value, grimpeur)) {
+        const result = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+          method: "POST",
+          body: JSON.stringify({
+            idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
+          }),
+          headers: { Authorization: `Bearer ${user.value.token}` }
+        })
 
-      grimpeurs.value[grimpeur].seance = result.body ?? null
+        grimpeurs.value[grimpeur].seance = result.body ?? null
+      }
     }
   } catch (error) {
     errorMessage.value = error.data?.message ?? error
