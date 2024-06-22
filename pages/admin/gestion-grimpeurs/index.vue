@@ -77,7 +77,7 @@
                     Téléphone
                   </th>
                   <th class="text-center">
-                    Mobile
+                    En file d'attente
                   </th>
                   <th class="text-center">
                     Numéro de Licence
@@ -108,7 +108,7 @@
                     {{ grimpeur.telephone }}
                   </td>
                   <td class="text-center">
-                    {{ grimpeur.mobile }}
+                    {{ grimpeur.seance?.isFileDAttente === 1 ? "Oui" : "Non" }}
                   </td>
                   <td class="text-center">
                     {{ grimpeur.numLicence }}
@@ -268,6 +268,18 @@ const fetchGrimpeurs = async () => {
     })
 
     grimpeurs.value = response.body
+
+    for (const grimpeur in grimpeurs.value) {
+      const result = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+        method: "POST",
+        body: JSON.stringify({
+          idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
+        }),
+        headers: { Authorization: `Bearer ${user.value.token}` }
+      })
+
+      grimpeurs.value[grimpeur].seance = result.body ?? null
+    }
   } catch (error) {
     errorMessage.value = error.data?.message ?? error
     issueMessage.value = error.data?.statusMessage ?? ""

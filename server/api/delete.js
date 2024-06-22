@@ -195,7 +195,21 @@ async function deleteGrimpeurSeance(body, headers) {
     })
     const seance = response.body.find((seance2) => seance2.idSeance === seanceId)
 
-    if (seance.nbPlacesRestantes === 0) {
+    const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+      method: "POST",
+      body: JSON.stringify({ idGrimpeur }),
+      headers: { Authorization: headers.authorization }
+    })
+
+    let isFileDAttente = false
+
+    if (response2.body !== null) {
+      isFileDAttente = response2.body.isFileDAttente
+    }
+
+    console.warn(result.body, seance)
+
+    if (seance.nbPlacesRestantes === 0 && !isFileDAttente) {
       const grimpeurSeanceResponse = await ofetch(`${base_url}/api/fetch?type=grimpeurSeance`, {
         headers: { Authorization: headers.authorization }
       })

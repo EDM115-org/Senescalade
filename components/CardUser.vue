@@ -25,7 +25,6 @@
           <v-card-subtitle>{{ grimpeur.ville }}, {{ grimpeur.pays }}</v-card-subtitle>
           <v-card-text>
             <div class="text-center">
-              {{ grimpeur }}
               <p><strong>Date de Naissance :</strong> {{ formatBirthDate(grimpeur.dateNaissance) }}</p>
               <p><strong>Sexe :</strong> {{ grimpeur.sexe === "H" ? "Homme" : "Femme" }}</p>
               <p><strong>Adresse :</strong> {{ grimpeur.adresse }}</p>
@@ -56,6 +55,9 @@
                 <strong>Séance sélectionnée :</strong>
                 {{ grimpeur.seance.typeSeance }} {{ grimpeur.seance.niveau ? `- ${grimpeur.seance.niveau}` : "" }}<br>
                 {{ grimpeur.seance.jour }} de {{ grimpeur.seance.heureDebutSeance }} à {{ grimpeur.seance.heureFinSeance }}
+                <span v-if="grimpeur.seance.nbPlacesRestantes === 0 && grimpeur.seance.isFileDAttente === 1">
+                  <br><strong class="text-warning">En file d'attente</strong>
+                </span>
               </p>
               <p v-else>
                 <strong>Aucune séance sélectionnée</strong>
@@ -231,6 +233,7 @@ onMounted(async () => {
 
             if (response2.body !== null) {
               grimpeurs.value[grimpeur].asSeance = false
+              grimpeurs.value[grimpeur].seance = { ...grimpeurs.value[grimpeur].seance, ...response2.body }
             } else {
               grimpeurs.value[grimpeur].asSeance = true
             }
