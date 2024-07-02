@@ -40,7 +40,7 @@
     "dotenv-cli": "7.4.2",
     "env-cmd": "10.1.0",
     "eslint": "9.6.0",
-    "eslint-plugin-vue": "9.26.0",
+    "eslint-plugin-vue": "9.27.0",
     "nuxt": "3.12.2",
     "pinia": "2.1.7",
     "rimraf": "5.0.7",
