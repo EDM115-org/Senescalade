@@ -22,7 +22,7 @@
     "cookiejs": "2.1.3",
     "jsonwebtoken": "9.0.2",
     "jspdf": "2.5.1",
-    "mysql2": "3.10.2",
+    "mysql2": "3.10.3",
     "nodemailer": "6.9.14",
     "ofetch": "1.3.4",
     "vue": "3.4.31",
