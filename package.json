@@ -41,7 +41,7 @@
     "env-cmd": "10.1.0",
     "eslint": "9.7.0",
     "eslint-plugin-vue": "9.27.0",
-    "nuxt": "3.12.2",
+    "nuxt": "3.12.4",
     "pinia": "2.1.7",
     "rimraf": "6.0.0",
     "sass": "1.77.7",
