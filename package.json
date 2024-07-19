@@ -1,7 +1,7 @@
 {
   "author": "EDM115 <dev@edm115.eu.org> (https://edm115.dev)",
   "bugs": {
-    "url": "https://github.com/EDM115-org/Tab-Magiques/issues",
+    "url": "https://github.com/EDM115-org/Senescalade/issues",
     "email": "senescalade@edm115.eu.org"
   },
   "contributors": [
@@ -25,7 +25,7 @@
     "mysql2": "3.10.3",
     "nodemailer": "6.9.14",
     "ofetch": "1.3.4",
-    "vue": "3.4.32",
+    "vue": "3.4.33",
     "vue-router": "4.4.0",
     "vuetify": "3.6.13"
   },
@@ -41,10 +41,10 @@
     "env-cmd": "10.1.0",
     "eslint": "9.7.0",
     "eslint-plugin-vue": "9.27.0",
-    "nuxt": "3.12.2",
+    "nuxt": "3.12.4",
     "pinia": "2.1.7",
-    "rimraf": "6.0.0",
-    "sass": "1.77.7",
+    "rimraf": "6.0.1",
+    "sass": "1.77.8",
     "sass-loader": "14.2.1",
     "vite-plugin-vuetify": "2.0.3"
   },
@@ -52,7 +52,7 @@
     "node": ">=20.0.0",
     "npm": ">=9.0.0"
   },
-  "homepage": "https://github.com/EDM115-org/Tab-Magiques",
+  "homepage": "https://github.com/EDM115-org/Senescalade",
   "keywords": [
     "nuxt",
     "vuetify",
@@ -68,14 +68,14 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EDM115-org/Tab-Magiques.git"
+    "url": "git+https://github.com/EDM115-org/Senescalade.git"
   },
   "scripts": {
     "_dev": "nuxi dev -p $DEV_PORT",
     "_dev-expose": "nuxi dev -p $DEV_PORT --host",
     "_start": "cross-env PORT=$DEV_PORT nuxi start",
-    "analyze": "rimraf .output && nuxi analyze",
-    "build": "rimraf .output && nuxi build",
+    "analyze": "nuxi cleanup && nuxi analyze",
+    "build": "nuxi cleanup && nuxi build",
     "dev": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const command = isWindows ? 'env-cmd' : 'dotenv'; const args = isWindows ? ['cross-env-shell', 'nuxi dev -p $DEV_PORT'] : ['--', 'npm', 'run', '_dev']; const proc = spawn(command, args, { stdio: 'inherit', shell: true });\"",
     "dev-expose": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const command = isWindows ? 'env-cmd' : 'dotenv'; const args = isWindows ? ['cross-env-shell', 'nuxi dev -p $DEV_PORT --host'] : ['--', 'npm', 'run', '_dev-expose']; const proc = spawn(command, args, { stdio: 'inherit', shell: true });\"",
     "docker-restart": "docker compose restart senescalade",
@@ -85,11 +85,12 @@
     "generate": "nuxi generate",
     "i": "npm i --no-audit --no-fund",
     "i-clean": "rimraf package-lock.json node_modules && npm run i",
+    "i-verbose": "npm i --no-audit --no-fund --verbose",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "preview": "nuxi preview",
     "start": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const command = 'npm'; const args = isWindows ? ['run', 'build && env-cmd cross-env-shell PORT=$DEV_PORT nuxi start'] : ['run', 'build && dotenv -- npm run _start']; const proc = spawn(command, args, { stdio: 'inherit', shell: true });\""
   },
   "type": "module",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

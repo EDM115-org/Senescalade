@@ -38,7 +38,6 @@
               v-model="birthdate"
               :allowed-dates="date => date < new Date(new Date().setHours(0, 0, 0, 0))"
               color="success"
-              class="d-flex mx-auto"
               clearable
               label="Date de naissance (MM/DD/YYYY)"
               prepend-icon=""
@@ -47,7 +46,7 @@
               @click:clear="birthdate = null"
             />
             <v-tooltip
-              location="right"
+              location="top"
               text="Aide pour la date de naissance"
               theme="light"
             >
@@ -82,7 +81,7 @@
               :color="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'success' : 'error'"
               :variant="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'elevated' : 'outlined'"
               :disabled="!birthdate || determineCategory(birthdate.toISOString().split('T')[0]) === -1"
-              @click="next"
+              @click="nextLoadingClick(next, true)"
             />
           </template>
 
@@ -98,7 +97,8 @@
           value="2"
         >
           <FullCalendarView
-            :birthdate="birthdate.toISOString().split('T')[0]"
+            :key="calendarKey"
+            :birthdate="calendarBirthdate"
             @event-click="showEventDetails"
             @no-events-left="handleNoEventsLeft"
           />
@@ -195,7 +195,7 @@
           title="Étape 4"
           value="4"
         >
-          <div v-if="!isFileDAttente">
+          <div v-if="!isFileDattente">
             <h2 class="text-center">
               Vous devez payer {{ calculatePrice() }}€ pour l'inscription de votre grimpeur.
             </h2>
@@ -229,7 +229,7 @@
 
           <template #next>
             <v-btn
-              :disabled="!isFileDAttente && !aPaye"
+              :disabled="!isFileDattente && !aPaye"
               color="success"
               text="Inscription"
               variant="elevated"
@@ -262,6 +262,8 @@ const router = useRouter()
 
 const aPaye = ref(false)
 const birthdate = ref(null)
+const calendarBirthdate = computed(() => birthdate.value?.toISOString().split("T")[0] ?? "")
+const calendarKey = ref(0)
 const calendarEvents = ref([])
 const choixCreneau = ref(null)
 const displayBirthdateHelpText = ref(false)
@@ -308,18 +310,30 @@ const grimpeur = reactive({
   isFileDAttente: isFileDattente
 })
 
-function nextLoadingClick(callback) {
+function nextLoadingClick(callback, rerender = false) {
   isLoading.value = true
 
   if (typeof callback === "function") {
     callback()
   }
 
-  nextTick(() => {
+  if (rerender) {
+    isLoading.value = false
     setTimeout(() => {
-      isLoading.value = false
-    }, 3000)
-  })
+      calendarKey.value += 1
+      document.body.style.zoom = 0.9
+    }, 100)
+    setTimeout(() => {
+      calendarKey.value += 1
+      document.body.style.zoom = 1.0
+    }, 100)
+  } else {
+    nextTick(() => {
+      setTimeout(() => {
+        isLoading.value = false
+      }, 3000)
+    })
+  }
 }
 
 async function adduser() {
@@ -482,6 +496,7 @@ watch(birthdate, (value) => {
   isFileDattente.value = false
   grimpeur.isFileDAttente = isFileDattente.value
   noEventsLeft.value = false
+  calendarKey.value += 1
 })
 
 onMounted(async () => {

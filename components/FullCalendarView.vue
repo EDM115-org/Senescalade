@@ -12,7 +12,7 @@
     <v-tooltip
       v-if="showTooltip"
       :activator="tooltipActivator"
-      model-value="showTooltip"
+      :model-value="showTooltip"
       location="top"
       theme="light"
     >
@@ -160,7 +160,7 @@ onMounted(async () => {
   const startOfWeek = daysOfTheCurrentWeek()[0]
 
   formattedEvents.value = events.map((event) => {
-    if (props.birthdate !== "") {
+    if (props.birthdate && props.birthdate !== "") {
       const [ type, niveau ] = determineCategory(props.birthdate)
 
       if (type === null && niveau === null) {

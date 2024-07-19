@@ -70,6 +70,7 @@ DB_PORT=3306
 DEV_PORT=8000
 GMAIL_USER="adresse-email@gmail.com"
 GMAIL_PASS="abcd efgh ijkl mnop"
+JWT_SECRET="cb20dc39dcaaa4fe93d7902f9bc4e4e9bb73a35653dfd1931ad710c9d1ef9a56dbe1e02186a84c72fc1551cefe7951823af3d1bd3b056e187d7e400cc70c19f1"
 MYSQL_ROOT_PASSWORD="SomethingStrong"
 PORT=56860
 ```
@@ -85,11 +86,13 @@ DB_PORT=3306
 DEV_PORT=56860
 GMAIL_USER="adresse-email@gmail.com"
 GMAIL_PASS="abcd efgh ijkl mnop"
+JWT_SECRET="cb20dc39dcaaa4fe93d7902f9bc4e4e9bb73a35653dfd1931ad710c9d1ef9a56dbe1e02186a84c72fc1551cefe7951823af3d1bd3b056e187d7e400cc70c19f1"
 MYSQL_ROOT_PASSWORD="SomethingStrong"
 PORT=56860
 ```
 
-`GMAIL_PASS` : Mot de passe d'application spécifique, voir https://nodemailer.com/usage/using-gmail/ et https://support.google.com/accounts/answer/185833
+`GMAIL_PASS` : Mot de passe d'application spécifique, voir https://nodemailer.com/usage/using-gmail/ et https://support.google.com/accounts/answer/185833  
+`JWT_SECRET` : Clé secrète pour les tokens JWT, à générer avec `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"`
 
 ```bash
 npm run docker-start

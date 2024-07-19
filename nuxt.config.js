@@ -7,20 +7,25 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" }
   },
+
   build: {
     transpile: [ "vuetify" ]
   },
+
   css: [ "~/assets/styles/main.scss" ],
+
   devtools: {
     enabled: true,
     telemetry: false,
     timeline: { enabled: true }
   },
+
   eslint: {
     config: {
       stylistic: eslintStylisticRules
     }
   },
+
   googleFonts: {
     display: "swap",
     download: true,
@@ -33,6 +38,7 @@ export default defineNuxtConfig({
     preconnect: true,
     prefetch: true
   },
+
   i18n: {
     defaultLocale: "fr",
     detectBrowserLanguage: {
@@ -47,6 +53,7 @@ export default defineNuxtConfig({
     ],
     strategy: "no_prefix"
   },
+
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
@@ -59,6 +66,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@pinia/nuxt"
   ],
+
   nitro: {
     esbuild: {
       options: {
@@ -66,11 +74,15 @@ export default defineNuxtConfig({
       }
     }
   },
+
   ssr: false,
   telemetry: false,
+
   vite: {
     vue: {
       template: { transformAssetUrls }
     }
-  }
+  },
+
+  compatibilityDate: "2024-07-19"
 })
