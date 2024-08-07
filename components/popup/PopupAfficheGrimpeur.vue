@@ -137,7 +137,7 @@ const open = async (grimpeurData) => {
     } else {
       grimpeur.value.idSeance = null
     }
-  } catch (error) {
+  } catch {
     grimpeur.value.idSeance = null
   }
 
