@@ -41,7 +41,7 @@
     "env-cmd": "10.1.0",
     "eslint": "9.9.1",
     "eslint-plugin-vue": "9.27.0",
-    "nuxt": "3.12.4",
+    "nuxt": "3.13.0",
     "pinia": "2.2.2",
     "rimraf": "6.0.1",
     "sass-embedded": "1.77.8",
@@ -71,9 +71,9 @@
     "url": "git+https://github.com/EDM115-org/Senescalade.git"
   },
   "scripts": {
-    "_dev": "nuxi dev -p $DEV_PORT",
-    "_dev-expose": "nuxi dev -p $DEV_PORT --host",
-    "_start": "cross-env PORT=$DEV_PORT nuxi start",
+    "_dev": "cross-env VITE_CJS_IGNORE_WARNING=1 nuxi dev -p $DEV_PORT",
+    "_dev-expose": "cross-env VITE_CJS_IGNORE_WARNING=1 nuxi dev -p $DEV_PORT --host",
+    "_start": "cross-env PORT=$DEV_PORT VITE_CJS_IGNORE_WARNING=1 nuxi start",
     "analyze": "nuxi cleanup && nuxi analyze",
     "build": "nuxi cleanup && nuxi build",
     "dev": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const command = isWindows ? 'env-cmd' : 'dotenv'; const args = isWindows ? ['cross-env-shell', 'nuxi dev -p $DEV_PORT'] : ['--', 'npm', 'run', '_dev']; const proc = spawn(command, args, { stdio: 'inherit', shell: true });\"",

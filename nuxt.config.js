@@ -22,6 +22,14 @@ export default defineNuxtConfig({
       stylistic: eslintStylisticRules
     }
   },
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        prefetch: true,
+        prefetchOn: { interaction: true, visibility: false }
+      }
+    }
+  },
   googleFonts: {
     display: "swap",
     download: true,
@@ -66,6 +74,10 @@ export default defineNuxtConfig({
         target: "esnext"
       }
     }
+  },
+  sourcemap: {
+    client: false,
+    server: false
   },
   ssr: false,
   telemetry: false,
