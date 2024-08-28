@@ -33,7 +33,7 @@
     "@nuxt/devtools": "1.4.1",
     "@nuxt/eslint": "0.5.3",
     "@nuxtjs/google-fonts": "3.2.0",
-    "@nuxtjs/i18n": "8.3.3",
+    "@nuxtjs/i18n": "8.5.1",
     "@pinia/nuxt": "0.5.4",
     "@stylistic/eslint-plugin": "2.6.4",
     "cross-env": "7.0.3",
@@ -92,5 +92,5 @@
     "start": "node -e \"const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const command = 'npm'; const args = isWindows ? ['run', 'build && env-cmd cross-env-shell PORT=$DEV_PORT nuxi start'] : ['run', 'build && dotenv -- npm run _start']; const proc = spawn(command, args, { stdio: 'inherit', shell: true });\""
   },
   "type": "module",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
