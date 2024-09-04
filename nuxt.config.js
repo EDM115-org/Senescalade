@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     }
   },
   experimental: {
+    buildCache: true,
     defaults: {
       nuxtLink: {
         prefetch: true,
