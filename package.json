@@ -39,7 +39,7 @@
     "cross-env": "7.0.3",
     "dotenv-cli": "7.4.2",
     "env-cmd": "10.1.0",
-    "eslint": "9.9.1",
+    "eslint": "9.10.0",
     "eslint-plugin-vue": "9.28.0",
     "nuxt": "3.13.1",
     "pinia": "2.2.2",
@@ -63,7 +63,7 @@
   "name": "senescalade",
   "overrides": {
     "@nuxt/devtools": "1.4.1",
-    "eslint": "9.9.1"
+    "eslint": "9.10.0"
   },
   "private": true,
   "repository": {
