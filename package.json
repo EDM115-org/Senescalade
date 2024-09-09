@@ -35,7 +35,7 @@
     "@nuxtjs/google-fonts": "3.2.0",
     "@nuxtjs/i18n": "8.5.2",
     "@pinia/nuxt": "0.5.4",
-    "@stylistic/eslint-plugin": "2.7.2",
+    "@stylistic/eslint-plugin": "2.8.0",
     "cross-env": "7.0.3",
     "dotenv-cli": "7.4.2",
     "env-cmd": "10.1.0",
