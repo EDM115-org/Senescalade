@@ -45,7 +45,7 @@
     "pinia": "2.2.2",
     "rimraf": "6.0.1",
     "sass-embedded": "1.79.2",
-    "sass-loader": "16.0.1",
+    "sass-loader": "16.0.2",
     "vite-plugin-vuetify": "2.0.4"
   },
   "engines": {
