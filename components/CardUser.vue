@@ -292,6 +292,6 @@ pre {
   border-radius: 4px;
   padding: 4px 8px;
   font-size: 14px;
-  font-family: "Fira Code";
+  font-family: "Fira Code", monospace;
 }
 </style>
