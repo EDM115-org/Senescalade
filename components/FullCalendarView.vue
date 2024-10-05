@@ -168,9 +168,11 @@ onMounted(async () => {
 })
 
 async function fetchSeanceData(token) {
-  return $fetch("/api/fetch?type=seance", {
+  const seanceData = await $fetch("/api/fetch?type=seance", {
     headers: { Authorization: `Bearer ${token}` }
   })
+
+  return seanceData
 }
 
 function formatEvent(event, startOfWeek, birthdate) {

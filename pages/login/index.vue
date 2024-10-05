@@ -62,10 +62,12 @@ async function login(event) {
 }
 
 async function performLogin(event) {
-  return $fetch("/api/login", {
+  const login = await $fetch("/api/login", {
     method: "POST",
     body: JSON.stringify(event)
   })
+
+  return login
 }
 
 async function enrichUserWithAdminStatus(result) {
@@ -98,11 +100,13 @@ async function handleNonAdminUser(user) {
 }
 
 async function checkMailVerification(mail, token) {
-  return $fetch("/api/fetch?type=mailIsVerified", {
+  const check = await $fetch("/api/fetch?type=mailIsVerified", {
     method: "POST",
     body: JSON.stringify({ mail }),
     headers: { Authorization: `Bearer ${token}` }
   })
+
+  return check
 }
 
 async function sendMailVerification(mail) {
