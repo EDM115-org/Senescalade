@@ -287,7 +287,7 @@ function determineCategory(dateNaissance) {
   }
 
   if (ageAtEndOfYear < 4) {
-    return -1
+    return "error"
   } else if (ageAtEndOfYear <= 8) {
     return "Babygrimpe"
   } else if (ageAtEndOfYear <= 10) {

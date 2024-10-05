@@ -70,7 +70,7 @@
             Elle sera ensuite affichée au format <strong>DD/MM/YYYY</strong> (jour/mois/année), c'est normal.
           </p>
           <p
-            v-if="(birthdate && determineCategory(birthdate.toISOString().split('T')[0]) === -1) || displayBirthdateHelpText"
+            v-if="(birthdate && determineCategory(birthdate.toISOString().split('T')[0]) === 'error') || displayBirthdateHelpText"
             class="text-center mt-4"
           >
             Votre enfant doit avoir au moins 4 ans pour pouvoir grimper.
@@ -78,9 +78,9 @@
 
           <template #next="{ next }">
             <v-btn
-              :color="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'success' : 'error'"
-              :variant="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== -1 ? 'elevated' : 'outlined'"
-              :disabled="!birthdate || determineCategory(birthdate.toISOString().split('T')[0]) === -1"
+              :color="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== 'error' ? 'success' : 'error'"
+              :variant="birthdate && determineCategory(birthdate.toISOString().split('T')[0]) !== 'error' ? 'elevated' : 'outlined'"
+              :disabled="!birthdate || determineCategory(birthdate.toISOString().split('T')[0]) === 'error'"
               @click="nextLoadingClick(next, true)"
             />
           </template>
@@ -418,7 +418,7 @@ function determineCategory(birthDate) {
   }
 
   if (ageAtEndOfYear < 4) {
-    return -1
+    return "error"
   } else if (ageAtEndOfYear <= 8) {
     return "Babygrimpe"
   } else if (ageAtEndOfYear <= 10) {
