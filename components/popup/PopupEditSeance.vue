@@ -122,14 +122,17 @@ const rules = {
   heureFinSeance: { required },
   nbPlaces: {
     required,
-    custom: (value) => (
-      value <= 0
-        ? t("validations.nbPlaces.greaterThanZero")
-        : (value < seance.value.nbPlacesRestantes
-            ? t("validations.nbPlaces.greaterOrEqualNbPlacesRestantes")
-            : true
-          )
-    )
+    custom: (value) => {
+      if (value <= 0) {
+        return t("validations.nbPlaces.greaterThanZero")
+      }
+
+      if (value < seance.value.nbPlacesRestantes) {
+        return t("validations.nbPlaces.greaterOrEqualNbPlacesRestantes")
+      }
+
+      return true
+    }
   },
   nbPlacesRestantes: {
     required,
