@@ -91,12 +91,10 @@
               Remplissez le formulaire HelloAsso ci-dessous, indiquez le prix final dans le champ "Montant Libre" et suivez les instructions.
             </p>
             <iframe
-              allowtransparency="true"
-              frameborder="0"
               class="my-4"
-              scrolling="auto"
               src="https://www.helloasso.com/associations/senescalade/boutiques/paiements-en-ligne/widget"
-              style="height: 800px; width: 100%; border: none;"
+              style="height: 800px; width: 100%;"
+              title="Paiement en ligne - Senescalade"
             />
             <v-checkbox
               v-model="aPaye"
