@@ -62,12 +62,12 @@ async function login(event) {
 }
 
 async function performLogin(event) {
-  const login = await $fetch("/api/login", {
+  const loginCheck = await $fetch("/api/login", {
     method: "POST",
     body: JSON.stringify(event)
   })
 
-  return login
+  return loginCheck
 }
 
 async function enrichUserWithAdminStatus(result) {
