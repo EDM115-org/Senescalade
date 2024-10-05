@@ -46,60 +46,82 @@ const messageColor = ref("error")
 
 async function login(event) {
   try {
-    const result = await $fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(event)
-    })
+    const result = await performLogin(event)
+    const user = await enrichUserWithAdminStatus(result)
 
-    const response = await $fetch("/api/fetch?type=isCompteAdmin", {
-      method: "POST",
-      body: JSON.stringify({ idCompte: result.body.user.id }),
-      headers: { Authorization: `Bearer ${result.body.token}` }
-    })
+    store.login(user, result.body.stayConnected)
 
-    result.body.user = { ...result.body.user, isAdmin: response.body.isAdmin, token: result.body.token }
-    store.login(result.body.user, result.body.stayConnected)
-
-    if (result.body.user.isAdmin === true) {
+    if (user.isAdmin) {
       router.push("/admin/dashboard")
     } else {
-      try {
-        const response2 = await $fetch("/api/fetch?type=mailIsVerified", {
-          method: "POST",
-          body: JSON.stringify({ mail: result.body.user.mail }),
-          headers: { Authorization: `Bearer ${result.body.token}` }
-        })
-
-        if (response2.body.mailIsVerified === 1) {
-          router.push("/user")
-        } else {
-          try {
-            await $fetch("/api/mailVerify?type=mail", {
-              method: "POST",
-              body: JSON.stringify({
-                email: result.body.user.mail
-              })
-            })
-
-            router.push("/login/MailVerify")
-          } catch (error) {
-            messageColor.value = "error"
-            errorMessage.value = error.data?.message ?? error
-            issueMessage.value = error.data?.statusMessage ?? ""
-          }
-        }
-      } catch (error) {
-        messageColor.value = "error"
-        errorMessage.value = error.data?.message ?? error
-        issueMessage.value = error.data?.statusMessage ?? ""
-      }
+      await handleNonAdminUser(user)
     }
   } catch (error) {
-    messageColor.value = "error"
-    errorMessage.value = error.data?.message ?? error
-    issueMessage.value = error.data?.statusMessage ?? ""
+    handleError(error)
   }
 }
+
+async function performLogin(event) {
+  return await $fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify(event)
+  })
+}
+
+async function enrichUserWithAdminStatus(result) {
+  const response = await $fetch("/api/fetch?type=isCompteAdmin", {
+    method: "POST",
+    body: JSON.stringify({ idCompte: result.body.user.id }),
+    headers: { Authorization: `Bearer ${result.body.token}` }
+  })
+
+  return {
+    ...result.body.user,
+    isAdmin: response.body.isAdmin,
+    token: result.body.token
+  }
+}
+
+async function handleNonAdminUser(user) {
+  try {
+    const response = await checkMailVerification(user.mail, user.token)
+
+    if (response.body.mailIsVerified === 1) {
+      router.push("/user")
+    } else {
+      await sendMailVerification(user.mail)
+      router.push("/login/MailVerify")
+    }
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+async function checkMailVerification(mail, token) {
+  return await $fetch("/api/fetch?type=mailIsVerified", {
+    method: "POST",
+    body: JSON.stringify({ mail }),
+    headers: { Authorization: `Bearer ${token}` }
+  })
+}
+
+async function sendMailVerification(mail) {
+  try {
+    await $fetch("/api/mailVerify?type=mail", {
+      method: "POST",
+      body: JSON.stringify({ email: mail })
+    })
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+function handleError(error) {
+  messageColor.value = "error"
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
+}
+
 
 onMounted(async () => {
   const user = store.getUser
