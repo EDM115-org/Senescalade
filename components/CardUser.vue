@@ -186,78 +186,94 @@ onMounted(async () => {
   for (const grimpeur in grimpeurs.value) {
     if (Object.prototype.hasOwnProperty.call(grimpeurs.value, grimpeur)) {
       try {
-        const result = await $fetch("/api/fetch?type=grimpeurSeance", {
-          method: "POST",
-          body: JSON.stringify({
-            idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur
-          }),
-          headers: { Authorization: `Bearer ${user.value.token}` }
-        })
-
-        const response = await $fetch("/api/fetch?type=seance", {
-          headers: { Authorization: `Bearer ${user.value.token}` }
-        })
-
-        if (result.body !== undefined && result.body !== null) {
-          const userSeance = response.body.find((seance) => seance.idSeance === result.body.idSeance)
-
-          grimpeurs.value[grimpeur].seance = userSeance
-        } else {
-          grimpeurs.value[grimpeur].seance = null
-        }
-
-        const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
-          headers: { Authorization: `Bearer ${user.value.token}` }
-        })
-
-        if (response.body) {
-          const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.value.id}`, {
-            headers: { Authorization: `Bearer ${user.value.token}` }
-          })
-
-          if (reponseGrimpeur.body) {
-            if (responseReinscription.body.inscriptionOpen === 1) {
-              if (reponseGrimpeur.body[0].action === "C") {
-                if (new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date() && new Date(responseReinscription.body.dateReinscriptionEveryone) < new Date(responseReinscription.body.dateFinReinscription)) {
-                  reinscriptionOpen.value = true
-                } else {
-                  reinscriptionOpen.value = false
-                }
-              } else if (reponseGrimpeur.body[0].action === "R") {
-                if (new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date() && new Date(responseReinscription.body.dateReinscriptionIsInscrit) < new Date(responseReinscription.body.dateFinReinscription)) {
-                  reinscriptionOpen.value = true
-                } else {
-                  reinscriptionOpen.value = false
-                }
-              }
-            }
-          }
-
-          try {
-            const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
-              method: "POST",
-              body: JSON.stringify({ idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur }),
-              headers: { Authorization: `Bearer ${user.value.token}` }
-            })
-
-            if (response2.body !== null) {
-              grimpeurs.value[grimpeur].asSeance = false
-              grimpeurs.value[grimpeur].seance = { ...grimpeurs.value[grimpeur].seance, ...response2.body }
-            } else {
-              grimpeurs.value[grimpeur].asSeance = true
-            }
-          } catch (error) {
-            errorMessage.value = error.data?.message ?? error
-            issueMessage.value = error.data?.statusMessage ?? ""
-          }
-        }
+        await handleGrimpeurSeance(grimpeur)
+        await checkReinscriptionStatus()
+        await updateGrimpeurSeance(grimpeur)
       } catch (error) {
-        errorMessage.value = error.data?.message ?? error
-        issueMessage.value = error.data?.statusMessage ?? ""
+        handleError(error)
       }
     }
   }
 })
+
+async function handleGrimpeurSeance(grimpeur) {
+  const result = await $fetch("/api/fetch?type=grimpeurSeance", {
+    method: "POST",
+    body: JSON.stringify({ idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur }),
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
+
+  const response = await $fetch("/api/fetch?type=seance", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
+
+  if (result.body !== undefined && result.body !== null) {
+    const userSeance = response.body.find((seance) => seance.idSeance === result.body.idSeance)
+
+    grimpeurs.value[grimpeur].seance = userSeance
+  } else {
+    grimpeurs.value[grimpeur].seance = null
+  }
+}
+
+async function checkReinscriptionStatus() {
+  const responseReinscription = await $fetch("/api/fetch?type=getInfo", {
+    headers: { Authorization: `Bearer ${user.value.token}` }
+  })
+
+  if (responseReinscription.body) {
+    const reponseGrimpeur = await $fetch(`/api/fetch?type=grimpeur&id=${user.value.id}`, {
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
+
+    if (reponseGrimpeur.body) {
+      setReinscriptionStatus(responseReinscription, reponseGrimpeur)
+    }
+  }
+}
+
+function setReinscriptionStatus(responseReinscription, reponseGrimpeur) {
+  const isInscriptionOpen = responseReinscription.body.inscriptionOpen === 1
+  const action = reponseGrimpeur.body[0].action
+  const currentDate = new Date()
+  const { dateReinscriptionEveryone, dateReinscriptionIsInscrit, dateFinReinscription } = responseReinscription.body
+
+  if (isInscriptionOpen && action === "C" && isWithinDateRange(currentDate, dateReinscriptionEveryone, dateFinReinscription)) {
+    reinscriptionOpen.value = true
+  } else if (isInscriptionOpen && action === "R" && isWithinDateRange(currentDate, dateReinscriptionIsInscrit, dateFinReinscription)) {
+    reinscriptionOpen.value = true
+  } else {
+    reinscriptionOpen.value = false
+  }
+}
+
+function isWithinDateRange(currentDate, startDate, endDate) {
+  return new Date(startDate) < currentDate && currentDate < new Date(endDate)
+}
+
+async function updateGrimpeurSeance(grimpeur) {
+  try {
+    const response2 = await $fetch("/api/fetch?type=grimpeurAsSeance", {
+      method: "POST",
+      body: JSON.stringify({ idGrimpeur: grimpeurs.value[grimpeur].idGrimpeur }),
+      headers: { Authorization: `Bearer ${user.value.token}` }
+    })
+
+    if (response2.body !== null) {
+      grimpeurs.value[grimpeur].asSeance = false
+      grimpeurs.value[grimpeur].seance = { ...grimpeurs.value[grimpeur].seance, ...response2.body }
+    } else {
+      grimpeurs.value[grimpeur].asSeance = true
+    }
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+function handleError(error) {
+  errorMessage.value = error.data?.message ?? error
+  issueMessage.value = error.data?.statusMessage ?? ""
+}
 
 const copyToClipboard = (text) => {
   if (!text) {
