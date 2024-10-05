@@ -42,16 +42,15 @@ export default defineEventHandler(async (event) => {
         })
     }
   } else if (event.node.req.method === "PUT") {
-    switch (type) {
-      case "grimpeurIsExported": {
-        const apiRequest = await updateGrimpeurIsExported()
+    if (type === "grimpeurIsExported") {
+      const apiRequest = await updateGrimpeurIsExported()
 
-        return apiRequest
-      } default:
-        throw createError({
-          status: 400,
-          message: "Type de mise à jour non pris en charge"
-        })
+      return apiRequest
+    } else {
+      throw createError({
+        status: 400,
+        message: "Type de mise à jour non pris en charge"
+      })
     }
   } else {
     throw createError({
