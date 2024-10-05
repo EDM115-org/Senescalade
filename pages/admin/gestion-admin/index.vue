@@ -47,18 +47,21 @@
                 <tr>
                   <th
                     class="text-center"
+                    scope="col"
                     style="width: 10%;"
                   >
                     Id
                   </th>
                   <th
                     class="text-center"
+                    scope="col"
                     style="width: 20%;"
                   >
                     Email
                   </th>
                   <th
                     class="text-center"
+                    scope="col"
                     style="width: 60%;"
                   >
                     Permissions
@@ -66,6 +69,7 @@
                   <th
                     v-if="isPermEdit || isPermDelete"
                     class="text-center"
+                    scope="col"
                     style="width: 10%;"
                   >
                     Actions

@@ -22,12 +22,14 @@
                 <tr>
                   <th
                     class="text-center"
+                    scope="col"
                     style="width: 33%;"
                   >
                     Id
                   </th>
                   <th
                     class="text-center"
+                    scope="col"
                     style="width: 33%;"
                   >
                     Email
@@ -35,6 +37,7 @@
                   <th
                     v-if="isPermDelete"
                     class="text-center"
+                    scope="col"
                     style="width: 34%;"
                   >
                     Actions

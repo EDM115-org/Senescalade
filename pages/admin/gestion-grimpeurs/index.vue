@@ -64,28 +64,52 @@
             <v-table v-else>
               <thead>
                 <tr>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Nom
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Prénom
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Sexe
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Téléphone
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     En file d'attente
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Numéro de Licence
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     A payé
                   </th>
-                  <th class="text-center">
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
                     Actions
                   </th>
                 </tr>

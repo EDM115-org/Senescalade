@@ -53,6 +53,7 @@
                     :key="header.text"
                     :style="{ width: header.width }"
                     class="text-center"
+                    scope="col"
                   >
                     {{ header.text }}
                   </th>
