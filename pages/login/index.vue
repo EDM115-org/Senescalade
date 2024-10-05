@@ -122,7 +122,6 @@ function handleError(error) {
   issueMessage.value = error.data?.statusMessage ?? ""
 }
 
-
 onMounted(async () => {
   const user = store.getUser
 

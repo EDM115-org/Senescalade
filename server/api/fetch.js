@@ -362,15 +362,40 @@ async function fetchGrimpeursForSeance(body) {
 
 async function exportGrimpeursToCSV() {
   const connection = await pool.getConnection()
+
+  try {
+    const rows = await fetchGrimpeurs(connection)
+
+    if (!rows || rows.length === 0) {
+      throw createError({
+        status: 404,
+        message: "Aucun grimpeur trouvé"
+      })
+    }
+
+    const data = prepareDataForCSV(rows)
+    const chunks = generateCSVChunks(data)
+
+    await updateGrimpeursAsExported(connection, rows)
+
+    return {
+      status: 200,
+      body: chunks
+    }
+  } catch (err) {
+    handleCSVError(err)
+  } finally {
+    connection.release()
+  }
+}
+
+async function fetchGrimpeurs(connection) {
   const [ rows ] = await connection.execute("SELECT * FROM Grimpeur WHERE isExported = 0")
 
-  if (!rows || rows.length === 0) {
-    throw createError({
-      status: 404,
-      message: "Aucun grimpeur trouvé"
-    })
-  }
+  return rows
+}
 
+function prepareDataForCSV(rows) {
   const header = [
     "nom",
     "prenom",
@@ -400,65 +425,62 @@ async function exportGrimpeursToCSV() {
     "optionProtectionAgression"
   ]
 
-  try {
-    const data = rows.map((row) => [
-      row.nom,
-      row.prenom,
-      new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
-      row.sexe,
-      row.nationalite,
-      row.adresse,
-      row.complementAdresse || "",
-      row.codePostal,
-      row.ville,
-      row.pays,
-      row.telephone || "",
-      row.mobile || "",
-      row.courriel2 || "",
-      row.personneNom || "",
-      row.personnePrenom || "",
-      row.personneTelephone || "",
-      row.personneCourriel || "",
-      row.numLicence || "",
-      row.typeLicence,
-      row.assurance,
-      row.optionSki ? "Oui" : "Non",
-      row.optionSlackline ? "Oui" : "Non",
-      row.optionTrail ? "Oui" : "Non",
-      row.optionVTT ? "Oui" : "Non",
-      row.optionAssurance,
-      row.optionProtectionAgression ? "Oui" : "Non"
-    ])
+  return rows.map((row) => [
+    row.nom,
+    row.prenom,
+    new Date(row.dateNaissance).toLocaleDateString("fr-FR"),
+    row.sexe,
+    row.nationalite,
+    row.adresse,
+    row.complementAdresse || "",
+    row.codePostal,
+    row.ville,
+    row.pays,
+    row.telephone || "",
+    row.mobile || "",
+    row.courriel2 || "",
+    row.personneNom || "",
+    row.personnePrenom || "",
+    row.personneTelephone || "",
+    row.personneCourriel || "",
+    row.numLicence || "",
+    row.typeLicence,
+    row.assurance,
+    row.optionSki ? "Oui" : "Non",
+    row.optionSlackline ? "Oui" : "Non",
+    row.optionTrail ? "Oui" : "Non",
+    row.optionVTT ? "Oui" : "Non",
+    row.optionAssurance,
+    row.optionProtectionAgression ? "Oui" : "Non"
+  ]).map((row) => [ header, row ])
+}
 
-    const chunkSize = 100
-    const chunks = []
+function generateCSVChunks(data, chunkSize = 100) {
+  const chunks = []
 
-    for (let i = 0; i < data.length; i += chunkSize) {
-      const chunk = data.slice(i, i + chunkSize)
-      const csvContent = [ header, ...chunk ].map((row) => row.join(";")).join("\n")
+  for (let i = 0; i < data.length; i += chunkSize) {
+    const chunk = data.slice(i, i + chunkSize)
+    const csvContent = chunk.map((row) => row.join(";")).join("\n")
 
-      chunks.push(csvContent)
-    }
-
-    const idsToUpdate = rows.map((row) => row.idGrimpeur)
-
-    const updateQuery = `UPDATE Grimpeur SET isExported = 1 WHERE idGrimpeur IN (${idsToUpdate.join(",")})`
-
-    await connection.execute(updateQuery)
-
-    return {
-      status: 200,
-      body: chunks
-    }
-  } catch (err) {
-    throw createError({
-      status: 500,
-      message: "Erreur lors de la génération du fichier CSV",
-      statusMessage: JSON.stringify(err)
-    })
-  } finally {
-    connection.release()
+    chunks.push(csvContent)
   }
+
+  return chunks
+}
+
+async function updateGrimpeursAsExported(connection, rows) {
+  const idsToUpdate = rows.map((row) => row.idGrimpeur)
+  const updateQuery = `UPDATE Grimpeur SET isExported = 1 WHERE idGrimpeur IN (${idsToUpdate.join(",")})`
+
+  await connection.execute(updateQuery)
+}
+
+function handleCSVError(err) {
+  throw createError({
+    status: 500,
+    message: "Erreur lors de la génération du fichier CSV",
+    statusMessage: JSON.stringify(err)
+  })
 }
 
 async function fetchReinscription() {
