@@ -62,7 +62,7 @@ async function login(event) {
 }
 
 async function performLogin(event) {
-  return await $fetch("/api/login", {
+  return $fetch("/api/login", {
     method: "POST",
     body: JSON.stringify(event)
   })
@@ -98,7 +98,7 @@ async function handleNonAdminUser(user) {
 }
 
 async function checkMailVerification(mail, token) {
-  return await $fetch("/api/fetch?type=mailIsVerified", {
+  return $fetch("/api/fetch?type=mailIsVerified", {
     method: "POST",
     body: JSON.stringify({ mail }),
     headers: { Authorization: `Bearer ${token}` }

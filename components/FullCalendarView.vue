@@ -168,7 +168,7 @@ onMounted(async () => {
 })
 
 async function fetchSeanceData(token) {
-  return await $fetch("/api/fetch?type=seance", {
+  return $fetch("/api/fetch?type=seance", {
     headers: { Authorization: `Bearer ${token}` }
   })
 }
