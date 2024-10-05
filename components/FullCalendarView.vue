@@ -152,62 +152,89 @@ watch(theme.name, () => {
 })
 
 onMounted(async () => {
-  const response = await $fetch("/api/fetch?type=seance", {
-    headers: { Authorization: `Bearer ${user.value.token}` }
-  })
+  const response = await fetchSeanceData(user.value.token)
   const events = response.body
-
   const startOfWeek = daysOfTheCurrentWeek()[0]
 
-  formattedEvents.value = events.map((event) => {
-    if (props.birthdate && props.birthdate !== "") {
-      const [ type, niveau ] = determineCategory(props.birthdate)
+  formattedEvents.value = events
+    .map((event) => formatEvent(event, startOfWeek, props.birthdate))
+    .filter(isValidEvent)
 
-      if (type === null && niveau === null) {
-        return null
-      }
-
-      if (type !== null) {
-        if (event.typeSeance !== type) {
-          return null
-        }
-      } else {
-        if (event.niveau !== niveau) {
-          return null
-        }
-      }
-    }
-
-    const eventDay = dayToDayNumber(event.jour)
-    const eventDate = new Date(startOfWeek)
-
-    eventDate.setDate(startOfWeek.getDate() + eventDay - 1)
-
-    return {
-      id: event.idSeance,
-      title: event.typeSeance,
-      start: `${eventDate.toISOString().split("T")[0]}T${event.heureDebutSeance}`,
-      end: `${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`,
-      extendedProps: {
-        jour: event.jour,
-        niveau: event.niveau,
-        nbPlaces: event.nbPlaces,
-        nbPlacesRestantes: event.nbPlacesRestantes,
-        professeur: event.professeur
-      },
-      backgroundColor: event.nbPlacesRestantes === 0 ? theme.current.value.colors.error : theme.current.value.colors.success,
-      textColor: event.nbPlacesRestantes === 0 ? theme.computedThemes.value.light.colors.background : theme.computedThemes.value.light.colors.text
-    }
-  }).filter((event) => event !== undefined && event !== null)
-
-  if (formattedEvents.value.every((event) => event.extendedProps.nbPlacesRestantes === 0)) {
+  if (formattedEvents.value.every(allEventsFull)) {
     emit("no-events-left")
   }
 
-  calendarOptions.value.events = formattedEvents.value
+  applyCalendarOptions(formattedEvents.value)
+})
+
+async function fetchSeanceData(token) {
+  return await $fetch("/api/fetch?type=seance", {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+}
+
+function formatEvent(event, startOfWeek, birthdate) {
+  if (birthdate && birthdate !== "") {
+    const [ type, niveau ] = determineCategory(birthdate)
+
+    if (!isMatchingCategory(event, type, niveau)) {
+      return null
+    }
+  }
+
+  const eventDate = calculateEventDate(event.jour, startOfWeek)
+
+  return {
+    id: event.idSeance,
+    title: event.typeSeance,
+    start: `${eventDate.toISOString().split("T")[0]}T${event.heureDebutSeance}`,
+    end: `${eventDate.toISOString().split("T")[0]}T${event.heureFinSeance}`,
+    extendedProps: {
+      jour: event.jour,
+      niveau: event.niveau,
+      nbPlaces: event.nbPlaces,
+      nbPlacesRestantes: event.nbPlacesRestantes,
+      professeur: event.professeur
+    },
+    backgroundColor: event.nbPlacesRestantes === 0 ? theme.current.value.colors.error : theme.current.value.colors.success,
+    textColor: event.nbPlacesRestantes === 0
+      ? theme.computedThemes.value.light.colors.background
+      : theme.computedThemes.value.light.colors.text
+  }
+}
+
+function calculateEventDate(eventDay, startOfWeek) {
+  const dayOffset = dayToDayNumber(eventDay) - 1
+  const eventDate = new Date(startOfWeek)
+
+  eventDate.setDate(startOfWeek.getDate() + dayOffset)
+
+  return eventDate
+}
+
+function isMatchingCategory(event, type, niveau) {
+  if (type === null && niveau === null) { return false }
+
+  if (type !== null && event.typeSeance !== type) { return false }
+
+  if (type === null && event.niveau !== niveau) { return false }
+
+  return true
+}
+
+function isValidEvent(event) {
+  return event !== undefined && event !== null
+}
+
+function allEventsFull(event) {
+  return event.extendedProps.nbPlacesRestantes === 0
+}
+
+function applyCalendarOptions(events) {
+  calendarOptions.value.events = events
   calendarOptions.value.eventBorderColor = theme.name.value === "light" ? theme.current.value.colors.text : "transparent"
   calendarOptions.value.eventTextColor = theme.computedThemes.value.dark.colors.background
-})
+}
 
 function daysOfTheCurrentWeek() {
   const today = new Date()
