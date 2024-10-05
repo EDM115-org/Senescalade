@@ -213,13 +213,7 @@ function calculateEventDate(eventDay, startOfWeek) {
 }
 
 function isMatchingCategory(event, type, niveau) {
-  if (type === null && niveau === null) { return false }
-
-  if (type !== null && event.typeSeance !== type) { return false }
-
-  if (type === null && event.niveau !== niveau) { return false }
-
-  return true
+  return !((type === null && niveau === null) || (type !== null && event.typeSeance !== type) || (type === null && event.niveau !== niveau))
 }
 
 function isValidEvent(event) {
