@@ -24,7 +24,7 @@
     "jspdf": "2.5.2",
     "mysql2": "3.11.3",
     "nodemailer": "6.9.15",
-    "ofetch": "1.4.0",
+    "ofetch": "1.4.1",
     "vue": "3.5.11",
     "vue-router": "4.4.5",
     "vuetify": "3.7.2"
