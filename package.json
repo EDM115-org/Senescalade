@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "1.6.0",
-    "@nuxt/eslint": "0.5.7",
+    "@nuxt/eslint": "0.6.0",
     "@nuxtjs/google-fonts": "3.2.0",
     "@nuxtjs/i18n": "8.5.5",
     "@pinia/nuxt": "0.5.5",
