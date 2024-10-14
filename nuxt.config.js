@@ -19,7 +19,10 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      stylistic: eslintStylisticRules
+      stylistic: eslintStylisticRules,
+      nuxt: {
+        sortConfigKeys: true
+      }
     }
   },
   experimental: {
