@@ -23,7 +23,7 @@
     "jsonwebtoken": "9.0.2",
     "jspdf": "2.5.2",
     "mysql2": "3.11.3",
-    "nodemailer": "6.9.15",
+    "nodemailer": "6.9.16",
     "ofetch": "1.4.1",
     "vue": "3.5.12",
     "vue-router": "4.4.5",
