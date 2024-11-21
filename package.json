@@ -37,7 +37,7 @@
     "@pinia/nuxt": "0.5.5",
     "@stylistic/eslint-plugin": "2.9.0",
     "cross-env": "7.0.3",
-    "dotenv-cli": "7.4.2",
+    "dotenv-cli": "7.4.4",
     "env-cmd": "10.1.0",
     "eslint": "9.13.0",
     "eslint-plugin-vue": "9.29.0",
